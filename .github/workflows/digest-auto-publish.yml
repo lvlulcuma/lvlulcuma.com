@@ -40,9 +40,11 @@ concurrency:
 
 jobs:
   check:
+    # 'claude/digest-2' (a year follows), so a branch that only changes these rules, such as
+    # claude/digest-breakdowns, isn't checked as if it were a digest.
     if: >-
       github.event_name == 'pull_request' &&
-      (startsWith(github.head_ref, 'claude/digest-') || startsWith(github.head_ref, 'claude/autopublish-incident-')) &&
+      (startsWith(github.head_ref, 'claude/digest-2') || startsWith(github.head_ref, 'claude/autopublish-incident-')) &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
