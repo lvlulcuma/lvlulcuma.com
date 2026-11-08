@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { satteri } from "@astrojs/markdown-satteri";
-import { callouts, codeBlocks, sideNotes } from "./src/lib/markdown.mjs";
+import { callouts, codeBlocks, freshIncludes, sideNotes } from "./src/lib/markdown.mjs";
 
 export default defineConfig({
   site: "https://lvlulcuma.com",
@@ -29,6 +29,8 @@ export default defineConfig({
   },
   devToolbar: { enabled: false },
   integrations: [
+    // Pages that show a file with "#include public/…" are rendered again when that file changes (src/lib/markdown.mjs).
+    freshIncludes(),
     sitemap({
       i18n: { defaultLocale: "en", locales: { en: "en", pl: "pl", ua: "uk" } },
       // lvlulcuma.com/ itself only redirects to /en/ (public/_redirects), so search engines don't need it.

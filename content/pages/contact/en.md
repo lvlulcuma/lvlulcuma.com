@@ -87,7 +87,7 @@ expect:
     - code: "403 Forbidden"
       text: "I won't break into anyone's account, email or phone (not even your ex's), and I won't test a site without its owner's written permission. Locked out of your own account? Use the service's official recovery page. Anyone else who offers to get you back in is almost certainly a scammer."
       link: "/lab/rules/"
-      link_text: "Rules of engagement"
+      link_text: "Practice safely and legally"
     - code: "429 Too Many Requests"
       text: "One message is enough. If you haven't heard back in a week, a short reminder is fine."
 

@@ -65,6 +65,7 @@ stage: "Stage"
 latest: "Latest"
 projects: "Projects"
 rules: "Rules"
+labFile: "Lab file"   # the compose file in the box beside /lab/setup/
 revPublished: "Published"
 articlesCount: "Articles"
 of: "of"

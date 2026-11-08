@@ -1,13 +1,29 @@
 ---
-# Rules of engagement → lvlulcuma.com/pl/lab/rules/
-updated: 2026-10-27
-title: "Zasady testowania"
-summary: "Co testuję, czego nie testuję i jak zgłaszam znaleziska."   # one line on the Lab overview page
-intro: "Obowiązują w każdym projekcie i przy wszystkim, co publikuję na tej stronie."
+# Practice safely and legally → lvlulcuma.com/pl/lab/rules/
+updated: 2026-11-08
+title: "Ćwicz bezpiecznie i legalnie"
+summary: "Gdzie wolno ćwiczyć, gdzie nie wolno i co zrobić, gdy trafisz na prawdziwy problem."   # one line on the Lab overview page
+intro: "Własne laboratorium to najbezpieczniejsze miejsce do ćwiczeń. Te zasady chronią cię, gdy wychodzisz poza nie: do programów bug bounty, stron treningowych i prawdziwych systemów."
 ---
 
-1. Testuję wyłącznie systemy, które należą do mnie lub na których testowanie mam pisemną zgodę.
-2. Zakres jest spisany przed rozpoczęciem pracy, łącznie z tym, co jest poza zakresem.
-3. Wyniki trafiają najpierw do właściciela. Nic nie jest publikowane przed naprawą i bez zgody właściciela.
-4. Przechowuję tylko te znalezione dane, bez których nie da się pokazać problemu.
-5. Teksty na tej stronie dotyczą wyłącznie celów laboratoryjnych lub przypadków ujawnionych zgodnie z zasadami.
+1. **Testuj tylko systemy, które należą do ciebie lub na których testowanie masz pisemną zgodę.** Zdobądź zgodę przed
+   rozpoczęciem pracy i od kogoś, kto naprawdę może jej udzielić. Znajomy, który pracuje w firmie, nie może pozwolić
+   ci testować strony tej firmy.
+2. **Trzymaj się zakresu (scope).** Program bug bounty albo umowa na testy wymienia, co i jak wolno testować.
+   Wszystko, czego tam nie ma, jest poza zakresem, więc przeczytaj zasady, zanim wyślesz pierwsze żądanie.
+3. **Trzymaj podatne aplikacje na własnym komputerze.** Przypinaj je do `127.0.0.1`, nigdy nie wystawiaj ich do
+   internetu ani do wspólnej sieci i zatrzymuj je po skończonej pracy.
+4. **Sprawdzaj cel przed każdym atakiem.** Jedna zła cyfra w adresie IP i twój skaner trafi w cudzy system.
+5. **Nie zatrzymuj danych, które nie były przeznaczone dla ciebie.** Jeśli trafisz na prawdziwe hasła albo dane
+   osobowe, przerwij. Zachowaj tylko to, bez czego nie da się pokazać problemu, i usuń to zaraz po zgłoszeniu.
+6. **Zgłaszaj prawdziwy problem prywatnie.** Poszukaj kontaktu właściciela w sprawach bezpieczeństwa (wiele stron
+   podaje go w pliku `/.well-known/security.txt`) albo jego zasad zgłaszania podatności. Daj właścicielowi czas na
+   poprawkę, zanim zaczniesz o tym mówić.
+
+> [!WARNING]
+> Dostęp do systemu komputerowego bez zgody jest przestępstwem niemal wszędzie: w USA na mocy Computer Fraud and Abuse
+> Act, w Wielkiej Brytanii na mocy Computer Misuse Act, a w krajach UE na mocy przepisów krajowych zgodnych z dyrektywą
+> 2013/40/UE. Ciekawość i dobre intencje to nie zgoda.
+
+Ta strona przestrzega tych samych zasad. Pokazane tu ataki wykonano na aplikacjach laboratoryjnych albo dotyczą
+problemów, które najpierw zgłoszono właścicielom i które zostały już naprawione.

@@ -77,7 +77,7 @@ how:
     - title: "Permission first"
       text: "I test only systems I own or have written permission to test, and findings go to the owner before anything is published."
       link: "/lab/rules/"
-      link_text: "Rules of engagement"
+      link_text: "Practice safely and legally"
     - title: "Sources you can check"
       text: "Facts link to where they come from. The Roadmap, for example, is built on NIST's NICE Framework and ENISA's European Cybersecurity Skills Framework."
       link: "/roadmap/"
