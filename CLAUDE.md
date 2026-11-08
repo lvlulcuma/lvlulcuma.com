@@ -50,6 +50,9 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
   The only contact address is lvlulcuma@outlook.com (also for security reports).
 - Facts must come from sources you actually read in this run; keep at least two good sources per news story
   where possible, and put them in the file's `sources:`. Never invent quotes, numbers or dates.
+- **Code and data in code blocks look the way developers see them:** JSON (and YAML, HTTP bodies and the like) on
+  several lines, one key or item per line, two spaces per level. The build lays out a one-line ```json block by
+  itself, but write it laid out anyway. A short piece quoted inside a sentence (`"accountId": 57`) is fine inline.
 - Keep the design as it is: use the existing CSS variables and components, don't add JavaScript or inline styles
   (the CSP check fails on them).
 
