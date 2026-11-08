@@ -1,12 +1,12 @@
 // The RSS feeds, one set per language. Built from the same list as the "New this week" box (getEntries in
 // src/lib/changes.ts), so anything published on the site shows up in them by itself.
 //
-//   /<lang>/rss.xml             Everything: news, articles, guides, CWE write-ups, Roadmap jobs, research.
+//   /<lang>/rss.xml             Everything: news, articles, guides, CWE write-ups, Roadmap jobs, research, lab ideas.
 //                               Each title starts with what it is ("Breakdown · …", "CWE-639 · …").
 //   /<lang>/news/rss.xml        Weekly digests and incident breakdowns.
 //   /<lang>/articles/rss.xml    Monthly articles.          /<lang>/guides/rss.xml     Guides.
 //   /<lang>/cwe/rss.xml         CWE write-ups.             /<lang>/roadmap/rss.xml    Roadmap jobs' "what to learn".
-//   /<lang>/research/rss.xml    Research projects.
+//   /<lang>/research/rss.xml    Research projects.         /<lang>/lab/rss.xml        Home lab ideas.
 //
 // A change made after publishing (a `revisions:` line) is a post of its own, "Updated · <title>", with the note as
 // its text, so readers following an unfolding incident see each update. Its link is the page with #updated-<date>
@@ -30,18 +30,19 @@ import { getEntries, type Entry } from "./changes";
 import { iso } from "./articles";
 import { getPage, type PageName } from "./content";
 
-export const FEEDS = ["all", "news", "articles", "guides", "cwe", "roadmap", "research"] as const;
+export const FEEDS = ["all", "news", "articles", "guides", "cwe", "roadmap", "research", "lab"] as const;
 export type Feed = (typeof FEEDS)[number];
 
 /** What each feed holds. */
 const KINDS: Record<Feed, Entry["kind"][]> = {
-  all: ["week", "incident", "article", "cwe", "guide", "roadmap", "research"],
+  all: ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "lab"],
   news: ["week", "incident"],
   articles: ["article"],
   guides: ["guide"],
   cwe: ["cwe"],
   roadmap: ["roadmap"],
   research: ["research"],
+  lab: ["lab"],
 };
 
 /** A feed's address: /en/rss.xml for everything, /en/news/rss.xml and so on for a section. */

@@ -3,8 +3,9 @@ import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import { GUIDE_CATS, LANGS, ui, type GuideCat, type Lang } from "../i18n/ui";
 import { iso } from "./articles";
 import type { Block } from "./block";
+import { getIdeas } from "./lab";
 
-export type PageName = "home" | "news" | "articles" | "roadmap" | "research" | "lab" | "lab-setup" | "lab-rules" | "about" | "contact" | "colophon" | "cwe";
+export type PageName = "home" | "news" | "articles" | "roadmap" | "research" | "lab" | "lab-start" | "lab-rules" | "about" | "contact" | "colophon" | "cwe";
 
 /** One page's text in one language: content/pages/<name>/<lang>.md */
 export async function getPage(name: PageName, lang: Lang) {
@@ -98,16 +99,20 @@ export async function guideMissingLangs(slug: string): Promise<Lang[]> {
 /** Guides that list this one under `requires:`. */
 export const dependents = (all: Guide[], g: Guide) => all.filter((x) => x.entry.data.requires.includes(g.slug));
 
-/** Resolves an article's `related:` value ("research/<slug>" or "lab/setup") to a link. */
+/** Resolves an article's `related:` value ("research/<slug>", "lab/<idea>", "lab/start" or "lab/rules") to a link. */
 export async function pageRef(lang: Lang, path: string): Promise<{ href: string; tag: string; title: string } | null> {
   const [section, slug] = path.replace(/^\/+|\/+$/g, "").split("/");
   if (section === "research") {
     const p = (await getProjects(lang)).find((x) => x.slug === slug && x.entry.data.page);
     if (p) return { href: `/${lang}/research/${p.slug}/`, tag: ui[lang].nav.research, title: p.entry.data.title };
   }
-  if (section === "lab" && (slug === "setup" || slug === "rules")) {
-    const page = await getPage(slug === "setup" ? "lab-setup" : "lab-rules", lang);
+  if (section === "lab" && (slug === "start" || slug === "rules")) {
+    const page = await getPage(slug === "start" ? "lab-start" : "lab-rules", lang);
     return { href: `/${lang}/lab/${slug}/`, tag: ui[lang].nav.lab, title: page.data.title };
+  }
+  if (section === "lab") {
+    const i = (await getIdeas(lang)).find((x) => x.slug === slug);
+    if (i) return { href: `/${i.lang}/lab/${i.slug}/`, tag: ui[lang].nav.lab, title: i.entry.data.title };
   }
   return null;
 }

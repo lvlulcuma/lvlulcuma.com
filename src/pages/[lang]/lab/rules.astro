@@ -10,12 +10,15 @@ const lang = Astro.params.lang as Lang;
 const t = ui[lang];
 const page = await getPage("lab-rules", lang);
 const { Content } = await render(page.entry);
-const setup = (await getPage("lab-setup", lang)).data;
+const start = (await getPage("lab-start", lang)).data;
 const ruleCount = ((page.entry.body ?? "").match(/^\s*\d+\.\s/gm) ?? []).length;
 ---
 <Base lang={lang} nav="lab" title={page.data.title} description={page.data.intro} block={{
     key: { label: t.rules, value: String(ruleCount) },
-    go: { items: [{ kicker: t.nav.lab, text: setup.title, href: `/${lang}/lab/setup/` }] },
+    go: { items: [
+      { kicker: t.nav.lab, text: start.title, href: `/${lang}/lab/start/` },
+      { kicker: t.nav.lab, text: t.labAllIdeas, href: `/${lang}/lab/` },
+    ] },
     rows: [[t.updated, page.updated]],
     strip: [`${t.updated} ${page.updated}`],
   }}>

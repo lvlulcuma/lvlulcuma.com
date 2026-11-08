@@ -11,7 +11,7 @@ ls:   # the terminal menu under the headline: one short line per section, shown 
   cwe: "weaknesses explained for attackers and defenders"
   roadmap: "new to security? start here"
   research: "longer studies with real data"
-  lab: "where I practise, and the rules I test by"
+  lab: "home lab ideas, built step by step"
   about: "what this site is and who writes it"
   contact: "email, with ready-made templates"
 tree_summary: "{dirs} directories, {files} files"   # last line of the menu on phones (it turns into `tree` output there)
@@ -34,7 +34,7 @@ spotlight:   # "Job spotlight": one job from the Roadmap, a different one each w
   path: "{count}, from first steps to expert. Apply after: {level} (topics 1–{n})."   # under the bar of topics, for jobs with a "what to learn" list: {count} = all topics, {level} = the level employers usually expect, {n} = topics up to it
 # "New this week": the box beside the headline (under it on phones). It fills itself with everything published
 # or changed on the site in the last 7 days: weekly digests, incident breakdowns, articles, guides, CWE write-ups,
-# Roadmap jobs and research, and their `revisions:`. A row drops off 7 days after its date (the site is rebuilt
+# Roadmap jobs, research and lab ideas, and their `revisions:`. A row drops off 7 days after its date (the site is rebuilt
 # every night). Under the list the box adds when the next digest and the next article are due, and the RSS link.
 changes:
   heading: "New this week"
@@ -46,6 +46,7 @@ changes:
     guide: "Guide"
     roadmap: "Roadmap"
     research: "Research"
+    lab: "Lab idea"
     site: "Site"   # the announcements below
   roadmap: "What to learn: {job}"   # title of a Roadmap row; {job} is the job's name
   updated: "Updated"                # before the note of something that changed after it was published

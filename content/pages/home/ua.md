@@ -11,7 +11,7 @@ ls:   # the terminal menu under the headline: one short line per section, shown 
   cwe: "слабкі місця очима атакувальника і захисника"
   roadmap: "новачок у безпеці? почніть тут"
   research: "ґрунтовні дослідження на реальних даних"
-  lab: "де я практикуюся і за якими правилами тестую"
+  lab: "ідеї для домашньої лабораторії, крок за кроком"
   about: "що це за сайт і хто його пише"
   contact: "пошта з готовими шаблонами листів"
 tree_summary: "{dirs} каталогів, {files} файли"   # last line of the menu on phones (it turns into `tree` output there)
@@ -48,6 +48,7 @@ changes:
     guide: "Інструкція"
     roadmap: "Кар'єра"
     research: "Дослідження"
+    lab: "Ідея для лабораторії"
     site: "Сайт"   # the announcements below
   roadmap: "Що вивчати: {job}"   # title of a Roadmap row; {job} is the job's name
   updated: "Оновлено"           # before the note of something that changed after it was published

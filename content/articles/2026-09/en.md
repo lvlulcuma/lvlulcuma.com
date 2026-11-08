@@ -3,7 +3,7 @@ title: "An API practice lab on ARM computers"
 date: 2026-09-28
 topic: lab
 dek: "Many deliberately vulnerable training apps only ship x86 images. Here's how to run them on an ARM computer, and how to keep them off the network."
-related: "lab/setup"
+related: "lab/web-app-hacking"
 ---
 
 ## What runs in the lab

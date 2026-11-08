@@ -20,8 +20,9 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 | A guide `/en/guides/<name>/` | `guides/<name>/` |
 | Research list `/en/research/` | `pages/research/` (intro only) |
 | A research project `/en/research/<name>/` | `research/<name>/` |
-| Lab `/en/lab/` | `pages/lab/` |
-| Build your lab `/en/lab/setup/` | `pages/lab-setup/` (the file it shows: `public/lab/compose.yaml`) |
+| Lab `/en/lab/` | `pages/lab/` (and every idea in `lab/`) |
+| Get started `/en/lab/start/` | `pages/lab-start/` |
+| A lab idea `/en/lab/<idea>/` | `lab/<idea>/` (its downloads: `public/lab/<idea>/`) |
 | Practice safely and legally `/en/lab/rules/` | `pages/lab-rules/` |
 | About `/en/about/` | `pages/about/` |
 | Contact `/en/contact/` | `pages/contact/` |

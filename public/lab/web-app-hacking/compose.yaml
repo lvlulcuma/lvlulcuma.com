@@ -1,5 +1,5 @@
 # A practice lab of apps that are vulnerable on purpose.
-# Step-by-step guide: https://lvlulcuma.com/en/lab/setup/
+# Step-by-step guide: https://lvlulcuma.com/en/lab/web-app-hacking/
 #
 #   Start:            docker compose up -d
 #   See what runs:    docker compose ps

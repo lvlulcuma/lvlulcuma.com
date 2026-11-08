@@ -1,13 +1,17 @@
 ---
-# Lab setup → lvlulcuma.com/ua/lab/setup/
-updated: 2026-11-08
-title: "Створіть свою лабораторію"
-summary: "Чотири навчальні застосунки на вашому комп'ютері: крок за кроком, з одного готового файлу."   # one line on the Lab overview page
-intro: "Безпечне місце, щоб тренувати атаки: чотири навмисно вразливі застосунки, які працюють лише на вашому комп'ютері. Один файл запускає їх усі, а одна команда повертає все до чистого стану."
-related_article: "2026-09"   # a monthly article linked at the bottom (folder name in content/articles/)
-key:   # the big fact at the top of the box beside the page
-  label: "Навчальні застосунки"
-  value: "4"
+# Lab idea → lvlulcuma.com/ua/lab/web-app-hacking/
+title: "Лабораторія для атак на вебзастосунки та API"
+date: 2026-11-08
+group: attack
+order: 1
+level: beginner
+dek: "Чотири навмисно вразливі застосунки, які працюють лише на вашому комп'ютері: тренуйте OWASP Top 10 на сайтах, REST API та GraphQL і стежте за кожним запитом у Burp Suite."
+time: 1
+ram: 4
+jobs: [penetration-tester, bug-bounty-hunter, appsec-engineer, secure-developer]
+requires: []
+files: [compose.yaml]
+related_article: "2026-09"
 ---
 
 ## Що знадобиться
@@ -34,20 +38,20 @@ key:   # the big fact at the top of the box beside the page
 2. Завантажте файл, який описує лабораторію:
 
    ```sh
-   curl -O https://lvlulcuma.com/lab/compose.yaml
+   curl -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
    У PowerShell на Windows пишіть `curl.exe` замість `curl`:
 
    ```powershell
-   curl.exe -O https://lvlulcuma.com/lab/compose.yaml
+   curl.exe -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
 3. Прочитайте його, перш ніж запускати. Він короткий, а читати файли з інтернету перед запуском — корисна звичка. Ось
    увесь файл:
 
    ```yaml
-   #include public/lab/compose.yaml
+   #include public/lab/web-app-hacking/compose.yaml
    ```
 
    > [!NOTE]

@@ -1,0 +1,45 @@
+---
+// Get started: what a home lab needs and how to set one up safely, before picking an idea.
+// Text: content/pages/lab-start/<lang>.md
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import LabIdeaCard from "../../../components/LabIdeaCard.astro";
+import { langPaths, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { toc } from "../../../lib/block";
+import { getIdeas } from "../../../lib/lab";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("lab-start", lang);
+const { Content, headings } = await render(page.entry);
+const rules = (await getPage("lab-rules", lang)).data;
+// "Then try one of these": the easiest ideas first.
+const LEVELS = ["beginner", "intermediate", "advanced"];
+const first = (await getIdeas(lang)).slice().sort((a, b) => LEVELS.indexOf(a.entry.data.level) - LEVELS.indexOf(b.entry.data.level) || a.entry.data.time - b.entry.data.time).slice(0, 4);
+---
+<Base lang={lang} nav="lab" title={page.data.title} description={page.data.intro} block={{
+    key: page.data.key,
+    contents: toc(headings),
+    go: { items: [
+      { kicker: t.nav.lab, text: rules.title, href: `/${lang}/lab/rules/` },
+      { kicker: t.nav.lab, text: t.labAllIdeas, href: `/${lang}/lab/` },
+    ] },
+    rows: [[t.updated, page.updated]],
+    strip: [`${t.updated} ${page.updated}`],
+  }}>
+  <h1>{page.data.title}</h1>
+  <p class="lede">{page.data.intro}</p>
+  <div class="prose guide"><Content /></div>
+
+  {first.length > 0 && (
+    <section class="gsec gnext" aria-labelledby="first-ideas">
+      <div class="block-head">
+        <h2 id="first-ideas">{t.labFirstIdeas}</h2>
+        <a href={`/${lang}/lab/`}>{t.labAllIdeas}&nbsp;<span class="arr" aria-hidden="true"></span></a>
+      </div>
+      <ul class="gcards">{first.map((x) => <LabIdeaCard idea={x} lang={lang} label={t.labGroups[x.group]} />)}</ul>
+    </section>
+  )}
+</Base>
