@@ -1,9 +1,11 @@
 # Publishes the weekly news digest at 01:11 on Monday (Eastern Time) without waiting for a manual review
-# (the site owner's choice), and incident breakdowns the owner asked to publish automatically.
+# (the site owner's choice), with a breakdown for each of its stories, and incident breakdowns the owner asked to
+# publish automatically.
 #
-# Claude's scheduled task writes each digest just after midnight on a branch named claude/digest-YYYY-wNN and
-# opens a pull request. An incident breakdown is published this way only when the owner asked for it; it goes on a
-# branch named claude/autopublish-incident-<folder>. What each kind may change: scripts/autopublish/scope.sh.
+# Claude's scheduled task writes each digest and its breakdowns just after midnight on a branch named
+# claude/digest-YYYY-wNN and opens one pull request. Another incident breakdown is published this way only when the
+# owner asked for it; it goes on a branch named claude/autopublish-incident-<folder>. What each kind may change:
+# scripts/autopublish/scope.sh.
 # Two jobs here:
 #   - check:   runs on those pull requests right away, so problems show early. Read-only: it can't merge anything.
 #   - publish: runs on a schedule from main (so a pull request can't change these rules), and merges such a pull
@@ -38,9 +40,11 @@ concurrency:
 
 jobs:
   check:
+    # 'claude/digest-2' (a year follows), so a branch that only changes these rules, such as
+    # claude/digest-breakdowns, isn't checked as if it were a digest.
     if: >-
       github.event_name == 'pull_request' &&
-      (startsWith(github.head_ref, 'claude/digest-') || startsWith(github.head_ref, 'claude/autopublish-incident-')) &&
+      (startsWith(github.head_ref, 'claude/digest-2') || startsWith(github.head_ref, 'claude/autopublish-incident-')) &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20

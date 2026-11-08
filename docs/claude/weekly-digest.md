@@ -1,9 +1,10 @@
 # Playbook: the weekly news digest
 
 A scheduled run writes it just after midnight on Monday (Eastern Time), for the ISO week that just ended (Monday to
-Sunday). It's published automatically at 01:11 that morning if it passes the checks (see CLAUDE.md), so it has to be
-right without anyone looking at it first. Take the time it needs: a digest that's ready after 01:11 goes out at the
-next hourly run.
+Sunday), together with **a full breakdown for each of its stories** (section 6). Both go in one pull request, which is
+published automatically at 01:11 that morning if it passes the checks (see CLAUDE.md), so everything in it has to be
+right without anyone looking at it first. Take the time it needs: a pull request that's ready after 01:11 goes out
+at the next hourly run.
 
 ## 1. Which week
 
@@ -53,7 +54,9 @@ it. Fields:
   - `why:` one or two short sentences. `do:` one or two short sentences, if there's something to do (CVE
     numbers and fixed versions can go here).
   - `sources:` each `name` ("Outlet: headline", in the outlet's own language) and `url`.
-  - `incident:` only if a full breakdown already exists in `content/news/incidents/`.
+  - `incident:` the folder of the story's breakdown: the one you write with this digest (section 6), or one that
+    already exists in `content/news/incidents/` for the same incident. Leave it out only for a story that gets no
+    breakdown.
 - The text below the second `---`: **one short paragraph** on the week's common thread.
 - Keep short quoted names and amounts together with a non-breaking space so they don't split across lines
   (e.g. «від ДТЕК», „od DTEK”, "$50 млн").
@@ -71,17 +74,45 @@ irony, an odd detail, good guys pulling off a clever hack. Never something where
 (a hospital attack), and nothing explicit. It sits in a narrow column, so keep it short; in UA and PL put a
 non-breaking space before each " — " so no line starts with a dash. Two sources where possible.
 
-## 6. Check and publish
+## 6. A breakdown for each story
+
+Every story gets its own full page, `content/news/incidents/<folder>/{en,ua,pl}.md`, on the same branch. Write it as
+`incident-breakdown.md` says in sections 2, 3 and 5 (research, the fields, Ukrainian and Polish); its sections 1 and 4
+(other branches, linking from an older week) don't apply here. The fun story gets no breakdown.
+
+- **Order of work, so nothing is lost if the run stops early:** finish the digest first (sections 1 to 5), run the
+  checks, commit it and push the branch, but don't open the pull request yet. Then do the breakdowns one story at a
+  time, most important first: write the three files, add `incident: <folder>` to that story in all three week files,
+  build, commit (`News: <short name> breakdown`) and push.
+- **Go deeper than the story**, don't repeat it: who was hit and how, a dated timeline, how the attackers got in
+  (or "Not known yet"), the impact, ATT&CK techniques a source supports, what defenders can detect and check, and
+  what's still unknown. Look for primary sources (the victim, officials, the researchers who found it) beyond the
+  story's two; the breakdown's facts follow the same rules as the digest's.
+- `date:` when it became public (inside the week), `published:` today, `status:` usually **unfolding** or
+  **confirmed** (incident-breakdown.md, section 3).
+- **Folder name:** short, lowercase, dashes, who + what (`air-alert-app-hack`). Check `content/news/incidents/`
+  first. If the incident already has a breakdown (a story that goes on from an earlier week), don't write a second
+  one and don't change the old one (the automatic publish refuses changes to published breakdowns): link the story
+  to the existing folder, and say in the report what's new, so the owner can ask for an update.
+- **Too little to go on:** if you can't confirm what happened beyond the story itself (no primary source, nothing
+  past the first reports), leave that story without a breakdown and without `incident:`, and say which and why in
+  the pull request and the report. That isn't a reason to hold the digest back.
+- Every breakdown folder must be linked from a story (`incident: <folder>` in en.md); the automatic publish refuses
+  a breakdown that no story links to.
+
+## 7. Check and publish
 
 1. `npm ci`, `npm run build:all-langs`, `npm run build`, `npm run check:links`: all must pass.
-2. Re-read all three files once more: every number, name and date against your sources; russia lowercase;
-   nothing personal; no story from outside the week.
-3. Commit only `content/news/weeks/$week/` (`git status` must show nothing else), message `News: week NN digest`.
-4. Push `claude/digest-$week` and open a pull request into `main`, titled `News: week NN digest`, with the story
-   titles, the fun story and the main sources in the description. The workflow checks it right away and publishes
-   it at 01:11 (or at the next hourly run).
+2. Re-read every file once more, the week and each breakdown: every number, name, time and date against your
+   sources; russia lowercase; nothing personal; no story from outside the week.
+3. The branch holds only `content/news/weeks/$week/` and the new breakdown folders (`git status` clean, nothing
+   else changed). Commit messages: `News: week NN digest`, then `News: <short name> breakdown` for each breakdown.
+4. Push `claude/digest-$week` and open a pull request into `main`, titled `News: week NN digest`. In the
+   description: the story titles, each with its breakdown's folder (or why it has none), the fun story and the main
+   sources. The workflow checks it right away and publishes the digest and its breakdowns together at 01:11 (or at
+   the next hourly run).
 5. If you weren't confident (fewer than 5 solid stories, a source you couldn't verify, a failing check), open it as
    a **draft** instead and explain why. It then waits for the owner.
 
-Finish with a short report: the week, the title, the story list, the pull request link, and anything you left out
-on purpose (and why).
+Finish with a short report: the week, the title, the story list with each breakdown (or why there's none), the pull
+request link, and anything you left out on purpose (and why).
