@@ -1,5 +1,6 @@
 // What changed on the site in the last 7 days, for the "New this week" box on the home page
-// (src/components/Announcements.astro). Worked out when the site is built, from the dates already in the content:
+// (src/components/Announcements.astro). Worked out when the site is built, from the dates already in the content.
+// The same list of everything published (getEntries) also fills the RSS feeds (src/lib/feed.ts):
 //
 //   News        a weekly digest's `date:`, an incident breakdown's `published:`
 //   Articles    `date:`          Guides  `date:`          CWE  `date:`
@@ -59,6 +60,53 @@ const addDays = (day: string, n: number) => iso(new Date(dayToDate(day).valueOf(
 
 type Dated = { date: Date; note: string }[] | undefined;
 
+/** Something published on the site, with its later changes. Shared by the "New this week" box and the RSS feeds
+ *  (src/lib/feed.ts). Made-up sample entries (`example: true`) are left out. */
+export type Entry = {
+  kind: Exclude<ChangeKind, "site">;
+  /** Shown instead of the kind's word (CWE-639). */
+  tag?: string;
+  title: string;
+  /** The one-line summary (`dek:`, or `summary:` for research projects and Roadmap jobs). */
+  description: string;
+  /** The language the title is in (a guide or a CWE write-up can still be English-only on a Ukrainian page). */
+  lang: Lang;
+  href: string;
+  published: Date;
+  revisions: NonNullable<Dated>;
+};
+
+/** Everything published on the site in this language: news, articles, CWE write-ups, guides, Roadmap jobs' "what to
+ *  learn", research. In no particular order. */
+export async function getEntries(lang: Lang): Promise<Entry[]> {
+  const out: Entry[] = [];
+  for (const w of (await getWeeks(lang)).filter((w) => !w.example))
+    out.push({ kind: "week", title: w.entry.data.title, description: w.entry.data.dek, lang: w.lang, href: weekHref(w), published: w.entry.data.date, revisions: w.entry.data.revisions ?? [] });
+  for (const i of (await getIncidents(lang)).filter((i) => !i.example))
+    out.push({ kind: "incident", title: i.entry.data.title, description: i.entry.data.dek, lang: i.lang, href: incidentHref(i), published: i.entry.data.published, revisions: i.entry.data.revisions ?? [] });
+  for (const a of await getArticles(lang))
+    out.push({ kind: "article", title: a.entry.data.title, description: a.entry.data.dek, lang, href: `/${lang}/articles/${a.slug}/`, published: a.date, revisions: a.entry.data.revisions ?? [] });
+  for (const c of await getCwes(lang))
+    out.push({ kind: "cwe", tag: `CWE-${c.id}`, title: c.entry.data.title, description: c.entry.data.dek, lang: c.lang, href: `/${c.lang}/cwe/${c.id}/`, published: c.entry.data.date, revisions: c.entry.data.revisions ?? [] });
+  for (const g of await getGuides(lang))
+    out.push({ kind: "guide", title: g.entry.data.title, description: g.entry.data.dek, lang: g.lang, href: `/${g.lang}/guides/${g.slug}/`, published: g.date, revisions: g.entry.data.revisions ?? [] });
+
+  const words = (await getPage("home", lang)).data.changes ?? {};
+  const learn = await getLearn();
+  for (const j of await getJobs(lang)) {
+    const l = learn.get(j.slug);
+    if (!l) continue;
+    const title = String(words.roadmap ?? "{job}").replace("{job}", j.entry.data.title);
+    out.push({ kind: "roadmap", title, description: j.entry.data.summary, lang: j.lang, href: `/${lang}/roadmap/${j.field}/${j.slug}/`, published: l.data.updated, revisions: [] });
+  }
+
+  for (const p of await getProjects(lang)) {
+    const d = p.entry.data;
+    out.push({ kind: "research", title: d.title, description: d.summary, lang, href: d.page ? `/${lang}/research/${p.slug}/` : `/${lang}/research/#${p.slug}`, published: d.published, revisions: d.revisions ?? [] });
+  }
+  return out;
+}
+
 /** Everything published or changed in the last 7 days, newest first. */
 export async function getChanges(lang: Lang): Promise<Change[]> {
   const to = today();
@@ -68,39 +116,14 @@ export async function getChanges(lang: Lang): Promise<Change[]> {
 
   // One row per thing: "new" if it was first published in the window (later changes are part of that),
   // otherwise "updated" with its latest change, if that falls in the window.
-  function add(c: Omit<Change, "day" | "date" | "updated" | "note">, published: Date, revisions: Dated) {
-    if (inWindow(published)) return out.push({ ...c, day: iso(published), date: published, updated: false });
-    const last = (revisions ?? []).filter((r) => inWindow(r.date)).sort((a, b) => b.date.valueOf() - a.date.valueOf())[0];
+  for (const e of await getEntries(lang)) {
+    const c = { kind: e.kind, tag: e.tag, title: e.title, lang: e.lang, href: e.href };
+    if (inWindow(e.published)) { out.push({ ...c, day: iso(e.published), date: e.published, updated: false }); continue; }
+    const last = e.revisions.filter((r) => inWindow(r.date)).sort((a, b) => b.date.valueOf() - a.date.valueOf())[0];
     if (last) out.push({ ...c, day: iso(last.date), date: last.date, updated: true, note: last.note });
   }
 
-  // Made-up sample entries (`example: true`) never count.
-  for (const w of (await getWeeks(lang)).filter((w) => !w.example))
-    add({ kind: "week", title: w.entry.data.title, lang: w.lang, href: weekHref(w) }, w.entry.data.date, w.entry.data.revisions);
-  for (const i of (await getIncidents(lang)).filter((i) => !i.example))
-    add({ kind: "incident", title: i.entry.data.title, lang: i.lang, href: incidentHref(i) }, i.entry.data.published, i.entry.data.revisions);
-  for (const a of await getArticles(lang))
-    add({ kind: "article", title: a.entry.data.title, lang, href: `/${lang}/articles/${a.slug}/` }, a.date, a.entry.data.revisions);
-  for (const c of await getCwes(lang))
-    add({ kind: "cwe", tag: `CWE-${c.id}`, title: c.entry.data.title, lang: c.lang, href: `/${c.lang}/cwe/${c.id}/` }, c.entry.data.date, c.entry.data.revisions);
-  for (const g of await getGuides(lang))
-    add({ kind: "guide", title: g.entry.data.title, lang: g.lang, href: `/${g.lang}/guides/${g.slug}/` }, g.date, g.entry.data.revisions);
-
   const home = (await getPage("home", lang)).data;
-  const words = home.changes ?? {};
-  const learn = await getLearn();
-  for (const j of await getJobs(lang)) {
-    const l = learn.get(j.slug);
-    if (!l) continue;
-    const title = String(words.roadmap ?? "{job}").replace("{job}", j.entry.data.title);
-    add({ kind: "roadmap", title, lang: j.lang, href: `/${lang}/roadmap/${j.field}/${j.slug}/` }, l.data.updated, undefined);
-  }
-
-  for (const p of await getProjects(lang)) {
-    const d = p.entry.data;
-    add({ kind: "research", title: d.title, lang, href: d.page ? `/${lang}/research/${p.slug}/` : `/${lang}/research/` }, d.published, d.revisions);
-  }
-
   // Announcements written by hand: anything the content can't tell by itself.
   const file = `content/pages/home/${lang}.md`;
   ((home.announcements ?? []) as any[]).forEach((a, i) => {

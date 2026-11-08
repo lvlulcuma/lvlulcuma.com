@@ -3,6 +3,7 @@
 // /news/weeks/), then the incident breakdowns.
 // Text: content/pages/news/<lang>.md. Weeks: content/news/weeks/. Incidents: content/news/incidents/.
 import Base from "../../../layouts/Base.astro";
+import { feedHref } from "../../../lib/feed";
 import ExampleNote from "../../../components/ExampleNote.astro";
 import IncidentRow from "../../../components/IncidentRow.astro";
 import WeekRow from "../../../components/WeekRow.astro";
@@ -29,9 +30,9 @@ const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
 // "Fun story of the week" (`fun:` in the latest week's file): beside the week on wide screens, under it on others.
 const fun = latest?.entry.data.fun;
 const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
-const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+const feed = { href: feedHref(lang, "news") };
 ---
-<Base printIn lang={lang} nav="news" title={page.title} description={page.intro} noindex={onlyExamples} feed={feed} block={{
+<Base printIn lang={lang} nav="news" title={page.title} description={page.intro} noindex={onlyExamples} block={{
     key: { label: t.latestWeek, value: latest ? `${t.week} ${latest.week}` : t.comingSoon },
     filter: incidents.length ? typeFilter(lang, incidents) : undefined,
     go: { items: [...(earlier.length ? [{ text: t.allWeeks, href: weeksHref(lang) }] : []), { text: t.newsRss, href: feed.href }], phone: false },

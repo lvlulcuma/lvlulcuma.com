@@ -78,6 +78,13 @@ mediumFollow: "Follow on Medium"     # in the box beside the articles list (`med
 
 # Announcements box on the home page
 rssFollow: "Get new articles by RSS"
+rssAll: "Everything"     # the main feed (/en/rss.xml) in the row of feeds
+rssMenu: "All feeds"     # label of the row of links to every feed, when a feed is opened in a browser
+rssAllFollow: "Get everything new by RSS"   # the RSS link in "New this week" on the home page
+rssGuides: "Get new guides by RSS"          # in the box beside each section's list
+rssCwe: "Get new CWE write-ups by RSS"
+rssRoadmap: "Get Roadmap updates by RSS"
+rssResearch: "Get new research by RSS"
 
 # Roadmap
 fields: "Fields"

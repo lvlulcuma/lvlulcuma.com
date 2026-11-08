@@ -1,6 +1,7 @@
 ---
 // Every incident breakdown: /<lang>/news/incidents/. Filtered lists are /news/incidents/<type>/ (see [slug].astro).
 import Base from "../../../../layouts/Base.astro";
+import { feedHref } from "../../../../lib/feed";
 import IncidentsIndex from "../../../../components/IncidentsIndex.astro";
 import { langPaths, ui, type Lang } from "../../../../i18n/ui";
 import { getPage } from "../../../../lib/content";
@@ -13,9 +14,9 @@ const t = ui[lang];
 const page = (await getPage("news", lang)).data;
 const all = await getIncidents(lang);
 const onlyExamples = all.length > 0 && all.every((i) => i.example);
-const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+const feed = { href: feedHref(lang, "news") };
 ---
-<Base printIn lang={lang} nav="news" title={t.incidentsTitle} description={page.incidentsIntro} noindex={onlyExamples || !all.length} feed={feed} block={{
+<Base printIn lang={lang} nav="news" title={t.incidentsTitle} description={page.incidentsIntro} noindex={onlyExamples || !all.length} block={{
     key: { label: t.incidentsTitle, value: countWord(all.length, lang, t, "incident") },
     filter: typeFilter(lang, all),
     go: { items: [{ kicker: t.nav.news, text: t.allNews, href: `/${lang}/news/` }, { text: t.newsRss, href: feed.href }], phone: false },

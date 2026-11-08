@@ -1,5 +1,6 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import { feedHref } from "../../../lib/feed";
 import ArticlesIndex from "../../../components/ArticlesIndex.astro";
 import { langPaths, ui, type Lang } from "../../../i18n/ui";
 import { getArticles, iso, nextIssueDate, topicFilter } from "../../../lib/articles";
@@ -16,7 +17,7 @@ const medium = (await getSettings()).medium;
 <Base printIn lang={lang} nav="articles" title={t.nav.articles} description={page.data.intro} block={{
     key: { label: t.published, value: countArticles(articles.length, lang, t) },
     filter: topicFilter(lang, articles),
-    go: { items: [{ text: t.rssFollow, href: `/${lang}/rss.xml` }, ...(medium ? [{ text: t.mediumFollow, href: medium }] : [])], phone: false },
+    go: { items: [{ text: t.rssFollow, href: feedHref(lang, "articles") }, ...(medium ? [{ text: t.mediumFollow, href: medium }] : [])], phone: false },
     rows: articles[0] ? [[t.upcoming, iso(nextIssueDate(articles[0].date))]] : [],
     strip: articles[0] ? [`${t.upcoming} ${iso(nextIssueDate(articles[0].date))}`] : [],
   }}>

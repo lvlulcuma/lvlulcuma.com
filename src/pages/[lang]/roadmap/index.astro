@@ -3,6 +3,7 @@
 // Text: content/pages/roadmap/<lang>.md. Fields: content/roadmap/fields/<field>/<lang>.md.
 // Jobs: content/roadmap/jobs/<job>/<lang>.md (see src/lib/roadmap.ts for what comes next).
 import { render } from "astro:content";
+import { feedHref } from "../../../lib/feed";
 import Base from "../../../layouts/Base.astro";
 import { HTML_LANG, ROADMAP_GROUPS, langPaths, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
@@ -32,6 +33,7 @@ const groups = ROADMAP_GROUPS.map((g) => {
 <Base printIn lang={lang} nav="roadmap" title={heading} description={page.data.intro} block={{
     key: { label: t.fields, value: String(fields.length) },
     contents: groups.map((g) => ({ slug: g.id, text: g.title })),
+    go: { items: [{ text: t.rssRoadmap, href: feedHref(lang, "roadmap") }], phone: false },
     rows: [[t.jobs, String(jobs.length)], [t.learn, learnValue], [t.updated, page.updated]],
     strip: [countWord(jobs.length, lang, t, "job")],
   }}>

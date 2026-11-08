@@ -3,6 +3,7 @@
 //   /<lang>/articles/<YYYY-MM>/   a monthly article
 //   /<lang>/articles/<topic>/     the archive filtered to one topic
 import { render } from "astro:content";
+import { feedHref } from "../../../lib/feed";
 import Base from "../../../layouts/Base.astro";
 import ArticlesIndex from "../../../components/ArticlesIndex.astro";
 import Related from "../../../components/Related.astro";
@@ -53,7 +54,7 @@ if (props.kind === "article") {
   <Base printIn lang={lang} nav="articles" title={`${t.nav.articles}: ${t.topics[props.topic]}`} description={articlesPage.data.intro} block={{
       key: { label: t.topics[props.topic], value: countArticles(topicCount, lang, t) },
       filter: topicFilter(lang, allArticles, props.topic),
-      go: { items: [{ text: t.rssFollow, href: `/${lang}/rss.xml` }, ...mediumFollow], phone: false },
+      go: { items: [{ text: t.rssFollow, href: feedHref(lang, "articles") }, ...mediumFollow], phone: false },
       rows: latestDate ? [[t.upcoming, iso(nextIssueDate(latestDate))]] : [],
     }}>
     <ArticlesIndex lang={lang} topic={props.topic} />

@@ -80,6 +80,13 @@ mediumFollow: "Obserwuj na Medium"     # in the box beside the articles list (`m
 
 # Announcements box on the home page
 rssFollow: "Otrzymuj nowe artykuły przez RSS"
+rssAll: "Wszystko"     # the main feed (/pl/rss.xml) in the row of feeds
+rssMenu: "Wszystkie kanały RSS"     # label of the row of links to every feed, when a feed is opened in a browser
+rssAllFollow: "Otrzymuj wszystkie nowości przez RSS"   # the RSS link in "New this week" on the home page
+rssGuides: "Otrzymuj nowe poradniki przez RSS"          # in the box beside each section's list
+rssCwe: "Otrzymuj nowe omówienia CWE przez RSS"
+rssRoadmap: "Otrzymuj nowości ze „Ścieżek kariery” przez RSS"
+rssResearch: "Otrzymuj nowe badania przez RSS"
 
 # Roadmap
 fields: "Dziedziny"

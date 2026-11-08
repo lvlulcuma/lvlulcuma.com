@@ -8,6 +8,7 @@
 // background and a pulsing "live" square. The home page renders it twice: `where="side"` in the left column on
 // wide screens, and `where="inline"` under the headline on phones. CSS shows only one of them at a time.
 import { ui, type Lang } from "../i18n/ui";
+import { feedHref } from "../lib/feed";
 import ChangeRow from "./ChangeRow.astro";
 import { getPage } from "../lib/content";
 import { iso } from "../lib/articles";
@@ -51,6 +52,6 @@ const shortDate = (d: Date) => (d.getUTCFullYear() === thisYear ? dayMonth(d, la
   )}
   <div class="ann-foot">
     {digest && <p class="ann-next">{w.next_digest} <time datetime={iso(digest)}>{shortDate(digest)}</time></p>}
-    <a class="ann-rss" href={`/${lang}/rss.xml`} aria-label={t.rssFollow}>RSS&nbsp;<span class="arr" aria-hidden="true"></span></a>
+    <a class="ann-rss" href={feedHref(lang, "all")} aria-label={t.rssAllFollow}>RSS&nbsp;<span class="arr" aria-hidden="true"></span></a>
   </div>
 </section>
