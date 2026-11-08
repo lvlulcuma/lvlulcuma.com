@@ -659,6 +659,31 @@ figure.lsmenu { margin: 0; }
 .callout, .prereq, .hire, .related { padding-top: 22px; }
 .prereq { margin-top: 16px; }
 .callout .callout-label, .prereq .prereq-h, .hire .hire-t, .related small { position: absolute; top: 0; left: 12px; transform: translateY(-50%); margin: 0; padding: 1px 8px 2px; border: 1px solid color-mix(in srgb, var(--c) 55%, var(--line)); background: color-mix(in srgb, var(--c) 14%, var(--panel)); line-height: 1.4; white-space: nowrap; }
+/* The boxes print in as they come into view, in three steps like "New this week" on the home page: the box
+   rises 10px and fades in while its frame turns from a plain grey line to its colour, then the tab on its top
+   edge types itself left to right ("[*] Note"), then the text inside appears. The steps follow the scroll
+   (CSS scroll-driven animations, no JavaScript): they play while the box comes up from the bottom of the
+   window and are done by the time the whole box is on screen, so a box is never half-shown while you read it,
+   and a box already on screen when the page opens is simply there.
+   Only on pages you read (list pages print in already), only with motion allowed, and only in browsers that
+   have scroll-driven animations; everywhere else the boxes stay as they are. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    main:not(.print-in) :is(.callout, .prereq, .hire, .related, .question) {
+      view-timeline: --box block;
+      animation: box-in var(--ease-soft) both; animation-timeline: --box; animation-range: entry 0% entry 55%;
+    }
+    main:not(.print-in) :is(.callout .callout-label, .prereq .prereq-h, .hire .hire-t, .related small) {
+      animation: tab-type var(--ease-soft) both; animation-timeline: --box; animation-range: entry 25% entry 80%;
+    }
+    main:not(.print-in) :is(.callout > :not(.callout-label), .prereq > :not(.prereq-h), .hire > :not(.hire-t), .related > :not(small)) {
+      animation: box-text var(--ease-soft) both; animation-timeline: --box; animation-range: entry 50% entry 100%;
+    }
+  }
+  @keyframes box-in { from { opacity: 0; translate: 0 10px; border-color: var(--line); } to { opacity: 1; translate: none; } }
+  @keyframes tab-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes box-text { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: none; } }
+}
 
 /* Research */
 .question { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.4; padding: 16px 18px 18px 16px; margin: 8px 0; text-wrap: balance; }
@@ -903,21 +928,47 @@ a.feature:hover h3, a.feature:focus-visible h3, .plain li a:hover { color: var(-
 .list a:hover .t, .list a:focus-visible .t, .week-heads a:hover .h, .week-heads a:focus-visible .h,
 .index a:hover .name, .index a:focus-visible .name, .rows li.linked:hover .t a, .rows li.linked:focus-within .t a, .pn a:hover, .pn a:focus-visible { color: var(--accent); }
 .list a:focus-visible, .week-heads a:focus-visible, .index a:focus-visible { outline-offset: -2px; }
-/* "Before you start" rows sit in a panel that already has a blue edge, so no second bar: the row gets a
-   blue tint across the panel, the title turns blue and gets an underline, and the arrow moves forward. */
-.prereq a { transition: background-color var(--ease); }
-.prereq a .t { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color var(--ease), text-decoration-color var(--ease); }
-.prereq a:hover, .prereq a:focus-visible { background-color: color-mix(in srgb, var(--accent) 10%, var(--panel)); }
-.prereq a:hover .t, .prereq a:focus-visible .t { color: var(--accent); text-decoration-color: currentColor; }
+/* "Before you start" (one framed box holding several links): the row under the pointer lights up from the
+   left, like a line a scanner has picked out: a blue fade that is strongest at the box's edge and dies away to
+   the right, and a short bar in the glow's blues that grows from the middle of the row along the box's edge.
+   At the same time the box's frame and its tab brighten and a soft blue shadow appears under the box, so the
+   box and the row light up together. The title turns blue and the arrow moves forward. All on the cards'
+   soft curve (--ease-soft, 0.3 s). The box doesn't rise: only the row is the link. */
+.prereq, .prereq .prereq-h { transition: border-color .3s var(--ease-soft), box-shadow .3s var(--ease-soft), background-color .3s var(--ease-soft); }
+.prereq a { position: relative; isolation: isolate; }
+.prereq a::before, .prereq a::after { content: ""; position: absolute; pointer-events: none; }
+.prereq a::before {
+  inset: 0; z-index: -1; opacity: 0; transition: opacity .3s var(--ease-soft);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--glow-b) 16%, var(--panel)), color-mix(in srgb, var(--glow-b) 5%, var(--panel)) 55%, var(--panel));
+}
+.prereq a::after { top: 0; bottom: 0; left: -1px; width: 2px; background: linear-gradient(180deg, var(--glow-a), var(--glow-b) 50%, var(--glow-c)); transform: scaleY(0); transition: transform .3s var(--ease-soft); }
+.prereq a .t { transition: color .2s var(--ease-soft); }
+.prereq a:hover::before, .prereq a:focus-visible::before { opacity: 1; }
+.prereq a:hover::after, .prereq a:focus-visible::after { transform: none; }
+.prereq a:hover .t, .prereq a:focus-visible .t { color: var(--accent); }
+.prereq:has(a:hover, a:focus-visible) { border-color: color-mix(in srgb, var(--glow-b) 80%, var(--line)); box-shadow: 0 14px 32px -18px color-mix(in srgb, var(--glow-b) 50%, transparent); }
+.prereq:has(a:hover, a:focus-visible) .prereq-h { border-color: color-mix(in srgb, var(--glow-b) 80%, var(--line)); background-color: color-mix(in srgb, var(--glow-b) 20%, var(--panel)); }
 .prereq a:focus-visible { outline-offset: -2px; }
-/* The "Related" box at the end of articles, research and lab pages works the same way (it has a blue edge too). */
-a.related { transition: background-color var(--ease); }
-a.related .t { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color var(--ease), text-decoration-color var(--ease); }
-a.related .arr { transition: color var(--ease); }
-a.related:hover, a.related:focus-visible { background: color-mix(in srgb, var(--accent) 10%, var(--panel)); }
+/* The "Related" box at the end of articles, research and lab pages is one link, so it lights up like a card:
+   the frame turns to the glow's blues with a faint blue fade from the top (a layer that fades in, as on the
+   cards), a soft blue shadow grows under it and it rises 2px. Its tab brightens with it, the title turns blue
+   and the arrow moves forward. */
+a.related { isolation: isolate; transition: box-shadow .3s var(--ease-soft), transform .3s var(--ease-soft); }
+a.related::before {
+  content: ""; position: absolute; inset: -1px; z-index: -1; pointer-events: none;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(170deg, color-mix(in srgb, var(--glow-b) 14%, var(--panel)) 0%, color-mix(in srgb, var(--glow-b) 4%, var(--panel)) 45%, var(--panel) 80%) padding-box,
+    linear-gradient(135deg, var(--glow-a), var(--glow-b) 45%, var(--glow-c)) border-box;
+  opacity: 0; transition: opacity .3s var(--ease-soft);
+}
+a.related small { transition: border-color .3s var(--ease-soft), background-color .3s var(--ease-soft); }
+a.related .t, a.related .arr { transition: color .2s var(--ease-soft); }
+a.related:hover, a.related:focus-visible { box-shadow: 0 14px 32px -16px color-mix(in srgb, var(--glow-b) 55%, transparent); transform: translateY(-2px); }
+a.related:hover::before, a.related:focus-visible::before { opacity: 1; }
+a.related:hover small, a.related:focus-visible small { border-color: var(--glow-b); background-color: color-mix(in srgb, var(--glow-b) 20%, var(--panel)); }
 a.related:hover .t, a.related:focus-visible .t, a.related:hover .arr, a.related:focus-visible .arr { color: var(--accent); }
-a.related:hover .t, a.related:focus-visible .t { text-decoration-color: currentColor; }
-a.related:focus-visible { outline-offset: -2px; }
+a.related:focus-visible { outline-offset: 3px; }
 /* A row or card whose title is the link: the link covers the whole box. */
 .rows li.linked { position: relative; }
 .rows li.linked .t a { color: var(--ink); text-decoration: none; }
@@ -943,6 +994,9 @@ a.related:focus-visible { outline-offset: -2px; }
 .index .desc { grid-column: 1; color: var(--muted); font-size: 15px; }
 @media (prefers-reduced-motion: reduce) {
   .arr, .arr::before, .arr::after, .gcards a, .fcards li.linked, a.feature, .week-card, a.related, a.related .t, a.related .arr, .plain li a, .list a, .prereq a, .prereq a .t, .week-heads a, .index a, .rows li.linked, .chips a, .road-topics a, .kicker a.tag, .ws-step { transition: none; }
+  /* The boxes with links still light up, but at once; the Related box doesn't rise and the bar doesn't grow. */
+  .prereq, .prereq .prereq-h, .prereq a::before, .prereq a::after, a.related::before, a.related small { transition: none; }
+  a.related:is(:hover, :focus-visible) { transform: none; }
 }
 
 /* Footer */
