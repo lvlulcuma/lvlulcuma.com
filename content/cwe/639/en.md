@@ -77,7 +77,12 @@ Picture a small online shop with two customers, Dana and Alex.
 3. **The server reads the number** `1042`, looks up invoice 1042 in its database and sends it back:
 
    ```json
-   { "id": 1042, "customer": "Dana Kowalski", "address": "12 Elm Street", "total": "89.90" }
+   {
+     "id": 1042,
+     "customer": "Dana Kowalski",
+     "address": "12 Elm Street",
+     "total": "89.90"
+   }
    ```
 
 Notice what the request carries: two separate facts. The cookie says **who is asking**. The `1042` says **what they want**. A safe server connects the two and asks *is invoice 1042 Dana's?* A vulnerable server only uses the second fact and fetches whatever number it's given.

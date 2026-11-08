@@ -18,6 +18,9 @@
 //      ```bash         → Bash, $ prompt
 //      ```sh           → Terminal (any system), $ prompt
 //    Lines that start with spaces continue the line above, so they get no prompt.
+//    A JSON block written on one line is laid out the way developers' tools show it: one key or item per line,
+//    two spaces per level. The values stay exactly as written (89.90 stays 89.90), and a block that isn't
+//    valid JSON (shortened with "…", or with comments) is left as it is, as is one already on several lines.
 //
 // Words like "Tip" and "Terminal" come from content/ui/<lang>.yml (calloutTip, codeTerminal, …).
 import { readFileSync } from "node:fs";
@@ -140,6 +143,42 @@ const NAMES = { powershell: "PowerShell", ps1: "PowerShell", bash: "Bash", zsh: 
 const TERMINAL = ["sh", "shell", "console"];
 const SHELLS = { powershell: "ps", ps1: "ps", bash: "sh", zsh: "sh", sh: "sh", shell: "sh", console: "sh" };
 
+/** Lays out JSON written on one line: one key or item per line, two spaces per level, ": " after each key.
+ *  Works on the text itself rather than re-writing parsed values, so numbers and escapes stay as written.
+ *  Returns the text unchanged when it's already on several lines or isn't valid JSON. */
+export function layOutJson(text) {
+  const src = text.trim();
+  if (src.includes("\n") || !/^[[{]/.test(src)) return text;
+  try { JSON.parse(src); } catch { return text; }
+  let out = "", depth = 0, inString = false;
+  const pad = () => "\n" + "  ".repeat(depth);
+  for (let i = 0; i < src.length; i++) {
+    const ch = src[i];
+    if (inString) {
+      out += ch;
+      if (ch === "\\") out += src[++i];
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') { inString = true; out += ch; continue; }
+    if (/\s/.test(ch)) continue;
+    if (ch === "{" || ch === "[") {
+      // Empty {} and [] stay on one line.
+      let j = i + 1;
+      while (/\s/.test(src[j] ?? "")) j++;
+      if (src[j] === (ch === "{" ? "}" : "]")) { out += ch + src[j]; i = j; continue; }
+      depth++;
+      out += ch + pad();
+    } else if (ch === "}" || ch === "]") {
+      depth--;
+      out += pad() + ch;
+    } else if (ch === ",") out += "," + pad();
+    else if (ch === ":") out += ": ";
+    else out += ch;
+  }
+  return out;
+}
+
 export const codeBlocks = {
   name: "lvlulcuma-code",
   element: {
@@ -151,7 +190,8 @@ export const codeBlocks = {
       const id = (cls.find((c) => String(c).startsWith("language-")) ?? "").slice(9).toLowerCase();
       const name = NAMES[id] ?? (TERMINAL.includes(id) ? word(langOf(ctx.fileURL), "codeTerminal", "Terminal") : id.toUpperCase());
       const shell = SHELLS[id];
-      const source = ctx.textContent(code).replace(/\n$/, "");
+      const raw = ctx.textContent(code).replace(/\n$/, "");
+      const source = id === "json" ? layOutJson(raw) : raw;
       let body;
       if (shell) {
         body = [];

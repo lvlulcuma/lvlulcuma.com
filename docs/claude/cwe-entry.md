@@ -58,6 +58,7 @@ spelling, concrete over general. Then:
   (OWASP, API Top 10, CWE Top 25, who can do it). A short "Words you'll need" list when the topic needs jargon.
 - **Build up the understanding:** how it works step by step, where it hides, then real vulnerable code with a
   line-by-line "why", the fix next to it, and a subtler variant. This part is for everyone.
+  Requests in ```http blocks, responses and other data in ```json blocks laid out on several lines (CLAUDE.md).
 - **The attack side** (`<!-- attack -->`): how testers think about it, what catches their eye, the method *in
   principle* (two accounts you control; a proxy to see and resend requests), how to tell a real finding from a false
   alarm, how bad it is (a small CVSS table), and how to prove and report it responsibly.
