@@ -703,23 +703,42 @@ figure.lsmenu { margin: 0; }
 .callout .callout-label, .prereq .prereq-h, .hire .hire-t, .related small { position: absolute; top: 0; left: 12px; transform: translateY(-50%); margin: 0; padding: 1px 8px 2px; border: 1px solid color-mix(in srgb, var(--c) 55%, var(--line)); background: color-mix(in srgb, var(--c) 14%, var(--panel)); line-height: 1.4; white-space: nowrap; }
 /* The boxes print in as they come into view, in three steps like "New this week" on the home page: the box
    rises 10px and fades in while its frame turns from a plain grey line to its colour, then the tab on its top
-   edge types itself left to right ("[*] Note"), then the text inside appears. The steps follow the scroll
-   (CSS scroll-driven animations, no JavaScript): they play while the box comes up from the bottom of the
-   window and are done by the time the whole box is on screen, so a box is never half-shown while you read it,
-   and a box already on screen when the page opens is simply there.
-   Only on pages you read (list pages print in already), only with motion allowed, and only in browsers that
-   have scroll-driven animations; everywhere else the boxes stay as they are. */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
+   edge types itself left to right ("[*] Note"), then the text inside appears.
+   Browsers with scroll-triggered animations (Chrome and Edge 146+; CSS only, no JavaScript): the steps play on
+   a clock, once, as soon as the whole box is on screen (a box taller than half the window starts when it fills
+   the bottom half), however fast you scroll: the box over 0.7 s, the tab from 0.4 s, the text from 0.9 s, all
+   done at 1.4 s. Each box has its own trigger (trigger-scope), so boxes play one by one as you reach them.
+   A box already on screen when the page opens prints in right away.
+   Browsers with only scroll-driven animations (Safari 26+): the steps follow the scroll instead, from the
+   moment the box peeks up from the bottom of the window until it's fully on screen and 120 px higher. That
+   extra 120 px is less than the footer, so even a box at the very end of a page can finish and is never left
+   half-shown.
+   Only on pages you read (list pages print in already), only on screen (printouts show the boxes as they are),
+   only with motion allowed, and only in browsers that have one of the two; everywhere else the boxes stay as
+   they are. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @supports (animation-trigger: --box play-once) {
     main:not(.print-in) :is(.callout, .prereq, .hire, .related, .question) {
-      view-timeline: --box block;
-      animation: box-in var(--ease-soft) both; animation-timeline: --box; animation-range: entry 0% entry 55%;
+      timeline-trigger: --box view() entry min(100%, 50vh) exit 0%; trigger-scope: --box;
+      animation: box-in .7s var(--ease-soft) both; animation-trigger: --box play-once;
     }
     main:not(.print-in) :is(.callout .callout-label, .prereq .prereq-h, .hire .hire-t, .related small) {
-      animation: tab-type var(--ease-soft) both; animation-timeline: --box; animation-range: entry 25% entry 80%;
+      animation: tab-type .6s var(--ease-soft) .4s both; animation-trigger: --box play-once;
     }
     main:not(.print-in) :is(.callout > :not(.callout-label), .prereq > :not(.prereq-h), .hire > :not(.hire-t), .related > :not(small)) {
-      animation: box-text var(--ease-soft) both; animation-timeline: --box; animation-range: entry 50% entry 100%;
+      animation: box-text .5s var(--ease-soft) .9s both; animation-trigger: --box play-once;
+    }
+  }
+  @supports (animation-timeline: view()) and (not (animation-trigger: --box play-once)) {
+    main:not(.print-in) :is(.callout, .prereq, .hire, .related, .question) {
+      view-timeline: --box block;
+      animation: box-in var(--ease-soft) both; animation-timeline: --box; animation-range: entry 0% contain 30px;
+    }
+    main:not(.print-in) :is(.callout .callout-label, .prereq .prereq-h, .hire .hire-t, .related small) {
+      animation: tab-type var(--ease-soft) both; animation-timeline: --box; animation-range: entry 50% contain 80px;
+    }
+    main:not(.print-in) :is(.callout > :not(.callout-label), .prereq > :not(.prereq-h), .hire > :not(.hire-t), .related > :not(small)) {
+      animation: box-text var(--ease-soft) both; animation-timeline: --box; animation-range: contain 20px contain 120px;
     }
   }
   @keyframes box-in { from { opacity: 0; translate: 0 10px; border-color: var(--line); } to { opacity: 1; translate: none; } }
