@@ -17,6 +17,7 @@
   --grid: #DDE2E9;
   --tip: #007746;
   --warn: #B04600;
+  --attack: #BF1E2E;   /* the attack side of a CWE write-up: a crimson red (5.7:1 on the panel) */
   --cursor: #6C83EA;
   /* The glow: the favicon's edge blues, used by "New this week", the side box and the RSS pages (same in dark mode). */
   --glow-a: #93A6FF; --glow-b: #627BEB; --glow-c: #1F3DC2;
@@ -31,7 +32,7 @@
   :root {
     --paper: #0E1117; --panel: #151922; --ink: #E7EAF0; --muted: #98A1B0; --line: #2A303C;
     --accent: #93A6FF; --mark: #5E5014; --grid: #141821; color-scheme: dark; --cursor: #93A6FF;
-    --tip: #5CCB98; --warn: #F0A65E;
+    --tip: #5CCB98; --warn: #F0A65E; --attack: #F87171;
     --term: #090B10; --term-bar: #161B25; --term-ink: #E7EAF0; --term-muted: #8F99AB; --term-accent: #93A6FF; --term-edge: #2A303C; --term-rule: transparent;
   }
 }
