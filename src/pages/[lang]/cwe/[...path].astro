@@ -144,13 +144,16 @@ const d = c?.entry.data;
     <nav class="chips chips-phone" aria-label={t.cweShow}>
       {viewChips((v) => cweHref(lang, c!.id, v)).map((i) => <a href={i.href} aria-current={i.current ? "page" : undefined}>{i.text}</a>)}
     </nav>
-    <div class={`prose view-${view}`} set:html={html} />
-    <div class="prose">
-      <h2 id="sources">{t.cweSources}</h2>
-      <ol class="srcs">
-        {d!.sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}
-      </ol>
-      <p class="cwe-official">{fill(t.cweOfficial, { n: c!.id })} <a href={mitre(c!.id)} rel="noopener">{d!.name}</a></p>
+    {/* .cwe-body: numbered sections and the attack / defense parts (global.css, "CWE write-ups"). */}
+    <div class="cwe-body">
+      <div class={`prose view-${view}`} set:html={html} />
+      <div class="prose">
+        <h2 id="sources">{t.cweSources}</h2>
+        <ol class="srcs">
+          {d!.sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}
+        </ol>
+        <p class="cwe-official">{fill(t.cweOfficial, { n: c!.id })} <a href={mitre(c!.id)} rel="noopener">{d!.name}</a></p>
+      </div>
     </div>
   </Base>
 )}
