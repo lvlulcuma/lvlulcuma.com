@@ -236,7 +236,7 @@ nav.lang a[hreflang="uk"][aria-current="true"] { background: linear-gradient(#00
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
   :is(.content h2, .content h3, .gsec h2):target { animation: landed 1.6s var(--ease-soft); }
-  .stories > li:target { animation: landed-box 1.6s var(--ease-soft); }
+  :is(.stories > li, .rows.projects li):target { animation: landed-box 1.6s var(--ease-soft); }
   @keyframes landed { from { background-color: color-mix(in srgb, var(--glow-b) 22%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--glow-b) 22%, transparent); } to { background-color: transparent; box-shadow: 0 0 0 6px transparent; } }
   @keyframes landed-box { from { background-color: color-mix(in srgb, var(--glow-b) 16%, var(--panel)); } }
 }
@@ -1017,7 +1017,7 @@ a.related:focus-visible { outline-offset: 3px; }
 .rows li.linked .t a::after { content: ""; position: absolute; inset: 0; }
 .rows li.linked .t a:focus-visible { outline: none; }
 .rows li.linked:has(.t a:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
-.rows.projects li { padding-left: 14px; padding-right: 10px; }
+.rows.projects li { padding-left: 14px; padding-right: 10px; scroll-margin-top: 16px; }
 /* Filter links on phones, and topic links */
 .chips a, .road-topics a, .kicker a.tag { transition: border-color var(--ease), color var(--ease); }
 .chips a:not([aria-current="page"]):hover, .chips a:not([aria-current="page"]):focus-visible,

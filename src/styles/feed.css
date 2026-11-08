@@ -1,6 +1,6 @@
-/* The RSS feeds (/<lang>/rss.xml and /<lang>/news/rss.xml) when someone opens one in a browser.
+/* The RSS feeds (/<lang>/rss.xml with everything, and one per section: see src/lib/feed.ts) when someone opens one in a browser.
    Feed readers ignore this file; a browser draws the feed's own XML with it: the feed's title and description
-   like a page heading, then each post as a box with the site's light blue glow. The feed links it with
+   like a page heading, a row of links to all the feeds, then each post as a box with the site's light blue glow. The feed links it with
    <?xml-stylesheet type="text/css"?> (src/lib/feed.ts). Plain CSS on XML, because browsers are dropping XSLT
    (Chrome from version 158, November 2026). Each post links to its page through an empty XHTML <a> that
    covers the box (feed readers skip it). Ukrainian feeds use feed-ua.css, which adds the Fixel fonts. */
@@ -27,9 +27,19 @@ channel { display: flex; flex-direction: column; gap: 16px; max-width: 714px; ma
 channel > * { display: none; }
 
 /* Heading: a small "RSS" label with the site's blue square, the feed's title, its description. */
-channel > title { position: relative; display: block; order: -2; margin: 0; padding-top: 30px; font-family: var(--display); font-weight: 600; font-size: 32px; line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
+channel > title { position: relative; display: block; order: -3; margin: 0; padding-top: 30px; font-family: var(--display); font-weight: 600; font-size: 32px; line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
 channel > title::before { content: "▪ RSS"; position: absolute; top: 0; left: 0; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; color: var(--accent); }
-channel > description { display: block; order: -1; margin: 0 0 20px; font-size: 18px; line-height: 1.55; color: var(--muted); }
+channel > description { display: block; order: -2; margin: 0; font-size: 18px; line-height: 1.55; color: var(--muted); }
+
+/* All the feeds, under the description: a small label, then each feed as a tab; the one open is marked with the
+   site's blue square and blue text. ("nav", "b" and "a" here can only be the feed's XHTML elements.) */
+channel > nav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; order: -1; margin: 4px 0 20px; font-family: var(--mono); font-size: 12.5px; line-height: 1.4; }
+channel > nav > b { margin-right: 4px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; color: var(--muted); }
+channel > nav > a { padding: 3px 9px 4px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; transition: border-color .1s linear, color .1s linear, background-color .1s linear; }
+channel > nav > a:hover, channel > nav > a:focus-visible { border-color: var(--glow-b); color: var(--accent); background: color-mix(in srgb, var(--glow-b) 12%, var(--panel)); }
+channel > nav > a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+channel > nav > a[aria-current="page"] { border-color: color-mix(in srgb, var(--glow-b) 70%, var(--line)); color: var(--accent); background: color-mix(in srgb, var(--glow-b) 14%, var(--panel)); }
+channel > nav > a[aria-current="page"]::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 7px 1px 0; vertical-align: middle; background: var(--accent); }
 
 /* Each post: a box with the light glow of the side box on the site's pages. */
 item {

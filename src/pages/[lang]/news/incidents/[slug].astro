@@ -7,6 +7,7 @@
 // the dashes), timeline, how the attack worked (ATT&CK), what would have caught it, what to check, who works
 // on this (Roadmap), what's still unknown, sources. Headings and the small notes: content/pages/news/<lang>.md.
 import { render } from "astro:content";
+import { feedHref } from "../../../../lib/feed";
 import Base from "../../../../layouts/Base.astro";
 import ExampleNote from "../../../../components/ExampleNote.astro";
 import IncidentsIndex from "../../../../components/IncidentsIndex.astro";
@@ -30,7 +31,7 @@ const t = ui[lang];
 const props = Astro.props as Props;
 const page = (await getPage("news", lang)).data;
 const all = await getIncidents(lang);
-const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+const feed = { href: feedHref(lang, "news") };
 const h = (page.headings ?? {}) as Record<string, string>;
 for (const k of ["what", "timeline", "attack", "detect", "check", "roadmap", "unknown", "sources"])
   if (!h[k]) throw new Error(`content/pages/news/${lang}.md: headings → ${k} is missing.`);
@@ -63,7 +64,7 @@ const jobs = road.filter((r) => r.kind === "job");
 const topics = road.filter((r) => r.kind === "topic");
 ---
 {props.kind === "type" ? (
-  <Base printIn lang={lang} nav="news" title={`${t.incidentsTitle}: ${t.newsTypes[props.type]}`} description={page.incidentsIntro} feed={feed}
+  <Base printIn lang={lang} nav="news" title={`${t.incidentsTitle}: ${t.newsTypes[props.type]}`} description={page.incidentsIntro}
     noindex={!all.some((i) => i.type === props.type && !i.example)} block={{
       key: { label: t.newsTypes[props.type], value: countWord(typeCount, lang, t, "incident") },
       filter: typeFilter(lang, all, props.type),
@@ -73,7 +74,7 @@ const topics = road.filter((r) => r.kind === "topic");
     <IncidentsIndex lang={lang} type={props.type} />
   </Base>
 ) : inc && d && (
-  <Base lang={lang} nav="news" title={d.title} description={d.dek} ogType="article" noindex={inc.example} feed={feed} missingIn={missing} missingHome="news" block={{
+  <Base lang={lang} nav="news" title={d.title} description={d.dek} ogType="article" noindex={inc.example} missingIn={missing} missingHome="news" block={{
       key: { label: t.status, value: t.incidentStatus[d.status] },
       contents: sections.map((k) => ({ slug: k, text: h[k] })),
       go: { items: [

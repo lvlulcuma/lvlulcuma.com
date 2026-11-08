@@ -80,6 +80,13 @@ mediumFollow: "Стежити на Medium"     # in the box beside the articles 
 
 # Announcements box on the home page
 rssFollow: "Отримувати нові статті через RSS"
+rssAll: "Усе"     # the main feed (/ua/rss.xml) in the row of feeds
+rssMenu: "Усі RSS-стрічки"     # label of the row of links to every feed, when a feed is opened in a browser
+rssAllFollow: "Отримувати все нове через RSS"   # the RSS link in "New this week" on the home page
+rssGuides: "Отримувати нові інструкції через RSS"          # in the box beside each section's list
+rssCwe: "Отримувати нові пояснення CWE через RSS"
+rssRoadmap: "Отримувати оновлення розділу «Кар'єра» через RSS"
+rssResearch: "Отримувати нові дослідження через RSS"
 
 # Roadmap
 fields: "Напрями"

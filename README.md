@@ -196,7 +196,14 @@ On phones there's no room beside the text, so the box becomes a one-line strip w
 
 A new article goes out on the **last Monday of each month**. The home page, the articles list, the topic filters, the home page's "{year} in articles" tiles (with the days until the next article), the previous and next links, article numbers, reading times, RSS feeds and the sitemap all update themselves. Articles are numbered in hex, like the hacker zine Phrack: 0x01, 0x02 … 0x09, 0x0A … 0x0F, 0x10, in the order they were first published (hovering a number shows it in plain digits).
 
-**RSS feeds in a browser.** The two feeds (`/<lang>/rss.xml` for articles and `/<lang>/news/rss.xml` for news) link a stylesheet, so someone who opens one in a browser sees it in the site's colours: the feed's title and description as a heading, each post as a box with the side box's light glow, and the whole box opening the post. Feed readers ignore all of this and read the feed as before. The look is `src/styles/feed.css` (Ukrainian: `feed-ua.css`, with the Fixel fonts), the wiring is `src/lib/feed.ts`. It's plain CSS on the XML, because browsers are dropping XSLT, the older way to style feeds (Chrome from version 158, November 2026). The site's colours and fonts live in `src/styles/tokens.css`, shared by the pages and the feeds.
+**RSS feeds.** Each language has one feed with everything and one per section, all filled by themselves from the same dates as the "New this week" box (`src/lib/feed.ts`):
+
+- `/<lang>/rss.xml`: **everything** (news, articles, guides, CWE write-ups, Roadmap jobs, research). Each title starts with what it is ("Breakdown · …", "CWE-639 · …"). The RSS link in "New this week" points here.
+- `/<lang>/news/rss.xml` (weekly digests and breakdowns), `/<lang>/articles/rss.xml`, `/<lang>/guides/rss.xml`, `/<lang>/cwe/rss.xml`, `/<lang>/roadmap/rss.xml` (each job's "what to learn") and `/<lang>/research/rss.xml`. Each section's list links its own feed in the box beside it.
+
+A change after publishing (a `revisions:` line) is a post of its own, "Updated · …", with the note as its text, so readers following an unfolding incident see each update. Every page tells feed readers about its section's feed and the one with everything, so pasting any page's address into a feed reader is enough. Made-up examples are left out.
+
+**RSS feeds in a browser.** The feeds link a stylesheet, so someone who opens one in a browser sees it in the site's colours: the feed's title and description as a heading, a row of links to all the feeds (the open one marked), each post as a box with the side box's light glow, and the whole box opening the post. Feed readers ignore all of this and read the feed as before. The look is `src/styles/feed.css` (Ukrainian: `feed-ua.css`, with the Fixel fonts), the wiring is `src/lib/feed.ts`. It's plain CSS on the XML, because browsers are dropping XSLT, the older way to style feeds (Chrome from version 158, November 2026). The site's colours and fonts live in `src/styles/tokens.css`, shared by the pages and the feeds.
 
 ```bash
 npm run new-article      # creates next month's article in en, ua and pl, marked as a draft

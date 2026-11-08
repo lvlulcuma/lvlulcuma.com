@@ -2,6 +2,7 @@
 // Every weekly digest: /<lang>/news/weeks/. Newest first, grouped by month; the box beside the page lists the
 // months so readers can jump to one. The News page shows only the latest few weeks and links here.
 import Base from "../../../../layouts/Base.astro";
+import { feedHref } from "../../../../lib/feed";
 import ExampleNote from "../../../../components/ExampleNote.astro";
 import WeekRow from "../../../../components/WeekRow.astro";
 import { langPaths, ui, type Lang } from "../../../../i18n/ui";
@@ -16,9 +17,9 @@ const page = (await getPage("news", lang)).data; // content/pages/news/<lang>.md
 const weeks = await getWeeks(lang);
 const months = weeksByMonth(weeks, lang);
 const onlyExamples = weeks.length > 0 && weeks.every((w) => w.example);
-const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+const feed = { href: feedHref(lang, "news") };
 ---
-<Base printIn lang={lang} nav="news" title={t.weeksLabel} description={page.weeksIntro} noindex={onlyExamples || !weeks.length} feed={feed} block={{
+<Base printIn lang={lang} nav="news" title={t.weeksLabel} description={page.weeksIntro} noindex={onlyExamples || !weeks.length} block={{
     key: { label: t.weeksLabel, value: countWord(weeks.length, lang, t, "week") },
     contents: months.map((m) => ({ slug: m.id, text: m.title })),
     go: { items: [

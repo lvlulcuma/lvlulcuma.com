@@ -31,10 +31,9 @@ const linked = d.stories.map((s) => (s.incident ? incidents.find((i) => i.slug =
 const missing = await newsMissingLangs("weeks", w.slug);
 const revs = revisionLog(w.date, t.revPublished, d.revisions);
 const span = weekSpan(w, lang);
-const feed = { title: `lvlulcuma · ${t.nav.news}`, href: `/${lang}/news/rss.xml` };
 const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
 ---
-<Base lang={lang} nav="news" title={d.title} description={d.dek} ogType="article" noindex={w.example} feed={feed} missingHome="news"
+<Base lang={lang} nav="news" title={d.title} description={d.dek} ogType="article" noindex={w.example} missingHome="news"
   missingIn={missing}
   block={{
     key: { label: `${t.week} ${w.week}`, value: span },

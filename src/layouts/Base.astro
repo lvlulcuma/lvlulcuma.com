@@ -14,6 +14,7 @@ import SiteIcons from "../components/SiteIcons.astro";
 import { HTML_LANG, LANGS, LANG_LABEL, LANG_NAME, NAV, ui, type Lang, type NavKey } from "../i18n/ui";
 import TitleBlock from "../components/TitleBlock.astro";
 import type { Block } from "../lib/block";
+import { feedHref, feedTitle, sectionFeed } from "../lib/feed";
 
 interface Props {
   lang: Lang;
@@ -31,14 +32,12 @@ interface Props {
   noindex?: boolean;
   /** The address search engines should treat as the original, when this page is another view of it (default: itself). */
   canonical?: string;
-  /** The RSS feed this page points browsers and feed readers to (default: the articles feed). */
-  feed?: { title: string; href: string };
   /** A list page (News, Articles, Guides, Roadmap, CWE, Research, Lab), About or Contact: its boxes and rows print
    *  in smoothly when it opens, the same way as the home page (CSS "print-in" in global.css). Pages you read stay still. */
   printIn?: boolean;
 }
 
-const { lang, title, description, nav, block, missingIn = [], missingHome = "articles", ogType = "website", noindex = false, feed, canonical, printIn = false } = Astro.props;
+const { lang, title, description, nav, block, missingIn = [], missingHome = "articles", ogType = "website", noindex = false, canonical, printIn = false } = Astro.props;
 const t = ui[lang];
 const site = Astro.site!;
 const path = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
@@ -49,6 +48,10 @@ const altHref = (l: Lang) => (missingIn.includes(l) ? `/${l}/${missingHome}/` : 
 const fullTitle = nav === "home" ? `lvlulcuma · ${title}` : `${title} · lvlulcuma`;
 const fullBlock: Block | null = block ? { ...block, labels: { stage: t.method, contents: t.contents, revisions: t.revisions, goTo: t.goTo, onThisPage: t.onThisPage } } : null;
 const year = new Date().getUTCFullYear();
+// RSS for feed readers: the feed of this page's section first (News, Articles, Guides, CWE, Roadmap, Research),
+// then the one with everything (src/lib/feed.ts).
+const section = sectionFeed(nav);
+const feeds = await Promise.all([...(section ? [section] : []), "all" as const].map(async (f) => ({ title: await feedTitle(lang, f), href: feedHref(lang, f) })));
 ---
 <!DOCTYPE html>
 <html lang={HTML_LANG[lang]}>
@@ -66,7 +69,7 @@ const year = new Date().getUTCFullYear();
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(`/en/${rest}`, site).href} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="alternate" type="application/rss+xml" title={feed?.title ?? `lvlulcuma (${LANG_LABEL[lang]})`} href={feed?.href ?? `/${lang}/rss.xml`} />
+    {feeds.map((f) => <link rel="alternate" type="application/rss+xml" title={f.title} href={f.href} />)}
     <SiteIcons />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={ogType} />

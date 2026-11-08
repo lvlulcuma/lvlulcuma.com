@@ -1,6 +1,7 @@
 ---
 // Research list. Text: content/pages/research/<lang>.md · Projects: content/research/<project>/<lang>.md
 import Base from "../../../layouts/Base.astro";
+import { feedHref } from "../../../lib/feed";
 import { langPaths, ui, type Lang } from "../../../i18n/ui";
 import { getPage, getProjects } from "../../../lib/content";
 
@@ -12,13 +13,14 @@ const projects = await getProjects(lang);
 ---
 <Base printIn lang={lang} nav="research" title={t.nav.research} description={page.data.intro} block={{
     key: { label: t.inprogress, value: `${projects.filter((p) => p.entry.data.status === "in-progress").length} ${t.of} ${projects.length}` },
+    go: { items: [{ text: t.rssResearch, href: feedHref(lang, "research") }], phone: false },
     rows: [[t.updated, page.updated]],
   }}>
   <h1>{t.nav.research}</h1>
   <p class="lede">{page.data.intro}</p>
   <ul class="rows projects mt">
     {projects.map(({ entry, slug }) => (
-      <li class={entry.data.page ? "linked" : undefined}>
+      <li id={slug} class={entry.data.page ? "linked" : undefined}>
         <span class="t">{entry.data.page ? <a href={`/${lang}/research/${slug}/`}>{entry.data.title}</a> : entry.data.title}</span>
         <span class={entry.data.status === "in-progress" ? "pill live" : "pill"}>{entry.data.status === "in-progress" ? t.inprogress : t.planned}</span>
         <span class="d">{entry.data.summary}</span>

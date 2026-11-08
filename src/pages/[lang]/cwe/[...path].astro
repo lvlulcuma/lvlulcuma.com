@@ -5,6 +5,7 @@
 // plus …/attack/ and …/defend/ for each, which leave out the parts for the other side. Those two views
 // point search engines at the full page (canonical) and stay out of the sitemap (noindex).
 import Base from "../../../layouts/Base.astro";
+import { feedHref } from "../../../lib/feed";
 import { HTML_LANG, LANGS, LANG_LABEL, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
 import { iso } from "../../../lib/articles";
@@ -69,6 +70,7 @@ const d = c?.entry.data;
       key: { label: t.cweKey, value: String(total) },
       filter: viewFilter(lang, view, (v) => listHref(lang, v)),
       contents: categories.map((k) => ({ slug: k.id, text: `${short(k.code)} ${k.name}` })),
+      go: { items: [{ text: t.rssCwe, href: feedHref(lang, "cwe") }], phone: false },
       rows: [[t.cweWritten, String(all.length)], [t.updated, iso(page.updated)]],
       strip: [fill(t.cweCountAll, { n: all.length })],
     }}>
