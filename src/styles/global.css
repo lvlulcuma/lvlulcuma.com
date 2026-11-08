@@ -1224,6 +1224,37 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .view-attack .for-defend, .view-defend .for-attack { display: none; }
 .cwe-official { margin-top: 18px; font-size: 14px; color: var(--muted); }
 
+/* CWE write-ups are long, so every part is easy to find and to tell apart:
+   - each section opens with a thin line and its number in blue, like the steps of a guide (01 The short version);
+     the numbers match the Contents list in the side box, Sources included;
+   - each subheading starts with the site's small square, with more room above it, so it reads as a heading and
+     not as a bold first line;
+   - a part for one side opens with a label in capitals and a line after it (ATTACK SIDE in orange, DEFENSE SIDE in
+     green), a thin line in the same colour runs down the left of the whole part, and its numbers and squares take
+     that colour too, so you always know which side you're reading. Parts in a row for the same side share one
+     label and one line. */
+.cwe-body { counter-reset: sec; --rail: -22px; }
+.cwe-body h2 { counter-increment: sec; display: flex; align-items: baseline; gap: 12px; margin: 56px 0 18px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 21px; }
+.cwe-body h2::before { content: counter(sec, decimal-leading-zero); flex: 0 0 auto; color: var(--accent); font-family: var(--mono); font-size: .9em; font-weight: 500; }
+.cwe-body > .prose:first-child > h2:first-child { margin-top: 36px; }
+.cwe-body h3 { display: flex; align-items: baseline; gap: 10px; margin: 36px 0 8px; font-size: 17.5px; }
+.cwe-body h3::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; background: var(--accent); transform: translateY(-.18em); }
+.cwe-body :is(.for-attack, .for-defend) { --side: var(--warn); position: relative; display: flow-root; padding-top: 56px; }
+.cwe-body .for-defend { --side: var(--tip); }
+/* The attack-only and defense-only views still hide the other side's parts (the rule above would show them). */
+.cwe-body :is(.view-attack .for-defend, .view-defend .for-attack) { display: none; }
+.cwe-body :is(.for-attack, .for-defend)::before { content: ""; position: absolute; top: 66px; bottom: 0; left: var(--rail); width: 2px; background: color-mix(in srgb, var(--side) 50%, transparent); }
+.cwe-body :is(.for-attack, .for-defend) > .for-tag { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--side); }
+.cwe-body :is(.for-attack, .for-defend) > .for-tag::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--side) 45%, var(--line)); }
+.cwe-body .for-tag + h2 { margin-top: 14px; padding-top: 0; border-top: 0; }
+.cwe-body :is(.for-attack, .for-defend) h2::before { color: var(--side); }
+.cwe-body :is(.for-attack, .for-defend) h3::before { background: var(--side); }
+/* The next part for the same side carries on: no second label, and the line down the left runs on unbroken. */
+.cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend) { padding-top: 0; }
+.cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend) > .for-tag { display: none; }
+.cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend)::before { top: 0; }
+.cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend) > .for-tag + h2 { margin-top: 56px; padding-top: 22px; border-top: 1px solid color-mix(in srgb, var(--side) 45%, var(--line)); }
+
 @media (prefers-reduced-motion: reduce) { .cwe-list .arr { transition: none; } }
 /* Cards still light up with reduced motion, but at once and without rising. */
 @media (prefers-reduced-motion: reduce) {
@@ -1232,4 +1263,11 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 }
 @media (max-width: 560px) {
   .cwe-list li, .cwe-list li.is-written a { grid-template-columns: 68px minmax(0, 1fr) auto; column-gap: 10px; font-size: 14.5px; }
+  /* Phones: less room beside the text, so the side's line sits closer; headings a little smaller. */
+  .cwe-body { --rail: -10px; }
+  .cwe-body h2 { font-size: 19px; margin-top: 48px; }
+  .cwe-body :is(.for-attack, .for-defend) { padding-top: 48px; }
+  .cwe-body :is(.for-attack, .for-defend)::before { top: 58px; }
+  .cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend) > .for-tag + h2 { margin-top: 48px; }
+  .cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend)::before { top: 0; }
 }
