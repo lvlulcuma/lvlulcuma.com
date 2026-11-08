@@ -84,59 +84,91 @@ nav.lang a[hreflang="uk"][aria-current="true"] { background: linear-gradient(#00
 .tb .keyfact strong { font-size: 17px; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tb a { color: var(--accent); }
 .tb .dot { color: var(--muted); }
-/* Middle sections: stage tracker, contents, revision log. Readability rules for everything in the box:
-   - a section heading (CONTENTS, GO TO…) is darker than anything under it and has a small blue bar, so it
-     never looks like one of the small grey lines above a link;
-   - every link in "Go to" is grouped with its small line by a thin bar on the left;
-   - long titles stop after two lines (the full title is in the tooltip and on the page itself). */
-.tb-sec { border-top: 1px solid var(--line); padding: 13px 16px 15px; }
-.tb-h { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--ink); }
+/* Middle sections: filter, stages, now, contents, go to, revisions (BlockSections.astro). Each kind looks
+   different at rest, so you can tell at a glance what it holds, and every link answers the same way, at once:
+   - a section's name (CONTENTS, GO TO, TYPE OF ATTACK…) is a small grey label in capitals, in the mono font,
+     with a thin line running after it, like the labels on an engineering drawing's title block. It never
+     looks like something you can click;
+   - Contents jumps to a part of this page: numbered rows, the numbers in blue. While you read, the part of the
+     page on screen is marked in the list ("you are here": blue text and a bar along the box's edge), in
+     browsers that can do it without JavaScript (:target-current); elsewhere the list just has no marker;
+   - Go to opens another page: a small grey line saying what it is, the title, and the site's (-> arrow;
+   - a filter changes the list on this page: counts on the right, the one shown marked with the small square
+     and a light tint;
+   - stages, revisions and the facts at the bottom are not links and don't react.
+   Each link is a whole row reaching the box's edges, so there are no dead gaps between links. On hover or
+   keyboard focus the row lights up at once (a light blue tint, strongest at the box's edge), a bar in the
+   glow's blues grows along the edge, the text turns blue and the arrow steps forward; pressing deepens the
+   tint. Long titles stop after two lines (the full title is in the tooltip and on the page itself). */
+.tb, .tb-more { --tb-pad: 16px; }
+.tb-sec { border-top: 1px solid var(--line); padding: 12px var(--tb-pad) 10px; }
+.tb-h { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-family: var(--mono); font-size: 11px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tb-h::after { content: ""; flex: 1; min-width: 12px; height: 1px; background: var(--line); }
 .tb-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .tb-stages { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .tb-stages li { display: grid; grid-template-columns: 18px 1fr; color: var(--muted); }
 .tb-stages li.done { color: var(--ink); }
 .tb-stages li.now { color: var(--accent); font-weight: 500; }
 .tb-stages .mark { color: inherit; font-size: 12px; }
+/* The rows: lists of links reach the box's edges; the light and the bar are layers on the row (li) behind its
+   link, so the link keeps its own ::before for the Contents numbers. */
+.tb-toc, .tb-go, .tb-filter, .tb-now { list-style: none; margin: 0 calc(-1 * var(--tb-pad)); padding: 0; display: grid; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li { position: relative; isolation: isolate; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a)::before,
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a)::after { content: ""; position: absolute; pointer-events: none; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a)::before {
+  inset: 0; z-index: -1; opacity: 0; transition: opacity .1s linear;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--glow-b) 15%, var(--panel)), color-mix(in srgb, var(--glow-b) 5%, var(--panel)) 65%, color-mix(in srgb, var(--glow-b) 2%, var(--panel)));
+}
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a)::after { left: 0; top: 2px; bottom: 2px; width: 2px; background: linear-gradient(180deg, var(--glow-a), var(--glow-b) 50%, var(--glow-c)); transform: scaleY(0); transition: transform .18s var(--ease-soft); }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) a { color: var(--ink); text-decoration: none; transition: color .1s linear; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a:is(:hover, :focus-visible))::before { opacity: 1; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a:is(:hover, :focus-visible))::after { transform: none; }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li:has(> a:active)::before { opacity: 1; background: color-mix(in srgb, var(--glow-b) 22%, var(--panel)); }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) a:is(:hover, :focus-visible) { color: var(--accent); }
+:is(.tb-toc, .tb-go, .tb-filter, .tb-now) a:focus-visible { outline-offset: -2px; }
 /* Contents: the numbers are drawn here rather than by the list itself, because Safari (and so every browser on an
    iPhone) leaves out a list's own numbers when the item trims itself to two lines (.tb-clamp hides the overflow).
    The number sits on the title's first line; a second line lines up under the title, not under the number. */
-.tb-toc { list-style: none; margin: 0; padding: 0; counter-reset: toc; display: grid; gap: 7px; font-size: 13.5px; line-height: 1.35; }
+.tb-toc { font-size: 13.5px; line-height: 1.35; counter-reset: toc; scroll-target-group: auto; }
 .tb-toc li { counter-increment: toc; }
-.tb-toc a { padding-left: 20px; text-indent: -20px; color: var(--ink); text-decoration: none; }
-.tb-toc a::before { content: counter(toc) "."; display: inline-block; width: 20px; text-indent: 0; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.tb-toc a { padding: 5px var(--tb-pad) 5px calc(var(--tb-pad) + 20px); text-indent: -20px; }
+.tb-toc a::before { content: counter(toc) "."; display: inline-block; width: 20px; text-indent: 0; font-family: var(--mono); font-size: 11px; color: color-mix(in srgb, var(--accent) 70%, var(--muted)); transition: color .1s linear; }
 /* From 10 items, "10." needs a little more room: the whole list moves over so the titles still line up. */
-.tb-toc:has(> li:nth-child(10)) a { padding-left: 26px; text-indent: -26px; }
+.tb-toc:has(> li:nth-child(10)) a { padding-left: calc(var(--tb-pad) + 26px); text-indent: -26px; }
 .tb-toc:has(> li:nth-child(10)) a::before { width: 26px; }
-.tb-toc a:hover { color: var(--accent); }
+.tb-toc a:is(:hover, :focus-visible)::before { color: var(--accent); }
+/* You are here: the part of the page on screen. */
+.tb-toc a:target-current, .tb-toc a:target-current::before { color: var(--accent); }
+.tb-toc a:target-current { font-weight: 500; }
+.tb-toc > li:has(> a:target-current)::after { transform: none; }
 .tb-rev { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .tb-rev th, .tb-rev td { border: 0; padding: 3px 0; vertical-align: top; font-size: inherit; text-transform: none; letter-spacing: 0; white-space: normal; font-weight: 400; }
 .tb-rev th { color: var(--accent); width: 18px; font-family: var(--mono); font-weight: 500; }
 .tb-rev td.d { color: var(--muted); white-space: nowrap; padding-right: 8px; width: 1%; }
-/* Filter: topics or categories with counts, like a short table of contents. The current one is bold,
-   with the site's small square cursor beside it. */
-.tb-filter { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
-.tb-filter a { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 3px 0 3px 14px; color: var(--ink); text-decoration: none; }
-.tb-filter a:hover { color: var(--accent); }
+/* Filter: topics or categories with counts, like a short table of contents. The one shown is bold, with the
+   site's small square cursor beside it and a light tint on its row. */
+.tb-filter a { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 4px var(--tb-pad) 4px calc(var(--tb-pad) + 14px); }
 .tb-filter a[aria-current="page"] { font-weight: 600; }
-.tb-filter a[aria-current="page"]::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; background: var(--accent); }
+.tb-filter a[aria-current="page"]::before { content: ""; position: absolute; left: var(--tb-pad); top: calc(4px + .62em); width: 6px; height: 6px; background: var(--accent); }
+.tb-filter > li:has(> a[aria-current="page"])::before { opacity: .6; }
 .tb-filter .n { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 400; }
 .tb-filter a.empty > span:first-child { color: var(--muted); }
-/* Go to: where to head next, with a small line above each link. */
-.tb-h-d { margin-left: 4px; font-weight: 400; color: var(--muted); }
-.tb-now { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.tb-now li { display: grid; gap: 2px; padding: 1px 0 2px 10px; border-left: 2px solid var(--line); }
-.tb-now small { font-size: 11.5px; line-height: 1.3; color: var(--muted); }
-.tb-now a, .tb-now span { font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
-.tb-now a { color: var(--ink); text-decoration: none; }
-.tb-now a:hover { color: var(--accent); }
-.tb-now li:has(a:hover) { border-left-color: var(--accent); }
-.tb-go { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.tb-go a { display: grid; gap: 2px; padding: 1px 0 2px 10px; border-left: 2px solid var(--line); color: var(--ink); text-decoration: none; }
-.tb-go a:hover { border-left-color: var(--accent); }
-.tb-go small { font-size: 11.5px; line-height: 1.3; color: var(--muted); }
-.tb-go a > span { font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
-.tb-go a:hover > span { color: var(--accent); }
-.tb-filter a:focus-visible, .tb-go a:focus-visible, .tb-toc a:focus-visible { outline-offset: 1px; }
+/* Go to: where to head next. A small grey line says what each link is (left out when it's the same as the
+   one above), then the title, and the arrow on the right says it opens another page. */
+.tb-h-d { margin-left: -4px; font-weight: 400; letter-spacing: .02em; text-transform: none; }
+.tb-go a { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; padding: 6px var(--tb-pad); }
+.tb-go small { grid-column: 1; margin-bottom: 1px; font-size: 11.5px; line-height: 1.3; color: var(--muted); }
+.tb-go a > span:not(.arr) { grid-column: 1; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+.tb-go .arr { grid-column: 2; grid-row: 1 / span 2; align-self: end; padding-bottom: 1px; color: var(--muted); transition: color .1s linear; }
+.tb-go a:is(:hover, :focus-visible) .arr { color: var(--accent); }
+/* Now (About): what's going on, with a small grey line above each; the ones that are links work like Go to. */
+.tb-now li { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; row-gap: 2px; padding: 6px var(--tb-pad); }
+.tb-now small { grid-column: 1; font-size: 11.5px; line-height: 1.3; color: var(--muted); }
+.tb-now a, .tb-now span:not(.arr) { grid-column: 1; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+.tb-now a::after { content: ""; position: absolute; inset: 0; }
+.tb-now .arr { grid-column: 2; grid-row: 1 / span 2; align-self: end; padding-bottom: 1px; color: var(--muted); transition: color .1s linear; }
+.tb-now li:has(> a:is(:hover, :focus-visible)) .arr { --go: 1; color: var(--accent); }
 /* Bottom band: small facts (reading time, published, updated…) */
 .tb-foot { display: grid; gap: 5px; margin: 0; padding: 11px 16px 12px; border-top: 1px solid var(--line); background: var(--paper); font-size: 13px; }
 .tb-foot .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
@@ -198,6 +230,16 @@ nav.lang a[hreflang="uk"][aria-current="true"] { background: linear-gradient(#00
 .ann-rss { font-size: 13px; font-weight: 500; text-decoration: none; }
 .ann-rss:hover { text-decoration: underline; text-underline-offset: 3px; }
 .content h2, .content h3 { scroll-margin-top: 16px; }
+/* Jumping to a part of the page (from Contents in the side box, or any link to a heading): the page glides there
+   instead of jumping, and the heading or story you land on lights up for a moment, then fades, so you see at
+   once where you are. Only with motion allowed; otherwise the page jumps as before. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  :is(.content h2, .content h3, .gsec h2):target { animation: landed 1.6s var(--ease-soft); }
+  .stories > li:target { animation: landed-box 1.6s var(--ease-soft); }
+  @keyframes landed { from { background-color: color-mix(in srgb, var(--glow-b) 22%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--glow-b) 22%, transparent); } to { background-color: transparent; box-shadow: 0 0 0 6px transparent; } }
+  @keyframes landed-box { from { background-color: color-mix(in srgb, var(--glow-b) 16%, var(--panel)); } }
+}
 
 /* Type */
 h1, h2 { font-family: var(--display); font-weight: 600; text-wrap: balance; letter-spacing: -.01em; }
@@ -981,7 +1023,7 @@ a.related:focus-visible { outline-offset: 3px; }
 .chips a:not([aria-current="page"]):hover, .chips a:not([aria-current="page"]):focus-visible,
 .road-topics a:hover, .road-topics a:focus-visible, .kicker a.tag:hover, .kicker a.tag:focus-visible { border-color: var(--accent); color: var(--accent); }
 /* Links in text, "Go to" and filter links in the box */
-.tb-go a, .tb-go a > span, .tb-filter a, .tb-toc a, .tb-now a, .block-head > a, a.go, .lnk, .story-bd { transition: color var(--ease), border-color var(--ease), background-color var(--ease); }
+.block-head > a, a.go, .lnk, .story-bd { transition: color var(--ease), border-color var(--ease), background-color var(--ease); }
 .block-head > a, a.go, .story-bd, .code-link a { text-decoration: none; }
 .week-card h3 a:hover, .week-card h3 a:focus-visible { color: var(--accent); }
 .block-head > a:hover, a.go:hover, .story-bd:hover, .code-link a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -996,6 +1038,8 @@ a.related:focus-visible { outline-offset: 3px; }
   .arr, .arr::before, .arr::after, .gcards a, .fcards li.linked, a.feature, .week-card, a.related, a.related .t, a.related .arr, .plain li a, .list a, .prereq a, .prereq a .t, .week-heads a, .index a, .rows li.linked, .chips a, .road-topics a, .kicker a.tag, .ws-step { transition: none; }
   /* The boxes with links still light up, but at once; the Related box doesn't rise and the bar doesn't grow. */
   .prereq, .prereq .prereq-h, .prereq a::before, .prereq a::after, a.related::before, a.related small { transition: none; }
+  /* Side box rows light up at once; the bar is there without growing. */
+  :is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li::before, :is(.tb-toc, .tb-go, .tb-filter, .tb-now) > li::after, :is(.tb-toc, .tb-go, .tb-filter, .tb-now) a, .tb-toc a::before, .tb-go .arr, .tb-now .arr { transition: none; }
   a.related:is(:hover, :focus-visible) { transform: none; }
 }
 
@@ -1044,7 +1088,8 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .tb-more summary::-webkit-details-marker { display: none; }
   .tb-more summary::after { content: ""; position: absolute; right: 18px; top: 13px; width: 6px; height: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); }
   .tb-more[open] summary::after { top: 17px; transform: rotate(-135deg); }
-  .tb-more .tb-sec { padding: 10px 14px 12px; font-size: 14.5px; }
+  .tb-more { --tb-pad: 14px; }
+  .tb-more .tb-sec { padding: 10px var(--tb-pad) 12px; font-size: 14.5px; }
   .tb-more .tb-toc { font-size: 14.5px; }
   .chips.chips-phone { display: flex; }
   .sheet { gap: 20px; }
