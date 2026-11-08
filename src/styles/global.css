@@ -753,8 +753,11 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 
 /* Rules */
 .rules ol { list-style: none; padding: 0; margin: 0; counter-reset: r; }
-.rules li { counter-increment: r; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.rules li::before { content: "R" counter(r); font-family: var(--mono); font-size: 13px; color: var(--accent); padding-top: 2px; }
+.rules li { counter-increment: r; position: relative; padding: 14px 0 14px 56px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.rules li::before { content: "R" counter(r); position: absolute; left: 0; top: 16px; font-family: var(--mono); font-size: 13px; color: var(--accent); }
+/* A rule starts with its short version in bold, on its own line; the explanation follows in a softer color. */
+.rules li > strong:first-child { display: block; margin-bottom: 4px; color: var(--ink); }
+.rules > p { margin: 22px 0 0; max-width: 68ch; }
 
 /* Contact */
 .kv { border-top: 1.5px solid var(--ink); margin: 0 0 20px; }

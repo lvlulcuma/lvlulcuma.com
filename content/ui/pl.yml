@@ -65,6 +65,7 @@ stage: "Etap"
 latest: "Najnowszy"
 projects: "Projekty"
 rules: "Zasady"
+labFile: "Plik laboratorium"   # the compose file in the box beside /lab/setup/
 revPublished: "Publikacja"
 articlesCount: "Artykuły"
 of: "z"

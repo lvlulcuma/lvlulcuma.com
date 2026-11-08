@@ -6,7 +6,7 @@ The code and text behind [lvlulcuma.com](https://lvlulcuma.com), a website about
 - **Articles:** one practical write-up a month
 - **Guides:** how to set tools up, step by step
 - **Roadmap:** the fields and jobs in cybersecurity, and what to learn for each job, from first steps to expert
-- **Research and Lab:** longer studies, and the test lab behind them
+- **Research and Lab:** longer studies, and a step-by-step practice lab readers can build on their own computer
 
 The site is in English and Ukrainian. Polish is written too, but switched off for now.
 
@@ -72,7 +72,7 @@ content/                         ← all the text, one folder per page
     roadmap/                         →  /en/roadmap/        (intro, group and level headings)
     research/                        →  /en/research/       (intro above the list)
     lab/                             →  /en/lab/
-    lab-setup/                       →  /en/lab/setup/      (the table is in the file)
+    lab-setup/                       →  /en/lab/setup/      (the step-by-step guide)
     lab-rules/                       →  /en/lab/rules/      (the numbered rules)
   news/weeks/                    Weekly digests, one folder per week
     2026-w43/                        →  /en/news/2026-w43/
@@ -153,8 +153,9 @@ Everything below the second --- line is the page's body, written in Markdown.
 | About text and the "Now" box | `content/pages/about/` |
 | Contact text and the email templates | `content/pages/contact/` |
 | Published languages, email address, GitHub and Medium links, PGP key | `content/settings.yml` |
-| Lab setup table | `content/pages/lab-setup/` (a Markdown table below the second `---`) |
-| Rules of engagement | `content/pages/lab-rules/` (a numbered list below the second `---`) |
+| Build your lab (the step-by-step guide) | `content/pages/lab-setup/` (steps below the second `---`) |
+| The lab's compose file (download and the copy shown on that page) | `public/lab/compose.yaml` (the page shows it with `#include public/lab/compose.yaml`) |
+| Practice safely and legally | `content/pages/lab-rules/` (a numbered list below the second `---`) |
 | A research project (question, method, status) | `content/research/<project>/` |
 | Menu labels and other small words | `content/ui/` |
 | Colours, fonts, layout | `src/styles/global.css` (fonts for Ukrainian pages: `src/styles/fonts-ua.css`) |
@@ -186,7 +187,7 @@ The box's own words (its heading, the small word above each title, "N more", the
 
 ### The box beside each page
 
-On wide screens, every page has a box on its left that stays in view while you scroll. It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Lab setup and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
+On wide screens, every page has a box on its left that stays in view while you scroll. It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Build your lab and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
 
 On phones there's no room beside the text, so the box becomes a one-line strip with an "On this page" fold under it.
 
@@ -244,7 +245,7 @@ When the English and Ukrainian files are ready, delete their `draft: true` lines
   On wide screens (from 1340 pixels) the note sits in the right margin next to its paragraph. On smaller screens it comes right after the paragraph, so readers always get the main text first. If a note is longer than its paragraph, it hangs down beside the text that follows, but only when the build is sure it won't run into the next note; otherwise it pushes the text down. Keep notes to a sentence or two, a paragraph or more apart. Notes don't count toward the reading time, so don't put anything there the reader must see. The label after `[!ASIDE]` is optional.
 - **Boxes:** `> [!NOTE]`, `> [!TIP]` or `> [!WARNING]`, then the text on the next `> ` line.
 - **No `style="…"`, `<script>` or `<iframe>`** in the text. The Content Security Policy would block them, so the build stops and names the page.
-- Only publish findings from your own lab, or ones the owner has agreed to share (see the rules of engagement page).
+- Only publish findings from your own lab, or ones the owner has agreed to share (see the "Practice safely and legally" page).
 - **Also on Medium:** publish here first. On Medium, use **Stories → Import a story** with the article's address, so Medium tells search engines this site has the original. Then add the Medium address as `medium:` in the article. The Medium profile link is `medium:` in `content/settings.yml` (leave it `""` to hide it).
 - **Changing an article after it's published:** add a `revisions:` list (every new article has a commented-out example). The box beside the article then lists what changed and when (A = published, then B, C, …).
 

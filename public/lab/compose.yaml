@@ -1,0 +1,60 @@
+# A practice lab of apps that are vulnerable on purpose.
+# Step-by-step guide: https://lvlulcuma.com/en/lab/setup/
+#
+#   Start:            docker compose up -d
+#   See what runs:    docker compose ps
+#   Stop:             docker compose down   (the apps start fresh next time)
+#   Get new versions: docker compose pull, then docker compose up -d
+#
+# Every port below is bound to 127.0.0.1, so only this computer can reach
+# the apps. Don't change that to 0.0.0.0, and never run this file on a
+# server or a shared network.
+name: practice-lab
+
+services:
+  # OWASP Juice Shop: a web shop with flaws from the whole OWASP Top 10,
+  # and many more.
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    ports:
+      - "127.0.0.1:3000:3000"   # http://127.0.0.1:3000
+
+  # OWASP WebGoat: lessons that explain a weakness, then let you try it.
+  # WebWolf is its helper (a test mailbox and file uploads).
+  # WebGoat uses 8081 here, because Burp Suite's proxy listens on 8080.
+  webgoat:
+    image: webgoat/webgoat:latest
+    environment:
+      WEBGOAT_PORT: "8081"
+      # A few lessons need your own time zone, e.g. America/New_York.
+      TZ: "UTC"
+    ports:
+      - "127.0.0.1:8081:8081"   # http://127.0.0.1:8081/WebGoat
+      - "127.0.0.1:9090:9090"   # http://127.0.0.1:9090/WebWolf
+    healthcheck:
+      test: ["CMD", "curl", "--fail",
+             "http://localhost:8081/WebGoat/actuator/health"]
+      interval: 30s
+      timeout: 3s
+
+  # VAmPI: a small REST API with the OWASP API Security Top 10.
+  # Open http://127.0.0.1:5001/createdb once to fill its database.
+  # 5001 rather than 5000, because macOS uses 5000 for AirPlay Receiver.
+  vampi:
+    image: erev0s/vampi:latest
+    environment:
+      vulnerable: "1"
+      tokentimetolive: "3600"
+    ports:
+      - "127.0.0.1:5001:5000"   # http://127.0.0.1:5001/ui/
+
+  # DVGA (Damn Vulnerable GraphQL Application): GraphQL attacks,
+  # in a beginner and an expert mode.
+  dvga:
+    image: dolevf/dvga:latest
+    environment:
+      # Docker needs DVGA to listen on every address inside its container.
+      # The port below is still bound to 127.0.0.1.
+      WEB_HOST: "0.0.0.0"
+    ports:
+      - "127.0.0.1:5013:5013"   # http://127.0.0.1:5013

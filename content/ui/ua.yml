@@ -65,6 +65,7 @@ stage: "Етап"
 latest: "Остання"
 projects: "Проєкти"
 rules: "Правила"
+labFile: "Файл лабораторії"   # the compose file in the box beside /lab/setup/
 revPublished: "Опубліковано"
 articlesCount: "Статті"
 of: "з"

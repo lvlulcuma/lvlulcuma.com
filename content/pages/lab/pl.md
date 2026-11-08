@@ -1,5 +1,5 @@
 ---
 # Lab overview → lvlulcuma.com/pl/lab/
-updated: 2026-10-26
-intro: "Wszystko, na czym ćwiczę, działa tutaj, na moim sprzęcie, bez dostępu do cudzych systemów."
+updated: 2026-11-08
+intro: "Bezpieczne miejsce do ćwiczenia ataków: celowo podatne aplikacje, które działają tylko na twoim komputerze. Zbuduj laboratorium krok po kroku i poznaj zasady, dzięki którym twoje ćwiczenia pozostaną legalne."
 ---

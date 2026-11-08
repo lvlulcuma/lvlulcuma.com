@@ -18,12 +18,17 @@
 //      ```bash         → Bash, $ prompt
 //      ```sh           → Terminal (any system), $ prompt
 //    Lines that start with spaces continue the line above, so they get no prompt.
+//    A block whose only line is "#include public/<path>" shows that file from the repository instead, with its
+//    name as the caption (the Lab setup page shows public/lab/compose.yaml this way, so the page and the
+//    download can't differ). freshIncludes() at the end of this file makes sure a changed file shows up in local
+//    builds too.
 //    A JSON block written on one line is laid out the way developers' tools show it: one key or item per line,
 //    two spaces per level. The values stay exactly as written (89.90 stays 89.90), and a block that isn't
 //    valid JSON (shortened with "…", or with comments) is left as it is, as is one already on several lines.
 //
 // Words like "Tip" and "Terminal" come from content/ui/<lang>.yml (calloutTip, codeTerminal, …).
-import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 
 const LANGS = ["en", "pl", "ua"];
 const files = {};
@@ -190,7 +195,14 @@ export const codeBlocks = {
       const id = (cls.find((c) => String(c).startsWith("language-")) ?? "").slice(9).toLowerCase();
       const name = NAMES[id] ?? (TERMINAL.includes(id) ? word(langOf(ctx.fileURL), "codeTerminal", "Terminal") : id.toUpperCase());
       const shell = SHELLS[id];
-      const raw = ctx.textContent(code).replace(/\n$/, "");
+      let raw = ctx.textContent(code).replace(/\n$/, "");
+      let file = "";
+      const inc = raw.trim().match(/^#include (public\/[\w./-]+)$/);
+      if (inc) {
+        if (inc[1].includes("..")) throw new Error(`#include ${inc[1]}: only files inside public/.`);
+        file = inc[1].split("/").pop();
+        raw = readFileSync(inc[1], "utf8").replace(/\n$/, "");
+      }
       const source = id === "json" ? layOutJson(raw) : raw;
       let body;
       if (shell) {
@@ -202,7 +214,39 @@ export const codeBlocks = {
       } else body = [txt(source)];
       const pre = el("pre", null, [el("code", cls.length ? cls : null, body)]);
       const classes = ["code", ...(shell ? [`shell-${shell}`] : [])];
-      ctx.replaceNode(node, el("figure", classes, [...(name ? [el("figcaption", null, [txt(name)])] : []), pre]));
+      const caption = file || name;
+      ctx.replaceNode(node, el("figure", classes, [...(caption ? [el("figcaption", null, [txt(caption)])] : []), pre]));
     },
   },
 };
+
+/**
+ * Astro keeps each page's rendered Markdown between builds (in node_modules/.astro/) and renders a page again only
+ * when its own .md file changes. So when a file shown with "#include public/…" changes, this forgets everything
+ * Astro kept, and every page is rendered fresh. Cloudflare always builds from scratch; this is for local builds.
+ * (`npm run dev` checks once, when it starts.)
+ */
+export function freshIncludes() {
+  return {
+    name: "lvlulcuma-fresh-includes",
+    hooks: {
+      "astro:config:setup": ({ config, logger }) => {
+        const files = new Set();
+        for (const f of readdirSync("content", { recursive: true })) {
+          if (!String(f).endsWith(".md")) continue;
+          for (const m of readFileSync(`content/${f}`, "utf8").matchAll(/^\s*#include (public\/[\w./-]+)\s*$/gm)) files.add(m[1]);
+        }
+        const hash = createHash("sha256");
+        for (const f of [...files].sort()) hash.update(`${f}\0`).update(existsSync(f) ? readFileSync(f) : "").update("\0");
+        const now = hash.digest("hex");
+        const mark = new URL("included-files.sha256", config.cacheDir);
+        const before = existsSync(mark) ? readFileSync(mark, "utf8") : "";
+        if (now === before) return;
+        for (const store of [new URL("data-store.json", config.cacheDir), new URL(".astro/data-store.json", config.root)]) rmSync(store, { force: true });
+        mkdirSync(config.cacheDir, { recursive: true });
+        writeFileSync(mark, now);
+        if (before) logger.info("A file shown with #include changed, so all Markdown is rendered again.");
+      },
+    },
+  };
+}

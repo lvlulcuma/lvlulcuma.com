@@ -77,7 +77,7 @@ how:
     - title: "Najpierw zgoda"
       text: "Testuję tylko systemy, które należą do mnie albo na których testowanie mam pisemną zgodę. O znaleziskach najpierw dowiaduje się właściciel, dopiero potem cokolwiek publikuję."
       link: "/lab/rules/"
-      link_text: "Zasady testowania"
+      link_text: "Ćwicz bezpiecznie i legalnie"
     - title: "Źródła, które można sprawdzić"
       text: "Fakty mają link do źródła. Na przykład Ścieżki kariery opierają się na NICE Framework od NIST i European Cybersecurity Skills Framework od ENISA."
       link: "/roadmap/"

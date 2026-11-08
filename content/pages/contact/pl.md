@@ -87,7 +87,7 @@ expect:
     - code: "403 Forbidden"
       text: "Nie włamię się do niczyjego konta, poczty ani telefonu (nawet byłego czy byłej) i nie przetestuję strony bez pisemnej zgody jej właściciela. Nie możesz zalogować się na własne konto? Skorzystaj z oficjalnej strony odzyskiwania dostępu w danym serwisie. Każdy inny, kto obiecuje przywrócić ci dostęp, to niemal na pewno oszust."
       link: "/lab/rules/"
-      link_text: "Zasady testowania"
+      link_text: "Ćwicz bezpiecznie i legalnie"
     - code: "429 Too Many Requests"
       text: "Jedna wiadomość wystarczy. Jeśli po tygodniu nie ma odpowiedzi, możesz krótko przypomnieć."
 

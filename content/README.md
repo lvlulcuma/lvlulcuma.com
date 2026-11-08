@@ -21,8 +21,8 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 | Research list `/en/research/` | `pages/research/` (intro only) |
 | A research project `/en/research/<name>/` | `research/<name>/` |
 | Lab `/en/lab/` | `pages/lab/` |
-| Lab setup `/en/lab/setup/` | `pages/lab-setup/` |
-| Rules of engagement `/en/lab/rules/` | `pages/lab-rules/` |
+| Build your lab `/en/lab/setup/` | `pages/lab-setup/` (the file it shows: `public/lab/compose.yaml`) |
+| Practice safely and legally `/en/lab/rules/` | `pages/lab-rules/` |
 | About `/en/about/` | `pages/about/` |
 | Contact `/en/contact/` | `pages/contact/` |
 | How this site is secured `/en/colophon/` | `pages/colophon/` |
