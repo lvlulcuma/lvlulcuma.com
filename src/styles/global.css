@@ -1218,7 +1218,7 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 
 .for-tag { display: flex; align-items: center; gap: 8px; margin: 48px 0 0; font-size: 13.5px; font-weight: 600; }
 .for-tag::before { content: ""; width: 7px; height: 7px; background: currentColor; }
-.for-attack > .for-tag { color: var(--warn); }
+.for-attack > .for-tag { color: var(--attack); }
 .for-defend > .for-tag { color: var(--tip); }
 .prose .for-tag + h2 { margin-top: 6px; }
 .view-attack .for-defend, .view-defend .for-attack { display: none; }
@@ -1229,7 +1229,7 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
      the numbers match the Contents list in the side box, Sources included;
    - each subheading starts with the site's small square, with more room above it, so it reads as a heading and
      not as a bold first line;
-   - a part for one side opens with a label in capitals and a line after it (ATTACK SIDE in orange, DEFENSE SIDE in
+   - a part for one side opens with a label in capitals and a line after it (ATTACK SIDE in red, DEFENSE SIDE in
      green), a thin line in the same colour runs down the left of the whole part, and its numbers and squares take
      that colour too, so you always know which side you're reading. Parts in a row for the same side share one
      label and one line. */
@@ -1239,7 +1239,7 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .cwe-body > .prose:first-child > h2:first-child { margin-top: 36px; }
 .cwe-body h3 { display: flex; align-items: baseline; gap: 10px; margin: 36px 0 8px; font-size: 17.5px; }
 .cwe-body h3::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; background: var(--accent); transform: translateY(-.18em); }
-.cwe-body :is(.for-attack, .for-defend) { --side: var(--warn); position: relative; display: flow-root; padding-top: 56px; }
+.cwe-body :is(.for-attack, .for-defend) { --side: var(--attack); position: relative; display: flow-root; padding-top: 56px; }
 .cwe-body .for-defend { --side: var(--tip); }
 /* The attack-only and defense-only views still hide the other side's parts (the rule above would show them). */
 .cwe-body :is(.view-attack .for-defend, .view-defend .for-attack) { display: none; }
