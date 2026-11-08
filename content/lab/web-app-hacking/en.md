@@ -1,13 +1,20 @@
 ---
-# Lab setup → lvlulcuma.com/en/lab/setup/
-updated: 2026-11-08
-title: "Build your lab"
-summary: "Four practice apps on your own computer, set up step by step from one ready file."   # one line on the Lab overview page
-intro: "A safe place to practice attacks: four apps that are vulnerable on purpose, running only on your own computer. One file starts them all, and one command wipes them clean."
+# Lab idea → lvlulcuma.com/en/lab/web-app-hacking/
+title: "Web and API hacking lab"
+date: 2026-11-08
+group: attack      # attack | defend | network | analysis
+order: 1           # position within its group
+level: beginner    # beginner | intermediate | advanced
+dek: "Four apps that are vulnerable on purpose, running only on your own computer: practice the OWASP Top 10 on websites, REST APIs and GraphQL, and watch every request in Burp Suite."
+time: 1            # rough hours to build it the first time
+ram: 4             # GB of free memory it needs while it runs
+jobs: [penetration-tester, bug-bounty-hunter, appsec-engineer, secure-developer]   # Roadmap jobs it helps with
+requires: []       # other lab ideas to build first (folder names)
+files: [compose.yaml]   # downloads in public/lab/web-app-hacking/, linked in the box beside the page
 related_article: "2026-09"   # a monthly article linked at the bottom (folder name in content/articles/)
-key:   # the big fact at the top of the box beside the page
-  label: "Practice apps"
-  value: "4"
+# revisions:       # after publishing, add a line for each change
+#   - date: 2026-12-02
+#     note: "Added a fifth app"
 ---
 
 ## What you need
@@ -34,19 +41,19 @@ key:   # the big fact at the top of the box beside the page
 2. Download the file that describes the lab:
 
    ```sh
-   curl -O https://lvlulcuma.com/lab/compose.yaml
+   curl -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
    In PowerShell on Windows, type `curl.exe` instead of `curl`:
 
    ```powershell
-   curl.exe -O https://lvlulcuma.com/lab/compose.yaml
+   curl.exe -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
 3. Read it before you run it. It's short, and it's a good habit with any file from the internet. This is the whole file:
 
    ```yaml
-   #include public/lab/compose.yaml
+   #include public/lab/web-app-hacking/compose.yaml
    ```
 
    > [!NOTE]

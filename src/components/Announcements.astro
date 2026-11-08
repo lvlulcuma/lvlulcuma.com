@@ -22,7 +22,7 @@ const file = `content/pages/home/${lang}.md`;
 const w = (await getPage("home", lang)).data.changes;
 if (!w) throw new Error(`${file}: "changes:" (the words of the "New this week" box) is missing.`);
 for (const k of ["heading", "more", "empty", "updated", "next_digest"]) if (!w[k]) throw new Error(`${file}: changes → ${k} is missing.`);
-for (const k of ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "site"]) if (!w.labels?.[k]) throw new Error(`${file}: changes → labels → ${k} is missing.`);
+for (const k of ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "lab", "site"]) if (!w.labels?.[k]) throw new Error(`${file}: changes → labels → ${k} is missing.`);
 
 const changes = await getChanges(lang);
 // Four rows before the fold (three on phones), so the box stays light.

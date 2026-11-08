@@ -19,9 +19,9 @@
 //      ```sh           → Terminal (any system), $ prompt
 //    Lines that start with spaces continue the line above, so they get no prompt.
 //    A block whose only line is "#include public/<path>" shows that file from the repository instead, with its
-//    name as the caption (the Lab setup page shows public/lab/compose.yaml this way, so the page and the
-//    download can't differ). freshIncludes() at the end of this file makes sure a changed file shows up in local
-//    builds too.
+//    name as the caption. Lab ideas show their downloads this way (public/lab/web-app-hacking/compose.yaml), so the
+//    page and the download can't differ. freshIncludes() at the end of this file makes sure a changed file shows up
+//    in local builds too.
 //    A JSON block written on one line is laid out the way developers' tools show it: one key or item per line,
 //    two spaces per level. The values stay exactly as written (89.90 stays 89.90), and a block that isn't
 //    valid JSON (shortened with "…", or with comments) is left as it is, as is one already on several lines.

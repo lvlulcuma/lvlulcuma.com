@@ -92,6 +92,29 @@ const guides = defineCollection({
   }),
 });
 
+// content/lab/<idea>/en.md  →  /en/lab/<idea>/
+// One home lab idea: a full step-by-step guide to building one practice setup. Listed on /en/lab/ by group.
+// Keep the groups and levels in step with LAB_GROUPS and LAB_LEVELS in src/i18n/ui.ts.
+const lab = defineCollection({
+  loader: glob({ pattern: `*/${lang}.md`, base: "./content/lab" }),
+  schema: z.object({
+    title: z.string().min(1),
+    date: z.coerce.date(),                                       // when it was published
+    group: z.enum(["attack", "defend", "network", "analysis"]),  // which group it's listed under
+    order: z.number().int().default(99),                         // position within its group
+    level: z.enum(["beginner", "intermediate", "advanced"]),
+    dek: z.string().min(1),                                       // one sentence: what you build and what it's for
+    time: z.number().positive(),                                  // rough hours to build it the first time
+    ram: z.number().int().positive(),                             // GB of free memory it needs while it runs
+    jobs: z.array(z.string()).default([]),                        // Roadmap job folders this practice helps with
+    requires: z.array(z.string()).default([]),                    // other ideas to build first (folder names)
+    files: z.array(z.string()).default([]),                       // downloads in public/lab/<idea>/, linked in the box
+    related_article: z.string().optional(),                       // folder name in content/articles/
+    draft: z.boolean().default(false),
+    revisions: z.array(z.object({ date: z.coerce.date(), note: z.string() })).optional(),
+  }),
+});
+
 // Roadmap: the fields of cybersecurity, and the jobs in each, for people choosing where to start.
 // content/roadmap/fields/cloud-security/en.md  →  one field: a card on /en/roadmap/ and its own page /en/roadmap/cloud-security/
 // content/roadmap/jobs/cloud-security-engineer/en.md  →  one job, listed on its field's page (anchor #cloud-security-engineer)
@@ -273,4 +296,4 @@ const cwe = defineCollection({
   }),
 });
 
-export const collections = { articles, research, pages, ui, settings, guides, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe };
+export const collections = { articles, research, pages, ui, settings, guides, lab, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe };

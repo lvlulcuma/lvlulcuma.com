@@ -65,7 +65,28 @@ stage: "Stage"
 latest: "Latest"
 projects: "Projects"
 rules: "Rules"
-labFile: "Lab file"   # the compose file in the box beside /lab/setup/
+labFile: "Lab file"   # a download in the box beside a lab idea
+# Lab (/lab/, its ideas in content/lab/, and "Get started")
+labIdeas: "Lab ideas"            # the big fact in the box beside /lab/
+idea_one: "idea"
+idea_other: "ideas"
+labStartHere: "Start here"
+labAllIdeas: "All lab ideas"
+labNextIdea: "Next idea"
+labFirstIdeas: "Then try one of these"   # under Get started
+labHelpsWith: "Good practice for these jobs"   # under a lab idea, links to the Roadmap
+hoursShort: "h"                  # after a lab idea's rough time: "~2 h"
+ramGb: "{n} GB RAM"              # how much free memory a lab idea needs
+rssLab: "Get new lab ideas by RSS"
+labGroups:
+  attack: "Attack practice"
+  defend: "Defense and detection"
+  network: "Network"
+  analysis: "Analysis"
+labLevels:
+  beginner: "Beginner"
+  intermediate: "Intermediate"
+  advanced: "Advanced"
 revPublished: "Published"
 articlesCount: "Articles"
 of: "of"

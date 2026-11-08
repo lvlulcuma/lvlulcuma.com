@@ -59,6 +59,14 @@ export const GUIDE_CATS = ["install", "quick", "configure", "use", "harden", "fi
 export type GuideCat = (typeof GUIDE_CATS)[number];
 export type Platform = "windows" | "macos" | "linux";
 
+// Lab ideas (content/lab/<idea>/): the group each is listed under and how hard it is. Their words are `labGroups:`
+// and `labLevels:` in content/ui/<lang>.yml; each group's one-line description is `groups:` in content/pages/lab/<lang>.md.
+// Keep them in step with `lab` in src/content.config.ts.
+export const LAB_GROUPS = ["attack", "defend", "network", "analysis"] as const;
+export type LabGroup = (typeof LAB_GROUPS)[number];
+export const LAB_LEVELS = ["beginner", "intermediate", "advanced"] as const;
+export type LabLevel = (typeof LAB_LEVELS)[number];
+
 export const langPaths = () => LANGS.map((lang) => ({ params: { lang } }));
 
 // The words themselves live in content/ui/en.yml, pl.yml and ua.yml.
@@ -68,6 +76,8 @@ export type UI = Strings & {
   nav: Record<NavKey, string>;
   topics: Record<Topic, string>;
   guideCats: Record<GuideCat, string>;
+  labGroups: Record<LabGroup, string>;
+  labLevels: Record<LabLevel, string>;
   platforms: Record<Platform, string>;
   newsTypes: Record<NewsType, string>;
   incidentStatus: Record<IncidentStatus, string>;

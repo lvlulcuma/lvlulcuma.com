@@ -1,0 +1,24 @@
+---
+// One home lab idea in a grid of cards (the Lab page, and "Build first" / "Next idea" under an idea).
+// Same look as the guide cards: level at the top, then title and one-line description, then time and memory.
+// An idea that isn't translated yet links to its English page and is marked EN.
+import { HTML_LANG, LANG_LABEL, ui, type Lang } from "../i18n/ui";
+import type { Idea } from "../lib/lab";
+interface Props { idea: Idea; lang: Lang; label?: string }
+const { idea, lang, label } = Astro.props;
+const t = ui[lang];
+const d = idea.entry.data;
+const other = idea.lang !== lang;
+---
+<li>
+  <a href={`/${idea.lang}/lab/${idea.slug}/`} hreflang={other ? HTML_LANG[idea.lang] : undefined}>
+    <span class="gc-top"><span class="n">{label ?? t.labLevels[d.level]}{other && <span class="gc-lang">{LANG_LABEL[idea.lang]}</span>}</span><span>{label ? t.labLevels[d.level] : ""}</span></span>
+    <span class="t" lang={other ? HTML_LANG[idea.lang] : undefined}>{d.title}</span>
+    <span class="d" lang={other ? HTML_LANG[idea.lang] : undefined}>{d.dek}</span>
+    <span class="gc-meta">
+      <span>~{d.time} {t.hoursShort}</span>
+      <span>{t.ramGb.replace("{n}", String(d.ram))}</span>
+      <span class="go arr" aria-hidden="true"></span>
+    </span>
+  </a>
+</li>

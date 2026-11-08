@@ -1,13 +1,17 @@
 ---
-# Lab setup → lvlulcuma.com/pl/lab/setup/
-updated: 2026-11-08
-title: "Zbuduj swoje laboratorium"
-summary: "Cztery aplikacje do ćwiczeń na twoim komputerze: krok po kroku, z jednego gotowego pliku."   # one line on the Lab overview page
-intro: "Bezpieczne miejsce do ćwiczenia ataków: cztery celowo podatne aplikacje, które działają wyłącznie na twoim komputerze. Jeden plik uruchamia je wszystkie, a jedno polecenie przywraca je do czystego stanu."
-related_article: "2026-09"   # a monthly article linked at the bottom (folder name in content/articles/)
-key:   # the big fact at the top of the box beside the page
-  label: "Aplikacje do ćwiczeń"
-  value: "4"
+# Lab idea → lvlulcuma.com/pl/lab/web-app-hacking/
+title: "Laboratorium do atakowania aplikacji webowych i API"
+date: 2026-11-08
+group: attack
+order: 1
+level: beginner
+dek: "Cztery celowo podatne aplikacje, które działają tylko na twoim komputerze: ćwicz OWASP Top 10 na stronach, REST API i GraphQL i podglądaj każde żądanie w Burp Suite."
+time: 1
+ram: 4
+jobs: [penetration-tester, bug-bounty-hunter, appsec-engineer, secure-developer]
+requires: []
+files: [compose.yaml]
+related_article: "2026-09"
 ---
 
 ## Czego potrzebujesz
@@ -34,20 +38,20 @@ key:   # the big fact at the top of the box beside the page
 2. Pobierz plik, który opisuje laboratorium:
 
    ```sh
-   curl -O https://lvlulcuma.com/lab/compose.yaml
+   curl -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
    W PowerShellu na Windowsie wpisz `curl.exe` zamiast `curl`:
 
    ```powershell
-   curl.exe -O https://lvlulcuma.com/lab/compose.yaml
+   curl.exe -O https://lvlulcuma.com/lab/web-app-hacking/compose.yaml
    ```
 
 3. Przeczytaj go, zanim go uruchomisz. Jest krótki, a czytanie plików z internetu przed uruchomieniem to dobry nawyk.
    Oto cały plik:
 
    ```yaml
-   #include public/lab/compose.yaml
+   #include public/lab/web-app-hacking/compose.yaml
    ```
 
    > [!NOTE]

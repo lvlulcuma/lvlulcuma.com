@@ -3,7 +3,7 @@ title: "Laboratorium do ćwiczeń z API na komputerach z ARM"
 date: 2026-09-28
 topic: lab
 dek: "Wiele celowo podatnych aplikacji szkoleniowych ma obrazy tylko dla x86. Oto jak uruchomić je na komputerze z procesorem ARM i jak odciąć je od sieci."
-related: "lab/setup"
+related: "lab/web-app-hacking"
 ---
 
 ## Co działa w laboratorium

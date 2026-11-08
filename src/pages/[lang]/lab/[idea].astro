@@ -1,0 +1,90 @@
+---
+// One home lab idea: a step-by-step guide to building it. Text: content/lab/<idea>/<lang>.md
+// Downloads it walks through live in public/lab/<idea>/ and are listed as `files:` (the box links them).
+// A page shows a file's text with a code block whose only line is "#include public/lab/<idea>/<file>".
+import { existsSync } from "node:fs";
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import Related from "../../../components/Related.astro";
+import LabIdeaCard from "../../../components/LabIdeaCard.astro";
+import { HTML_LANG, LANGS, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { getArticles, iso } from "../../../lib/articles";
+import { countWord, revisionLog, toc } from "../../../lib/block";
+import { getIdeas, ideaJobs, type Idea } from "../../../lib/lab";
+
+export async function getStaticPaths() {
+  const paths = [];
+  // An idea gets a page only in the languages it's written in; the lists link untranslated ones to English.
+  for (const lang of LANGS) for (const i of await getIdeas(lang)) if (i.lang === lang) paths.push({ params: { lang, idea: i.slug } });
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const all = await getIdeas(lang);
+const idea = all.find((x) => x.slug === Astro.params.idea)!;
+const d = idea.entry.data;
+const { Content, headings } = await render(idea.entry);
+const revs = revisionLog(idea.date, t.revPublished, d.revisions);
+const start = (await getPage("lab-start", lang)).data;
+const rules = (await getPage("lab-rules", lang)).data;
+const before: Idea[] = d.requires.map((s) => all.find((x) => x.slug === s)!);
+const jobs = await ideaJobs(idea, lang);
+for (const f of d.files) if (!existsSync(`public/lab/${idea.slug}/${f}`)) throw new Error(`content/lab/${idea.slug}/${idea.lang}.md: files lists "${f}", but public/lab/${idea.slug}/${f} doesn't exist.`);
+const article = d.related_article ? (await getArticles(lang)).find((n) => n.slug === d.related_article) : undefined;
+// Next: the following idea in the same group, or else the first idea of the next group.
+const at = all.indexOf(idea);
+const next = all.slice(at + 1).find((x) => x.group === idea.group) ?? all.slice(at + 1)[0];
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+---
+<Base lang={lang} nav="lab" title={d.title} description={d.dek} ogType="article" block={{
+    key: { label: t.labGroups[idea.group], value: t.labLevels[d.level] },
+    rows: [revs.length > 1 ? [t.updated, revs.at(-1)!.date] : [t.published, iso(idea.date)]],
+    contents: toc(headings),
+    go: { items: [
+      ...d.files.map((f) => ({ kicker: t.labFile, text: f, href: `/lab/${idea.slug}/${f}` })),
+      ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/lab/${r.slug}/`, hreflang: other(r.lang), lang: other(r.lang) })),
+      { kicker: t.nav.lab, text: rules.title, href: `/${lang}/lab/rules/` },
+    ] },
+    revisions: revs.length > 1 ? revs : undefined,
+  }}>
+  <p class="kicker"><a class="tag" href={`/${lang}/lab/#group-${idea.group}`}>{t.labGroups[idea.group]}</a><span class="mono">{t.labLevels[d.level]} · ~{d.time} {t.hoursShort} · {t.ramGb.replace("{n}", String(d.ram))} · {countWord(idea.steps, lang, t, "step")}</span></p>
+  <h1>{d.title}</h1>
+  <p class="dek">{d.dek}</p>
+
+  <aside class="prereq" aria-labelledby="before">
+    <p class="prereq-h" id="before">{t.before}</p>
+    <p class="prereq-d">{t.beforeText}</p>
+    <ul>
+      <li><a href={`/${lang}/lab/start/`}><span class="t">{start.title}</span><span class="m"><span class="arr" aria-hidden="true"></span></span></a></li>
+      {before.map((r) => (
+        <li><a href={`/${r.lang}/lab/${r.slug}/`} hreflang={other(r.lang)}><span class="t" lang={other(r.lang)}>{r.entry.data.title}</span><span class="m">~{r.entry.data.time} {t.hoursShort}&nbsp;<span class="arr" aria-hidden="true"></span></span></a></li>
+      ))}
+    </ul>
+  </aside>
+
+  <div class="prose guide"><Content /></div>
+
+  {jobs.length > 0 && (
+    <section class="gsec" aria-labelledby="jobs">
+      <div class="block-head"><h2 id="jobs">{t.labHelpsWith}</h2></div>
+      <ul class="index">
+        {jobs.map((j) => <li><a href={j.href}><span class="name" lang={other(j.lang)}>{j.title}</span><span class="arrow arr" aria-hidden="true"></span></a></li>)}
+      </ul>
+    </section>
+  )}
+
+  {article && <Related label={t.related} href={`/${lang}/articles/${article.slug}/`} tag={`${t.issue} ${article.issue}`} title={article.entry.data.title} />}
+
+  <section class="gsec gnext" aria-labelledby="next">
+    <div class="block-head">
+      <h2 id="next">{next ? t.labNextIdea : t.labAllIdeas}</h2>
+      {next && <a href={`/${lang}/lab/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.labAllIdeas}</a>}
+    </div>
+    {next ? (
+      <ul class="gcards"><LabIdeaCard idea={next} lang={lang} label={t.labGroups[next.group]} /></ul>
+    ) : (
+      <p><a class="go" href={`/${lang}/lab/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.labAllIdeas}</a></p>
+    )}
+  </section>
+</Base>

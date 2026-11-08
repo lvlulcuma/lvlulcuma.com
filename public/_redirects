@@ -13,3 +13,12 @@
 /en/notes/*  /en/articles/:splat  301
 /pl/notes/*  /pl/articles/:splat  301
 /ua/notes/*  /ua/articles/:splat  301
+
+# The Lab setup guide became the first home lab idea (Nov 2026), and its file moved next to it.
+/en/lab/setup  /en/lab/web-app-hacking/  301
+/pl/lab/setup  /pl/lab/web-app-hacking/  301
+/ua/lab/setup  /ua/lab/web-app-hacking/  301
+/en/lab/setup/*  /en/lab/web-app-hacking/  301
+/pl/lab/setup/*  /pl/lab/web-app-hacking/  301
+/ua/lab/setup/*  /ua/lab/web-app-hacking/  301
+/lab/compose.yaml  /lab/web-app-hacking/compose.yaml  301

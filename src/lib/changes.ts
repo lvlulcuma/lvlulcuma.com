@@ -5,7 +5,7 @@
 //   News        a weekly digest's `date:`, an incident breakdown's `published:`
 //   Articles    `date:`          Guides  `date:`          CWE  `date:`
 //   Roadmap     `updated:` in a job's learn.yml (its "what to learn" list)
-//   Research    `published:`
+//   Research    `published:`          Lab ideas  `date:`
 //   Any of them `revisions:` (a change after publishing, shown as "Updated: <note>")
 //   Site        `announcements:` in content/pages/home/<lang>.md, for anything else (a new section, a new feature)
 //
@@ -18,12 +18,13 @@ import { NAV, type Lang } from "../i18n/ui";
 import { getArticles, iso } from "./articles";
 import { getCwes } from "./cwe";
 import { getGuides, getPage, getProjects } from "./content";
+import { getIdeas } from "./lab";
 import { getIncidents, getWeeks, incidentHref, weekHref } from "./news";
 import { getJobs, getLearn } from "./roadmap";
 
-export type ChangeKind = "week" | "incident" | "article" | "cwe" | "guide" | "roadmap" | "research" | "site";
+export type ChangeKind = "week" | "incident" | "article" | "cwe" | "guide" | "roadmap" | "research" | "lab" | "site";
 /** The order of things published on the same day. */
-const KINDS: ChangeKind[] = ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "site"];
+const KINDS: ChangeKind[] = ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "lab", "site"];
 
 export type Change = {
   kind: ChangeKind;
@@ -77,7 +78,7 @@ export type Entry = {
 };
 
 /** Everything published on the site in this language: news, articles, CWE write-ups, guides, Roadmap jobs' "what to
- *  learn", research. In no particular order. */
+ *  learn", research, lab ideas. In no particular order. */
 export async function getEntries(lang: Lang): Promise<Entry[]> {
   const out: Entry[] = [];
   for (const w of (await getWeeks(lang)).filter((w) => !w.example))
@@ -104,6 +105,8 @@ export async function getEntries(lang: Lang): Promise<Entry[]> {
     const d = p.entry.data;
     out.push({ kind: "research", title: d.title, description: d.summary, lang, href: d.page ? `/${lang}/research/${p.slug}/` : `/${lang}/research/#${p.slug}`, published: d.published, revisions: d.revisions ?? [] });
   }
+  for (const i of await getIdeas(lang))
+    out.push({ kind: "lab", title: i.entry.data.title, description: i.entry.data.dek, lang: i.lang, href: `/${i.lang}/lab/${i.slug}/`, published: i.date, revisions: i.entry.data.revisions ?? [] });
   return out;
 }
 

@@ -20,9 +20,9 @@ List links that no longer work or now point somewhere else.
 - The latest two or three weekly digests: any story where an important fact turned out differently? List it.
 - Roadmap job pages: certifications, laws and exam objectives named in summaries that have since changed
   (a new exam version, a new law in force).
-- The practice lab (`public/lab/compose.yaml`, explained on `content/pages/lab-setup/`): are the four apps
-  (Juice Shop, WebGoat, VAmPI, DVGA) and crAPI still maintained, with the same image names, ports and start steps
-  in their own READMEs? List what changed; the page and the file must stay in step, in all three languages.
+- Home lab ideas (`content/lab/`, downloads in `public/lab/<idea>/`): are the tools and images they use still
+  maintained, with the same names, versions, ports, menus and install steps in their own documentation? List what
+  changed; each page and its files must stay in step, in all three languages.
 
 ## 4. Upkeep
 

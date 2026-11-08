@@ -6,7 +6,7 @@ The code and text behind [lvlulcuma.com](https://lvlulcuma.com), a website about
 - **Articles:** one practical write-up a month
 - **Guides:** how to set tools up, step by step
 - **Roadmap:** the fields and jobs in cybersecurity, and what to learn for each job, from first steps to expert
-- **Research and Lab:** longer studies, and a step-by-step practice lab readers can build on their own computer
+- **Research and Lab:** longer studies, and home lab ideas: step-by-step builds readers can set up on their own computer
 
 The site is in English and Ukrainian. Polish is written too, but switched off for now.
 
@@ -71,9 +71,11 @@ content/                         ← all the text, one folder per page
     guides/                          →  /en/guides/         (intro above the list)
     roadmap/                         →  /en/roadmap/        (intro, group and level headings)
     research/                        →  /en/research/       (intro above the list)
-    lab/                             →  /en/lab/
-    lab-setup/                       →  /en/lab/setup/      (the step-by-step guide)
+    lab/                             →  /en/lab/            (intro, "What a home lab is", the group descriptions)
+    lab-start/                       →  /en/lab/start/      ("Get started": what a home lab needs)
     lab-rules/                       →  /en/lab/rules/      (the numbered rules)
+  lab/                           Home lab ideas, one folder per idea (a step-by-step guide each)
+    web-app-hacking/                 →  /en/lab/web-app-hacking/   (its downloads: public/lab/web-app-hacking/)
   news/weeks/                    Weekly digests, one folder per week
     2026-w43/                        →  /en/news/2026-w43/
   news/incidents/                Incident breakdowns, one folder per incident
@@ -153,8 +155,10 @@ Everything below the second --- line is the page's body, written in Markdown.
 | About text and the "Now" box | `content/pages/about/` |
 | Contact text and the email templates | `content/pages/contact/` |
 | Published languages, email address, GitHub and Medium links, PGP key | `content/settings.yml` |
-| Build your lab (the step-by-step guide) | `content/pages/lab-setup/` (steps below the second `---`) |
-| The lab's compose file (download and the copy shown on that page) | `public/lab/compose.yaml` (the page shows it with `#include public/lab/compose.yaml`) |
+| Lab page: intro, "What a home lab is", group descriptions | `content/pages/lab/` |
+| Get started (what a home lab needs) | `content/pages/lab-start/` |
+| A home lab idea | `content/lab/<idea>/` (how to write one: `docs/claude/lab-idea.md`) |
+| A lab idea's download (and the copy shown on its page) | `public/lab/<idea>/` (a page shows a file with `#include public/lab/<idea>/<file>`) |
 | Practice safely and legally | `content/pages/lab-rules/` (a numbered list below the second `---`) |
 | A research project (question, method, status) | `content/research/<project>/` |
 | Menu labels and other small words | `content/ui/` |
@@ -187,7 +191,7 @@ The box's own words (its heading, the small word above each title, "N more", the
 
 ### The box beside each page
 
-On wide screens, every page has a box on its left that stays in view while you scroll. It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Build your lab and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
+On wide screens, every page has a box on its left that stays in view while you scroll. It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Get started and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
 
 On phones there's no room beside the text, so the box becomes a one-line strip with an "On this page" fold under it.
 

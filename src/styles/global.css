@@ -1128,6 +1128,8 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .fcards { grid-template-columns: 1fr; }
   .guide h2 { font-size: 18px; }
   .guide ol > li { padding-left: 30px; }
+  /* Long words (Ukrainian and Polish especially) may break inside a narrow table cell instead of widening the page. */
+  .guide :is(td, th) { overflow-wrap: anywhere; }
   figure.code pre { font-size: 12.5px; padding: 12px 14px 13px; }
   .flow { grid-template-columns: 1fr; }
   .about-body > p:first-child { font-size: 18px; }

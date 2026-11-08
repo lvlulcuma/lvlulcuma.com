@@ -1,39 +1,77 @@
 ---
-// Lab overview. Text: content/pages/lab/<lang>.md (+ titles from lab-setup and lab-rules)
+// Lab overview: what a home lab is, where to start, then every lab idea by group, then articles from the lab.
+// Text: content/pages/lab/<lang>.md (intro, the group descriptions, and "What a home lab is" below the dashes).
+// The two "start here" rows take their titles from content/pages/lab-start/ and content/pages/lab-rules/;
+// the idea cards come from content/lab/<idea>/.
+import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import ArticleRow from "../../../components/ArticleRow.astro";
-import { langPaths, ui, type Lang } from "../../../i18n/ui";
+import LabIdeaCard from "../../../components/LabIdeaCard.astro";
+import { LAB_GROUPS, langPaths, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
 import { getArticles } from "../../../lib/articles";
-import { countArticles } from "../../../lib/block";
+import { countWord } from "../../../lib/block";
+import { getIdeas } from "../../../lib/lab";
+import { feedHref } from "../../../lib/feed";
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const t = ui[lang];
 const page = await getPage("lab", lang);
-const kids = [
-  { slug: "setup", data: (await getPage("lab-setup", lang)).data },
+const { Content } = await render(page.entry);
+const start = [
+  { slug: "start", data: (await getPage("lab-start", lang)).data },
   { slug: "rules", data: (await getPage("lab-rules", lang)).data },
 ];
+const ideas = await getIdeas(lang);
+const groups = LAB_GROUPS.map((g, i) => ({ id: g, n: String(i + 1).padStart(2, "0"), list: ideas.filter((x) => x.group === g) })).filter((g) => g.list.length);
 const labArticles = (await getArticles(lang)).filter((n) => n.entry.data.topic === "lab");
 ---
 <Base printIn lang={lang} nav="lab" title={t.nav.lab} description={page.data.intro} block={{
-    key: { label: t.labArticles, value: countArticles(labArticles.length, lang, t) },
-    go: { items: kids.map((x) => ({ text: x.data.title, href: `/${lang}/lab/${x.slug}/` })), phone: false },
+    key: { label: t.labIdeas, value: countWord(ideas.length, lang, t, "idea") },
+    contents: [
+      { slug: "what", text: page.data.what },
+      { slug: "start-here", text: t.labStartHere },
+      ...groups.map((g) => ({ slug: `group-${g.id}`, text: t.labGroups[g.id] })),
+      ...(labArticles.length ? [{ slug: "articles", text: t.labArticles }] : []),
+    ],
+    go: { items: [{ text: t.rssLab, href: feedHref(lang, "lab") }], phone: false },
     rows: [[t.updated, page.updated]],
     strip: [`${t.updated} ${page.updated}`],
   }}>
   <h1>{t.nav.lab}</h1>
   <p class="lede">{page.data.intro}</p>
-  <ul class="index mt bt">
-    {kids.map((x) => (
-      <li><a href={`/${lang}/lab/${x.slug}/`}><span class="name">{x.data.title}</span><span class="arrow arr" aria-hidden="true"></span><span class="desc">{x.data.summary}</span></a></li>
-    ))}
-  </ul>
+
+  <section class="block" aria-labelledby="what">
+    <div class="block-head"><h2 id="what">{page.data.what}</h2></div>
+    <div class="prose"><Content /></div>
+  </section>
+
+  <section class="block" aria-labelledby="start-here">
+    <div class="block-head"><h2 id="start-here">{t.labStartHere}</h2></div>
+    <ul class="index">
+      {start.map((x) => (
+        <li><a href={`/${lang}/lab/${x.slug}/`}><span class="name">{x.data.title}</span><span class="arrow arr" aria-hidden="true"></span><span class="desc">{x.data.summary}</span></a></li>
+      ))}
+    </ul>
+  </section>
+
+  {groups.map((g) => (
+    <section class="gsec" aria-labelledby={`group-${g.id}`}>
+      <div class="block-head num">
+        <span class="sec-n" aria-hidden="true">{g.n}</span>
+        <h2 id={`group-${g.id}`}>{t.labGroups[g.id]}</h2>
+        <span class="bh-count">{countWord(g.list.length, lang, t, "idea")}</span>
+        {page.data.groups?.[g.id] && <p class="bh-desc">{page.data.groups[g.id]}</p>}
+      </div>
+      <ul class="gcards">{g.list.map((x) => <LabIdeaCard idea={x} lang={lang} />)}</ul>
+    </section>
+  ))}
+
   {labArticles.length > 0 && (
-    <div class="block">
-      <div class="block-head"><h2>{t.labArticles}</h2></div>
+    <section class="block" aria-labelledby="articles">
+      <div class="block-head"><h2 id="articles">{t.labArticles}</h2></div>
       <ul class="list flat">{labArticles.map((n) => <ArticleRow article={n} lang={lang} />)}</ul>
-    </div>
+    </section>
   )}
 </Base>
