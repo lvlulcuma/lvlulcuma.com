@@ -42,7 +42,7 @@ const long = (text: string) => (text.length > 48 ? text : undefined);
       <span class="tb-h">{now!.label}{now!.date && <span class="tb-h-d"> · {now!.date}</span>}</span>
       <ul class="tb-now">
         {now!.items.map((i) => (
-          <li><small>{i.kicker}</small>{i.href ? <a href={i.href} rel={/^https?:/.test(i.href) ? "noopener" : undefined}>{i.text}</a> : <span>{i.text}</span>}</li>
+          <li><small>{i.kicker}</small>{i.href ? <><a href={i.href} rel={/^https?:/.test(i.href) ? "noopener" : undefined}>{i.text}</a><span class="arr" aria-hidden="true"></span></> : <span>{i.text}</span>}</li>
         ))}
       </ul>
     </div>
@@ -57,7 +57,7 @@ const long = (text: string) => (text.length > 48 ? text : undefined);
       <ul class="tb-go">
         {go!.items.map((i, n) => (
           // When links in a row share the same small line ("Before you start"), show it once.
-          <li><a href={i.href} hreflang={i.hreflang} rel={/^https?:/.test(i.href) ? "me noopener" : undefined}>{i.kicker && i.kicker !== go!.items[n - 1]?.kicker && <small>{i.kicker}</small>}<span lang={i.lang} class="tb-clamp" title={long(i.text)}>{i.text}</span></a></li>
+          <li><a href={i.href} hreflang={i.hreflang} rel={/^https?:/.test(i.href) ? "me noopener" : undefined}>{i.kicker && i.kicker !== go!.items[n - 1]?.kicker && <small>{i.kicker}</small>}<span lang={i.lang} class="tb-clamp" title={long(i.text)}>{i.text}</span><span class="arr" aria-hidden="true"></span></a></li>
         ))}
       </ul>
     </nav>
