@@ -1,0 +1,169 @@
+---
+// About: what this site is and who writes it, in four numbered sections:
+//   01 Start here       a card per kind of visitor, each opening a section of the site
+//   02 Stay up to date  what each section publishes and how often, with its RSS feed
+//   03 How I work       short promises about testing, sources, corrections and privacy
+//   04 Is it really me?   the only addresses and accounts I use, and what I'll never ask for
+// The box beside the page shows the next article's date at the top (or `key:` if the text file sets one),
+// then "Now": what I'm busy with.
+// Text: content/pages/about/<lang>.md · Email, GitHub, Medium, PGP: content/settings.yml
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { NAV, langPaths, ui, type Lang } from "../../i18n/ui";
+import { getPage, getProfiles, getSettings } from "../../lib/content";
+import { getArticles, nextIssueDate } from "../../lib/articles";
+import { dayMonth, monthYear, type Block } from "../../lib/block";
+// The security address shown here is the one in the real security.txt the site serves.
+import securityTxt from "../../../public/.well-known/security.txt?raw";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("about", lang);
+const d = page.data;
+const settings = await getSettings();
+const profiles = await getProfiles();
+const { Content } = await render(page.entry);
+const description = (page.entry.body ?? "").trim().split(/\n\s*\n/)[0];
+const file = `content/pages/about/${lang}.md`;
+
+// Stop the build with a clear message instead of publishing a broken page.
+const need = (v: unknown, where: string) => {
+  if (v === undefined || v === null || v === "") throw new Error(`${file}: "${where}" is missing.`);
+  return v as any;
+};
+/** "/roadmap/" → this site's page in this language; full https:// addresses stay as they are. */
+const href = (link: string) => (/^https?:\/\//.test(link) ? link : `/${lang}/${link.replace(/^\/+/, "")}`);
+
+// 01 · Start here
+const start = need(d.start, "start");
+const cards = (need(start.items, "start → items") as any[]).map((c, i) => {
+  const section = need(c.section, `start → item ${i + 1} → section`);
+  if (!(NAV as readonly string[]).includes(section)) throw new Error(`${file}: start → item ${i + 1} → section "${section}" isn't a menu item (${NAV.join(", ")}).`);
+  return { who: need(c.who, `start → item ${i + 1} → who`), text: c.text as string | undefined, href: `/${lang}/${section}/`, go: t.nav[section as (typeof NAV)[number]] };
+});
+
+// 02 · Stay up to date: one row per section, titled with its menu name, with its RSS feed if it has one.
+const upd = need(d.updates, "updates");
+const updates = (need(upd.items, "updates → items") as any[]).map((u, i) => {
+  const section = need(u.section, `updates → item ${i + 1} → section`);
+  if (!(NAV as readonly string[]).includes(section)) throw new Error(`${file}: updates → item ${i + 1} → section "${section}" isn't a menu item (${NAV.join(", ")}).`);
+  return { title: t.nav[section as (typeof NAV)[number]], href: `/${lang}/${section}/`, text: need(u.text, `updates → item ${i + 1} → text`), feed: u.feed ? href(u.feed) : null };
+});
+if (updates.some((u) => u.feed)) need(upd.feed_label, "updates → feed_label");
+
+// 03 · How I work
+const how = need(d.how, "how");
+const promises = (need(how.items, "how → items") as any[]).map((p, i) => {
+  if (p.link && !p.link_text) throw new Error(`${file}: how → item ${i + 1} has a "link:" but no "link_text:".`);
+  return { title: need(p.title, `how → item ${i + 1} → title`), text: p.text as string | undefined, link: p.link ? { text: p.link_text as string, href: href(p.link) } : null };
+});
+
+// 04 · Is it really me?
+const verify = need(d.verify, "verify");
+const securityEmail = securityTxt.match(/^Contact:\s*mailto:(\S+)/m)?.[1];
+const site = Astro.site!.host;
+
+// The box: the next article's date on top, then "Now".
+const latest = (await getArticles(lang))[0];
+const key: Block["key"] | undefined = d.key ?? (latest ? { label: t.upcoming, value: dayMonth(nextIssueDate(latest.date), lang) } : undefined);
+const now = d.now;
+const nowItems: NonNullable<Block["now"]>["items"] = ((now?.items ?? []) as any[]).map((n, i) => ({
+  kicker: need(n.label, `now → item ${i + 1} → label`),
+  text: need(n.text, `now → item ${i + 1} → text`),
+  href: n.link ? href(n.link) : undefined,
+}));
+
+const sections = [
+  { id: "start", title: need(start.heading, "start → heading") as string },
+  { id: "updates", title: need(upd.heading, "updates → heading") as string },
+  { id: "how", title: need(how.heading, "how → heading") as string },
+  { id: "verify", title: need(verify.heading, "verify → heading") as string },
+];
+const n = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, "0");
+const facts = ((d.facts ?? []) as { label: string; value: string }[]).map((f) => [f.label, f.value] as [string, string]);
+---
+<Base printIn lang={lang} nav="about" title={t.nav.about} description={description} block={{
+    key: key ?? { label: now?.label ?? "Now", value: nowItems[0]?.text ?? "" },
+    now: nowItems.length ? { label: now?.label ?? "Now", date: now?.updated ? monthYear(new Date(now.updated), lang) : undefined, items: nowItems } : undefined,
+    contents: sections.map((s) => ({ slug: s.id, text: s.title })),
+    rows: [...facts, [t.updated, page.updated]],
+    strip: facts.slice(0, 1).map(([, v]) => v),   // `facts:` in the text file, if any
+  }}>
+  <h1>{t.nav.about}</h1>
+  <div class="prose about-body"><Content /></div>
+
+  <section class="gsec" aria-labelledby="start">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("start")}</span>
+      <h2 id="start">{start.heading}</h2>
+      {start.text && <p class="bh-desc">{start.text}</p>}
+    </div>
+    <ul class="fcards start-cards">
+      {cards.map((c) => (
+        <li class="linked">
+          <h3><a href={c.href}>{c.who}</a></h3>
+          {c.text && <p>{c.text}</p>}
+          <p class="fc-go">{c.go}&nbsp;<span class="arr" aria-hidden="true"></span></p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="gsec" aria-labelledby="updates">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("updates")}</span>
+      <h2 id="updates">{upd.heading}</h2>
+      {upd.text && <p class="bh-desc">{upd.text}</p>}
+    </div>
+    <ul class="rows promises updates">
+      {updates.map((u) => (
+        <li>
+          <span class="t"><a href={u.href}>{u.title}</a></span>
+          <span class="d">{u.text}</span>
+          {u.feed && <a class="lnk" href={u.feed}>{upd.feed_label}&nbsp;<span class="arr" aria-hidden="true"></span></a>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="gsec" aria-labelledby="how">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("how")}</span>
+      <h2 id="how">{how.heading}</h2>
+      {how.text && <p class="bh-desc">{how.text}</p>}
+    </div>
+    <ul class="rows promises">
+      {promises.map((p) => (
+        <li>
+          <span class="t">{p.title}</span>
+          {p.text && <span class="d">{p.text}</span>}
+          {p.link && <a class="lnk" href={p.link.href}>{p.link.text}&nbsp;<span class="arr" aria-hidden="true"></span></a>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="gsec" aria-labelledby="verify">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("verify")}</span>
+      <h2 id="verify">{verify.heading}</h2>
+      {verify.text && <p class="bh-desc">{verify.text}</p>}
+    </div>
+    <dl class="kv">
+      <div><dt>{verify.site_label}</dt><dd><a href={`/${lang}/`}>{site}</a></dd></div>
+      <div><dt>{verify.email_label}</dt><dd><a href={`mailto:${settings.email}`}>{settings.email}</a></dd></div>
+      {/* When security reports go to the same address as everything else, just point to security.txt. */}
+      <div><dt>{verify.security_label}</dt><dd>{securityEmail && securityEmail !== settings.email && <><a href={`mailto:${securityEmail}`}>{securityEmail}</a> · </>}<a href="/.well-known/security.txt">security.txt</a></dd></div>
+      {profiles.map((p) => <div><dt>{p.name}</dt><dd><a href={p.href} rel="me">{p.text}</a></dd></div>)}
+      {settings.pgp_fingerprint && <div><dt>{verify.pgp_label}</dt><dd><a href={settings.pgp_key_path}>{settings.pgp_fingerprint}</a></dd></div>}
+    </dl>
+    {verify.never?.length > 0 && (
+      <>
+        <h3 class="never-h">{verify.never_heading}</h3>
+        <ul class="never">{(verify.never as string[]).map((x) => <li>{x}</li>)}</ul>
+      </>
+    )}
+    {verify.after && <p class="muted">{verify.after}</p>}
+  </section>
+</Base>

@@ -1,0 +1,86 @@
+---
+// One file renders two kinds of page:
+//   /<lang>/articles/<YYYY-MM>/   a monthly article
+//   /<lang>/articles/<topic>/     the archive filtered to one topic
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import ArticlesIndex from "../../../components/ArticlesIndex.astro";
+import Related from "../../../components/Related.astro";
+import { LANGS, TOPICS, ui, type Lang, type Topic } from "../../../i18n/ui";
+import { articleLinks, getArticles, iso, missingLangs, nextIssueDate, topicFilter, type Article } from "../../../lib/articles";
+import { countArticles, monthYear, revisionLog, toc } from "../../../lib/block";
+import { getPage, getSettings, pageRef } from "../../../lib/content";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    const articles = await getArticles(lang);
+    articles.forEach((article, i) => {
+      paths.push({ params: { lang, slug: article.slug }, props: { kind: "article", article, newer: articles[i - 1], older: articles[i + 1] } });
+    });
+    for (const topic of TOPICS) paths.push({ params: { lang, slug: topic }, props: { kind: "topic", topic } });
+  }
+  return paths;
+}
+
+type Props =
+  | { kind: "article"; article: Article; newer?: Article; older?: Article }
+  | { kind: "topic"; topic: Topic };
+
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const props = Astro.props as Props;
+
+let Content: any = null;
+let headings: any[] = [];
+let revs: ReturnType<typeof revisionLog> = [];
+let missing: Lang[] = [];
+let related = null as Awaited<ReturnType<typeof pageRef>>;
+const articlesPage = await getPage("articles", lang);
+const medium = (await getSettings()).medium;
+const mediumFollow = medium ? [{ text: t.mediumFollow, href: medium }] : [];
+const allArticles = await getArticles(lang);
+const latestDate = allArticles[0]?.date;
+const topicCount = props.kind === "topic" ? allArticles.filter((n) => n.entry.data.topic === props.topic).length : 0;
+if (props.kind === "article") {
+  ({ Content, headings } = await render(props.article.entry));
+  missing = await missingLangs(props.article.slug);
+  related = props.article.entry.data.related ? await pageRef(lang, props.article.entry.data.related) : null;
+  revs = revisionLog(props.article.date, t.revPublished, props.article.entry.data.revisions);
+}
+---
+{props.kind === "topic" ? (
+  <Base printIn lang={lang} nav="articles" title={`${t.nav.articles}: ${t.topics[props.topic]}`} description={articlesPage.data.intro} block={{
+      key: { label: t.topics[props.topic], value: countArticles(topicCount, lang, t) },
+      filter: topicFilter(lang, allArticles, props.topic),
+      go: { items: [{ text: t.rssFollow, href: `/${lang}/rss.xml` }, ...mediumFollow], phone: false },
+      rows: latestDate ? [[t.upcoming, iso(nextIssueDate(latestDate))]] : [],
+    }}>
+    <ArticlesIndex lang={lang} topic={props.topic} />
+  </Base>
+) : (
+  <Base lang={lang} nav="articles" title={props.article.entry.data.title} description={props.article.entry.data.dek} block={{
+      key: { label: `${t.issue} ${props.article.issue}`, value: monthYear(props.article.date, lang) },
+      rows: [[t.reading, `${props.article.mins} ${t.min}`]],
+      contents: toc(headings),
+      go: { items: [
+        ...articleLinks(lang, props.newer, props.older),
+        ...(related ? [{ kicker: `${t.related} · ${related.tag}`, text: related.title, href: related.href }] : []),
+        ...(props.article.entry.data.medium ? [{ kicker: t.alsoOnMedium, text: t.mediumRead, href: props.article.entry.data.medium }] : []),
+      ] },
+      revisions: revs.length > 1 ? revs : undefined,
+      strip: [`${props.article.mins} ${t.min}`],
+    }}
+    missingIn={missing} ogType="article">
+    <p class="kicker"><a class="tag" href={`/${lang}/articles/${props.article.entry.data.topic}/`}>{t.topics[props.article.entry.data.topic]}</a><span class="mono"><span title={`${t.issue} ${props.article.n}`}>{t.issue} {props.article.issue}</span> · <time datetime={iso(props.article.date)}>{iso(props.article.date)}</time></span></p>
+    <h1>{props.article.entry.data.title}</h1>
+    <p class="dek">{props.article.entry.data.dek}</p>
+    <div class="prose"><Content /></div>
+    {related && <Related label={t.related} href={related.href} tag={related.tag} title={related.title} />}
+    {props.article.entry.data.medium && <Related label={t.alsoOnMedium} href={props.article.entry.data.medium} tag="medium.com" title={props.article.entry.data.title} external />}
+    <nav class="pn" aria-label={t.issue}>
+      {props.older && <a class="prev" href={`/${lang}/articles/${props.older.slug}/`}><span><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.prev} · {props.older.issue}</span>{props.older.entry.data.title}</a>}
+      {props.newer && <a class="next" href={`/${lang}/articles/${props.newer.slug}/`}><span>{t.nextIssue} · {props.newer.issue}&nbsp;<span class="arr" aria-hidden="true"></span></span>{props.newer.entry.data.title}</a>}
+    </nav>
+  </Base>
+)}

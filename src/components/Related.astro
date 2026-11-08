@@ -1,0 +1,6 @@
+---
+// "Related" link box at the end of articles, research and lab pages.
+interface Props { label: string; href: string; tag: string; title: string; external?: boolean }
+const { label, href, tag, title, external = false } = Astro.props;
+---
+<a class="related" href={href} rel={external ? "noopener" : undefined}><small>{label}</small><span class="mono">{tag}</span><span><span class="t">{title}</span>&nbsp;<span class="arr" aria-hidden="true"></span></span></a>

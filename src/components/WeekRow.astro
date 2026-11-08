@@ -1,0 +1,26 @@
+---
+// One weekly digest in a list (/news/ and /news/weeks/). `compact` leaves out the one-line summary (the dek),
+// for the short "Earlier weeks" list under the latest week.
+import { HTML_LANG, LANG_LABEL, ui, type Lang } from "../i18n/ui";
+import { iso } from "../lib/articles";
+import { countWord } from "../lib/block";
+import { weekHref, weekSpan, type Week } from "../lib/news";
+interface Props { week: Week; lang: Lang; compact?: boolean }
+const { week: w, lang, compact = false } = Astro.props;
+const t = ui[lang];
+const other = w.lang !== lang ? HTML_LANG[w.lang] : undefined;
+---
+<li>
+  <a href={weekHref(w)}>
+    <span class="date">{iso(w.date)}</span>
+    <span class="t" lang={other}>{w.entry.data.title}</span>
+    {!compact && <span class="d" lang={other}>{w.entry.data.dek}</span>}
+    <span class="meta">
+      <span class="tag">{t.week} {w.week}</span>
+      <span>{weekSpan(w, lang)}</span>
+      <span>{countWord(w.entry.data.stories.length, lang, t, "story")}</span>
+      {w.example && <span class="tag tag-ex">{t.example}</span>}
+      {w.lang !== lang && <span class="gc-lang">{LANG_LABEL[w.lang]}</span>}
+    </span>
+  </a>
+</li>

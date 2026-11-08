@@ -1,0 +1,23 @@
+---
+import "../styles/global.css";
+import SiteIcons from "../components/SiteIcons.astro";
+import { HTML_LANG, LANGS, LANG_LABEL, ui } from "../i18n/ui";
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <SiteIcons />
+    <title>404 · lvlulcuma</title>
+  </head>
+  <body>
+    <main class="plain">
+      <p class="mono muted">404</p>
+      <h1>{ui.en.notFoundTitle}</h1>
+      {LANGS.filter((l) => l !== "en").map((l) => <p lang={HTML_LANG[l]}>{ui[l].notFoundTitle}</p>)}
+      <ul>{LANGS.map((l) => <li><a href={`/${l}/`} hreflang={HTML_LANG[l]} lang={HTML_LANG[l]}>lvlulcuma.com/{l}/<span>{LANG_LABEL[l]}</span></a></li>)}</ul>
+    </main>
+  </body>
+</html>

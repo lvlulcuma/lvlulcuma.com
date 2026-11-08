@@ -1,0 +1,76 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/incident-response/incident-response-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - incident-response-process
+  - log-analysis
+  - siem
+  - edr
+  - mitre-attack
+  - phishing-analysis
+  - ioc-enrichment
+  - cloud-logs
+  - security-reporting
+  - risk-management-basics
+intermediate:
+  - incident-management-standards
+  - incident-handling
+  - ir-preparation
+  - incident-scoping
+  - evidence-collection
+  - eviction-planning
+  - incident-recovery
+  - incident-report
+  - identity-attacks
+  - ransomware-response
+  - cloud-incident-response
+  - threat-intelligence-basics
+  - ai-in-security-operations
+advanced:
+  - incident-leadership
+  - incident-command
+  - incident-briefings
+  - crisis-communications
+  - playbooks-escalation
+  - incident-reporting-rules
+  - data-breach-response
+  - ransom-decisions
+  - incident-partners
+  - third-party-incidents
+  - business-continuity
+  - tabletop-exercises
+  - ir-improvement
+expert:
+  - csirt-building
+  - shift-management
+  - large-scale-crises
+  - ai-incidents
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Incident Response (PD-WRL-003) and Executive Cybersecurity Leadership (OG-WRL-007) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Incident Responder and CISO profiles"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS LDR553 and GIAC GCIL: Cyber Incident Management"
+    url: "https://www.sans.org/cyber-security-courses/cyber-incident-management"
+  - name: "CREST Certified Incident Manager (CCIM)"
+    url: "https://www.crest-approved.org/skills-certifications-careers/crest-certified-incident-manager/"
+  - name: "ISO/IEC 27035-1:2023, Information security incident management: Principles and process"
+    url: "https://www.iso.org/standard/78973.html"
+  - name: "Counter Ransomware Initiative, Guidance for organisations during ransomware incidents (2024)"
+    url: "https://www.gov.uk/government/publications/cri-guidance-for-organisations-during-ransomware-incidents"
+  - name: "Council Recommendation of 6 June 2025 on an EU blueprint for cyber crisis management"
+    url: "https://eur-lex.europa.eu/eli/C/2025/3445/oj"

@@ -1,0 +1,36 @@
+---
+// The articles archive, optionally filtered to one topic. Filters are separate pages, so no JavaScript is needed.
+import { TOPICS, ui, type Lang, type Topic } from "../i18n/ui";
+import { getArticles, hexIssue, iso, nextIssueDate } from "../lib/articles";
+import { getPage } from "../lib/content";
+import ArticleRow from "./ArticleRow.astro";
+interface Props { lang: Lang; topic?: Topic }
+const { lang, topic } = Astro.props;
+const t = ui[lang];
+const all = await getArticles(lang);
+const articles = topic ? all.filter((n) => n.entry.data.topic === topic) : all;
+const latest = all[0];
+const intro = (await getPage("articles", lang)).data.intro; // content/pages/articles/<lang>.md
+// The next article's number, in hex like the others (0x04). Counted from the highest number, so an article that
+// isn't translated yet still counts.
+const nextN = Math.max(0, ...all.map((a) => a.n)) + 1;
+const nextNo = hexIssue(nextN);
+---
+<h1>{topic ? `${t.nav.articles}: ${t.topics[topic]}` : t.nav.articles}</h1>
+<p class="lede">{intro}</p>
+<nav class="chips chips-phone" aria-label={t.topic}>
+  <a href={`/${lang}/articles/`} aria-current={!topic ? "page" : undefined}>{t.all}</a>
+  {TOPICS.map((k) => <a href={`/${lang}/articles/${k}/`} aria-current={topic === k ? "page" : undefined}>{t.topics[k]}</a>)}
+</nav>
+<ul class="list">
+  {!topic && latest && (
+    <li class="next-row">
+      <div class="upcoming">
+        <span class="date">{iso(nextIssueDate(latest.date))}</span>
+        <span class="t" title={`${t.issue} ${nextN}`}>{t.upcoming} · <span class="mono">{nextNo}</span></span>
+        <span class="d">{t.cadence}</span>
+      </div>
+    </li>
+  )}
+  {articles.length ? articles.map((n) => <ArticleRow article={n} lang={lang} />) : <li class="empty">{t.none}</li>}
+</ul>

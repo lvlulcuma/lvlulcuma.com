@@ -1,0 +1,11 @@
+---
+// Site icons for the <head> of every page. All four files in public/ show the same picture.
+// favicon.svg is the original. Google Search doesn't read SVG, so it uses favicon.ico and
+// favicon.png (it takes the icon from the home page); apple-touch-icon.png is for phone home screens.
+// After changing favicon.svg, export the other three again (192x192 PNG; ICO with 16, 32 and 48 px;
+// 180x180 PNG without the rounded corners). Keep the file names: Google caches the icon by its URL.
+---
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+<link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />

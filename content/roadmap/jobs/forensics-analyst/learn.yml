@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/incident-response/forensics-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - forensic-fundamentals
+  - file-systems
+  - incident-response-process
+  - log-analysis
+  - windows-event-logs
+  - linux-logs
+  - normal-windows-behavior
+  - mitre-attack
+  - regular-expressions
+intermediate:
+  - evidence-collection
+  - forensic-imaging
+  - encrypted-evidence
+  - forensic-tools
+  - windows-forensics
+  - user-activity-forensics
+  - timeline-analysis
+  - data-recovery
+  - browser-email-forensics
+  - linux-forensics
+  - forensic-reporting
+  - scripting-for-security
+  - analytic-thinking
+advanced:
+  - memory-forensics
+  - macos-forensics
+  - mobile-forensics
+  - anti-forensics
+  - cloud-incident-response
+  - persistence-hunting
+  - lateral-movement-hunting
+  - malware-triage
+  - network-traffic-analysis
+  - digital-evidence-law
+  - ediscovery
+  - ai-in-security-operations
+expert:
+  - expert-witness
+  - forensic-lab
+  - forensic-research
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Digital Forensics work role (PD-WRL-002)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Digital Forensics Investigator profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS FOR500 and GIAC GCFE: Windows Forensic Analysis"
+    url: "https://www.sans.org/cyber-security-courses/windows-forensic-analysis/"
+  - name: "NIST SP 800-86, Guide to Integrating Forensic Techniques into Incident Response"
+    url: "https://csrc.nist.gov/pubs/sp/800/86/final"
+  - name: "NIST SP 800-101 Rev. 1, Guidelines on Mobile Device Forensics"
+    url: "https://csrc.nist.gov/pubs/sp/800/101/r1/final"
+  - name: "NIST Computer Forensics Tool Testing (CFTT) program"
+    url: "https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt"
+  - name: "Regulation (EU) 2023/1543 on European Production and Preservation Orders for electronic evidence"
+    url: "https://eur-lex.europa.eu/eli/reg/2023/1543/oj"

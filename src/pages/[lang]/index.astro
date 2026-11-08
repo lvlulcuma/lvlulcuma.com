@@ -1,0 +1,257 @@
+---
+// Home page: headline, then a terminal-style `ls` of the site's sections (with live counts) and, in the
+// right margin, a Roadmap "Topic of the week"; then this week's news (once there is a real weekly
+// digest), this month's article, a Job spotlight from the Roadmap with its learning path, and the
+// "{year} in articles" tiles.
+// Text: content/pages/home/<lang>.md. The "New this week" box (what changed on the site in the last 7 days) is
+// src/components/Announcements.astro: in the left column on wide screens, under the headline on phones.
+import Base from "../../layouts/Base.astro";
+import Announcements from "../../components/Announcements.astro";
+import { HTML_LANG, MONTHS, NAV, langPaths, ui, type Lang } from "../../i18n/ui";
+import { getArticles, hexIssue, iso, nextIssueDate } from "../../lib/articles";
+import { dayToDate, today } from "../../lib/changes";
+import { getGuides, getPage, getProjects } from "../../lib/content";
+import { getFields, getJobs, getLearn, getTopics } from "../../lib/roadmap";
+import { countWord, dayMonth } from "../../lib/block";
+import { getIncidents, getWeeks, weekHref, weekSpan } from "../../lib/news";
+import { getCwes } from "../../lib/cwe";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const articles = await getArticles(lang);
+const latest = articles[0];
+const page = await getPage("home", lang); // content/pages/home/<lang>.md
+const home = page.data;
+const file = `content/pages/home/${lang}.md`;
+
+// ---- The `ls` menu: one row per section, with counts the site works out by itself.
+const fields = await getFields(lang);
+const jobs = await getJobs(lang);
+const guides = await getGuides(lang);
+const projects = await getProjects(lang);
+const active = projects.filter((p) => p.entry.data.status === "in-progress").length;
+// News: made-up examples (`example: true`) aren't counted or shown here.
+const weeks = (await getWeeks(lang)).filter((w) => !w.example);
+const incidents = (await getIncidents(lang)).filter((i) => !i.example);
+const thisWeek = weeks[0];
+const cwes = await getCwes(lang);
+const counts: Record<string, string> = {
+  cwe: cwes.length ? String(t.cweCountAll).replace("{n}", String(cwes.length)) : "",
+  news: weeks.length || incidents.length ? [weeks.length && countWord(weeks.length, lang, t, "week"), incidents.length && countWord(incidents.length, lang, t, "incident")].filter(Boolean).join(", ") : "",
+  roadmap: `${countWord(fields.length, lang, t, "field")}, ${countWord(jobs.length, lang, t, "job")}`,
+  guides: countWord(guides.length, lang, t, "guide"),
+  articles: countWord(articles.length, lang, t, "article"),
+  research: active ? `${active} ${t.inprogress.toLowerCase()}` : "",
+};
+// Same order as the header menu (NAV in src/i18n/ui.ts), so the two always match.
+// Sections are folders (blue, like `ls` colours directories); single pages are files.
+const PAGES: readonly string[] = ["about", "contact"];
+const LS = NAV.map((key) => (PAGES.includes(key) ? { key, name: `${key}.md`, dir: false } : { key, name: `${key}/`, dir: true }));
+const ls = home.ls ?? {};
+// On phones the menu turns into `tree` output, which ends with a count like "5 directories, 2 files".
+const dirs = LS.filter((r) => r.dir).length, filesN = LS.length - dirs;
+const treeSum = String(home.tree_summary ?? "{dirs} directories, {files} files").replace("{dirs}", String(dirs)).replace("{files}", String(filesN));
+for (const r of LS) if (!ls[r.key]) throw new Error(`${file}: ls → ${r.key} is missing.`);
+
+// ---- Job spotlight: one job from the Roadmap, a different one each week. Picked by folder name,
+// so every language shows the same job. Jobs with a "what to learn" list come first: the card then
+// shows their learning path as a bar (topics per level, and where employers usually hire).
+const spot = home.spotlight;
+const learn = await getLearn();
+const week = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
+const withPath = jobs.filter((j) => learn.has(j.slug)).map((j) => j.slug).sort();
+const slugs = withPath.length ? withPath : jobs.map((j) => j.slug).sort();
+const job = jobs.find((j) => j.slug === slugs[week % slugs.length]);
+const jobField = job && fields.find((f) => f.slug === job.field);
+const roadmapPage = await getPage("roadmap", lang);
+const levelTitle: string | undefined = job ? roadmapPage.data.levels?.[job.level]?.title : undefined;
+const path = job ? learn.get(job.slug) : undefined;
+const hireAt = path ? path.levels.findIndex((l) => l.id === path.data.hire) : -1;
+const hireCount = path ? path.levels.slice(0, hireAt + 1).reduce((n, l) => n + l.topics.length, 0) : 0;
+const hireTitle: string = path ? roadmapPage.data.learnLevels?.[path.data.hire]?.title ?? path.data.hire : "";
+// The sentence under the bar (`spotlight: path:` in the home text): {count} and {level} are shown in bold.
+function fill(tpl: string, v: Record<string, string>) {
+  return String(tpl).split(/(\{\w+\})/).filter(Boolean).map((part) => {
+    const k = part.match(/^\{(\w+)\}$/)?.[1];
+    return k && k in v ? { text: v[k], strong: k === "count" || k === "level" } : { text: part, strong: false };
+  });
+}
+
+// ---- "Topic of the week" in the right margin (below the terminal on smaller screens): one Roadmap topic
+// that two or more jobs need, a different one each week (it changes when the site is rebuilt). It shows
+// the topic's title and summary and, for each job, at which level of its learning path the topic comes.
+const tw = home.topic_week;
+const topics = await getTopics(lang);
+const LEVEL_IDS = path?.levels.map((l) => l.id) ?? ["beginner", "knowledgeable", "intermediate", "advanced", "expert"];
+const usedBy = new Map<string, { job: (typeof jobs)[number]; at: number }[]>();
+for (const j of jobs) (learn.get(j.slug)?.levels ?? []).forEach((l, at) => {
+  for (const s of l.topics) usedBy.set(s, [...(usedBy.get(s) ?? []), { job: j, at }]);
+});
+const shared = [...usedBy.keys()].filter((s) => usedBy.get(s)!.length >= 2 && topics.has(s)).sort();
+const towSlug = tw && shared.length ? shared[week % shared.length] : undefined;
+const tow = towSlug ? topics.get(towSlug) : undefined;
+const towJobs = towSlug ? usedBy.get(towSlug)!.sort((x, y) => x.at - y.at || x.job.entry.data.title.localeCompare(y.job.entry.data.title)) : [];
+const TOW_ROWS = 4;  // jobs listed; more than that ends with "and N more"
+const towShown = towJobs.length > TOW_ROWS ? towJobs.slice(0, TOW_ROWS - 1) : towJobs;
+// Clicking the topic (title and summary) opens its own page once it has one (text under the dashes in
+// content/roadmap/topics/<topic>/<lang>.md); until then, the topic on the first job's learning path.
+const towHref = tow && towSlug ? (tow.hasPage ? `/${lang}/roadmap/topics/${towSlug}/` : `/${lang}/roadmap/${towJobs[0].job.field}/${towJobs[0].job.slug}/#t-${towSlug}`) : "";
+const levelName = (id: string): string => roadmapPage.data.learnLevels?.[id]?.title ?? id;
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+
+// ---- "{year} in articles": one card per month from the first article's month (this year) to December. A month
+// with an article links to it (number and title); the next planned month shows its number and date; the rest are
+// faint. The heading says how many days until the next article ("today" in Eastern Time, like "New this week"). "Today" is Eastern Time, like "New this week"; the
+// nightly rebuild keeps it right.
+const yr = home.year ?? {};
+for (const k of ["heading", "intro", "next", "in", "today", "day_other"]) if (!yr[k]) throw new Error(`content/pages/home/${lang}.md: year → ${k} is missing.`);
+const year = latest ? latest.date.getUTCFullYear() : new Date().getUTCFullYear();
+const next = latest ? nextIssueDate(latest.date) : null;
+const thisYear = articles.filter((n) => n.date.getUTCFullYear() === year);
+const firstMonth = thisYear.length ? Math.min(...thisYear.map((n) => n.date.getUTCMonth())) : 0;
+const now = dayToDate(today());
+const cells = MONTHS[lang].map((label, m) => {
+  const article = articles.find((n) => n.date.getUTCFullYear() === year && n.date.getUTCMonth() === m);
+  const isNext = !!next && next.getUTCFullYear() === year && next.getUTCMonth() === m;
+  return { label, article, isNext, m };
+}).filter((c) => c.m >= firstMonth);
+const daysToNext = next ? Math.round((next.valueOf() - now.valueOf()) / 86400000) : null;
+const countdown = daysToNext === null || daysToNext < 0 ? "" : daysToNext === 0 ? String(yr.today) : String(yr.in).replace("{n}", countWord(daysToNext, lang, yr, "day"));
+const nextIssue = latest ? hexIssue(latest.n + 1) : "";
+---
+<Base lang={lang} nav="home" title={home.title} description={home.intro}>
+  <Announcements slot="aside" lang={lang} where="side" />
+  <div class="home-top">
+  <div class="home-main">
+  <section class="hero">
+    <p class="kicker">{home.kicker}</p>
+    <h1>{home.headline}</h1>
+    <p class="lede">{home.intro}</p>
+  </section>
+  <Announcements lang={lang} where="inline" />
+
+  <nav class="lsmenu-wrap" aria-label={home.ls_label ?? t.onSite}>
+    <figure class="code shell-sh lsmenu">
+      <figcaption>{t.codeTerminal}</figcaption>
+      <div class="ls-body">
+        <p class="ln" aria-hidden="true"><span class="cmd-wide">ls ~/lvlulcuma</span><span class="cmd-narrow">tree ~/lvlulcuma</span></p>
+        <p class="tree-root" aria-hidden="true">~/lvlulcuma</p>
+        <ul class="ls">
+          {LS.map((r) => (
+            <li>
+              <a href={`/${lang}/${r.key}/`} class={r.dir ? "dir" : "file"}>{r.name}</a>
+              <span class="d"><span class="t">{ls[r.key]}</span>{counts[r.key] && <span class="n"><span class="sep" aria-hidden="true"> · </span>{counts[r.key]}</span>}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="tree-sum" aria-hidden="true">{treeSum}</p>
+        <p class="ln" aria-hidden="true"><span class="cur"></span></p>
+      </div>
+    </figure>
+  </nav>
+  </div>
+
+  {tow && towSlug && (
+    <section class="tow" aria-labelledby="tow-h">
+      <p class="tow-bar" aria-hidden="true"><span class="p">$</span> <span class="cmd">topic --this-week</span><span class="cur"></span></p>
+      <div class="tow-body">
+        <h2 class="tow-k" id="tow-h">{tw.heading}</h2>
+        <div class="tow-main">
+          <p class="tow-t" lang={other(tow.lang)}><a href={towHref}>{tow.entry.data.title}&nbsp;<span class="arr" aria-hidden="true"></span></a></p>
+          <p class="tow-s" lang={other(tow.lang)}>{tow.entry.data.summary}</p>
+        </div>
+        <p class="tow-h">{t.neededFor}</p>
+        <ul class="tow-jobs">
+          {towShown.map(({ job: j, at }) => (
+            <li><a href={`/${lang}/roadmap/${j.field}/${j.slug}/#t-${towSlug}`}>
+              <span class="j" lang={other(j.lang)}>{j.entry.data.title}</span>
+              <span class="lv"><span class="mini" aria-hidden="true">{LEVEL_IDS.map((_, n) => <i class={n <= at ? "on" : undefined}></i>)}</span>{levelName(LEVEL_IDS[at])}</span>
+            </a></li>
+          ))}
+          {towJobs.length > towShown.length && <li class="more">{String(tw.more).replace("{n}", String(towJobs.length - towShown.length))}</li>}
+        </ul>
+      </div>
+      <a class="tow-foot" href={`/${lang}/roadmap/`}>{tw.all}&nbsp;<span class="arr" aria-hidden="true"></span></a>
+    </section>
+  )}
+  </div>
+
+  {thisWeek && (
+    <section class="block">
+      <div class="block-head"><h2>{t.thisWeek}</h2><span>{t.week} {thisWeek.week} · {weekSpan(thisWeek, lang)}</span></div>
+      <div class="feature week-card">
+        <span class="tag">{t.weekly}</span>
+        <h3 lang={other(thisWeek.lang)}><a href={weekHref(thisWeek)}>{thisWeek.entry.data.title}</a></h3>
+        <ol class="week-heads" lang={other(thisWeek.lang)}>
+          {thisWeek.entry.data.stories.map((s, n) => (
+            <li><a href={`${weekHref(thisWeek)}#s-${n + 1}`}><span class="h">{s.title}</span><span class="tag">{t.newsTypes[s.type]}</span></a></li>
+          ))}
+        </ol>
+        <a class="go" href={weekHref(thisWeek)}>{t.readWeek}&nbsp;<span class="arr" aria-hidden="true"></span></a>
+      </div>
+    </section>
+  )}
+
+  {latest && (
+    <section class="block">
+      <div class="block-head"><h2>{t.thisMonth}</h2><span title={`${t.issue} ${latest.n}`}>{t.issue} {latest.issue} · {iso(latest.date)}</span></div>
+      <a class="feature" href={`/${lang}/articles/${latest.slug}/`}>
+        <span class="tag">{t.topics[latest.entry.data.topic]}</span>
+        <h3>{latest.entry.data.title}</h3>
+        <p>{latest.entry.data.dek}</p>
+        <span class="go">{t.read} · {latest.mins} {t.min}&nbsp;<span class="arr" aria-hidden="true"></span></span>
+      </a>
+    </section>
+  )}
+
+  {spot && job && jobField && (
+    <section class="block">
+      <div class="block-head"><h2>{spot.heading}</h2><a href={`/${lang}/roadmap/`}>{spot.all}&nbsp;<span class="arr" aria-hidden="true"></span></a></div>
+      <a class="feature spotlight" href={path ? `/${lang}/roadmap/${job.field}/${job.slug}/` : `/${lang}/roadmap/${job.field}/#${job.slug}`}>
+        <span class="tags"><span class="tag" lang={other(jobField.lang)}>{jobField.entry.data.title}</span>{levelTitle && <span class="tag">{levelTitle}</span>}</span>
+        <h3 lang={other(job.lang)}>{job.entry.data.title}</h3>
+        <p lang={other(job.lang)}>{job.entry.data.summary}</p>
+        {job.entry.data.also.length > 0 && <p class="also" lang={other(job.lang)}><span>{t.alsoCalled}:</span> {job.entry.data.also.join(" · ")}</p>}
+        {path && (
+          <span class="lpath">
+            <span class="lpath-bar" aria-hidden="true">
+              {path.levels.map((l, n) => <span class={`seg g${Math.min(l.topics.length, 20)}${n <= hireAt ? " in" : ""}${n === hireAt ? " at-hire" : ""}`}></span>)}
+            </span>
+            <span class="lpath-t">{fill(spot.path, { count: countWord(path.count, lang, t, "topic"), level: hireTitle, n: String(hireCount) }).map((p) => (p.strong ? <strong>{p.text}</strong> : p.text))}</span>
+          </span>
+        )}
+        <span class="go">{path ? t.topicsToLearn : spot.go}&nbsp;<span class="arr" aria-hidden="true"></span></span>
+      </a>
+    </section>
+  )}
+
+  <section class="block yr-block" aria-labelledby="yr-h">
+    <div class="block-head">
+      <h2 id="yr-h">{String(yr.heading).replace("{year}", String(year))}</h2>
+      {next && countdown && <p class="yr-count"><span class="yr-pulse" aria-hidden="true"></span>{yr.next} · <time datetime={iso(next)}>{dayMonth(next, lang)}</time> · <strong>{countdown}</strong></p>}
+    </div>
+    <p class="block-intro">{yr.intro}</p>
+    <ol class="yr">
+      {cells.map((c) => (
+        <li class={c.article ? "on" : c.isNext ? "next" : "later"}>
+          {c.article ? (
+            <a class="yr-card" href={`/${lang}/articles/${c.article.slug}/`} title={c.article.entry.data.title}>
+              <span class="m">{c.label}</span>
+              <strong class="no">{c.article.issue}</strong>
+              <span class="t">{c.article.entry.data.title}</span>
+            </a>
+          ) : c.isNext ? (
+            <div class="yr-card">
+              <span class="m">{c.label}</span>
+              <strong class="no">{nextIssue}</strong>
+              <span class="t"><time datetime={iso(next!)}>{dayMonth(next!, lang)}</time></span>
+            </div>
+          ) : (
+            <div class="yr-card"><span class="m">{c.label}</span></div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>

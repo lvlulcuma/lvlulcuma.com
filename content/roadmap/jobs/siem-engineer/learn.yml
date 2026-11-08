@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-operations/siem-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - log-analysis
+  - windows-event-logs
+  - linux-logs
+  - linux-administration
+  - log-collection
+  - siem
+  - edr
+  - mitre-attack
+intermediate:
+  - siem-administration
+  - log-source-onboarding
+  - audit-policies
+  - log-normalization
+  - log-pipelines
+  - siem-health-monitoring
+  - siem-queries
+  - security-dashboards
+  - regular-expressions
+  - scripting-for-security
+  - git-basics
+  - cloud-logs
+advanced:
+  - siem-architecture
+  - search-performance
+  - log-retention
+  - log-integrity
+  - personal-data-in-logs
+  - logging-requirements
+  - siem-as-code
+  - siem-migration
+  - detection-engineering
+  - alert-tuning
+  - anomaly-detection
+  - soar-automation
+expert:
+  - siem-platform-ownership
+  - logging-strategy
+  - detection-coverage
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support work role (PD-WRL-004)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Splunk Enterprise Certified Admin exam blueprint"
+    url: "https://www.splunk.com/en_us/pdfs/training/splunk-test-blueprint-enterprise-admin.pdf"
+  - name: "ASD's ACSC, CISA and partners, Best practices for event logging and threat detection"
+    url: "https://www.cyber.gov.au/publication/best-practices-for-event-logging-and-threat-detection"
+  - name: "NIST SP 800-92 Rev. 1 (draft), Cybersecurity Log Management Planning Guide"
+    url: "https://csrc.nist.gov/pubs/sp/800/92/r1/ipd"
+  - name: "Commission Implementing Regulation (EU) 2024/2690 under NIS2, Annex section 3.2"
+    url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj"

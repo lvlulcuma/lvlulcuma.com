@@ -1,0 +1,71 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/incident-response/insider-threat-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - insider-threat-basics
+  - data-classification
+  - incident-response-process
+  - risk-management-basics
+  - log-analysis
+  - windows-event-logs
+  - cloud-logs
+  - siem
+  - edr
+  - alert-triage
+  - security-reporting
+intermediate:
+  - insider-indicators
+  - data-exfiltration
+  - dlp
+  - insider-risk-tools
+  - leavers-and-movers
+  - insider-investigations
+  - employee-monitoring-law
+  - personal-data-in-logs
+  - siem-queries
+  - anomaly-detection
+  - user-activity-forensics
+  - analytic-thinking
+advanced:
+  - reporting-channels
+  - threat-assessment
+  - insider-fraud
+  - insider-recruitment
+  - evidence-collection
+  - browser-email-forensics
+  - digital-evidence-law
+  - ediscovery
+  - hunt-data-analysis
+  - deception
+  - scripting-for-security
+  - ai-in-security-operations
+expert:
+  - insider-risk-program
+  - insider-awareness
+  - tabletop-exercises
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Insider Threat Analysis work role (PD-WRL-005)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "CERT Common Sense Guide to Mitigating Insider Threats, Seventh Edition"
+    url: "https://www.sei.cmu.edu/library/common-sense-guide-to-mitigating-insider-threats-seventh-edition/"
+  - name: "CISA Insider Threat Mitigation Guide"
+    url: "https://www.cisa.gov/resources-tools/resources/insider-threat-mitigation-guide"
+  - name: "Global Counter-Insider Threat Professional (GCITP) certification"
+    url: "https://gcitp.umd.edu/"
+  - name: "Article 29 Working Party, Opinion 2/2017 on data processing at work"
+    url: "https://ec.europa.eu/newsroom/article29/items/610169"
+  - name: "Polish Whistleblower Protection Act of 14 June 2024"
+    url: "https://eli.gov.pl/eli/DU/2024/928/ogl"

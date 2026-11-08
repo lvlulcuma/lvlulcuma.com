@@ -1,0 +1,82 @@
+---
+// One field of the Roadmap and the jobs in it, grouped by career level: /<lang>/roadmap/<field>/
+// Field: content/roadmap/fields/<field>/<lang>.md. Jobs: content/roadmap/jobs/<job>/<lang>.md (`field:` names the field).
+// Level headings and the small print: `levels:` and `levelsNote:` in content/pages/roadmap/<lang>.md.
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import { HTML_LANG, JOB_LEVELS, LANGS, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { getFields, getJobs, getLearn } from "../../../lib/roadmap";
+import { countWord } from "../../../lib/block";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) for (const f of await getFields(lang)) paths.push({ params: { lang, field: f.slug } });
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("roadmap", lang);
+const { Content } = await render(page.entry);
+const fields = await getFields(lang);
+const i = fields.findIndex((f) => f.slug === Astro.params.field);
+const field = fields[i];
+const prev = fields[i - 1], next = fields[i + 1];
+const jobs = (await getJobs(lang)).filter((j) => j.field === field.slug);
+// Jobs with a learning path (content/roadmap/jobs/<job>/learn.yml) get their own page, linked from the card.
+const learn = await getLearn();
+const ready = jobs.filter((j) => learn.has(j.slug)).length;
+const learnValue = ready ? `${ready} ${t.of} ${countWord(jobs.length, lang, t, "job")}` : t.comingSoon;
+const groupTitle: string = page.data.groups?.[field.group]?.title ?? "";
+const levels = JOB_LEVELS.map((l) => {
+  const text = page.data.levels?.[l];
+  if (!text?.title) throw new Error(`content/pages/roadmap/${lang}.md: levels → ${l} → title is missing.`);
+  return { id: l, title: text.title as string, text: text.text as string | undefined, jobs: jobs.filter((j) => j.level === l) };
+}).filter((l) => l.jobs.length > 0);
+// A field or job not yet written in this language is shown in English, marked as such for screen readers.
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+const link = (f: typeof field, kicker: string) => ({ kicker, text: f.entry.data.title, href: `/${lang}/roadmap/${f.slug}/`, lang: other(f.lang) });
+const fd = field.entry.data;
+---
+<Base printIn lang={lang} nav="roadmap" title={fd.title} description={fd.summary} block={{
+    key: { label: t.jobs, value: String(jobs.length) },
+    contents: levels.map((l) => ({ slug: l.id, text: l.title })),
+    go: { items: [
+      ...(prev ? [link(prev, t.prevField)] : []),
+      ...(next ? [link(next, t.nextField)] : []),
+      { kicker: t.nav.roadmap, text: t.allFields, href: `/${lang}/roadmap/#${field.slug}` },
+    ] },
+    rows: [[t.learn, learnValue], [t.updated, page.updated]],
+    strip: [`${t.learn}: ${learnValue.toLowerCase()}`],
+  }}>
+  <p class="kicker"><a class="tag" href={`/${lang}/roadmap/#${field.group}`}>{groupTitle}</a></p>
+  <h1 lang={other(field.lang)}>{fd.title}</h1>
+  <p class="lede" lang={other(field.lang)}>{fd.summary}</p>
+  {fd.also.length > 0 && <p class="also-line" lang={other(field.lang)}><span>{t.alsoCalled}:</span> {fd.also.join(" · ")}</p>}
+
+  {levels.map((l, n) => (
+    <section class="gsec" aria-labelledby={l.id}>
+      <div class="block-head num">
+        <span class="sec-n" aria-hidden="true">{String(n + 1).padStart(2, "0")}</span>
+        <h2 id={l.id}>{l.title}</h2>
+        <span class="bh-count">{countWord(l.jobs.length, lang, t, "job")}</span>
+        {l.text && <p class="bh-desc">{l.text}</p>}
+      </div>
+      <ul class="fcards">
+        {l.jobs.map((j) => (
+          <li id={j.slug} lang={other(j.lang)} class={learn.has(j.slug) ? "linked" : undefined}>
+            <h3>{learn.has(j.slug) ? <a href={`/${lang}/roadmap/${field.slug}/${j.slug}/`}>{j.entry.data.title}</a> : j.entry.data.title}</h3>
+            <p>{j.entry.data.summary}</p>
+            {j.entry.data.also.length > 0 && <p class="also"><span>{t.alsoCalled}:</span> {j.entry.data.also.join(" · ")}</p>}
+            {learn.has(j.slug) && <p class="fc-go" lang={lang === j.lang ? undefined : HTML_LANG[lang]}>{t.learn}: {countWord(learn.get(j.slug)!.count, lang, t, "topic")}&nbsp;<span class="arr" aria-hidden="true"></span></p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <div class="source-note">
+    {page.data.levelsNote && <p>{page.data.levelsNote}</p>}
+    <Content />
+  </div>
+</Base>

@@ -1,0 +1,64 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-operations/soc-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - log-analysis
+  - windows-event-logs
+  - siem
+  - edr
+  - alert-triage
+  - phishing-analysis
+  - ioc-enrichment
+  - mitre-attack
+  - incident-response-process
+  - security-reporting
+intermediate:
+  - siem-queries
+  - network-traffic-analysis
+  - ids-ips
+  - identity-attacks
+  - cloud-logs
+  - scripting-for-security
+  - regular-expressions
+  - malware-triage
+  - threat-intelligence-basics
+  - vulnerability-basics
+  - incident-handling
+  - ai-in-security-operations
+advanced:
+  - threat-hunting
+  - detection-engineering
+  - windows-forensics
+  - memory-forensics
+  - malware-analysis
+  - soar-automation
+  - incident-reporting-rules
+  - deception
+expert:
+  - incident-leadership
+  - soc-metrics
+  - logging-strategy
+  - adversary-emulation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Defensive Cybersecurity work role (PD-WRL-001)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Incident Responder profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "CompTIA CySA+ V4 (CS0-004) exam objectives"
+    url: "https://www.comptia.org/en/certifications/cybersecurity-analyst/v4/"
+  - name: "NIST SP 800-61 Rev. 3"
+    url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final"

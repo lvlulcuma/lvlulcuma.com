@@ -1,0 +1,76 @@
+# The plan for the CWE section: which write-up explains which CWEs, in the order they'll be written.
+# Every one of the 249 CWEs in owasp-2025.yml is on exactly one page (the build checks this). A page is named
+# after its main CWE (its folder: content/cwe/<cwe>/) and also explains the CWEs in `covers:`, which are
+# variants or close relatives of the same mistake. Once a page is written, all of its CWEs link to it on /cwe/.
+#   kind: full   a complete write-up (attack and defense sides)
+#   kind: short  a shorter one: rarely a web problem, or a narrow topic
+# `title` is a working title; the write-up's own `title:` is what readers see.
+# Next one to write:  python3 scripts/cwe/next.py
+pages:
+  - { cwe: 639, covers: [566], kind: full, title: "IDOR: when changing an ID shows someone else's data" }   # A01
+  - { cwe: 74, covers: [76, 116, 159, 115], kind: full, title: "Injection: how data turns into commands" }   # A05
+  - { cwe: 89, covers: [564], kind: full, title: "SQL injection" }   # A05
+  - { cwe: 79, covers: [80, 83, 86, 644], kind: full, title: "Cross-site scripting (XSS)" }   # A05
+  - { cwe: 862, covers: [284, 285, 863, 425, 424], kind: full, title: "Missing authorization: pages and actions anyone can use" }   # A01
+  - { cwe: 918, covers: [441, 610], kind: full, title: "Server-side request forgery (SSRF)" }   # A01
+  - { cwe: 352, covers: [], kind: full, title: "Cross-site request forgery (CSRF)" }   # A01
+  - { cwe: 22, covers: [23, 36, 73, 99], kind: full, title: "Path traversal: escaping the folder" }   # A01
+  - { cwe: 78, covers: [77, 88], kind: full, title: "OS command injection" }   # A05
+  - { cwe: 434, covers: [646], kind: full, title: "Dangerous file uploads" }   # A06
+  - { cwe: 306, covers: [], kind: full, title: "Missing authentication: no login where there should be one" }   # A07
+  - { cwe: 287, covers: [1390, 303, 304, 305, 288, 289], kind: full, title: "Authentication bypass: getting in without the password" }   # A07
+  - { cwe: 640, covers: [620], kind: full, title: "Password reset and change flaws" }   # A07
+  - { cwe: 347, covers: [345], kind: full, title: "Signatures that aren't checked (JWT and friends)" }   # A04
+  - { cwe: 307, covers: [799], kind: full, title: "No rate limits: brute force and abuse" }   # A07
+  - { cwe: 915, covers: [], kind: full, title: "Mass assignment: setting fields you shouldn't" }   # A08
+  - { cwe: 472, covers: [642, 15, 454, 302, 807, 565, 784], kind: full, title: "Parameter tampering: trusting values the user can change" }   # A06
+  - { cwe: 601, covers: [], kind: full, title: "Open redirect" }   # A01
+  - { cwe: 942, covers: [346, 940, 941], kind: full, title: "CORS and postMessage: trusting the wrong origin" }   # A02
+  - { cwe: 611, covers: [776, 112], kind: full, title: "XML external entities (XXE)" }   # A02
+  - { cwe: 502, covers: [], kind: full, title: "Insecure deserialization" }   # A08
+  - { cwe: 917, covers: [], kind: full, title: "Template and expression language injection" }   # A05
+  - { cwe: 98, covers: [], kind: full, title: "File inclusion (LFI and RFI)" }   # A05
+  - { cwe: 94, covers: [95, 96, 97, 470], kind: full, title: "Code injection and eval" }   # A05
+  - { cwe: 362, covers: [], kind: full, title: "Race conditions" }   # A06
+  - { cwe: 841, covers: [], kind: full, title: "Business logic flaws: skipping steps" }   # A06
+  - { cwe: 444, covers: [436], kind: full, title: "HTTP request smuggling" }   # A06
+  - { cwe: 200, covers: [201, 359, 497, 668, 402], kind: full, title: "Sensitive data exposure: when the app says too much" }   # A01
+  - { cwe: 552, covers: [538, 219, 548], kind: full, title: "Exposed files: backups, .git folders and directory listings" }   # A01
+  - { cwe: 798, covers: [259, 258, 321, 547, 13, 260], kind: full, title: "Hard-coded secrets in code and config" }   # A07
+  - { cwe: 384, covers: [613], kind: full, title: "Session fixation and sessions that never end" }   # A07
+  - { cwe: 1004, covers: [614, 1275], kind: full, title: "Cookie flags: Secure, HttpOnly and SameSite" }   # A02
+  - { cwe: 1021, covers: [451, 1022], kind: full, title: "Clickjacking and other UI tricks" }   # A06
+  - { cwe: 93, covers: [113], kind: full, title: "CRLF injection and response splitting" }   # A05
+  - { cwe: 209, covers: [550, 756], kind: full, title: "Error messages that give too much away" }   # A10
+  - { cwe: 489, covers: [11, 215, 16, 526], kind: full, title: "Debug mode left on in production" }   # A02
+  - { cwe: 521, covers: [1391, 1392, 1393], kind: full, title: "Weak and default passwords" }   # A07
+  - { cwe: 598, covers: [525, 539, 315], kind: full, title: "Sensitive data in URLs, caches and cookies" }   # A06
+  - { cwe: 602, covers: [501, 656], kind: full, title: "Trusting the browser: checks only on the client" }   # A06
+  - { cwe: 319, covers: [5, 523], kind: full, title: "Data sent without encryption" }   # A04
+  - { cwe: 916, covers: [759, 760, 261, 256, 522], kind: full, title: "Storing passwords the wrong way" }   # A04
+  - { cwe: 330, covers: [331, 332, 334, 335, 336, 337, 338, 340, 342, 1241], kind: full, title: "Predictable random numbers and tokens" }   # A04
+  - { cwe: 327, covers: [326, 328, 780, 1240, 757, 325], kind: full, title: "Weak or broken cryptography" }   # A04
+  - { cwe: 295, covers: [296, 297, 298, 299, 322, 300], kind: full, title: "Skipped certificate checks and man-in-the-middle" }   # A07
+  - { cwe: 1395, covers: [1035, 1104, 1329, 1357], kind: full, title: "Vulnerable and outdated dependencies" }   # A03
+  - { cwe: 829, covers: [830, 494, 353, 506, 509], kind: full, title: "Loading code you can't trust" }   # A08
+  - { cwe: 636, covers: [274, 280], kind: full, title: "Failing open: when an error lets everyone in" }   # A10
+  - { cwe: 20, covers: [1174, 103, 104, 183, 129], kind: full, title: "Input validation: the basics" }   # A05
+  - { cwe: 311, covers: [312, 313, 316, 922], kind: full, title: "Sensitive data stored unprotected" }   # A06
+  - { cwe: 778, covers: [221, 223, 117, 532], kind: full, title: "Logging failures" }   # A09
+  - { cwe: 290, covers: [291, 293, 350, 294], kind: short, title: "Spoofing and replay: faking who you are" }   # A07
+  - { cwe: 308, covers: [309], kind: short, title: "Single-factor login (no MFA)" }   # A07
+  - { cwe: 235, covers: [234], kind: short, title: "Missing and extra parameters" }   # A10
+  - { cwe: 90, covers: [], kind: short, title: "LDAP injection" }   # A05
+  - { cwe: 643, covers: [91], kind: short, title: "XPath and XML injection" }   # A05
+  - { cwe: 540, covers: [615], kind: short, title: "Secrets and clues in front-end code and comments" }   # A01
+  - { cwe: 269, covers: [266, 286], kind: short, title: "Roles and privileges handed out wrong" }   # A06
+  - { cwe: 657, covers: [653, 693, 1125, 419, 749], kind: short, title: "Secure design principles and attack surface" }   # A06
+  - { cwe: 323, covers: [324, 329, 320], kind: short, title: "Keys, nonces and IVs used wrong" }   # A04
+  - { cwe: 732, covers: [276, 281, 282, 283], kind: short, title: "Wrong file and resource permissions" }   # A01
+  - { cwe: 59, covers: [61, 65], kind: short, title: "Symlink and hard-link tricks" }   # A01
+  - { cwe: 377, covers: [379], kind: short, title: "Insecure temporary files" }   # A01
+  - { cwe: 426, covers: [427, 114], kind: short, title: "Untrusted search paths (DLL hijacking)" }   # A08
+  - { cwe: 755, covers: [703, 754, 248, 252, 390, 391, 394, 396, 397, 460], kind: short, title: "Errors the code doesn't handle" }   # A10
+  - { cwe: 476, covers: [369, 478, 484], kind: short, title: "Crashes from unexpected values" }   # A10
+  - { cwe: 676, covers: [447, 628, 382, 493, 500], kind: short, title: "Unsafe functions and code patterns" }   # A06
+  - { cwe: 926, covers: [], kind: short, title: "Exported Android components" }   # A08

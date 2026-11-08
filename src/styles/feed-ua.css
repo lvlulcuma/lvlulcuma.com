@@ -1,0 +1,9 @@
+/* Ukrainian feeds: the same look as feed.css, in Fixel (like the Ukrainian pages, see fonts-ua.css). */
+@import "./feed.css";
+@import "./fonts-ua.css";
+
+rss {
+  --display: "Fixel Display", system-ui, sans-serif;
+  --body: "Fixel Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+channel > title { letter-spacing: 0; }

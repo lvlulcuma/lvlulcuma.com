@@ -1,0 +1,18 @@
+# Site-wide settings.
+
+# Languages the site is published in. English must stay on.
+# Polish is switched off for now: its files stay in content/ (and keep their place in every
+# folder), but no Polish pages are built, PL is gone from the language switch, and old /pl/
+# addresses redirect to the English page.
+# To bring Polish back, change the line to:   languages: [en, pl, ua]
+languages: [en, ua]
+
+# Shown on the Contact and About pages ("Is it really me?" lists them as the only accounts you use).
+email: "lvlulcuma@outlook.com"
+github: "https://github.com/lvlulcuma"
+medium: "https://medium.com/@lvlulcuma"   # leave empty ("") to hide it everywhere
+
+# Leave empty until you have a PGP key. While it's empty, the PGP rows are hidden.
+# When you add one, also put the public key file in public/pgp-key.txt.
+pgp_fingerprint: ""
+pgp_key_path: "/pgp-key.txt"

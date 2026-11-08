@@ -1,0 +1,47 @@
+---
+// The guides list: one section of cards per category, every category shown even before it has guides.
+// Category filters are separate pages (no JavaScript).
+import { GUIDE_CATS, ui, type Lang, type GuideCat } from "../i18n/ui";
+import { getGuides, getPage } from "../lib/content";
+import { countWord } from "../lib/block";
+import GuideRow from "./GuideRow.astro";
+interface Props { lang: Lang; cat?: GuideCat }
+const { lang, cat } = Astro.props;
+const t = ui[lang];
+const all = await getGuides(lang);
+const page = (await getPage("guides", lang)).data;
+const catText = (c: GuideCat): string | undefined => page.categories?.[c];
+const pad = (n: number) => String(n).padStart(2, "0");
+const shown = cat ? [cat] : [...GUIDE_CATS];
+---
+<h1>{cat ? `${t.nav.guides}: ${t.guideCats[cat]}` : t.nav.guides}</h1>
+<p class="lede">{cat ? catText(cat) ?? page.intro : page.intro}</p>
+<nav class="chips chips-phone" aria-label={t.category}>
+  <a href={`/${lang}/guides/`} aria-current={!cat ? "page" : undefined}>{t.all}</a>
+  {GUIDE_CATS.map((c) => <a href={`/${lang}/guides/${c}/`} aria-current={cat === c ? "page" : undefined}>{t.guideCats[c]}</a>)}
+</nav>
+
+{shown.map((c) => {
+  const list = all.filter((g) => g.category === c);
+  // Numbered in category order, so "02 Quick steps" matches the box's list.
+  const n = pad(GUIDE_CATS.indexOf(c) + 1);
+  return (
+    <section class={list.length ? "gsec" : "gsec is-empty"} aria-labelledby={cat ? undefined : `cat-${c}`} aria-label={cat ? t.guideCats[c] : undefined}>
+      {!cat && (
+        <div class="block-head num">
+          <span class="sec-n" aria-hidden="true">{n}</span>
+          <h2 id={`cat-${c}`}><a href={`/${lang}/guides/${c}/`}>{t.guideCats[c]}</a></h2>
+          <span class="bh-count">{list.length ? countWord(list.length, lang, t, "guide") : t.noGuidesShort}</span>
+          {catText(c) && <p class="bh-desc">{catText(c)}</p>}
+        </div>
+      )}
+      {list.length > 0 ? (
+        <ul class="gcards">
+          {list.map((g) => <GuideRow guide={g} lang={lang} label="" />)}
+        </ul>
+      ) : cat ? (
+        <p class="gsec-empty">{t.noGuides}</p>
+      ) : null}
+    </section>
+  );
+})}

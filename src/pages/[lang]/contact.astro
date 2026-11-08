@@ -1,0 +1,135 @@
+---
+// Contact: the email address as a terminal line, then three numbered sections:
+//   01 What's it about?     a card per reason to write; each opens the visitor's email app with a template
+//   02 What to expect       reply time and limits, as HTTP status codes
+//   03 Reporting a security problem   what a good report includes, then the real security.txt
+// Text: content/pages/contact/<lang>.md · Email, GitHub, Medium, PGP: content/settings.yml
+// No JavaScript: the templates are plain mailto: links with a subject and body.
+import Base from "../../layouts/Base.astro";
+import { langPaths, ui, type Lang } from "../../i18n/ui";
+import { getPage, getSettings, getProfiles } from "../../lib/content";
+// The security.txt shown here is the real file the site serves.
+import securityTxt from "../../../public/.well-known/security.txt?raw";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("contact", lang);
+const c = page.data;
+const s = await getSettings();
+const profiles = await getProfiles();
+const file = `content/pages/contact/${lang}.md`;
+
+// Stop the build with a clear message instead of publishing a broken page.
+const need = (v: unknown, where: string) => {
+  if (v === undefined || v === null || v === "") throw new Error(`${file}: "${where}" is missing.`);
+  return v as any;
+};
+const href = (link: string) => (/^https?:\/\//.test(link) ? link : `/${lang}/${link.replace(/^\/+/, "")}`);
+
+/** mailto: link with a subject and an optional template. Mail apps expect CRLF line breaks. */
+const mailto = (subject?: string, body?: string) => {
+  const q = [
+    subject ? `subject=${encodeURIComponent(subject)}` : "",
+    body ? `body=${encodeURIComponent(body.trimEnd().replace(/\r?\n/g, "\r\n") + "\r\n")}` : "",
+  ].filter(Boolean).join("&");
+  return `mailto:${s.email}${q ? `?${q}` : ""}`;
+};
+
+const topics = need(c.topics, "topics");
+const cards = (need(topics.items, "topics → items") as any[]).map((x, i) => ({
+  who: need(x.who, `topics → item ${i + 1} → who`) as string,
+  text: x.text as string | undefined,
+  href: mailto(x.subject, x.body),
+}));
+
+const expect = need(c.expect, "expect");
+const codes = (need(expect.items, "expect → items") as any[]).map((x, i) => {
+  const code = String(need(x.code, `expect → item ${i + 1} → code`));
+  if (x.link && !x.link_text) throw new Error(`${file}: expect → item ${i + 1} has a "link:" but no "link_text:".`);
+  const [num, ...rest] = code.split(" ");
+  return { num, name: rest.join(" "), kind: num.startsWith("2") ? "ok" : num.startsWith("4") ? "no" : "", text: x.text as string | undefined, link: x.link ? { text: x.link_text as string, href: href(x.link) } : null };
+});
+
+const sec = need(c.security, "security");
+const sections = [
+  { id: "topics", title: need(topics.heading, "topics → heading") as string },
+  { id: "expect", title: need(expect.heading, "expect → heading") as string },
+  { id: "security", title: need(sec.heading, "security → heading") as string },
+];
+const n = (id: string) => String(sections.findIndex((x) => x.id === id) + 1).padStart(2, "0");
+---
+<Base printIn lang={lang} nav="contact" title={t.nav.contact} description={c.intro} block={{
+    key: c.key,
+    contents: sections.map((x) => ({ slug: x.id, text: x.title })),
+    go: { items: [
+      { kicker: t.email, text: s.email, href: `mailto:${s.email}` },
+      ...profiles.map((p) => ({ kicker: p.name, text: p.text, href: p.href })),
+      { kicker: t.securityContact, text: "security.txt", href: "/.well-known/security.txt" },
+    ], phone: false },
+    rows: [[t.updated, page.updated]],
+    strip: [s.email],
+  }}>
+  <h1>{t.nav.contact}</h1>
+  <p class="lede">{c.intro}</p>
+
+  <figure class="code shell-sh mailcmd">
+    <figcaption>{t.codeTerminal}</figcaption>
+    <pre><code><span class="ln">mail <a href={`mailto:${s.email}`}>{s.email}</a><span class="cur" aria-hidden="true"></span></span></code></pre>
+  </figure>
+  <p class="contact-also">
+    {c.also_label}: {profiles.map((p, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={p.href} rel="me">{p.text}</a></>)}
+    {s.pgp_fingerprint && <><span class="dot"> · </span>{c.pgp_label}: <a href={s.pgp_key_path} class="mono">{s.pgp_fingerprint}</a></>}
+  </p>
+
+  <section class="gsec" aria-labelledby="topics">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("topics")}</span>
+      <h2 id="topics">{topics.heading}</h2>
+      {topics.text && <p class="bh-desc">{topics.text}</p>}
+    </div>
+    <ul class="fcards start-cards">
+      {cards.map((x) => (
+        <li class="linked">
+          <h3><a href={x.href}>{x.who}</a></h3>
+          {x.text && <p>{x.text}</p>}
+          <p class="fc-go">{topics.go}&nbsp;<span class="arr" aria-hidden="true"></span></p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="gsec" aria-labelledby="expect">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("expect")}</span>
+      <h2 id="expect">{expect.heading}</h2>
+      {expect.text && <p class="bh-desc">{expect.text}</p>}
+    </div>
+    <ul class="codes">
+      {codes.map((x) => (
+        <li class={x.kind}>
+          <p class="code-line"><span class="num">{x.num}</span> <span class="name">{x.name}</span></p>
+          {x.text && <p>{x.text}</p>}
+          {x.link && <p class="code-link"><a href={x.link.href}>{x.link.text}&nbsp;<span class="arr" aria-hidden="true"></span></a></p>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="gsec" aria-labelledby="security">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">{n("security")}</span>
+      <h2 id="security">{sec.heading}</h2>
+      {sec.text && <p class="bh-desc">{sec.text}</p>}
+    </div>
+    {sec.include?.length > 0 && <ul class="checks">{(sec.include as string[]).map((x) => <li>{x}</li>)}</ul>}
+    {sec.please && <p>{sec.please}</p>}
+    {sec.security_txt && <p class="muted">{sec.security_txt}</p>}
+    <p class="pre-head"><a href="/.well-known/security.txt">/.well-known/security.txt</a></p>
+    <pre><code>{securityTxt.trim()}</code></pre>
+  </section>
+
+  {c.verify && (
+    <p class="source-note">{c.verify.text} <a href={`/${lang}/about/#verify`}>{c.verify.link_text}&nbsp;<span class="arr" aria-hidden="true"></span></a></p>
+  )}
+</Base>

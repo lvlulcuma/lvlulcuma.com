@@ -1,0 +1,21 @@
+---
+import Base from "../../../layouts/Base.astro";
+import GuidesIndex from "../../../components/GuidesIndex.astro";
+import { GUIDE_CATS, langPaths, ui, type Lang } from "../../../i18n/ui";
+import { categoryFilter, getGuides, getPage } from "../../../lib/content";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const guides = await getGuides(lang);
+const page = await getPage("guides", lang);
+const perCat = GUIDE_CATS.map((c) => [t.guideCats[c], guides.filter((g) => g.category === c).length] as const);
+---
+<Base printIn lang={lang} nav="guides" title={t.nav.guides} description={page.data.intro} block={{
+    key: { label: t.nav.guides, value: String(guides.length) },
+    filter: categoryFilter(lang, guides),
+    rows: [[t.updated, page.updated]],
+    strip: perCat.filter(([, n]) => n > 0).map(([c, n]) => `${c} ${n}`),
+  }}>
+  <GuidesIndex lang={lang} />
+</Base>

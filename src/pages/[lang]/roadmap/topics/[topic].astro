@@ -1,0 +1,51 @@
+---
+// One topic's own page: /<lang>/roadmap/topics/<topic>/. Built only once the topic's file
+// (content/roadmap/topics/<topic>/<lang>.md, or the English one) has text under the dashes.
+// Lists the jobs that need this topic, and at which level.
+import { render } from "astro:content";
+import Base from "../../../../layouts/Base.astro";
+import { HTML_LANG, LANGS, ui, type Lang } from "../../../../i18n/ui";
+import { getPage } from "../../../../lib/content";
+import { getJobs, getLearn, getTopics } from "../../../../lib/roadmap";
+import { countWord } from "../../../../lib/block";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) for (const x of (await getTopics(lang)).values()) if (x.hasPage) paths.push({ params: { lang, topic: x.slug } });
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const d = (await getPage("roadmap", lang)).data;
+const topic = (await getTopics(lang)).get(Astro.params.topic!)!;
+const { Content } = await render(topic.entry);
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+const jobs = await getJobs(lang);
+const usedBy = [...(await getLearn()).values()].flatMap((l) => {
+  const level = l.levels.find((x) => x.topics.includes(topic.slug));
+  const job = jobs.find((j) => j.slug === l.job);
+  return level && job ? [{ job, level: d.learnLevels?.[level.id]?.title ?? level.id }] : [];
+});
+---
+<Base lang={lang} nav="roadmap" title={topic.entry.data.title} description={topic.entry.data.summary} block={{
+    key: { label: t.neededFor, value: countWord(usedBy.length, lang, t, "job") },
+    go: { items: [{ kicker: t.nav.roadmap, text: t.allFields, href: `/${lang}/roadmap/` }] },
+    strip: [],
+  }}>
+  <h1 lang={other(topic.lang)}>{topic.entry.data.title}</h1>
+  <p class="lede" lang={other(topic.lang)}>{topic.entry.data.summary}</p>
+  <div class="prose" lang={other(topic.lang)}><Content /></div>
+  {usedBy.length > 0 && (
+    <section class="gsec">
+      <div class="block-head"><h2>{t.neededFor}</h2></div>
+      <ul class="rows">
+        {usedBy.map((u) => (
+          <li>
+            <a class="t" href={`/${lang}/roadmap/${u.job.field}/${u.job.slug}/#t-${topic.slug}`} lang={other(u.job.lang)}>{u.job.entry.data.title}</a>
+            <span class="d">{u.level}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

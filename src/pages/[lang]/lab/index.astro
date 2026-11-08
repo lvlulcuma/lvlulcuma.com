@@ -1,0 +1,39 @@
+---
+// Lab overview. Text: content/pages/lab/<lang>.md (+ titles from lab-setup and lab-rules)
+import Base from "../../../layouts/Base.astro";
+import ArticleRow from "../../../components/ArticleRow.astro";
+import { langPaths, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { getArticles } from "../../../lib/articles";
+import { countArticles } from "../../../lib/block";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("lab", lang);
+const kids = [
+  { slug: "setup", data: (await getPage("lab-setup", lang)).data },
+  { slug: "rules", data: (await getPage("lab-rules", lang)).data },
+];
+const labArticles = (await getArticles(lang)).filter((n) => n.entry.data.topic === "lab");
+---
+<Base printIn lang={lang} nav="lab" title={t.nav.lab} description={page.data.intro} block={{
+    key: { label: t.labArticles, value: countArticles(labArticles.length, lang, t) },
+    go: { items: kids.map((x) => ({ text: x.data.title, href: `/${lang}/lab/${x.slug}/` })), phone: false },
+    rows: [[t.updated, page.updated]],
+    strip: [`${t.updated} ${page.updated}`],
+  }}>
+  <h1>{t.nav.lab}</h1>
+  <p class="lede">{page.data.intro}</p>
+  <ul class="index mt bt">
+    {kids.map((x) => (
+      <li><a href={`/${lang}/lab/${x.slug}/`}><span class="name">{x.data.title}</span><span class="arrow arr" aria-hidden="true"></span><span class="desc">{x.data.summary}</span></a></li>
+    ))}
+  </ul>
+  {labArticles.length > 0 && (
+    <div class="block">
+      <div class="block-head"><h2>{t.labArticles}</h2></div>
+      <ul class="list flat">{labArticles.map((n) => <ArticleRow article={n} lang={lang} />)}</ul>
+    </div>
+  )}
+</Base>

@@ -1,0 +1,104 @@
+---
+// One weekly digest: /<lang>/news/2026-w43/. Text: content/news/weeks/2026-w43/<lang>.md.
+// Built only in the languages the week is written in; other languages' lists link to the English page.
+// At the top, ← and → beside the week's dates step to the week before or after, and "All weeks" opens /news/weeks/.
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import ExampleNote from "../../../components/ExampleNote.astro";
+import { LANGS, ui, type Lang } from "../../../i18n/ui";
+import { iso } from "../../../lib/articles";
+import { countWord, revisionLog } from "../../../lib/block";
+import { getIncidents, getWeeks, incidentHref, newsMissingLangs, ticks, weekHref, weekLinks, weeksHref, weekSpan, type Week } from "../../../lib/news";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    const weeks = await getWeeks(lang);
+    for (const w of weeks) if (w.lang === lang) paths.push({ params: { lang, week: w.slug }, props: { slug: w.slug } });
+  }
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const weeks = await getWeeks(lang);
+const at = weeks.findIndex((w) => w.slug === Astro.props.slug);
+const w: Week = weeks[at];
+const newer = weeks[at - 1], older = weeks[at + 1];
+const d = w.entry.data;
+const { Content } = await render(w.entry);
+const incidents = await getIncidents(lang);
+const linked = d.stories.map((s) => (s.incident ? incidents.find((i) => i.slug === s.incident) : undefined));
+const missing = await newsMissingLangs("weeks", w.slug);
+const revs = revisionLog(w.date, t.revPublished, d.revisions);
+const span = weekSpan(w, lang);
+const feed = { title: `lvlulcuma · ${t.nav.news}`, href: `/${lang}/news/rss.xml` };
+const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
+---
+<Base lang={lang} nav="news" title={d.title} description={d.dek} ogType="article" noindex={w.example} feed={feed} missingHome="news"
+  missingIn={missing}
+  block={{
+    key: { label: `${t.week} ${w.week}`, value: span },
+    contents: d.stories.map((s, n) => ({ slug: `s-${n + 1}`, text: s.title })),
+    go: { items: [
+      ...weekLinks(lang, newer, older),
+      ...linked.filter((x, i, a) => x && a.indexOf(x) === i).map((i) => ({ kicker: t.breakdown, text: i!.entry.data.title, href: incidentHref(i!) })),
+      ...(weeks.length > 1 ? [{ text: t.allWeeks, href: weeksHref(lang) }] : []),
+      { kicker: t.nav.news, text: t.allNews, href: `/${lang}/news/` },
+    ] },
+    rows: [[t.published, iso(w.date)], [t.storiesLabel, String(d.stories.length)]],
+    revisions: revs.length > 1 ? revs : undefined,
+    strip: [countWord(d.stories.length, lang, t, "story")],
+  }}>
+  {w.example && <ExampleNote lang={lang} />}
+  <p class="kicker">
+    <a class="tag" href={weeksHref(lang)}>{t.weekly}</a>
+    {weeks.length > 1 ? (
+      <span class="ws">
+        {older
+          ? <a class="ws-step" href={weekHref(older)} rel="prev" aria-label={`${t.prevWeek} · ${t.week} ${older.week}: ${older.entry.data.title}`} title={`${t.prevWeek} · ${t.week} ${older.week}`}><span class="arr arr-back" aria-hidden="true"></span></a>
+          : <span class="ws-step off" aria-hidden="true"><span class="arr arr-back"></span></span>}
+        <span class="mono">{t.week} {w.week} · {span}</span>
+        {newer
+          ? <a class="ws-step" href={weekHref(newer)} rel="next" aria-label={`${t.nextWeek} · ${t.week} ${newer.week}: ${newer.entry.data.title}`} title={`${t.nextWeek} · ${t.week} ${newer.week}`}><span class="arr" aria-hidden="true"></span></a>
+          : <span class="ws-step off" aria-hidden="true"><span class="arr"></span></span>}
+      </span>
+    ) : <span class="mono">{t.week} {w.week} · {span}</span>}
+    {weeks.length > 1 && <a class="ws-all" href={weeksHref(lang)}>{t.allWeeks}</a>}
+  </p>
+  <h1>{d.title}</h1>
+  <p class="dek">{d.dek}</p>
+  <div class="prose"><Content /></div>
+  {d.action && (
+    <div class="callout callout-tip week-one"><p class="callout-label">{t.oneThing}</p><p>{ticks(d.action).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p></div>
+  )}
+  <div class="block-head stories-head"><h2>{t.weekStories}</h2><span>{countWord(d.stories.length, lang, t, "story")}</span></div>
+  <ol class="stories">
+    {d.stories.map((s, n) => (
+      <li id={`s-${n + 1}`}>
+        <div class="story-head">
+          <span class="story-n">{String(n + 1).padStart(2, "0")}</span>
+          <span class="tag story-type">{t.newsTypes[s.type]}</span>
+          <h3>{s.title}</h3>
+        </div>
+        {s.notes.length > 0 && (
+          <aside class="side story-note">{s.notes.map((x) => <><p class="side-label">{x.label}</p><p>{ticks(x.text).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p></>)}</aside>
+        )}
+        <div class="story-text">{paras(s.text).map((p) => <p>{ticks(p).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>)}</div>
+        <div class="story-take">
+          <p class="story-why"><span>{t.why}</span>{ticks(s.why).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>
+          {s.do && <p class="story-do"><span>{t.whatToDo}</span>{ticks(s.do).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>}
+        </div>
+        {(linked[n] || s.sources.length > 0) && (
+          <p class="story-links">
+            {linked[n] && <a class="story-bd" href={incidentHref(linked[n]!)}>{t.breakdown}&nbsp;<span class="arr" aria-hidden="true"></span></a>}
+            {s.sources.length > 0 && <span class="story-src"><span class="k">{t.srcs}:</span> {s.sources.map((x, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={x.url} rel="noopener">{x.name}</a></>)}</span>}
+          </p>
+        )}
+      </li>
+    ))}
+  </ol>
+  <nav class="pn" aria-label={t.week}>
+    {older && <a class="prev" href={weekHref(older)}><span><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.prevWeek} · {t.week} {older.week}</span>{older.entry.data.title}</a>}
+    {newer && <a class="next" href={weekHref(newer)}><span>{t.nextWeek} · {t.week} {newer.week}&nbsp;<span class="arr" aria-hidden="true"></span></span>{newer.entry.data.title}</a>}
+  </nav>
+</Base>

@@ -1,0 +1,15 @@
+# Cloudflare reads this file. Rules are checked from the top; exact paths must come before
+# the ones with a * wildcard.
+# Redirects for languages switched off in content/settings.yml are added to the built copy
+# (dist/_redirects) by scripts/redirect-hidden-langs.mjs. Don't add them here by hand.
+
+# The bare domain goes to the English home page (permanent, so search engines index /en/).
+/  /en/  301
+
+# The "Notes" section was renamed to "Articles" (Oct 2026). Old links keep working.
+/en/notes  /en/articles/  301
+/pl/notes  /pl/articles/  301
+/ua/notes  /ua/articles/  301
+/en/notes/*  /en/articles/:splat  301
+/pl/notes/*  /pl/articles/:splat  301
+/ua/notes/*  /ua/articles/:splat  301

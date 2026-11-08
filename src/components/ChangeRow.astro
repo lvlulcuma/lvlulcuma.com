@@ -1,0 +1,17 @@
+---
+// One row of the "New this week" box (Announcements.astro): what it is (a small blue word), then the title,
+// two lines at most. The whole row links to what changed.
+import { HTML_LANG, type Lang } from "../i18n/ui";
+import type { Change } from "../lib/changes";
+
+interface Props { c: Change; lang: Lang; label: string; updated: string }
+const { c, lang, label, updated } = Astro.props;
+const other = c.lang !== lang ? HTML_LANG[c.lang] : undefined;
+const Tag = c.href ? "a" : "div";
+---
+<li>
+  <Tag href={c.href} rel={c.href && /^https?:/.test(c.href) ? "noopener" : undefined}>
+    <span class="ann-s">{label}{c.updated && <span class="u"> · {updated}</span>}</span>
+    <span class="ann-t" lang={other}>{c.title}</span>
+  </Tag>
+</li>

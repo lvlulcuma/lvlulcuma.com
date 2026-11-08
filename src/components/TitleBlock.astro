@@ -1,0 +1,47 @@
+---
+// The box beside every page (desktop), and its one-line summary strip on phones.
+// Same look as the home page's Announcements box: the page's main fact at the top, then the
+// things you can do on this page (filter, stages, now, contents, go to, revisions; see BlockSections),
+// then small facts in a light band at the bottom. The box is sticky, so it stays in reach while
+// you scroll. Each page decides what goes in it; see src/lib/block.ts.
+//
+// Phones: the strip shows the main fact, and one "On this page" fold under it holds the same
+// sections, except the filter: list pages keep their filter chips visible in the page instead.
+import type { Block } from "../lib/block";
+import BlockSections from "./BlockSections.astro";
+interface Props { block: Block }
+const { block } = Astro.props;
+const { key, rows = [], stages, contents, revisions, go, strip = [] } = block;
+const t = block.labels;
+type Part = "stages" | "now" | "contents" | "go" | "revisions";
+const phoneParts = ([
+  stages?.length && "stages",
+  block.now?.items.length && "now",
+  contents && contents.length > 1 && "contents",
+  go?.items.length && go.phone !== false && "go",
+  revisions?.length && "revisions",
+].filter(Boolean)) as Part[];
+const onlyContents = phoneParts.length === 1 && phoneParts[0] === "contents";
+---
+<div class="tb" role="group" aria-label={`${key.label}: ${key.value}`}>
+  <div class="keyfact"><small>{key.label}</small><strong>{key.value}</strong></div>
+  <BlockSections block={block} parts={["filter", "stages", "now", "contents", "go", "revisions"]} />
+  {rows.length > 0 && (
+    <dl class="tb-foot">
+      {rows.map(([k, v]) => (
+        <div class="row">
+          <dt>{k}</dt>
+          <dd>{typeof v === "string" ? v : v.map((l, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={l.href} hreflang={l.hreflang}>{l.text}</a></>)}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
+</div>
+
+<p class="tb-strip"><span class="k">{key.label}</span><strong>{key.value}</strong>{strip.map((s) => <><span class="dot" aria-hidden="true">·</span><span>{s}</span></>)}</p>
+{phoneParts.length > 0 && (
+  <details class="tb-more">
+    <summary>{onlyContents ? t.contents : t.onThisPage}</summary>
+    <BlockSections block={block} parts={phoneParts} bare={onlyContents} />
+  </details>
+)}

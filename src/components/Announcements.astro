@@ -1,0 +1,56 @@
+---
+// "New this week" on the home page: everything published or changed on the site in the last 7 days, newest
+// first, filled in by itself from the content (src/lib/changes.ts). Hand-written announcements (`announcements:`
+// in content/pages/home/<lang>.md) join the list for 7 days too. One short row per change, linking to it; under
+// them, when the next weekly digest is due and the RSS link. When nothing changed for 7 days it says so.
+//
+// Made to stand out: a blue gradient frame with a soft glow (the blues of the favicon's edge), a faded
+// background and a pulsing "live" square. The home page renders it twice: `where="side"` in the left column on
+// wide screens, and `where="inline"` under the headline on phones. CSS shows only one of them at a time.
+import { ui, type Lang } from "../i18n/ui";
+import ChangeRow from "./ChangeRow.astro";
+import { getPage } from "../lib/content";
+import { iso } from "../lib/articles";
+import { dayMonth } from "../lib/block";
+import { getChanges, nextDigest, today, dayToDate, type Change } from "../lib/changes";
+
+interface Props { lang: Lang; where: "side" | "inline" }
+const { lang, where } = Astro.props;
+const t = ui[lang];
+const file = `content/pages/home/${lang}.md`;
+const w = (await getPage("home", lang)).data.changes;
+if (!w) throw new Error(`${file}: "changes:" (the words of the "New this week" box) is missing.`);
+for (const k of ["heading", "more", "empty", "updated", "next_digest"]) if (!w[k]) throw new Error(`${file}: changes → ${k} is missing.`);
+for (const k of ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "site"]) if (!w.labels?.[k]) throw new Error(`${file}: changes → labels → ${k} is missing.`);
+
+const changes = await getChanges(lang);
+// Four rows before the fold (three on phones), so the box stays light.
+const SHOW = where === "inline" ? 3 : 4;
+const shown = changes.slice(0, SHOW), rest = changes.slice(SHOW);
+const row = (c: Change) => ({ c, lang, label: c.tag ?? w.labels[c.kind], updated: String(w.updated).toLowerCase() });
+
+const digest = await nextDigest(lang);
+const id = `ann-h-${where}`;
+// "9 Nov", with the year only when it isn't this year: "9 Nov 2027".
+const thisYear = dayToDate(today()).getUTCFullYear();
+const shortDate = (d: Date) => (d.getUTCFullYear() === thisYear ? dayMonth(d, lang) : `${dayMonth(d, lang)} ${d.getUTCFullYear()}`);
+---
+<section class={`ann ann-${where}`} aria-labelledby={id}>
+  <div class="ann-head">
+    <span class={changes.length ? "ann-live" : "ann-live off"} aria-hidden="true"></span>
+    <h2 id={id}>{w.heading}</h2>
+    {changes.length > 0 && <span class="ann-n"><span class="vh">: </span>{changes.length}</span>}
+  </div>
+  {changes.length === 0 && <p class="ann-empty">{w.empty}</p>}
+  {changes.length > 0 && <ul class="ann-list">{shown.map((c) => <ChangeRow {...row(c)} />)}</ul>}
+  {rest.length > 0 && (
+    <details class="ann-more">
+      <summary>{String(w.more).replace("{n}", String(rest.length))}</summary>
+      <ul class="ann-list">{rest.map((c) => <ChangeRow {...row(c)} />)}</ul>
+    </details>
+  )}
+  <div class="ann-foot">
+    {digest && <p class="ann-next">{w.next_digest} <time datetime={iso(digest)}>{shortDate(digest)}</time></p>}
+    <a class="ann-rss" href={`/${lang}/rss.xml`} aria-label={t.rssFollow}>RSS&nbsp;<span class="arr" aria-hidden="true"></span></a>
+  </div>
+</section>

@@ -1,0 +1,126 @@
+---
+// Shared page frame: header, language switcher, path bar, title block, footer.
+// A page can put its own box in place of the title block with slot="aside" (the home page does).
+import "@fontsource/unbounded/500.css";
+import "@fontsource/unbounded/600.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/global.css";
+import "../styles/fonts-ua.css";
+import SiteIcons from "../components/SiteIcons.astro";
+import { HTML_LANG, LANGS, LANG_LABEL, LANG_NAME, NAV, ui, type Lang, type NavKey } from "../i18n/ui";
+import TitleBlock from "../components/TitleBlock.astro";
+import type { Block } from "../lib/block";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  nav: NavKey;
+  /** What the title block shows for this page. Not needed when the page fills slot="aside" itself. */
+  block?: Omit<Block, "labels">;
+  /** Languages this page doesn't exist in. The switcher sends those to a section's list instead. */
+  missingIn?: Lang[];
+  /** Which list the switcher sends missing languages to (default: articles). */
+  missingHome?: "articles" | "guides" | "news" | "cwe";
+  ogType?: "website" | "article";
+  /** Keep this page out of search engines (made-up example entries). Such pages are also dropped from the sitemap. */
+  noindex?: boolean;
+  /** The address search engines should treat as the original, when this page is another view of it (default: itself). */
+  canonical?: string;
+  /** The RSS feed this page points browsers and feed readers to (default: the articles feed). */
+  feed?: { title: string; href: string };
+  /** A list page (News, Articles, Guides, Roadmap, CWE, Research, Lab), About or Contact: its boxes and rows print
+   *  in smoothly when it opens, the same way as the home page (CSS "print-in" in global.css). Pages you read stay still. */
+  printIn?: boolean;
+}
+
+const { lang, title, description, nav, block, missingIn = [], missingHome = "articles", ogType = "website", noindex = false, feed, canonical, printIn = false } = Astro.props;
+const t = ui[lang];
+const site = Astro.site!;
+const path = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const rest = path.replace(/^\/(en|pl|ua)\//, "");
+const segs = rest.split("/").filter(Boolean);
+const crumbs = segs.map((s, i) => ({ label: s, href: `/${lang}/${segs.slice(0, i + 1).join("/")}/` }));
+const altHref = (l: Lang) => (missingIn.includes(l) ? `/${l}/${missingHome}/` : `/${l}/${rest}`);
+const fullTitle = nav === "home" ? `lvlulcuma · ${title}` : `${title} · lvlulcuma`;
+const fullBlock: Block | null = block ? { ...block, labels: { stage: t.method, contents: t.contents, revisions: t.revisions, goTo: t.goTo, onThisPage: t.onThisPage } } : null;
+const year = new Date().getUTCFullYear();
+---
+<!DOCTYPE html>
+<html lang={HTML_LANG[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F1F3F6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1117" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href={new URL(canonical ?? path, site).href} />
+    {LANGS.filter((l) => !missingIn.includes(l)).map((l) => (
+      <link rel="alternate" hreflang={HTML_LANG[l]} href={new URL(`/${l}/${rest}`, site).href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(`/en/${rest}`, site).href} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="alternate" type="application/rss+xml" title={feed?.title ?? `lvlulcuma (${LANG_LABEL[lang]})`} href={feed?.href ?? `/${lang}/rss.xml`} />
+    <SiteIcons />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(path, site).href} />
+    <meta property="og:site_name" content="lvlulcuma.com" />
+    <meta property="og:locale" content={{ en: "en_US", pl: "pl_PL", ua: "uk_UA" }[lang]} />
+  </head>
+  <body>
+    <a class="skip" href="#content">{t.skip}</a>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href={`/${lang}/`} aria-label="lvlulcuma.com"><span class="tilde" aria-hidden="true">~/</span><b aria-hidden="true">lvlulcuma</b><span class="cursor" aria-hidden="true"></span></a>
+        <nav class="main" aria-label={t.navLabel}>
+          {NAV.map((k) => <a href={`/${lang}/${k}/`} aria-current={nav === k ? "page" : undefined}>{t.nav[k]}</a>)}
+        </nav>
+        <nav class="lang" aria-label={t.language}>
+          {LANGS.map((l) => (
+            <a href={altHref(l)} hreflang={HTML_LANG[l]} lang={HTML_LANG[l]} aria-current={l === lang ? "true" : undefined} title={LANG_NAME[l]}>{LANG_LABEL[l]}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    {crumbs.length > 0 && (
+      <div class="path">
+        <nav class="wrap" aria-label={t.youAreHere}>
+          <a href={`/${lang}/`}>{lang}</a><span class="sep">/</span>
+          {crumbs.map((c, i) => (
+            <Fragment>
+              {i === crumbs.length - 1 ? <span class="here" aria-current="location">{c.label}</span> : <a href={c.href}>{c.label}</a>}
+              <span class="sep">/</span>
+            </Fragment>
+          ))}
+        </nav>
+      </div>
+    )}
+    <main id="content" class={nav === "home" ? "sheet is-home" : printIn ? "sheet print-in" : "sheet"}>
+      <aside>{Astro.slots.has("aside") ? <slot name="aside" /> : fullBlock && <TitleBlock block={fullBlock} />}</aside>
+      <article class="content"><slot /></article>
+    </main>
+    <footer class="site">
+      <div class="wrap">
+        <div class="foot-id">
+          <a class="foot-brand" href={`/${lang}/`} aria-label="lvlulcuma.com"><span class="tilde" aria-hidden="true">~/</span><b aria-hidden="true">lvlulcuma</b><span class="cursor" aria-hidden="true"></span></a>
+          <span>© {year} Mykyta</span>
+        </div>
+        <p class="foot-note">{t.noTrack}</p>
+        <nav class="foot-links" aria-label={t.footerNav}>
+          <a href={`/${lang}/colophon/`}>{t.secured}<span class="arr" aria-hidden="true"></span></a>
+          <a href="/.well-known/security.txt">security.txt<span class="arr" aria-hidden="true"></span></a>
+          <a href={`/${lang}/rss.xml`}>RSS<span class="arr" aria-hidden="true"></span></a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

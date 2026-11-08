@@ -1,0 +1,99 @@
+---
+// Renders either a single guide (/<lang>/guides/<slug>/) or a category filter (/<lang>/guides/<category>/).
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import GuidesIndex from "../../../components/GuidesIndex.astro";
+import GuideRow from "../../../components/GuideRow.astro";
+import { GUIDE_CATS, HTML_LANG, LANGS, ui, type Lang, type GuideCat } from "../../../i18n/ui";
+import { categoryFilter, getGuides, getPage, dependents, guideMissingLangs, type Guide } from "../../../lib/content";
+import { iso } from "../../../lib/articles";
+import { revisionLog, toc, countWord } from "../../../lib/block";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    // A guide gets a page only in the languages it's written in; the lists link untranslated ones to English.
+    for (const g of await getGuides(lang)) if (g.lang === lang) paths.push({ params: { lang, slug: g.slug }, props: { kind: "guide", slug: g.slug } });
+    for (const c of GUIDE_CATS) paths.push({ params: { lang, slug: c }, props: { kind: "cat", c } });
+  }
+  return paths;
+}
+type Props = { kind: "guide"; slug: string } | { kind: "cat"; c: GuideCat };
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const props = Astro.props as Props;
+const all = await getGuides(lang);
+const guidesPage = await getPage("guides", lang);
+
+let g: Guide | undefined, Content: any = null, headings: any[] = [], revs: ReturnType<typeof revisionLog> = [];
+let before: Guide[] = [], after: Guide[] = [], afterIsNext = false, missing: Lang[] = [];
+if (props.kind === "guide") {
+  g = all.find((x) => x.slug === props.slug)!;
+  ({ Content, headings } = await render(g.entry));
+  revs = revisionLog(g.date, t.revPublished, g.entry.data.revisions);
+  missing = await guideMissingLangs(g.slug);
+  before = g.entry.data.requires.map((s) => all.find((x) => x.slug === s)!);
+  after = dependents(all, g);
+  // Nothing builds on this guide: suggest the next one in the same category instead (never one it requires).
+  if (!after.length) {
+    const next = all.slice(all.indexOf(g) + 1).find((x) => x.category === g!.category && !g!.entry.data.requires.includes(x.slug));
+    if (next) { after = [next]; afterIsNext = true; }
+  }
+}
+// Time, steps and systems sit in the line above the title, like the date on an article.
+// "Windows only" when a guide covers one system, otherwise "Windows, macOS and Linux".
+const osNames = g ? g.entry.data.platforms.map((p) => t.platforms[p]) : [];
+const os = osNames.length === 1 ? t.platformOnly.replace("{os}", osNames[0]) : `${osNames.slice(0, -1).join(", ")} ${t.listAnd} ${osNames.at(-1)}`;
+const catCount = props.kind === "cat" ? all.filter((x) => x.category === props.c).length : 0;
+---
+{props.kind === "cat" ? (
+  <Base printIn lang={lang} nav="guides" title={`${t.nav.guides}: ${t.guideCats[props.c]}`} description={guidesPage.data.categories?.[props.c] ?? guidesPage.data.intro} block={{
+      key: { label: t.nav.guides, value: t.guideCats[props.c] },
+      filter: categoryFilter(lang, all, props.c),
+      rows: [[t.updated, guidesPage.updated]],
+      strip: [countWord(catCount, lang, t, "guide")],
+    }}>
+    <GuidesIndex lang={lang} cat={props.c} />
+  </Base>
+) : g && (
+  <Base lang={lang} nav="guides" title={g.entry.data.title} description={g.entry.data.dek} ogType="article" missingIn={missing} missingHome="guides" block={{
+      key: { label: t.guide, value: t.guideCats[g.category] },
+      rows: [revs.length > 1 ? [t.updated, revs.at(-1)!.date] : [t.published, iso(g.date)]],
+      contents: toc(headings),
+      go: { items: [
+        ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/guides/${r.slug}/`, hreflang: r.lang !== lang ? HTML_LANG[r.lang] : undefined, lang: r.lang !== lang ? HTML_LANG[r.lang] : undefined })),
+        ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.usedIn, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
+      ] },
+      revisions: revs.length > 1 ? revs : undefined,
+    }}>
+    <p class="kicker"><a class="tag" href={`/${lang}/guides/${g.category}/`}>{t.guideCats[g.category]}</a><span class="mono">~{g.time} {t.min} · {countWord(g.steps, lang, t, "step")} · {os}</span></p>
+    <h1>{g.entry.data.title}</h1>
+    <p class="dek">{g.entry.data.dek}</p>
+
+    {before.length > 0 && (
+      <aside class="prereq" aria-labelledby="before">
+        <p class="prereq-h" id="before">{t.before}</p>
+        <p class="prereq-d">{t.beforeText}</p>
+        <ul>
+          {before.map((r) => (
+            <li><a href={`/${r.lang}/guides/${r.slug}/`}><span class="t">{r.entry.data.title}</span><span class="m">~{r.time} {t.min}&nbsp;<span class="arr" aria-hidden="true"></span></span></a></li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <div class="prose guide"><Content /></div>
+
+    <section class="gsec gnext" aria-labelledby="after">
+      <div class="block-head">
+        <h2 id="after">{after.length ? (afterIsNext ? t.nextGuide : t.usedIn) : t.allGuides}</h2>
+        {after.length > 0 && <a href={`/${lang}/guides/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.allGuides}</a>}
+      </div>
+      {after.length > 0 ? (
+        <ul class="gcards">{after.map((x) => <GuideRow guide={x} lang={lang} label={t.guideCats[x.category]} />)}</ul>
+      ) : (
+        <p><a class="go" href={`/${lang}/guides/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.allGuides}</a></p>
+      )}
+    </section>
+  </Base>
+)}

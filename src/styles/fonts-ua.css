@@ -1,0 +1,26 @@
+/* Fonts for Ukrainian pages (<html lang="uk">).
+   Unbounded and IBM Plex Sans look cramped and hard to read in Cyrillic, so these pages use Fixel instead:
+   a free Ukrainian typeface by MacPaw (SIL Open Font License, see src/assets/fonts/fixel/OFL.txt),
+   made for both Cyrillic and Latin. The files are the unchanged webfonts from github.com/MacPaw/Fixel.
+   English pages keep Unbounded and IBM Plex Sans; code and terminals keep IBM Plex Mono everywhere.
+   A browser only downloads these files on pages that use them. */
+
+/* Body text: Fixel Text in the same weights the site uses for IBM Plex Sans. */
+@font-face { font-family: "Fixel Text"; src: url("../assets/fonts/fixel/FixelText-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fixel Text"; src: url("../assets/fonts/fixel/FixelText-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fixel Text"; src: url("../assets/fonts/fixel/FixelText-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+/* Headings: Fixel Display. Unbounded is much heavier than Fixel at the same weight number,
+   so each heading weight uses the next Fixel weight up (500 → SemiBold, 600 → Bold). */
+@font-face { font-family: "Fixel Display"; src: url("../assets/fonts/fixel/FixelDisplay-SemiBold.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fixel Display"; src: url("../assets/fonts/fixel/FixelDisplay-Bold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+:root:lang(uk) {
+  --display: "Fixel Display", system-ui, sans-serif;
+  --body: "Fixel Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+/* Fixel needs no tightening, unlike Unbounded. */
+html:lang(uk) :is(h1, h2, .story-head h3) { letter-spacing: 0; }
+/* Fixel's table figures have a crossed 7 and a slashed 0; use its ordinary figures, as everywhere else on the page. */
+html:lang(uk) :is(.tb .keyfact strong, .tb-filter .n),
+html:lang(uk) .guide ol > li::before { font-variant-numeric: normal; }

@@ -1,0 +1,96 @@
+---
+// News: /<lang>/news/. The latest weekly digest at the top, the few weeks before it right under it (all weeks are on
+// /news/weeks/), then the incident breakdowns.
+// Text: content/pages/news/<lang>.md. Weeks: content/news/weeks/. Incidents: content/news/incidents/.
+import Base from "../../../layouts/Base.astro";
+import ExampleNote from "../../../components/ExampleNote.astro";
+import IncidentRow from "../../../components/IncidentRow.astro";
+import WeekRow from "../../../components/WeekRow.astro";
+import { HTML_LANG, langPaths, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { countWord } from "../../../lib/block";
+import { getIncidents, getWeeks, ticks, typeFilter, weekHref, weeksHref, weekSpan } from "../../../lib/news";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = (await getPage("news", lang)).data; // content/pages/news/<lang>.md
+const weeks = await getWeeks(lang);
+const incidents = await getIncidents(lang);
+const latest = weeks[0];
+const earlier = weeks.slice(1);
+const SHOWN = 5;   // incidents listed here; the rest are on /news/incidents/
+const WEEKS_SHOWN = 4;   // earlier weeks listed under the latest one; all of them are on /news/weeks/
+const entries = [...weeks, ...incidents];
+const hasExamples = entries.some((e) => e.example);
+// While the section only has made-up examples, keep this page out of search engines too.
+const onlyExamples = entries.length > 0 && entries.every((e) => e.example);
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+// "Fun story of the week" (`fun:` in the latest week's file): beside the week on wide screens, under it on others.
+const fun = latest?.entry.data.fun;
+const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
+const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+---
+<Base printIn lang={lang} nav="news" title={page.title} description={page.intro} noindex={onlyExamples} feed={feed} block={{
+    key: { label: t.latestWeek, value: latest ? `${t.week} ${latest.week}` : t.comingSoon },
+    filter: incidents.length ? typeFilter(lang, incidents) : undefined,
+    go: { items: [...(earlier.length ? [{ text: t.allWeeks, href: weeksHref(lang) }] : []), { text: t.newsRss, href: feed.href }], phone: false },
+    rows: [[t.weeksLabel, String(weeks.length)], [t.incidentsLabel, String(incidents.length)]],
+    strip: latest ? [weekSpan(latest, lang)] : [],
+  }}>
+  <h1>{page.title}</h1>
+  <p class="lede">{page.intro}</p>
+  {hasExamples && <ExampleNote lang={lang} list />}
+
+  {latest && (
+    <section class="block news-week">
+      <div class="block-head"><h2>{t.week} {latest.week}</h2><span>{weekSpan(latest, lang)}</span></div>
+      <div class="feature week-card">
+        <span class="tags">
+          <span class="tag">{t.weekly}</span>
+          {latest.example && <span class="tag tag-ex">{t.example}</span>}
+        </span>
+        <h3 lang={other(latest.lang)}><a href={weekHref(latest)}>{latest.entry.data.title}</a></h3>
+        <ol class="week-heads" lang={other(latest.lang)}>
+          {latest.entry.data.stories.map((s, n) => (
+            <li><a href={`${weekHref(latest)}#s-${n + 1}`}><span class="h">{s.title}</span><span class="tag">{t.newsTypes[s.type]}</span></a></li>
+          ))}
+        </ol>
+        <a class="go" href={weekHref(latest)}>{t.readWeek} · {countWord(latest.entry.data.stories.length, lang, t, "story")}&nbsp;<span class="arr" aria-hidden="true"></span></a>
+      </div>
+      {fun && (
+        <aside class="tow fun" aria-labelledby="fun-h">
+          <p class="tow-bar" aria-hidden="true"><span class="p">$</span> <span class="cmd">fortune --this-week</span><span class="cur"></span></p>
+          <div class="tow-body">
+            <h2 class="tow-k" id="fun-h">{t.funWeek}</h2>
+            <p class="tow-t" lang={other(latest.lang)}>{fun.title}</p>
+            {paras(fun.text).map((p) => <p class="tow-s" lang={other(latest.lang)}>{ticks(p).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>)}
+            {fun.sources.length > 0 && (
+              <p class="fun-src"><span class="k">{t.srcs}:</span> {fun.sources.map((x, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={x.url} rel="noopener">{x.name}</a></>)}</p>
+            )}
+          </div>
+        </aside>
+      )}
+    </section>
+  )}
+
+  {earlier.length > 0 && (
+    <section class="block earlier-weeks">
+      <div class="block-head"><h2>{t.earlierWeeks}</h2><a href={weeksHref(lang)}>{t.allWeeks}&nbsp;<span class="arr" aria-hidden="true"></span></a></div>
+      <ul class="list">{earlier.slice(0, WEEKS_SHOWN).map((w) => <WeekRow week={w} lang={lang} compact />)}</ul>
+    </section>
+  )}
+
+  <section class="block">
+    <div class="block-head"><h2>{t.incidentsTitle}</h2>{incidents.length > SHOWN && <a href={`/${lang}/news/incidents/`}>{t.allIncidents}&nbsp;<span class="arr" aria-hidden="true"></span></a>}</div>
+    {page.incidentsIntro && <p class="block-intro">{page.incidentsIntro}</p>}
+    <nav class="chips chips-phone" aria-label={t.incidentType}>
+      {typeFilter(lang, incidents).items.map((i) => <a href={i.href}>{i.text}</a>)}
+    </nav>
+    <ul class="list">
+      {incidents.length ? incidents.slice(0, SHOWN).map((i) => <IncidentRow incident={i} lang={lang} />) : <li class="empty">{t.noIncidents}</li>}
+    </ul>
+  </section>
+
+  {page.note && <div class="source-note"><p>{page.note}</p></div>}
+</Base>

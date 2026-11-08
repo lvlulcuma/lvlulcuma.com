@@ -1,0 +1,41 @@
+---
+// Every weekly digest: /<lang>/news/weeks/. Newest first, grouped by month; the box beside the page lists the
+// months so readers can jump to one. The News page shows only the latest few weeks and links here.
+import Base from "../../../../layouts/Base.astro";
+import ExampleNote from "../../../../components/ExampleNote.astro";
+import WeekRow from "../../../../components/WeekRow.astro";
+import { langPaths, ui, type Lang } from "../../../../i18n/ui";
+import { getPage } from "../../../../lib/content";
+import { countWord } from "../../../../lib/block";
+import { getWeeks, weekHref, weeksByMonth } from "../../../../lib/news";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = (await getPage("news", lang)).data; // content/pages/news/<lang>.md
+const weeks = await getWeeks(lang);
+const months = weeksByMonth(weeks, lang);
+const onlyExamples = weeks.length > 0 && weeks.every((w) => w.example);
+const feed = { title: `lvlulcuma · ${page.title}`, href: `/${lang}/news/rss.xml` };
+---
+<Base printIn lang={lang} nav="news" title={t.weeksLabel} description={page.weeksIntro} noindex={onlyExamples || !weeks.length} feed={feed} block={{
+    key: { label: t.weeksLabel, value: countWord(weeks.length, lang, t, "week") },
+    contents: months.map((m) => ({ slug: m.id, text: m.title })),
+    go: { items: [
+      ...(weeks[0] ? [{ kicker: t.latestWeek, text: weeks[0].entry.data.title, href: weekHref(weeks[0]) }] : []),
+      { kicker: t.nav.news, text: t.allNews, href: `/${lang}/news/` },
+      { text: t.newsRss, href: feed.href },
+    ], phone: false },
+    strip: [countWord(weeks.length, lang, t, "week")],
+  }}>
+  <h1>{t.weeksLabel}</h1>
+  <p class="lede">{page.weeksIntro}</p>
+  {weeks.some((w) => w.example) && <ExampleNote lang={lang} list />}
+  {months.map((m) => (
+    <section class="block">
+      <div class="block-head"><h2 id={m.id}>{m.title}</h2><span>{countWord(m.weeks.length, lang, t, "week")}</span></div>
+      <ul class="list">{m.weeks.map((w) => <WeekRow week={w} lang={lang} />)}</ul>
+    </section>
+  ))}
+  {!weeks.length && <p class="empty">{t.comingSoon}</p>}
+</Base>

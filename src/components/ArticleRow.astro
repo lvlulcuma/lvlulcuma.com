@@ -1,0 +1,19 @@
+---
+import { ui, type Lang } from "../i18n/ui";
+import { iso, type Article } from "../lib/articles";
+interface Props { article: Article; lang: Lang }
+const { article, lang } = Astro.props;
+const t = ui[lang];
+---
+<li>
+  <a href={`/${lang}/articles/${article.slug}/`}>
+    <span class="date">{iso(article.date)}</span>
+    <span class="t">{article.entry.data.title}</span>
+    <span class="d">{article.entry.data.dek}</span>
+    <span class="meta">
+      <span class="tag">{t.topics[article.entry.data.topic]}</span>
+      <span title={`${t.issue} ${article.n}`}>{t.issue} {article.issue}</span>
+      <span>{article.mins} {t.min}</span>
+    </span>
+  </a>
+</li>

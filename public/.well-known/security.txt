@@ -1,0 +1,4 @@
+Contact: mailto:lvlulcuma@outlook.com
+Expires: 2027-10-26T00:00:00.000Z
+Canonical: https://lvlulcuma.com/.well-known/security.txt
+Policy: https://lvlulcuma.com/en/lab/rules/

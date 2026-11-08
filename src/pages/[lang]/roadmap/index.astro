@@ -1,0 +1,66 @@
+---
+// Roadmap: the fields of cybersecurity, grouped; each card opens the field's page with its jobs.
+// Text: content/pages/roadmap/<lang>.md. Fields: content/roadmap/fields/<field>/<lang>.md.
+// Jobs: content/roadmap/jobs/<job>/<lang>.md (see src/lib/roadmap.ts for what comes next).
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import { HTML_LANG, ROADMAP_GROUPS, langPaths, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { getFields, getJobs, getLearn } from "../../../lib/roadmap";
+import { countWord } from "../../../lib/block";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("roadmap", lang);
+const { Content } = await render(page.entry);
+const fields = await getFields(lang);
+const jobs = await getJobs(lang);
+const jobCount = (field: string) => jobs.filter((j) => j.field === field).length;
+// How many jobs already have a learning path (content/roadmap/jobs/<job>/learn.yml).
+const learn = await getLearn();
+const ready = jobs.filter((j) => learn.has(j.slug)).length;
+const learnValue = ready ? `${ready} ${t.of} ${countWord(jobs.length, lang, t, "job")}` : t.comingSoon;
+// The page heading: `title:` in content/pages/roadmap/<lang>.md, or the menu label if there is none.
+const heading: string = page.data.title ?? t.nav.roadmap;
+const groups = ROADMAP_GROUPS.map((g) => {
+  const text = page.data.groups?.[g];
+  if (!text?.title) throw new Error(`content/pages/roadmap/${lang}.md: groups → ${g} → title is missing.`);
+  return { id: g, title: text.title as string, text: text.text as string | undefined, fields: fields.filter((f) => f.group === g) };
+}).filter((g) => g.fields.length > 0);
+---
+<Base printIn lang={lang} nav="roadmap" title={heading} description={page.data.intro} block={{
+    key: { label: t.fields, value: String(fields.length) },
+    contents: groups.map((g) => ({ slug: g.id, text: g.title })),
+    rows: [[t.jobs, String(jobs.length)], [t.learn, learnValue], [t.updated, page.updated]],
+    strip: [countWord(jobs.length, lang, t, "job")],
+  }}>
+  <h1>{heading}</h1>
+  <p class="lede">{page.data.intro}</p>
+
+  {groups.map((g, i) => (
+    <section class="gsec" aria-labelledby={g.id}>
+      <div class="block-head num">
+        <span class="sec-n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+        <h2 id={g.id}>{g.title}</h2>
+        <span class="bh-count">{countWord(g.fields.length, lang, t, "field")}</span>
+        {g.text && <p class="bh-desc">{g.text}</p>}
+      </div>
+      <ul class="fcards">
+        {g.fields.map((f) => {
+          const other = f.lang !== lang ? HTML_LANG[f.lang] : undefined;
+          return (
+            <li id={f.slug} class="linked">
+              <h3 lang={other}><a href={`/${lang}/roadmap/${f.slug}/`}>{f.entry.data.title}</a></h3>
+              <p lang={other}>{f.entry.data.summary}</p>
+              {f.entry.data.also.length > 0 && <p class="also" lang={other}><span>{t.alsoCalled}:</span> {f.entry.data.also.join(" · ")}</p>}
+              <p class="fc-go">{countWord(jobCount(f.slug), lang, t, "job")}&nbsp;<span class="arr" aria-hidden="true"></span></p>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  ))}
+
+  <div class="source-note"><Content /></div>
+</Base>

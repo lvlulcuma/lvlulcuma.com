@@ -1,0 +1,37 @@
+/* The site's colours and fonts (light and dark), shared by the pages (global.css) and the styled RSS feeds
+   (feed.css). Vite inlines this file into each, so the built CSS is the same as having it written there. */
+:root {
+  /* Layout idea: a drafting sheet. Every page has a box on the left (like the title block on an engineering drawing) and the text beside it. */
+  /* Light mode is toned down to cut glare: a soft blue-grey page, off-white boxes instead of pure white.
+     Every text colour stands out from the page and the boxes at least 7 to 1, the strictest level of the WCAG accessibility
+     guidelines (AAA). Green and orange are the brightest that still reach 4.7 to 1 on the page (the WCAG AA level is 4.5),
+     so they look like colours rather than dark brown and dark teal. The blinking cursor is a lighter blue than the links
+     (--cursor), so it doesn't outshine the text around it; in dark mode it's the same blue as the links. */
+  --paper: #E9ECF1;
+  --panel: #F7F8FA;
+  --ink: #0F131A;
+  --muted: #444D5C;
+  --line: #B8C0CC;
+  --accent: #1F3DC2;
+  --mark: #F7D85C;
+  --grid: #DDE2E9;
+  --tip: #007746;
+  --warn: #B04600;
+  --cursor: #6C83EA;
+  /* The glow: the favicon's edge blues, used by "New this week", the side box and the RSS pages (same in dark mode). */
+  --glow-a: #93A6FF; --glow-b: #627BEB; --glow-c: #1F3DC2;
+  /* Code blocks (terminals): a light window with a dark outline in light mode, a dark terminal in dark mode. */
+  --term: #F7F8FA; --term-bar: #DCE1E8; --term-ink: #0F131A; --term-muted: #444D5C; --term-accent: #1F3DC2; --term-edge: #0F131A; --term-rule: #0F131A;
+  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0E1117; --panel: #151922; --ink: #E7EAF0; --muted: #98A1B0; --line: #2A303C;
+    --accent: #93A6FF; --mark: #5E5014; --grid: #141821; color-scheme: dark; --cursor: #93A6FF;
+    --tip: #5CCB98; --warn: #F0A65E;
+    --term: #090B10; --term-bar: #161B25; --term-ink: #E7EAF0; --term-muted: #8F99AB; --term-accent: #93A6FF; --term-edge: #2A303C; --term-rule: transparent;
+  }
+}

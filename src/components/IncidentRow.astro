@@ -1,0 +1,25 @@
+---
+// One incident breakdown in a list (/news/ and /news/incidents/).
+import { HTML_LANG, LANG_LABEL, ui, type Lang } from "../i18n/ui";
+import { iso } from "../lib/articles";
+import { incidentHref, type Incident } from "../lib/news";
+interface Props { incident: Incident; lang: Lang }
+const { incident: i, lang } = Astro.props;
+const t = ui[lang];
+const other = i.lang !== lang ? HTML_LANG[i.lang] : undefined;
+const d = i.entry.data;
+---
+<li>
+  <a href={incidentHref(i)}>
+    <span class="date">{iso(i.date)}</span>
+    <span class="t" lang={other}>{d.title}</span>
+    <span class="d" lang={other}>{d.dek}</span>
+    <span class="meta">
+      <span class="tag">{t.newsTypes[d.type]}</span>
+      <span class={d.status === "unfolding" ? "pill live" : "pill"}>{t.incidentStatus[d.status]}</span>
+      <span lang={other}>{d.sector}</span>
+      {i.example && <span class="tag tag-ex">{t.example}</span>}
+      {i.lang !== lang && <span class="gc-lang">{LANG_LABEL[i.lang]}</span>}
+    </span>
+  </a>
+</li>

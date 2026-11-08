@@ -1,0 +1,25 @@
+---
+// One guide in a grid of guide cards (the guides list, and "Used in" under a guide).
+// `label` is the small text in the top-left corner: the guide's number in its category, or its category.
+// A guide that isn't translated yet links to its English page and is marked EN.
+import { HTML_LANG, LANG_LABEL, ui, type Lang } from "../i18n/ui";
+import type { Guide } from "../lib/content";
+import { countWord } from "../lib/block";
+interface Props { guide: Guide; lang: Lang; label: string }
+const { guide, lang, label } = Astro.props;
+const t = ui[lang];
+const os = guide.entry.data.platforms.map((p) => t.platforms[p]).join(" · ");
+const other = guide.lang !== lang;
+---
+<li>
+  <a href={`/${guide.lang}/guides/${guide.slug}/`} hreflang={other ? HTML_LANG[guide.lang] : undefined}>
+    <span class="gc-top"><span class="n">{label}{other && <span class="gc-lang">{LANG_LABEL[guide.lang]}</span>}</span><span>{os}</span></span>
+    <span class="t" lang={other ? HTML_LANG[guide.lang] : undefined}>{guide.entry.data.title}</span>
+    <span class="d" lang={other ? HTML_LANG[guide.lang] : undefined}>{guide.entry.data.dek}</span>
+    <span class="gc-meta">
+      <span>~{guide.time} {t.min}</span>
+      <span>{countWord(guide.steps, lang, t, "step")}</span>
+      <span class="go arr" aria-hidden="true"></span>
+    </span>
+  </a>
+</li>

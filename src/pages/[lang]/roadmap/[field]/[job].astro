@@ -1,0 +1,97 @@
+---
+// One job's learning path: /<lang>/roadmap/<field>/<job>/. Built only for jobs that have
+// content/roadmap/jobs/<job>/learn.yml. The topics are listed level by level, from Beginner to Expert,
+// with a line after the level employers usually expect when hiring (`hire:` in learn.yml).
+// Topic titles and summaries: content/roadmap/topics/<topic>/<lang>.md. Level headings, the intro and the
+// "enough to apply" line: `learnLevels:`, `learnIntro:`, `learnHire:` and `learnSources:` in content/pages/roadmap/<lang>.md.
+import Base from "../../../../layouts/Base.astro";
+import { HTML_LANG, LANGS, ui, type Lang } from "../../../../i18n/ui";
+import { getPage } from "../../../../lib/content";
+import { getFields, getJobs, getLearn, getTopics } from "../../../../lib/roadmap";
+import { iso } from "../../../../lib/articles";
+import { countWord } from "../../../../lib/block";
+
+export async function getStaticPaths() {
+  const learn = await getLearn();
+  const paths = [];
+  for (const lang of LANGS) for (const j of await getJobs(lang)) if (learn.has(j.slug)) paths.push({ params: { lang, field: j.field, job: j.slug } });
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("roadmap", lang);
+const d = page.data;
+const file = `content/pages/roadmap/${lang}.md`;
+const jobs = await getJobs(lang);
+const job = jobs.find((j) => j.slug === Astro.params.job)!;
+const field = (await getFields(lang)).find((f) => f.slug === job.field)!;
+const learn = (await getLearn()).get(job.slug)!;
+const topics = await getTopics(lang);
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+
+const levelText = (id: string) => {
+  const x = d.learnLevels?.[id];
+  if (!x?.title) throw new Error(`${file}: learnLevels → ${id} → title is missing.`);
+  return x as { title: string; text?: string };
+};
+const levels = learn.levels.filter((l) => l.topics.length > 0).map((l) => ({
+  ...l, ...levelText(l.id),
+  items: l.topics.map((slug) => topics.get(slug)!),
+}));
+const hire = levelText(learn.data.hire);
+const jd = job.entry.data;
+const jobLevel: string | undefined = d.levels?.[job.level]?.title;
+---
+<Base lang={lang} nav="roadmap" title={`${jd.title}: ${t.learn.toLowerCase()}`} description={jd.summary} block={{
+    key: { label: t.learn, value: countWord(learn.count, lang, t, "topic") },
+    contents: levels.map((l) => ({ slug: l.id, text: l.title })),
+    go: { items: [
+      { kicker: t.fieldLabel, text: field.entry.data.title, href: `/${lang}/roadmap/${field.slug}/#${job.slug}`, lang: other(field.lang) },
+      { kicker: t.nav.roadmap, text: t.allFields, href: `/${lang}/roadmap/` },
+    ] },
+    rows: [[t.applyAfter, hire.title], [t.updated, iso(learn.data.updated)]],
+    strip: [`${t.applyAfter}: ${hire.title}`],
+  }}>
+  <p class="kicker">
+    <a class="tag" href={`/${lang}/roadmap/${field.slug}/`} lang={other(field.lang)}>{field.entry.data.title}</a>
+    {jobLevel && <span class="tag">{jobLevel}</span>}
+  </p>
+  <h1 lang={other(job.lang)}>{jd.title}</h1>
+  <p class="lede" lang={other(job.lang)}>{jd.summary}</p>
+  {jd.also.length > 0 && <p class="also-line" lang={other(job.lang)}><span>{t.alsoCalled}:</span> {jd.also.join(" · ")}</p>}
+  {d.learnIntro && <p class="learn-intro">{d.learnIntro}</p>}
+
+  {levels.map((l, n) => (
+    <>
+      <section class="gsec" aria-labelledby={l.id}>
+        <div class="block-head num">
+          <span class="sec-n" aria-hidden="true">{String(n + 1).padStart(2, "0")}</span>
+          <h2 id={l.id}>{l.title}</h2>
+          <span class="bh-count">{countWord(l.items.length, lang, t, "topic")}</span>
+          {l.text && <p class="bh-desc">{l.text}</p>}
+        </div>
+        <ol class="topics">
+          {l.items.map((x) => (
+            <li id={`t-${x.slug}`} lang={other(x.lang)}>
+              <h3>{x.hasPage ? <a href={`/${lang}/roadmap/topics/${x.slug}/`}>{x.entry.data.title}</a> : x.entry.data.title}</h3>
+              <p>{x.entry.data.summary}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      {l.id === learn.data.hire && d.learnHire && (
+        <div class="hire">
+          <p class="hire-t">{d.learnHire.title}</p>
+          {d.learnHire.text && <p>{d.learnHire.text}</p>}
+        </div>
+      )}
+    </>
+  ))}
+
+  <div class="source-note">
+    {learn.data.sources.length > 0 && (
+      <p>{d.learnSources} {learn.data.sources.map((s, i) => <>{i > 0 && (i === learn.data.sources.length - 1 ? ` ${d.learnAnd ?? "and"} ` : ", ")}<a href={s.url}>{s.name}</a></>)}.</p>
+    )}
+    {d.levelsNote && <p>{d.levelsNote}</p>}
+  </div>
+</Base>

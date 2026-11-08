@@ -1,0 +1,71 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-operations/soc-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - log-analysis
+  - windows-event-logs
+  - siem
+  - edr
+  - alert-triage
+  - phishing-analysis
+  - mitre-attack
+  - incident-response-process
+  - security-reporting
+intermediate:
+  - siem-queries
+  - identity-attacks
+  - cloud-logs
+  - threat-intelligence-basics
+  - vulnerability-basics
+  - incident-handling
+  - detection-engineering
+  - threat-hunting
+  - soar-automation
+  - risk-management-basics
+  - ai-in-security-operations
+advanced:
+  - soc-operating-model
+  - shift-management
+  - playbooks-escalation
+  - soc-quality
+  - soc-team-leadership
+  - soc-hiring
+  - mssp-management
+  - tabletop-exercises
+  - soc-metrics
+  - incident-leadership
+  - incident-reporting-rules
+  - personal-data-in-logs
+expert:
+  - soc-maturity
+  - soc-budget
+  - executive-reporting
+  - logging-strategy
+  - adversary-emulation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Security Management (OG-WRL-014) and Defensive Cybersecurity (PD-WRL-001) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Incident Responder and CISO profiles"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS LDR551 and GIAC GSOM: Building and Leading Security Operations Centers"
+    url: "https://www.sans.org/cyber-security-courses/building-leading-security-operations-centers/"
+  - name: "MITRE, 11 Strategies of a World-Class Cybersecurity Operations Center"
+    url: "https://www.mitre.org/news-insights/publication/11-strategies-world-class-cybersecurity-operations-center"
+  - name: "SOC-CMM, the SOC Capability Maturity Model"
+    url: "https://www.soc-cmm.com/"
+  - name: "Directive (EU) 2022/2555 (NIS2), Articles 20 and 23"
+    url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"

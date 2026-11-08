@@ -1,0 +1,72 @@
+---
+// The middle sections of the box beside a page, in a fixed order so visitors learn it once:
+// filter → stages → now → contents → go to → revisions. Used by TitleBlock twice: in the box itself
+// (wide screens) and in the "On this page" fold under the phone strip.
+import type { Block } from "../lib/block";
+type Part = "filter" | "stages" | "now" | "contents" | "go" | "revisions";
+interface Props { block: Block; parts: Part[]; bare?: boolean }
+const { block, parts, bare = false } = Astro.props;
+const t = block.labels;
+const { filter, stages, now, contents, go, revisions } = block;
+const has: Record<Part, boolean> = {
+  filter: !!filter && filter.items.length > 0,
+  stages: !!stages && stages.length > 0,
+  now: !!now && now.items.length > 0,
+  contents: !!contents && contents.length > 1,
+  go: !!go && go.items.length > 0,
+  revisions: !!revisions && revisions.length > 0,
+};
+const shown = parts.filter((p) => has[p]);
+// Titles that may be cut after two lines (see .tb-clamp) keep their full text as a tooltip.
+const long = (text: string) => (text.length > 48 ? text : undefined);
+---
+{shown.map((p) =>
+  p === "filter" ? (
+    <nav class="tb-sec" aria-label={filter!.label}>
+      <span class="tb-h" aria-hidden="true">{filter!.label}</span>
+      <ul class="tb-filter">
+        {filter!.items.map((i) => (
+          <li><a href={i.href} aria-current={i.current ? "page" : undefined} class={i.count === 0 ? "empty" : undefined}><span>{i.text}</span>{i.count !== undefined && <span class="n">{i.count}</span>}</a></li>
+        ))}
+      </ul>
+    </nav>
+  ) : p === "stages" ? (
+    <div class="tb-sec">
+      <span class="tb-h">{t.stage}</span>
+      <ol class="tb-stages">
+        {stages!.map((s) => <li class={s.state}><span class="mark" aria-hidden="true">{s.state === "done" ? "✓" : s.state === "now" ? "●" : "○"}</span>{s.text}</li>)}
+      </ol>
+    </div>
+  ) : p === "now" ? (
+    <div class="tb-sec">
+      <span class="tb-h">{now!.label}{now!.date && <span class="tb-h-d"> · {now!.date}</span>}</span>
+      <ul class="tb-now">
+        {now!.items.map((i) => (
+          <li><small>{i.kicker}</small>{i.href ? <a href={i.href} rel={/^https?:/.test(i.href) ? "noopener" : undefined}>{i.text}</a> : <span>{i.text}</span>}</li>
+        ))}
+      </ul>
+    </div>
+  ) : p === "contents" ? (
+    <nav class="tb-sec" aria-label={t.contents}>
+      {!bare && <span class="tb-h" aria-hidden="true">{t.contents}</span>}
+      <ol class="tb-toc" role="list">{contents!.map((c) => <li><a href={`#${c.slug}`} class="tb-clamp" title={long(c.text)}>{c.text}</a></li>)}</ol>
+    </nav>
+  ) : p === "go" ? (
+    <nav class="tb-sec" aria-label={go!.label ?? t.goTo}>
+      <span class="tb-h" aria-hidden="true">{go!.label ?? t.goTo}</span>
+      <ul class="tb-go">
+        {go!.items.map((i, n) => (
+          // When links in a row share the same small line ("Before you start"), show it once.
+          <li><a href={i.href} hreflang={i.hreflang} rel={/^https?:/.test(i.href) ? "me noopener" : undefined}>{i.kicker && i.kicker !== go!.items[n - 1]?.kicker && <small>{i.kicker}</small>}<span lang={i.lang} class="tb-clamp" title={long(i.text)}>{i.text}</span></a></li>
+        ))}
+      </ul>
+    </nav>
+  ) : (
+    <div class="tb-sec">
+      <span class="tb-h">{t.revisions}</span>
+      <table class="tb-rev">
+        <tbody>{revisions!.map((r) => <tr><th scope="row">{r.rev}</th><td class="d">{r.date}</td><td>{r.note}</td></tr>)}</tbody>
+      </table>
+    </div>
+  )
+)}

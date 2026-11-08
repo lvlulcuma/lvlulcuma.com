@@ -1,0 +1,71 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/incident-response/incident-responder/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - log-analysis
+  - windows-event-logs
+  - linux-logs
+  - normal-windows-behavior
+  - siem
+  - edr
+  - mitre-attack
+  - ioc-enrichment
+  - phishing-analysis
+  - incident-response-process
+intermediate:
+  - incident-handling
+  - ir-preparation
+  - incident-scoping
+  - evidence-collection
+  - eviction-planning
+  - incident-recovery
+  - incident-report
+  - siem-queries
+  - windows-forensics
+  - persistence-hunting
+  - lateral-movement-hunting
+  - identity-attacks
+  - cloud-logs
+  - malware-triage
+advanced:
+  - ransomware-response
+  - ad-compromise-recovery
+  - cloud-incident-response
+  - edge-device-incidents
+  - memory-forensics
+  - network-traffic-analysis
+  - living-off-the-land
+  - threat-intelligence-basics
+  - scripting-for-security
+  - incident-reporting-rules
+  - ai-in-security-operations
+expert:
+  - incident-leadership
+  - playbooks-escalation
+  - tabletop-exercises
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Incident Response work role (PD-WRL-003)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Incident Responder profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS SEC504 and GIAC GCIH: Hacker Tools, Techniques, and Incident Handling"
+    url: "https://www.sans.org/cyber-security-courses/hacker-techniques-incident-handling/"
+  - name: "NIST SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management"
+    url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+  - name: "CISA Eviction Strategies Tool"
+    url: "https://www.cisa.gov/eviction-strategies-tool"
+  - name: "Directive (EU) 2022/2555 (NIS2), Article 23"
+    url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"

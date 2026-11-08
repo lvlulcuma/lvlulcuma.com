@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-operations/threat-hunter/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - log-analysis
+  - windows-event-logs
+  - linux-logs
+  - normal-windows-behavior
+  - siem
+  - edr
+  - mitre-attack
+  - ioc-enrichment
+  - incident-response-process
+  - threat-hunting
+intermediate:
+  - siem-queries
+  - hunting-methods
+  - hunt-data-analysis
+  - anomaly-detection
+  - threat-intelligence-basics
+  - living-off-the-land
+  - persistence-hunting
+  - lateral-movement-hunting
+  - identity-attacks
+  - endpoint-hunting
+  - network-traffic-analysis
+  - cloud-logs
+  - scripting-for-security
+  - hunt-documentation
+advanced:
+  - intel-driven-hunting
+  - hunt-data-readiness
+  - c2-hunting
+  - cloud-hunting
+  - analytic-thinking
+  - malware-triage
+  - memory-forensics
+  - windows-forensics
+  - detection-engineering
+  - ai-in-security-operations
+  - hunting-rules
+expert:
+  - hunting-program
+  - detection-coverage
+  - adversary-emulation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Defensive Cybersecurity (PD-WRL-001) and Threat Analysis (PD-WRL-006) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Threat Intelligence Specialist and Cyber Incident Responder profiles"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS FOR508 and GIAC GCFA: Advanced Incident Response, Threat Hunting, and Digital Forensics"
+    url: "https://www.sans.org/cyber-security-courses/advanced-incident-response-threat-hunting-training/"
+  - name: "Splunk SURGe, The PEAK Threat Hunting Framework"
+    url: "https://www.splunk.com/en_us/blog/security/peak-threat-hunting-framework.html"
+  - name: "CISA, NSA, FBI and partners, Identifying and Mitigating Living Off the Land Techniques"
+    url: "https://www.cisa.gov/resources-tools/resources/identifying-and-mitigating-living-land-techniques"
+  - name: "Commission Delegated Regulation (EU) 2024/1774 under DORA, Article 23"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj"

@@ -1,0 +1,154 @@
+---
+// The CWE section (see src/lib/cwe.ts). One file renders two kinds of page, each in three views:
+//   /<lang>/cwe/                the list: every OWASP Top 10:2025 category and its CWEs
+//   /<lang>/cwe/<id>/           one weakness explained
+// plus …/attack/ and …/defend/ for each, which leave out the parts for the other side. Those two views
+// point search engines at the full page (canonical) and stay out of the sitemap (noindex).
+import Base from "../../../layouts/Base.astro";
+import { HTML_LANG, LANGS, LANG_LABEL, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { iso } from "../../../lib/articles";
+import { countWord, toc } from "../../../lib/block";
+import {
+  VIEWS, cleanSlug, cweHref, cweMissingLangs, getCategories, getCwes, listHref, markSides, viewFilter, viewMinutes, writtenFor,
+  type Cwe, type View,
+} from "../../../lib/cwe";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    for (const view of VIEWS) {
+      paths.push({ params: { lang, path: view === "both" ? undefined : view }, props: { kind: "list", view } });
+      // A write-up gets pages only in the languages it's written in; the lists link untranslated ones to English.
+      for (const c of await getCwes(lang)) if (c.lang === lang)
+        paths.push({ params: { lang, path: view === "both" ? `${c.id}` : `${c.id}/${view}` }, props: { kind: "cwe", view, id: c.id } });
+    }
+  }
+  return paths;
+}
+
+type Props = { kind: "list"; view: View } | { kind: "cwe"; view: View; id: number };
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const props = Astro.props as Props;
+const { view } = props;
+const page = (await getPage("cwe", lang)).data;
+const categories = await getCategories();
+const all = await getCwes(lang);
+const total = categories.reduce((n, c) => n + c.cwes.length, 0);
+const short = (code: string) => code.slice(0, 3);   // "A01:2025" → "A01"
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+const other = (c: Cwe) => (c.lang !== lang ? HTML_LANG[c.lang] : undefined);
+const mitre = (n: number) => `https://cwe.mitre.org/data/definitions/${n}.html`;
+const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
+const viewChips = (href: (v: View) => string) => VIEWS.map((v) => ({ text: t[`cweView_${v}`], href: href(v), current: v === view }));
+
+// One weakness
+let c: Cwe | undefined, html = "", contents: { slug: string; text: string }[] = [], mins = 0, missing: Lang[] = [];
+let prev: Cwe | undefined, next: Cwe | undefined;
+if (props.kind === "cwe") {
+  c = all.find((x) => x.id === props.id)!;
+  const file = `content/cwe/${c.id}/${c.lang}.md`;
+  const marked = markSides(c.entry.rendered?.html ?? "", file, { attack: t.cweFor_attack, defend: t.cweFor_defend });
+  html = marked.html;
+  const headings = (c.entry.rendered?.metadata?.headings ?? []) as any[];
+  contents = toc(headings)
+    .map((h) => ({ slug: cleanSlug(h.slug), text: h.text.trim() }))
+    .filter((h) => view === "both" || !marked.sides.has(h.slug) || marked.sides.get(h.slug) === view)
+    .concat([{ slug: "sources", text: t.cweSources }]);
+  mins = viewMinutes(c.entry.body ?? "", view);
+  missing = await cweMissingLangs(c.id);
+  const i = all.indexOf(c);
+  prev = all[i - 1];
+  next = all[i + 1];
+}
+const d = c?.entry.data;
+---
+{props.kind === "list" ? (
+  <Base printIn lang={lang} nav="cwe" title={page.title} description={page.intro} noindex={view !== "both"} canonical={listHref(lang, "both")} block={{
+      key: { label: t.cweKey, value: String(total) },
+      filter: viewFilter(lang, view, (v) => listHref(lang, v)),
+      contents: categories.map((k) => ({ slug: k.id, text: `${short(k.code)} ${k.name}` })),
+      rows: [[t.cweWritten, String(all.length)], [t.updated, iso(page.updated)]],
+      strip: [fill(t.cweCountAll, { n: all.length })],
+    }}>
+    <h1>{page.title}</h1>
+    <p class="lede">{page.intro}</p>
+    <nav class="chips chips-phone" aria-label={t.cweShow}>
+      {viewChips((v) => listHref(lang, v)).map((i) => <a href={i.href} aria-current={i.current ? "page" : undefined}>{i.text}</a>)}
+    </nav>
+    <div class="prose cwe-intro">
+      {(page.about as string[]).map((p) => <p set:html={p} />)}
+    </div>
+
+    {categories.map((k) => {
+      const done = k.cwes.filter(([n]) => writtenFor(all, n)).length;
+      return (
+        <section class="gsec cwe-cat" aria-labelledby={k.id}>
+          <div class="block-head num">
+            <span class="sec-n" aria-hidden="true">{short(k.code)}</span>
+            <h2 id={k.id}>{k.name}</h2>
+            <span class="bh-count">{fill(t.cweCount, { n: done, total: k.cwes.length })}</span>
+            <p class="bh-desc">{page.categories[k.id]} <a class="cwe-owasp" href={k.url} rel="noopener">{t.cweOwasp}</a></p>
+          </div>
+          <ul class="cwe-list">
+            {k.cwes.map(([n, name]) => {
+              const w = writtenFor(all, n);
+              return w ? (
+                <li class="is-written">
+                  <a href={cweHref(w.lang, w.id, view)} hreflang={other(w)}>
+                    <span class="n">CWE-{n}{other(w) && <span class="gc-lang">{LANG_LABEL[w.lang]}</span>}</span>
+                    <span class="t" lang={other(w)}>{w.entry.data.title}</span>
+                    <span class="d">{name}</span>
+                    <span class="arr" aria-hidden="true"></span>
+                  </a>
+                </li>
+              ) : (
+                <li>
+                  <span class="n">CWE-{n}</span>
+                  <span class="d">{name}</span>
+                  <a class="ext" href={mitre(n)} rel="noopener" aria-label={fill(t.cweOnMitre, { n })} title={fill(t.cweOnMitre, { n })}>↗</a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      );
+    })}
+  </Base>
+) : (
+  <Base lang={lang} nav="cwe" title={d!.title} description={d!.dek} missingIn={missing} missingHome="cwe" ogType="article"
+    noindex={view !== "both"} canonical={cweHref(lang, c!.id, "both")} block={{
+      key: { label: `${short(c!.category.code)} ${c!.category.name}`, value: `CWE-${c!.id}` },
+      filter: viewFilter(lang, view, (v) => cweHref(lang, c!.id, v)),
+      contents,
+      go: { items: [
+        { kicker: t.cweAll, text: `${short(c!.category.code)} ${c!.category.name}`, href: `${listHref(lang, view)}#${c!.category.id}` },
+        ...(prev ? [{ kicker: t.cwePrev, text: `CWE-${prev.id}: ${prev.entry.data.title}`, href: cweHref(prev.lang, prev.id, view), hreflang: other(prev) }] : []),
+        ...(next ? [{ kicker: t.cweNext, text: `CWE-${next.id}: ${next.entry.data.title}`, href: cweHref(next.lang, next.id, view), hreflang: other(next) }] : []),
+      ] },
+      rows: [
+        ...(c!.covers.length ? [[t.cweCovers, c!.covers.map((n) => `CWE-${n}`).join(", ")] as [string, string]] : []),
+        ...(d!.also.length ? [[t.cweAlso, d!.also.join(", ")] as [string, string]] : []),
+        ...(d!.api ? [[t.cweApi, d!.api] as [string, string]] : []),
+        ...(d!.top25 ? [[t.cweTop25, `#${d!.top25}`] as [string, string]] : []),
+        [t.reading, `${mins} ${t.min}`],
+      ],
+      strip: [t[`cweView_${view}`], `${mins} ${t.min}`],
+    }}>
+    <p class="kicker"><a class="tag" href={`${listHref(lang, view)}#${c!.category.id}`}>{short(c!.category.code)} {c!.category.name}</a><span class="mono">CWE-{c!.id} · <time datetime={iso(d!.date)}>{iso(d!.date)}</time></span></p>
+    <h1>{d!.title}</h1>
+    <p class="dek">{d!.dek}</p>
+    <nav class="chips chips-phone" aria-label={t.cweShow}>
+      {viewChips((v) => cweHref(lang, c!.id, v)).map((i) => <a href={i.href} aria-current={i.current ? "page" : undefined}>{i.text}</a>)}
+    </nav>
+    <div class={`prose view-${view}`} set:html={html} />
+    <div class="prose">
+      <h2 id="sources">{t.cweSources}</h2>
+      <ol class="srcs">
+        {d!.sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}
+      </ol>
+      <p class="cwe-official">{fill(t.cweOfficial, { n: c!.id })} <a href={mitre(c!.id)} rel="noopener">{d!.name}</a></p>
+    </div>
+  </Base>
+)}

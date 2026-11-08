@@ -1,0 +1,31 @@
+---
+// How this site is secured. Text: content/pages/colophon/<lang>.md
+// The line <!-- response-headers --> in that file is replaced by the real list from public/_headers.
+import Base from "../../layouts/Base.astro";
+import { langPaths, ui, type Lang } from "../../i18n/ui";
+import { render } from "astro:content";
+import { getPage } from "../../lib/content";
+import { toc } from "../../lib/block";
+import headersFile from "../../../public/_headers?raw";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("colophon", lang);
+const { headings } = await render(page.entry);
+const block = headersFile.split(/\n(?=\S)/).find((b) => b.startsWith("/*")) ?? "";
+const headers = block.split("\n").slice(1).map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).join("\n");
+const escape = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const html = (page.entry.rendered?.html ?? "").replace("<!-- response-headers -->", `<pre class="wrapcode"><code>${escape(headers)}</code></pre>`);
+---
+<Base lang={lang} nav="colophon" title={t.secured} description={page.data.intro} block={{
+    key: page.data.key,
+    contents: toc(headings),
+    go: { items: [{ kicker: t.securityContact, text: "security.txt", href: "/.well-known/security.txt" }] },
+    rows: [[t.updated, page.updated]],
+    strip: [`${t.updated} ${page.updated}`],
+  }}>
+  <h1>{t.secured}</h1>
+  <p class="lede">{page.data.intro}</p>
+  <div class="prose"><Fragment set:html={html} /></div>
+</Base>

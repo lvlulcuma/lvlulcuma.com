@@ -1,0 +1,25 @@
+---
+// The list of incident breakdowns, optionally filtered to one type of attack. Each filter is its own page
+// (/news/incidents/<type>/), so no JavaScript is needed. Used by /news/incidents/ and its filter pages.
+import { ui, type Lang, type NewsType } from "../i18n/ui";
+import { getPage } from "../lib/content";
+import { getIncidents, typeFilter } from "../lib/news";
+import ExampleNote from "./ExampleNote.astro";
+import IncidentRow from "./IncidentRow.astro";
+interface Props { lang: Lang; type?: NewsType }
+const { lang, type } = Astro.props;
+const t = ui[lang];
+const page = (await getPage("news", lang)).data;
+const all = await getIncidents(lang);
+const shown = type ? all.filter((i) => i.type === type) : all;
+---
+<h1>{type ? `${t.incidentsTitle}: ${t.newsTypes[type]}` : t.incidentsTitle}</h1>
+<p class="lede">{page.incidentsIntro}</p>
+{shown.some((i) => i.example) && <ExampleNote lang={lang} list />}
+<nav class="chips chips-phone" aria-label={t.incidentType}>
+  {typeFilter(lang, all, type).items.map((i) => <a href={i.href} aria-current={i.current ? "page" : undefined}>{i.text}</a>)}
+</nav>
+<ul class="list">
+  {shown.length ? shown.map((i) => <IncidentRow incident={i} lang={lang} />) : <li class="empty">{t.noIncidents}</li>}
+</ul>
+{page.note && <div class="source-note"><p>{page.note}</p></div>}

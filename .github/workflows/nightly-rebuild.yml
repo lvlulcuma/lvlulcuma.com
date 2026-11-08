@@ -1,0 +1,41 @@
+# Rebuilds the live site once a night, so the parts that depend on the date stay right even when nothing is
+# pushed: "New this week" on the home page drops anything older than 7 days, and "Next digest" moves on.
+#
+# It asks Cloudflare to rebuild main through a Deploy Hook: a private address that starts a build and can do
+# nothing else. Set it up once:
+#   1. Cloudflare dashboard → Workers & Pages → lvlulcuma → Settings → Builds → Deploy Hooks:
+#      name "nightly", branch "main" → Create, then copy the address it shows.
+#   2. GitHub → this repository → Settings → Secrets and variables → Actions → New repository secret:
+#      name CLOUDFLARE_DEPLOY_HOOK, the address as its value.
+# Until that secret exists, a run does nothing and says so. To rebuild straight away, run it by hand:
+# Actions → Nightly rebuild → Run workflow.
+
+name: Nightly rebuild
+
+on:
+  schedule:
+    # GitHub's schedule is in UTC. 05:05 UTC is 00:05 Eastern Time in winter and 01:05 in summer: just after
+    # midnight, when the 7 days move on. GitHub sometimes starts scheduled runs a few minutes late.
+    - cron: "5 5 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ask Cloudflare to rebuild main
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::notice::Nothing rebuilt: the CLOUDFLARE_DEPLOY_HOOK secret isn't set yet (see the top of .github/workflows/nightly-rebuild.yml)."
+            exit 0
+          fi
+          if ! curl -sS --fail-with-body --retry 3 --retry-all-errors -X POST "$HOOK" -o response.json \
+             || ! grep -Eq '"success" *: *true' response.json; then
+            echo "::error::Cloudflare didn't start a build. Its answer:"; cat response.json 2>/dev/null; exit 1
+          fi
+          echo "Cloudflare started a build of main."

@@ -1,0 +1,63 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/threat-intelligence/osint-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-10-28
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - intelligence-cycle
+  - threat-intelligence-basics
+  - osint-investigations
+  - investigation-opsec
+  - source-evaluation
+  - osint-law-ethics
+  - cybercrime-types
+  - underground-economy
+  - phishing-analysis
+  - ioc-enrichment
+  - intelligence-reporting
+intermediate:
+  - infrastructure-osint
+  - socmint
+  - credential-exposure
+  - leak-site-monitoring
+  - brand-protection
+  - executive-protection
+  - osint-tools
+  - dark-web-investigations
+  - attack-surface-management
+  - analytic-thinking
+  - mitre-attack
+advanced:
+  - hacktivism-influence
+  - foreign-language-sources
+  - crypto-tracing
+  - fraud-investigations
+  - scripting-for-security
+expert:
+  - drp-program
+  - intel-sharing
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Threat Analysis work role (PD-WRL-006)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Threat Intelligence Specialist profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS SEC497 and GIAC GOSI: Practical Open-Source Intelligence"
+    url: "https://www.sans.org/cyber-security-courses/practical-open-source-intelligence"
+  - name: "Berkeley Protocol on Digital Open Source Investigations"
+    url: "https://humanrights.berkeley.edu/publications/berkeley-protocol-on-digital-open-source-investigations/"
+  - name: "FIRST, Traffic Light Protocol (TLP) 2.0"
+    url: "https://www.first.org/tlp/"
+  - name: "Europol, Internet Organised Crime Threat Assessment (IOCTA) 2026"
+    url: "https://www.europol.europa.eu/cms/sites/default/files/documents/IOCTA-2026.pdf"

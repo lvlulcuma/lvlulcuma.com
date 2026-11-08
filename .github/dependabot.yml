@@ -1,0 +1,15 @@
+# Opens a pull request when a dependency has an update, so security fixes don't sit unnoticed.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Wait a week before proposing a brand-new release (protects against compromised packages).
+    cooldown:
+      default-days: 7
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
+      fonts:
+        patterns: ["@fontsource/*"]
