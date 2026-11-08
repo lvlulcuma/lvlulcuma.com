@@ -7,7 +7,11 @@ made-up content, and leave out `example: true`.
 
 ## 1. How it goes out
 
-- **Normally:** a pull request from `claude/breakdown-<folder>` that the owner reviews and merges.
+- **With the weekly digest:** each story of the week gets a breakdown, written by the digest run on the digest's
+  own branch and published with it (`weekly-digest.md`, section 6). Sections 2, 3 and 5 below apply; sections 1
+  and 4 don't.
+- **Normally** (a breakdown written on its own, or an update to a published one): a pull request from
+  `claude/breakdown-<folder>` that the owner reviews and merges.
 - **Only when the owner asked for this breakdown to be published automatically:** use the branch
   `claude/autopublish-incident-<folder>`. It may change only `content/news/incidents/<folder>/` and, to add a story
   that links to it (section 4), one week that's already published. `.github/workflows/digest-auto-publish.yml`

@@ -9,14 +9,16 @@ hosted on Cloudflare (every merge into `main` deploys). README.md explains the s
 
 - **Never push to `main` yourself.** Work on a branch named `claude/<short-topic>`, commit, push, and open a pull
   request. The site owner reviews and merges.
-- **One exception: the weekly digest.** It goes on a branch named exactly `claude/digest-YYYY-wNN` and touches only
-  `content/news/weeks/YYYY-wNN/`. It's written just after midnight on Monday (Eastern Time).
-  `.github/workflows/digest-auto-publish.yml` checks the pull request as soon as it opens and merges it by itself at
-  01:11 that Monday (or at the next hourly run, if it's ready later) when every check passes. Anything else in that
-  pull request (any other file) stops the automatic merge.
-- **Incident breakdowns** are normal pull requests, unless the owner asked for that breakdown to be published
-  automatically. Only then use a branch named `claude/autopublish-incident-<folder>`: the same workflow publishes it
-  (rules in `docs/claude/incident-breakdown.md`).
+- **One exception: the weekly digest, with a breakdown for each of its stories.** It goes on a branch named exactly
+  `claude/digest-YYYY-wNN` and touches only `content/news/weeks/YYYY-wNN/` and the new breakdown folders written
+  with it (`content/news/incidents/<folder>/`, each linked from a story of that week). It's written just after
+  midnight on Monday (Eastern Time). `.github/workflows/digest-auto-publish.yml` checks the pull request as soon as
+  it opens and merges it by itself at 01:11 that Monday (or at the next hourly run, if it's ready later) when every
+  check passes. Anything else in that pull request (any other file, a breakdown no story links to, a change to a
+  breakdown that's already published) stops the automatic merge.
+- **Other incident breakdowns** (a later update, or one written outside the digest) are normal pull requests,
+  unless the owner asked for that breakdown to be published automatically. Only then use a branch named
+  `claude/autopublish-incident-<folder>`: the same workflow publishes it (rules in `docs/claude/incident-breakdown.md`).
 - If you aren't confident in a piece of work (thin sources, a check you can't make pass, a rule you had to bend),
   open the pull request as a **draft** and say why in its description. Drafts are never published automatically.
 - Commit messages: `Area: what changed`, for example `News: week 45 digest` or `Roadmap: what to learn for Threat Intelligence Analyst`.
@@ -55,7 +57,7 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
 
 | Task | Playbook |
 |---|---|
-| Weekly news digest (scheduled, Mondays at midnight) | `docs/claude/weekly-digest.md` |
+| Weekly news digest and its breakdowns (scheduled, Mondays at midnight) | `docs/claude/weekly-digest.md` |
 | An incident breakdown (one big incident, its own page) | `docs/claude/incident-breakdown.md` |
 | Topic ideas for the next monthly article | `docs/claude/article-topics.md` |
 | One Roadmap job's "what to learn" | `docs/claude/roadmap-job.md` |
