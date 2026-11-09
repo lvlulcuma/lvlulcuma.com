@@ -73,7 +73,7 @@ stories:
     type: breach
     text:
       - "The Kyiv Independent is a Ukrainian news outlet with most of its readers abroad. At about 1 a.m. Kyiv time on Wednesday, 4 November, some readers got an email in russian claiming that Zelensky had launched a nuclear warhead at Kyiv. More fake emails followed that afternoon, in russian and in English, and similar posts appeared on its website."
-      - "The newsroom says hackers got into the website's content management system and one of the services it uses to send newsletters. It deleted the posts and says it found and closed the hole overnight. Editor-in-chief Olga Rudenko said everything known so far points to a russian operation."
+      - "The newsroom says hackers got into the website's content management system and one of the services it uses to send newsletters. It deleted the posts and is working with cybersecurity specialists; it hasn't said how the attackers got in. Editor-in-chief Olga Rudenko said everything known so far points to a russian operation."
     notes:
       - label: "Three days earlier"
         text: "On 1 November, Ukraine's Air Alert app showed fake radiation alerts. The newsroom pointed to the similarities, but nobody has shown the two attacks are linked."
@@ -81,6 +81,7 @@ stories:
         text: "The admin panel a website's staff use to write and publish pages. Whoever gets into it can post anything under the site's name."
     why: "A fake message from a real, trusted sender is far more convincing than random spam. Days after the Air Alert hack, it's another attempt to spread panic through a channel people trust."
     do: "If you send newsletters, protect the sending service and the CMS with MFA and review who has access. If an alarming email arrives, check it on the outlet's website or official channels before you act on it."
+    incident: kyiv-independent-hack
     sources:
       - name: "The Kyiv Independent: Kyiv Independent hit by suspected Russian cyberattack"
         url: "https://kyivindependent.com/kyiv-independent-hit-by-suspected-russian-cyberattack/"

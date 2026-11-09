@@ -73,14 +73,15 @@ stories:
     type: breach
     text:
       - "The Kyiv Independent to ukraińskie medium, którego czytelnicy są w większości za granicą. Około 1:00 czasu kijowskiego w środę, 4 listopada, część czytelników dostała e-mail po rosyjsku z wymysłem, że Zełenski wystrzelił głowicę jądrową na Kijów. Po południu przyszły kolejne fałszywe wiadomości, po rosyjsku i po angielsku, a podobne wpisy pojawiły się na stronie."
-      - "Redakcja podaje, że hakerzy dostali się do systemu zarządzania treścią strony i do jednej z usług, przez które wysyła newslettery. Wpisy usunięto, a lukę, jak mówi redakcja, znaleziono i zamknięto w nocy. Redaktorka naczelna Olga Rudenko oświadczyła, że wszystko, co wiadomo, wskazuje na rosyjską operację."
+      - "Redakcja podaje, że hakerzy dostali się do systemu zarządzania treścią strony i do jednej z usług, przez które wysyła newslettery. Wpisy usunięto, a redakcja pracuje ze specjalistami od cyberbezpieczeństwa; nie podała, jak napastnicy dostali się do środka. Redaktorka naczelna Olga Rudenko oświadczyła, że wszystko, co wiadomo, wskazuje na rosyjską operację."
     notes:
       - label: "Trzy dni wcześniej"
-        text: "1 listopada ukraińska aplikacja „Alarm powietrzny” pokazała fałszywe ostrzeżenia o promieniowaniu. Redakcja zwróciła uwagę na podobieństwa, ale nikt nie wykazał, że oba ataki są powiązane."
+        text: "1 listopada ukraińska aplikacja „Alarm powietrzny” pokazała fałszywe ostrzeżenia o promieniowaniu. Redakcja zwróciła uwagę na podobieństwa, ale nikt nie wykazał, że oba ataki są powiązane."
       - label: "System zarządzania treścią (CMS)"
         text: "Panel administracyjny, w którym pracownicy strony piszą i publikują artykuły. Kto się do niego dostanie, może opublikować cokolwiek w imieniu strony."
-    why: "Fałszywa wiadomość od prawdziwego, zaufanego nadawcy przekonuje znacznie lepiej niż przypadkowy spam. Kilka dni po włamaniu do „Alarmu powietrznego” to kolejna próba siania paniki kanałem, któremu ludzie ufają."
+    why: "Fałszywa wiadomość od prawdziwego, zaufanego nadawcy przekonuje znacznie lepiej niż przypadkowy spam. Kilka dni po włamaniu do „Alarmu powietrznego” to kolejna próba siania paniki kanałem, któremu ludzie ufają."
     do: "Jeśli wysyłasz newsletter, zabezpiecz usługę wysyłkową i CMS uwierzytelnianiem wieloskładnikowym i sprawdź, kto ma dostęp. Jeśli dostaniesz alarmujący e-mail, sprawdź informację na stronie redakcji lub w oficjalnych kanałach, zanim cokolwiek zrobisz."
+    incident: kyiv-independent-hack
     sources:
       - name: "The Kyiv Independent: Kyiv Independent hit by suspected Russian cyberattack"
         url: "https://kyivindependent.com/kyiv-independent-hit-by-suspected-russian-cyberattack/"
@@ -114,7 +115,7 @@ stories:
       - "Według prokuratorów pracownik, który mógł zatwierdzać duże płatności, dostawał wiadomość rzekomo od prezesa o tajnej transakcji, a potem telefon, w którym AI podrabiała głos, a czasem i twarz szefa. Następnie „prawnik” z dużej międzynarodowej kancelarii podawał numer konta. Wśród ofiar są sieci szpitali w Missouri i Kalifornii oraz bank na Rhode Island."
     notes:
       - label: "Najciekawsze"
-        text: "Jeden z oskarżonych miał według prokuratorów odręczny scenariusz zatytułowany „Lawyer Call” („Rozmowa z prawnikiem”). Największa pojedyncza strata to ok. 11,6 mln dolarów w brytyjskiej firmie fintech."
+        text: "Jeden z oskarżonych miał według prokuratorów odręczny scenariusz zatytułowany „Lawyer Call” („Rozmowa z prawnikiem”). Największa pojedyncza strata to ok. 11,6 mln dolarów w brytyjskiej firmie fintech."
       - label: "Deepfake"
         text: "Fałszywe nagranie audio lub wideo zrobione przez AI, które kopiuje głos albo twarz prawdziwej osoby. Tutaj, według prokuratorów, używano go na żywo w rozmowach telefonicznych i wideo."
     why: "Znajomy głos w telefonie był kiedyś dobrym dowodem. Teraz da się go podrobić, więc zatrzyma to tylko procedura płatności, która nie ufa samej rozmowie."
