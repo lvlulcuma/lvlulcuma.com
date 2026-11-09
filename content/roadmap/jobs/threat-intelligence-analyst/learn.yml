@@ -1,0 +1,73 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/threat-intelligence/threat-intelligence-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - intelligence-cycle
+  - threat-intelligence-basics
+  - threat-landscape
+  - mitre-attack
+  - intrusion-models
+  - ioc-enrichment
+  - source-evaluation
+  - intelligence-reporting
+  - osint-investigations
+  - log-analysis
+  - incident-response-process
+intermediate:
+  - threat-profile
+  - collection-management
+  - threat-intel-platforms
+  - stix-taxii
+  - actor-tracking
+  - infrastructure-osint
+  - investigation-opsec
+  - malware-triage
+  - underground-economy
+  - analytic-thinking
+  - structured-analysis
+  - intelligence-products
+  - vulnerability-intelligence
+  - threat-informed-defense
+advanced:
+  - actor-attribution
+  - strategic-intelligence
+  - intel-driven-hunting
+  - malware-analysis
+  - dark-web-investigations
+  - hacktivism-influence
+  - ai-enabled-threats
+  - foreign-language-sources
+  - scripting-for-security
+  - ai-in-security-operations
+  - intel-sharing
+  - sharing-arrangements
+expert:
+  - cti-program
+  - threat-led-testing
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Threat Analysis work role (PD-WRL-006)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Threat Intelligence Specialist profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "SANS FOR578 and GIAC GCTI: Cyber Threat Intelligence"
+    url: "https://www.sans.org/course/cyber-threat-intelligence"
+  - name: "The Diamond Model of Intrusion Analysis (Caltagirone, Pendergast and Betz, 2013)"
+    url: "https://apps.dtic.mil/sti/pdfs/ADA586960.pdf"
+  - name: "Commission Delegated Regulation (EU) 2025/1190 on threat-led penetration testing under DORA"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2025/1190"
+  - name: "SANS 2026 Cyber Threat Intelligence Survey"
+    url: "https://www.sans.org/press/announcements/2026-cyber-threat-intelligence-survey-insights-report"
