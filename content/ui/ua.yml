@@ -215,6 +215,7 @@ whatToDo: "Що робити"
 oneThing: "Якщо встигнете зробити лише одне"   # the box under a weekly digest's intro
 weekStories: "Новини тижня"   # heading above a weekly digest's stories
 srcs: "Джерела"
+srcsMore: "Ще {n}"   # under the first three sources of a breakdown or CWE write-up; opens the rest
 prevWeek: "Попередній тиждень"
 nextWeek: "Наступний тиждень"
 allWeeks: "Усі огляди"   # link to the list of every weekly digest (/news/weeks/)

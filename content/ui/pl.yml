@@ -215,6 +215,7 @@ whatToDo: "Co zrobić"
 oneThing: "Jeśli zrobisz tylko jedno"   # the box under a weekly digest's intro
 weekStories: "Wiadomości tygodnia"   # heading above a weekly digest's stories
 srcs: "Źródła"
+srcsMore: "Jeszcze {n}"   # under the first three sources of a breakdown or CWE write-up; opens the rest
 prevWeek: "Poprzedni tydzień"
 nextWeek: "Następny tydzień"
 allWeeks: "Wszystkie przeglądy"   # link to the list of every weekly digest (/news/weeks/)

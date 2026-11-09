@@ -5,12 +5,17 @@
 // then small facts in a light band at the bottom. The box is sticky, so it stays in reach while
 // you scroll. Each page decides what goes in it; see src/lib/block.ts.
 //
+// It follows you only on screens tall enough to show all of it: data-tight is the screen height it needs as it is,
+// data-unstick the height it needs with its rows tightened, both from boxHeight() and rounded up to 50px. On
+// shorter screens the CSS tightens it, or leaves it at the top of the page (global.css, "Box and screen height").
+//
 // Phones: the strip shows the main fact, and one "On this page" fold under it holds the same
 // sections, except the filter: list pages keep their filter chips visible in the page instead.
-import type { Block } from "../lib/block";
+import { boxHeight, type Block } from "../lib/block";
+import type { Lang } from "../i18n/ui";
 import BlockSections from "./BlockSections.astro";
-interface Props { block: Block }
-const { block } = Astro.props;
+interface Props { block: Block; lang: Lang }
+const { block, lang } = Astro.props;
 const { key, rows = [], stages, contents, revisions, go, strip = [] } = block;
 const t = block.labels;
 type Part = "stages" | "now" | "contents" | "go" | "revisions";
@@ -22,8 +27,11 @@ const phoneParts = ([
   revisions?.length && "revisions",
 ].filter(Boolean)) as Part[];
 const onlyContents = phoneParts.length === 1 && phoneParts[0] === "contents";
+// The screen height needed for the box plus 24px above and below it, in steps of 50px (global.css has 350–1300).
+const step = (px: number) => { const need = Math.max(350, Math.ceil((px + 48) / 50) * 50); return need > 1300 ? "all" : String(need); };
+const fit = { normal: boxHeight(block, lang, false), tight: boxHeight(block, lang, true) };
 ---
-<div class="tb" role="group" aria-label={`${key.label}: ${key.value}`}>
+<div class="tb" role="group" aria-label={`${key.label}: ${key.value}`} data-tight={step(fit.normal)} data-unstick={step(fit.tight)}>
   <div class="keyfact"><small>{key.label}</small><strong>{key.value}</strong></div>
   <BlockSections block={block} parts={["filter", "stages", "now", "contents", "go", "revisions"]} />
   {rows.length > 0 && (
