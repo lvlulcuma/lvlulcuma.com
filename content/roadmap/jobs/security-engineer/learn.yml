@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-engineering/security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - control-frameworks
+  - identity-access-basics
+  - network-security-basics
+  - asset-inventory
+  - patch-management
+  - security-baselines
+  - vulnerability-basics
+  - edr
+  - siem
+  - linux-administration
+  - scripting-for-security
+intermediate:
+  - endpoint-hardening
+  - mfa-conditional-access
+  - firewall-rule-management
+  - email-security
+  - pki-certificates
+  - secrets-management
+  - cloud-security-fundamentals
+  - backup-resilience
+  - infrastructure-as-code
+  - audit-policies
+  - soar-automation
+  - git-basics
+  - risk-management-basics
+advanced:
+  - zero-trust
+  - ad-hardening
+  - privileged-access
+  - nis2-security-measures
+  - cloud-security-posture
+  - control-validation
+  - threat-modeling
+  - software-supply-chain
+  - incident-handling
+expert:
+  - security-tool-evaluation
+  - security-engineering-leadership
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support (PD-WRL-004) and Systems Security Analysis (IO-WRL-006) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "CompTIA SecurityX (CAS-005)"
+    url: "https://www.comptia.org/certifications/securityx"
+  - name: "CIS Critical Security Controls v8.1"
+    url: "https://www.cisecurity.org/controls/v8-1"
+  - name: "NSA and CISA, Top Ten Cybersecurity Misconfigurations (AA23-278A)"
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-278a"
+  - name: "Commission Implementing Regulation (EU) 2024/2690 on NIS2 security measures"
+    url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj"
