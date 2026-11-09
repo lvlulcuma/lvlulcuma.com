@@ -1,14 +1,14 @@
 ---
 # A weekly digest → lvlulcuma.com/pl/news/2026-w45/ (the folder name is the year and ISO week number)
 title: "Rozmowa o pracę za 6 miliardów dolarów i zamrażarki rozgrzane do 50 °C"
-dek: "Fałszywa rozmowa o pracę otworzyła drogę do rekordowej kradzieży w Binance, hakerzy rozgrzali zamrażarki w supermarketach w całej Europie, a zbyt długie hasło wpuszczało atakujących na niektóre serwery z Linuksem. Do tego fałszywe e-maile o ataku jądrowym od kijowskiej redakcji, szpiedzy w ukraińskim skrypcie analitycznym i 129 mln dolarów wyłudzonych za pomocą sklonowanych przez AI prezesów."
+dek: "Fałszywa rozmowa o pracę otworzyła drogę do rekordowej kradzieży w Binance, hakerzy rozgrzali zamrażarki w supermarketach w całej Europie, a zbyt długie hasło wpuszczało atakujących na niektóre serwery z Linuksem. Do tego fałszywe e-maile o ataku jądrowym od kijowskiej redakcji, szpiedzy w ukraińskim skrypcie analitycznym i 129 mln dolarów wyłudzonych za pomocą sklonowanych przez AI prezesów."
 date: 2026-11-09   # when this digest was published
 action: "Znajdź wszystkie sterowniki urządzeń twojej organizacji dostępne z internetu (lodówki, ogrzewanie, kamery), odłącz je od sieci albo schowaj za VPN i zmień domyślne hasła."
 stories:
   - title: "Fałszywa rozmowa o pracę otworzyła drogę do największej kradzieży kryptowalut w historii"
     type: phishing
     text:
-      - "Binance to jedna z największych giełd kryptowalut na świecie. 29 października atakujący wyprowadzili z jej gorących portfeli ok. 6,34 mld dolarów. To największa odnotowana kradzież kryptowalut. FBI obwinia Koreę Północną."
+      - "Binance to jedna z największych giełd kryptowalut na świecie. 29 października atakujący wyprowadzili z jej gorących portfeli ok. 6,34 mld dolarów. To największa odnotowana kradzież kryptowalut. FBI obwinia Koreę Północną."
       - "3 listopada Binance wyjaśniła, jak napastnicy dostali się do środka. We wrześniu z jednym z jej inżynierów skontaktowała się na portalu z ofertami pracy osoba podająca się za dyrektora projektu. Po dwóch fałszywych rozmowach kwalifikacyjnych inżynier dostał prośbę o pobranie „zadania rekrutacyjnego” na służbowy komputer. Zadanie po cichu podmieniło część narzędzia programistycznego na złośliwe oprogramowanie. Stamtąd napastnicy, przez wewnętrzne narzędzie AI, przejęli komputery dwóch inżynierów pracujących przy portfelach."
     notes:
       - label: "Fory dla napastników"
@@ -112,15 +112,16 @@ stories:
   - title: "Prezesi sklonowani przez AI i fałszywi prawnicy: trzech oskarżonych o wyłudzenie 129 mln dolarów"
     type: takedown
     text:
-      - "W czwartek prokuratorzy w Nowym Jorku oskarżyli trzech mężczyzn o to, że za pomocą AI podszywali się pod szefów firm i prawników i nakłonili pracowników do przelania ponad 129 mln dolarów. Zatrzymano ich w Hiszpanii i Wielkiej Brytanii między czerwcem a wrześniem; czekają na ekstradycję do USA."
+      - "W czwartek prokuratorzy w Nowym Jorku oskarżyli trzech mężczyzn o to, że za pomocą AI podszywali się pod szefów firm i prawników i nakłonili pracowników do przelania ponad 129 mln dolarów. Zatrzymano ich w Hiszpanii i Wielkiej Brytanii między czerwcem a wrześniem; czekają na ekstradycję do USA."
       - "Według prokuratorów pracownik, który mógł zatwierdzać duże płatności, dostawał wiadomość rzekomo od prezesa o tajnej transakcji, a potem telefon, w którym AI podrabiała głos, a czasem i twarz szefa. Następnie „prawnik” z dużej międzynarodowej kancelarii podawał numer konta. Wśród ofiar są sieci szpitali w Missouri i Kalifornii oraz bank na Rhode Island."
     notes:
       - label: "Najciekawsze"
-        text: "Jeden z oskarżonych miał według prokuratorów odręczny scenariusz zatytułowany „Lawyer Call” („Rozmowa z prawnikiem”). Największa pojedyncza strata to ok. 11,6 mln dolarów w brytyjskiej firmie fintech."
+        text: "Jeden z oskarżonych miał według prokuratorów odręczny scenariusz zatytułowany „Lawyer Call” („Rozmowa z prawnikiem”). Największa pojedyncza strata to ok. 11,6 mln dolarów w brytyjskiej firmie fintech."
       - label: "Deepfake"
         text: "Fałszywe nagranie audio lub wideo zrobione przez AI, które kopiuje głos albo twarz prawdziwej osoby. Tutaj, według prokuratorów, używano go na żywo w rozmowach telefonicznych i wideo."
     why: "Znajomy głos w telefonie był kiedyś dobrym dowodem. Teraz da się go podrobić, więc zatrzyma to tylko procedura płatności, która nie ufa samej rozmowie."
     do: "Potwierdzaj każdą nietypową lub pilną płatność innym, znanym ci kanałem, na przykład oddzwoń pod numer z własnej bazy. Duże przelewy niech zatwierdzają dwie osoby."
+    incident: ai-ceo-impersonation-fraud
     sources:
       - name: "CyberScoop: Authorities accuse trio of using AI deepfakes to defraud $129M from businesses"
         url: "https://cyberscoop.com/ai-deepfakes-impersonate-ceo-lawyer-defraud-companies/"

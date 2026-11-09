@@ -45,7 +45,7 @@ check:
   - "Wiedz, które konta mają w polu hasła `*` (użytkownicy logujący się tylko kluczem, root, `alpine` w niektórych obrazach chmurowych): to one są zagrożone. Konta zablokowane przez `!` nie są."
   - "Systemy z glibc, SSH z włączonym PAM i Dropbear nie są podatne."
 unknown:
-  - "Ile serwerów i obrazów kontenerów jest zagrożonych. Shodan pokazuje ok. 22 mln systemów z otwartym SSH, ale tylko część z nich działa na Alpine."
+  - "Ile serwerów i obrazów kontenerów jest zagrożonych. Shodan pokazuje ok. 22 mln systemów z otwartym SSH, ale tylko część z nich działa na Alpine."
   - "Czy ataki wykraczają poza osiem prób z jednego adresu, które widziała firma Previdian. Inne źródła nie potwierdziły wykorzystania błędu."
   - "Czy ktoś znalazł i wykorzystywał błąd jeszcze przed publikacją."
   - "Które urządzenia i inne produkty oparte na musl dostarczają OpenSSH bez PAM i będą potrzebowały własnych aktualizacji."

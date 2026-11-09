@@ -43,7 +43,7 @@ attack:
   - tactic: "Wpływ"
     id: T0879
     name: "Damage to Property"
-    text: "Żywność się nagrzała i trzeba ją było wyrzucić, np. mięso za ok. 15 tys. euro w jednej belgijskiej masarni."
+    text: "Żywność się nagrzała i trzeba ją było wyrzucić, np. mięso za ok. 15 tys. euro w jednej belgijskiej masarni."
 detect:
   - "Zmiany zadanej temperatury albo trybu, których nikt nie planował, zwłaszcza w nocy: tryb rozmrażania na wielu urządzeniach naraz albo temperatura ustawiona dużo powyżej normy."
   - "Logowania na stronę sterownika spoza twojej sieci albo z adresów, z których nikt wcześniej się nie logował."

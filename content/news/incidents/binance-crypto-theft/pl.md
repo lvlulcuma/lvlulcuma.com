@@ -1,7 +1,7 @@
 ---
 # An incident breakdown → lvlulcuma.com/pl/news/incidents/binance-crypto-theft/
-title: "Kradzież w Binance: fałszywa rozmowa o pracę, wewnętrzne narzędzie AI i 6,34 mld dolarów w cztery godziny"
-dek: "Od czerwca do października 2026 roku napastnicy przedostawali się od komputerów dwóch inżynierów do usługi podpisywania transakcji Binance, a 29 października wyprowadzili ok. 6,34 mld dolarów — to największa odnotowana kradzież kryptowalut; FBI obwinia Koreę Północną."
+title: "Kradzież w Binance: fałszywa rozmowa o pracę, wewnętrzne narzędzie AI i 6,34 mld dolarów w cztery godziny"
+dek: "Od czerwca do października 2026 roku napastnicy przedostawali się od komputerów dwóch inżynierów do usługi podpisywania transakcji Binance, a 29 października wyprowadzili ok. 6,34 mld dolarów — to największa odnotowana kradzież kryptowalut; FBI obwinia Koreę Północną."
 type: phishing
 status: confirmed       # unfolding | confirmed | report (the victim or investigators published a full report)
 date: 2026-10-29        # when it became public
@@ -9,7 +9,7 @@ published: 2026-11-09   # when this breakdown was published
 who: "Binance, jedna z największych giełd kryptowalut na świecie"
 sector: "Giełdy kryptowalut"
 entry: "Fałszywa rozmowa o pracę: inżynier uruchomił na służbowym komputerze „zadanie rekrutacyjne” od fałszywego rekrutera, które zainstalowało złośliwe oprogramowanie"
-impact: "Ok. 6,34 mld dolarów w kryptowalutach wyprowadzonych z gorących portfeli w około dziesięciu blockchainach (szacunek Binance); ok. 2,85 mld dolarów zamrożonych lub przechwyconych; wypłaty wstrzymane na mniej więcej dwa dni"
+impact: "Ok. 6,34 mld dolarów w kryptowalutach wyprowadzonych z gorących portfeli w około dziesięciu blockchainach (szacunek Binance); ok. 2,85 mld dolarów zamrożonych lub przechwyconych; wypłaty wstrzymane na mniej więcej dwa dni"
 timeline:
   - date: 2026-06
     text: "Inżynier Binance z zespołu portfeli (inżynier A) szuka popularnego narzędzia AI do programowania i pobiera podrobiony instalator Homebrew. Binance to wykrywa, wymienia mu urządzenie i zmienia dane logowania, ale jego stanowisko i koledzy z zespołu portfeli są już znani napastnikom."
@@ -22,7 +22,7 @@ timeline:
   - date: 2026-10-29
     text: "Między 17:15 a 19:56 UTC napastnicy logują się na komputer inżyniera C, wdrażają kontener ze skradzionymi danymi logowania inżyniera A i uruchamiają skrypt, który dociera do wewnętrznej usługi podpisywania transakcji Binance."
   - date: 2026-10-29
-    text: "Od 20:05 UTC pieniądze zaczynają wypływać: najpierw 233,46 mln XRP z pięciu gorących portfeli, potem SOL, OP i 18 270 BTC. W Ethereum usługa podpisywania podpisuje 50 autoryzacji EIP-7702, które dają kontraktowi napastników częściową kontrolę nad gorącym portfelem, a oni dalej przez niego wyprowadzają środki."
+    text: "Od 20:05 UTC pieniądze zaczynają wypływać: najpierw 233,46 mln XRP z pięciu gorących portfeli, potem SOL, OP i 18 270 BTC. W Ethereum usługa podpisywania podpisuje 50 autoryzacji EIP-7702, które dają kontraktowi napastników częściową kontrolę nad gorącym portfelem, a oni dalej przez niego wyprowadzają środki."
   - date: 2026-10-29
     text: "O 23:56 UTC przechodzi ostatni nieautoryzowany przelew — 2961,9 ETH. Tether, Circle i inni emitenci stablecoinów zaczynają zamrażać skradzione tokeny; TRM Labs łączy kradzież z północnokoreańską grupą TraderTraitor."
   - date: 2026-10-30
@@ -57,7 +57,7 @@ attack:
   - tactic: "Wpływ"
     id: T1657
     name: "Financial Theft"
-    text: "W niecałe cztery godziny wyprowadzili z gorących portfeli ok. 6,34 mld dolarów."
+    text: "W niecałe cztery godziny wyprowadzili z gorących portfeli ok. 6,34 mld dolarów."
 detect:
   - "Podmiana narzędzia programistycznego na laptopie: tutaj `pyenv` w `/opt/homebrew` utworzono, usunięto, przemianowano i ponownie podlinkowano, a potem uruchomiła się powłoka."
   - "Nowy kod z dopiero co pobranego repozytorium, uruchamiany zaraz po rozmowie kwalifikacyjnej albo innym kontakcie z zewnątrz."
@@ -75,9 +75,9 @@ unknown:
   - "Jaki portal z ofertami pracy, komunikator, narzędzie AI do programowania i wewnętrzne narzędzie AI były zaangażowane. Binance ich nie podaje."
   - "Jak dokładnie wewnętrzne narzędzie AI mogło przejąć komputery innych inżynierów."
   - "Dlaczego czerwcowe włamanie, które Binance wykryła, nie skończyło się ostrzejszą kontrolą wokół zespołu portfeli."
-  - "Ile uda się odzyskać: ok. 2,85 mld dolarów jest zamrożonych lub przechwyconych, ale zamrożonych tokenów jeszcze nie zwrócono, a resztę napastnicy zamieniają na ETH i przenoszą mostami między blockchainami."
+  - "Ile uda się odzyskać: ok. 2,85 mld dolarów jest zamrożonych lub przechwyconych, ale zamrożonych tokenów jeszcze nie zwrócono, a resztę napastnicy zamieniają na ETH i przenoszą mostami między blockchainami."
   - "Co wykaże niezależny audyt. Binance mówi, że część szczegółów technicznych zachowuje w tajemnicy."
-  - "Dokładna kwota: Binance podaje 6,34 mld dolarów, TRM Labs — 6,36 mld, a Elliptic — 6,43 mld, bo liczą według różnych cen."
+  - "Dokładna kwota: Binance podaje 6,34 mld dolarów, TRM Labs — 6,36 mld, a Elliptic — 6,43 mld, bo liczą według różnych cen."
 jobs: [incident-responder, threat-intelligence-analyst, endpoint-security-engineer, devsecops-engineer, awareness-specialist]
 topics: [crypto-tracing, initial-access, secrets-management, privileged-access, actor-tracking]
 sources:
@@ -99,7 +99,7 @@ sources:
     url: "https://www.rte.ie/news/world/2026/1103/1597715-korea-binance-world/"
 ---
 
-Binance to jedna z największych giełd kryptowalut na świecie. Wieczorem 29 października (według UTC) napastnicy wyprowadzili ok. 6,34 mld dolarów z jej gorących portfeli, czyli portfeli online, z których giełda realizuje wypłaty. To największa odnotowana kradzież kryptowalut, dużo większa niż 1,46 mld dolarów skradzione z Bybit w lutym 2025 roku. Ok. 2,85 mld dolarów zamrożono lub przechwycono, w dużej części stablecoiny zamrożone przez Tether i Circle. Binance twierdzi, że odłożyła z własnych środków więcej niż całą kwotę.
+Binance to jedna z największych giełd kryptowalut na świecie. Wieczorem 29 października (według UTC) napastnicy wyprowadzili ok. 6,34 mld dolarów z jej gorących portfeli, czyli portfeli online, z których giełda realizuje wypłaty. To największa odnotowana kradzież kryptowalut, dużo większa niż 1,46 mld dolarów skradzione z Bybit w lutym 2025 roku. Ok. 2,85 mld dolarów zamrożono lub przechwycono, w dużej części stablecoiny zamrożone przez Tether i Circle. Binance twierdzi, że odłożyła z własnych środków więcej niż całą kwotę.
 
 Atak trwał miesiącami. W czerwcu inżynier z zespołu portfeli, szukając narzędzia AI do programowania, pobrał podrobiony instalator Homebrew. Binance to wykryła, ale napastnicy wiedzieli już, kto pracuje przy portfelach. We wrześniu fałszywy „dyrektor projektu” odezwał się do innego inżyniera na portalu z ofertami pracy. Po rozmowie wideo z fałszywą osobą z HR i drugiej z fałszywym prezesem zmyślonej firmy inżynier dostał prośbę o pobranie „zadania rekrutacyjnego” na służbowy komputer. Zadanie podmieniło część pyenv, narzędzia programistycznego do Pythona, na złośliwe oprogramowanie, którego zabezpieczenia Binance nie wykryły.
 

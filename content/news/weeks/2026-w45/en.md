@@ -121,6 +121,7 @@ stories:
         text: "Fake audio or video, made with AI, that copies a real person's voice or face. Here, prosecutors say, it was used live on phone and video calls."
     why: "A familiar voice on the phone used to be good proof. Now it can be faked, so only a payment process that doesn't trust the call will stop this."
     do: "Confirm every unusual or urgent payment through a second channel you already know, such as calling back on a number from your own records, and have two people approve large transfers."
+    incident: ai-ceo-impersonation-fraud
     sources:
       - name: "CyberScoop: Authorities accuse trio of using AI deepfakes to defraud $129M from businesses"
         url: "https://cyberscoop.com/ai-deepfakes-impersonate-ceo-lawyer-defraud-companies/"
