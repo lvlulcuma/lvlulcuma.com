@@ -1,0 +1,68 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/offensive-security/purple-team-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - siem
+  - edr
+  - windows-event-logs
+  - mitre-attack
+  - threat-intelligence-basics
+  - identity-attacks
+  - incident-response-process
+  - pentest-basics
+  - rules-of-engagement
+  - scripting-for-security
+intermediate:
+  - adversary-emulation
+  - purple-team-exercises
+  - emulation-plans
+  - attack-simulation-tools
+  - siem-queries
+  - detection-engineering
+  - detection-testing
+  - detection-lab
+  - behavioral-detections
+  - living-off-the-land
+  - ad-attack-paths
+  - cloud-logs
+  - intel-driven-hunting
+advanced:
+  - c2-frameworks
+  - control-validation
+  - detection-coverage
+  - threat-hunting
+  - privilege-escalation
+  - edr-evasion
+  - cloud-pentesting
+  - network-traffic-analysis
+expert:
+  - purple-team-program
+  - detection-program
+  - tlpt-red-teaming
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Defensive Cybersecurity (PD-WRL-001) and Vulnerability Analysis (PD-WRL-007) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Penetration Tester profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "GIAC Defending Advanced Threats (GDAT) and SANS SEC599"
+    url: "https://www.giac.org/certifications/defending-advanced-threats-gdat/"
+  - name: "MITRE Center for Threat-Informed Defense, Adversary Emulation Library"
+    url: "https://ctid.mitre.org/resources/adversary-emulation-library/"
+  - name: "ECB, TIBER-EU Purple Teaming Best Practices"
+    url: "https://www.ecb.europa.eu/paym/intro/news/html/ecb.mipnews220808.en.html"
+  - name: "Commission Delegated Regulation (EU) 2025/1190 on threat-led penetration testing under DORA"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2025/1190"
