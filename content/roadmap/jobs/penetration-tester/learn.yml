@@ -1,0 +1,64 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/offensive-security/penetration-tester/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - pentest-basics
+  - rules-of-engagement
+  - network-scanning
+  - vulnerability-basics
+  - vulnerability-scanning
+  - web-app-scanning
+  - attack-surface-management
+  - identity-attacks
+  - mitre-attack
+  - scripting-for-security
+intermediate:
+  - web-app-testing
+  - api-testing
+  - network-pentesting
+  - ad-attack-paths
+  - privilege-escalation
+  - password-attacks
+  - exploit-validation
+  - pivoting
+  - cloud-pentesting
+  - pentest-reporting
+  - secure-development-basics
+advanced:
+  - mobile-app-testing
+  - llm-app-testing
+  - wireless-testing
+  - social-engineering-tests
+  - edr-evasion
+  - threat-modeling
+  - vulnerability-disclosure
+expert:
+  - pentest-practice
+  - tlpt-red-teaming
+  - adversary-emulation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Vulnerability Analysis work role (PD-WRL-007)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Penetration Tester profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "OffSec PEN-200 and the OSCP+ exam"
+    url: "https://www.offsec.com/courses/pen-200/"
+  - name: "OWASP Web Security Testing Guide"
+    url: "https://owasp.org/www-project-web-security-testing-guide/"
+  - name: "NIST SP 800-115, Technical Guide to Information Security Testing and Assessment"
+    url: "https://csrc.nist.gov/pubs/sp/800/115/final"
+  - name: "Commission Delegated Regulation (EU) 2025/1190 on threat-led penetration testing under DORA"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2025/1190"
