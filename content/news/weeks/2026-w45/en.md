@@ -37,6 +37,7 @@ stories:
         text: "A small computer that runs a store's fridges: it sets temperatures and defrost cycles. Many have a web page for remote checks, and if that page is on the internet, anyone can try to log in."
     why: "Nobody has claimed the attacks, and nobody knows yet who is behind them. Spoiled food costs stores a lot, and warm food that nobody notices is a health risk: Poland's chief sanitary inspector said food from attacked fridges must not be sold."
     do: "Take refrigeration and other building controllers off the internet, change default passwords, and put any remote access behind a VPN with MFA. In Poland, report incidents to CERT Polska."
+    incident: supermarket-freezer-attacks
     sources:
       - name: "The Record: Second wave of suspected cyberattacks hits supermarket freezers across Europe"
         url: "https://therecord.media/cyberattack-grocery-freezers-europe"

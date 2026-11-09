@@ -37,6 +37,7 @@ stories:
         text: "Mały komputer, który steruje lodówkami w sklepie: ustawia temperaturę i cykle rozmrażania. Wiele z nich ma stronę WWW do zdalnego podglądu, a jeśli jest ona dostępna z internetu, zalogować się może próbować każdy."
     why: "Nikt nie przyznał się do ataków i nie wiadomo, kto za nimi stoi. Zepsuta żywność to dla sklepów duże straty, a ciepła żywność, której nikt nie zauważy, to ryzyko dla zdrowia: Główny Inspektor Sanitarny ostrzegł, że żywności z zaatakowanych lodówek nie wolno sprzedawać."
     do: "Odłącz od internetu sterowniki lodówek i innych systemów w budynku, zmień domyślne hasła, a zdalny dostęp zostaw tylko przez VPN z uwierzytelnianiem wieloskładnikowym. Incydenty zgłaszaj do CERT Polska."
+    incident: supermarket-freezer-attacks
     sources:
       - name: "The Record: Second wave of suspected cyberattacks hits supermarket freezers across Europe"
         url: "https://therecord.media/cyberattack-grocery-freezers-europe"
