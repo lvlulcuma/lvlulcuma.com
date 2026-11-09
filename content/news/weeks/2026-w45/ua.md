@@ -59,6 +59,7 @@ stories:
         text: "Невелика версія бібліотеки C — базового коду, на який спирається майже кожна програма в Linux. Alpine використовує musl, а більшість інших Linux-систем — glibc, якої вразливість не стосується."
     why: "Alpine працює в безлічі контейнерів і невеликих хмарних серверів, про які легко забути, щойно вони запрацювали. На деяких хмарних образах вразливий обліковий запис може отримати права root без пароля."
     do: "В Alpine виконайте apk upgrade, а потім перезапустіть sshd: самого оновлення недостатньо. Або вимкніть вхід за паролем (PasswordAuthentication no). Потім пошукайте в /var/log/messages записи «Accepted password» для облікових записів без пароля. Вразливість має номер CVE-2026-123158, її виправлено в OpenSSH 10.6p2."
+    incident: openssh-alpine-sshole
     sources:
       - name: "Orca Security: *sshole: OpenSSH Authentication Bypass Gives Attackers Root on Alpine Linux"
         url: "https://orca.security/resources/research/sshole-openssh-authentication-bypass-gives-attackers-root-on-alpine-linux/"

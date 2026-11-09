@@ -59,6 +59,7 @@ stories:
         text: "A small version of the C library, the basic code that nearly every Linux program relies on. Alpine uses musl; most other Linux systems use glibc, which isn't affected."
     why: "Alpine runs in countless containers and small cloud servers that are easy to forget once they work. On some cloud images, the exposed account can become root without a password."
     do: "On Alpine, run apk upgrade and then restart sshd: the update alone isn't enough. Or turn password logins off (PasswordAuthentication no). Then look in /var/log/messages for “Accepted password” on accounts that have no password. The bug is CVE-2026-123158, fixed in OpenSSH 10.6p2."
+    incident: openssh-alpine-sshole
     sources:
       - name: "Orca Security: *sshole: OpenSSH Authentication Bypass Gives Attackers Root on Alpine Linux"
         url: "https://orca.security/resources/research/sshole-openssh-authentication-bypass-gives-attackers-root-on-alpine-linux/"
