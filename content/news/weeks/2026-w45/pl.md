@@ -101,6 +101,7 @@ stories:
         text: "Zamiast atakować ludzi bezpośrednio, napastnicy infekują strony, które ich cele prawdopodobnie odwiedzają, i czekają."
     why: "Na każdy użyty tu błąd była już poprawka, więc cały atak działał tylko na telefonach bez aktualizacji. Stare służbowe telefony i telefony, którymi nikt nie zarządza, to dokładnie to, czego szukają takie zestawy exploitów."
     do: "Zaktualizuj telefony już teraz i sprawdź, czy telefony służbowe nie utknęły na starych wersjach iOS lub Androida. Jeśli twoja strona ładuje skrypty innych firm, prowadź ich listę i wiedz, kto może je zmienić."
+    incident: apt29-plerdy-watering-hole
     sources:
       - name: "Sekoia: Poisoned Source: APT29 watering holes target mobile devices with n-day exploits"
         url: "https://www.sekoia.com/blog/poisoned-source-apt29-watering-holes-targets-mobile-devices-with-n-day-exploits"

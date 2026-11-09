@@ -101,6 +101,7 @@ stories:
         text: "Instead of attacking people directly, attackers infect websites their targets are likely to visit, and wait."
     why: "Every bug here already had a fix, so the whole attack worked only on phones that skipped updates. Old work phones and phones nobody manages are exactly what kits like this look for."
     do: "Update phones now, and check that work phones aren't stuck on old iOS or Android versions. If your website loads scripts from other companies, keep a list of them and know who can change them."
+    incident: apt29-plerdy-watering-hole
     sources:
       - name: "Sekoia: Poisoned Source: APT29 watering holes target mobile devices with n-day exploits"
         url: "https://www.sekoia.com/blog/poisoned-source-apt29-watering-holes-targets-mobile-devices-with-n-day-exploits"
