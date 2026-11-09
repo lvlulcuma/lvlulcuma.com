@@ -1,0 +1,59 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/offensive-security/bug-bounty-hunter/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - bug-bounty-basics
+  - vulnerability-basics
+  - vulnerability-disclosure
+  - web-app-scanning
+  - attack-surface-management
+  - network-scanning
+  - scripting-for-security
+  - regular-expressions
+intermediate:
+  - web-app-testing
+  - api-testing
+  - recon-automation
+  - infrastructure-osint
+  - auth-bugs
+  - client-side-bugs
+  - exploit-validation
+  - secure-development-basics
+  - bug-report-writing
+advanced:
+  - http-protocol-attacks
+  - server-side-bugs
+  - code-review-for-bugs
+  - cloud-pentesting
+  - mobile-app-testing
+  - llm-app-testing
+expert:
+  - bug-bounty-business
+  - publishing-research
+  - threat-modeling
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Vulnerability Analysis work role (PD-WRL-007)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Penetration Tester profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "PortSwigger Burp Suite Certified Practitioner (BSCP)"
+    url: "https://portswigger.net/web-security/certification"
+  - name: "OWASP Web Security Testing Guide"
+    url: "https://owasp.org/www-project-web-security-testing-guide/"
+  - name: "HackerOne Hacker-Powered Security Report (2025)"
+    url: "https://www.hackerone.com/report/hacker-powered-security"
+  - name: "RFC 9700, OAuth 2.0 Security Best Current Practice (2025)"
+    url: "https://www.rfc-editor.org/rfc/rfc9700.html"
