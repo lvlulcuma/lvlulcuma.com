@@ -17,6 +17,7 @@ stories:
         text: "Portfel kryptowalutowy stale podłączony do internetu, żeby giełda mogła szybko realizować wypłaty. Przez tę wygodę to właśnie on jest zwykle celem."
     why: "Północnokoreańscy hakerzy wciąż wchodzą przez fałszywe oferty pracy, a laptop jednego programisty wystarczył, żeby dotrzeć do miliardów. Binance twierdzi, że w tym roku zablokowała już 57 podejrzanych prób powiązanych z Koreą Północną, zanim ta się powiodła."
     do: "Nigdy nie uruchamiaj zadania od rekrutera na służbowym komputerze, tylko na osobnej maszynie, której nie szkoda. Jeśli twoja firma zatrudnia programistów, uprzedź własny zespół, że fałszywe rozmowy kwalifikacyjne to znany trik."
+    incident: binance-crypto-theft
     sources:
       - name: "Binance: Binance Security Incident on October 30, 2026: Update on Preliminary Investigation Findings and Response"
         url: "https://www.binance.com/en/square/post/384314395829022"

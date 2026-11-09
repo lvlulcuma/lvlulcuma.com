@@ -17,6 +17,7 @@ stories:
         text: "A crypto wallet that stays online so an exchange can pay out withdrawals quickly. That convenience also makes it the usual target."
     why: "North Korea's hackers keep getting in through fake jobs, and one developer's laptop was enough to reach billions. Binance says it had blocked 57 suspected North Korea-linked attempts this year before this one worked."
     do: "Never run a recruiter's test project on a work computer; use a separate, throwaway machine. If you hire developers, warn your own team that fake interviews are a known trick."
+    incident: binance-crypto-theft
     sources:
       - name: "Binance: Binance Security Incident on October 30, 2026: Update on Preliminary Investigation Findings and Response"
         url: "https://www.binance.com/en/square/post/384314395829022"
