@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/threat-intelligence/threat-researcher/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-08
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - intelligence-cycle
+  - threat-intelligence-basics
+  - threat-landscape
+  - mitre-attack
+  - intrusion-models
+  - ioc-enrichment
+  - source-evaluation
+  - intelligence-reporting
+  - osint-investigations
+  - malware-triage
+  - scripting-for-security
+intermediate:
+  - malware-lab
+  - malware-analysis
+  - yara-hunting
+  - network-traffic-analysis
+  - infrastructure-osint
+  - c2-infrastructure-tracking
+  - investigation-opsec
+  - actor-tracking
+  - analytic-thinking
+  - structured-analysis
+  - threat-intel-platforms
+  - underground-economy
+  - vulnerability-intelligence
+advanced:
+  - malware-reversing
+  - malware-config-extraction
+  - malware-clustering
+  - actor-attribution
+  - detection-engineering
+  - mobile-spyware
+  - publishing-research
+  - research-law
+  - intel-sharing
+  - ai-enabled-threats
+  - hacktivism-influence
+  - foreign-language-sources
+expert:
+  - research-team
+  - cybercrime-disruption
+  - strategic-intelligence
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Threat Analysis work role (PD-WRL-006)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Threat Intelligence Specialist and Cybersecurity Researcher profiles"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "GIAC Reverse Engineering Malware (GREM)"
+    url: "https://www.giac.org/certifications/reverse-engineering-malware-grem/"
+  - name: "MITRE ATT&CK Groups and Campaigns"
+    url: "https://attack.mitre.org/campaigns/"
+  - name: "Directive 2013/40/EU on attacks against information systems"
+    url: "https://eur-lex.europa.eu/eli/dir/2013/40/oj"
+  - name: "The Pall Mall Process Code of Practice for States (2025)"
+    url: "https://www.gov.uk/government/publications/the-pall-mall-process-code-of-practice-for-states"
