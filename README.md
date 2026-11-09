@@ -191,7 +191,7 @@ The box's own words (its heading, the small word above each title, "N more", the
 
 ### The box beside each page
 
-On wide screens, every page has a box on its left that stays in view while you scroll. It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Get started and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
+On wide screens, every page has a box on its left that stays in view while you scroll, as long as the screen is tall enough to show all of it. On a shorter screen its rows tighten first (long titles shrink to one line, the full title shows on hover), and if it still doesn't fit, it stays at the top of the page instead of following you, so it never needs a scrollbar of its own. The build works out how tall each box is (`boxHeight()` in `src/lib/block.ts`). It holds the page's main fact at the top, then, depending on the page: a filter (Topic on Articles, Category on Guides), research stages, Contents, "Go to" links, the list of changes, and small facts (dates, reading time) at the bottom. It fills itself from the content. On About, Contact, Get started and the security page, you choose the main fact with `key:` (a `label` and a `value`); `facts:` on About and Contact adds rows at the bottom.
 
 On phones there's no room beside the text, so the box becomes a one-line strip with an "On this page" fold under it.
 
@@ -263,7 +263,7 @@ Copy last week's folder in `content/news/weeks/` and rename it to the new week: 
 
 - `title:` a short, catchy line built on the week's most striking outcome or detail, not a list of attacks (for example "A 14-year-old bug and a $50 million “no”"). `dek:` names the biggest stories, because search engines show it under the title. `date:` is the day you publish it.
 - `action:` the one thing readers should do this week, in a sentence. It shows in a green box under the intro, labelled "If you do one thing this week".
-- `stories:` about five, each with `title`, `type`, `text` (what happened, in plain words: one short paragraph, or a list of short paragraphs), `notes` (side notes beside the story, each a `label` and a `text`: the most striking detail, a number, or a term explained), `why` (why it matters) and, if there's something readers should do, `do`. `sources:` is a list of `name` and `url`. `incident:` is the folder name of a full breakdown, when there is one.
+- `stories:` about five, each with `title`, `type`, `text` (what happened, in plain words: one short paragraph, or a list of short paragraphs), `notes` (side notes beside the story, each a `label` and a `text`: the most striking detail, a number, or a term explained), `why` (why it matters) and, if there's something readers should do, `do`. `sources:` is a list of `name` ("Outlet: headline") and `url`; under the story, the outlets show on one line that opens into the full list. `incident:` is the folder name of a full breakdown, when there is one.
 - `type:` one of ransomware, breach, supply-chain, accounts, vulnerability, phishing, ddos, espionage, takedown, rules. Their names in each language are `newsTypes:` in `content/ui/`.
 - `fun:` (optional) the **Fun story of the week**: a light, true story from the same week that isn't one of the stories, with `title`, `text` (a few short paragraphs) and `sources`. It shows beside the latest week on the News page, in the empty right column on wide screens and under the week on smaller ones.
 - Text below the second `---` is an optional short intro: one short paragraph on what ties the week together. Words in `` `backticks` `` show as code.
@@ -279,7 +279,7 @@ Make a folder in `content/news/incidents/` (its name becomes the address, and it
 - `timeline:` dates like `2026-10-14`, or `2026-10` when only the month is known.
 - `attack:` one step per [MITRE ATT&CK](https://attack.mitre.org) technique, with `tactic`, `id` (like `T1190` or `T1003.001`), its official `name`, and what the attackers did. The ID links to the technique's page.
 - `detect:`, `check:` and `unknown:` are short lists. `jobs:` and `topics:` are Roadmap folder names; a misspelled one stops the build.
-- `sources:` primary sources first: the victim's statement, official advisories, court papers. The text below the second `---` is the "What happened" section.
+- `sources:` primary sources first: the victim's statement, official advisories, court papers. The first three show at the end of the page; more fold under "N more". The text below the second `---` is the "What happened" section.
 
 **Made-up examples:** `example: true` marks a sample that only shows the layout. It's labelled as an example on the page and kept out of search engines, the sitemap, RSS and the home page. The four example folders (`news/weeks/2026-w42`, `news/weeks/2026-w43`, `news/incidents/example-logistics-ransomware`, `news/incidents/examplesoft-npm-supply-chain`) can go once real ones exist.
 

@@ -201,6 +201,7 @@ whatToDo: "What to do"
 oneThing: "If you do one thing this week"   # the box under a weekly digest's intro
 weekStories: "This week's stories"   # heading above a weekly digest's stories
 srcs: "Sources"
+srcsMore: "{n} more"   # under the first three sources of a breakdown or CWE write-up; opens the rest
 prevWeek: "Previous week"
 nextWeek: "Next week"
 allWeeks: "All weeks"   # link to the list of every weekly digest (/news/weeks/)

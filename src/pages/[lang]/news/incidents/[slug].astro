@@ -11,6 +11,7 @@ import { feedHref } from "../../../../lib/feed";
 import Base from "../../../../layouts/Base.astro";
 import ExampleNote from "../../../../components/ExampleNote.astro";
 import IncidentsIndex from "../../../../components/IncidentsIndex.astro";
+import Sources from "../../../../components/Sources.astro";
 import { HTML_LANG, LANGS, NEWS_TYPES, ui, type Lang, type NewsType } from "../../../../i18n/ui";
 import { iso } from "../../../../lib/articles";
 import { countWord, revisionLog } from "../../../../lib/block";
@@ -59,7 +60,6 @@ const sections = d ? ([
   ["check", d.check.length > 0], ["roadmap", road.length > 0], ["unknown", d.unknown.length > 0], ["sources", true],
 ] as [string, boolean][]).filter(([, on]) => on).map(([k]) => k) : [];
 const typeCount = props.kind === "type" ? all.filter((i) => i.type === props.type).length : 0;
-const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
 const jobs = road.filter((r) => r.kind === "job");
 const topics = road.filter((r) => r.kind === "topic");
 ---
@@ -179,9 +179,7 @@ const topics = road.filter((r) => r.kind === "topic");
       )}
 
       <h2 id="sources">{h.sources}</h2>
-      <ol class="srcs">
-        {d.sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}
-      </ol>
+      <Sources sources={d.sources} lang={lang} fold="list" />
       {page.sourcesNote && <p class="inc-note">{page.sourcesNote}</p>}
     </div>
 

@@ -108,7 +108,7 @@ const feeds = await Promise.all([...(section ? [section] : []), "all" as const].
       </div>
     )}
     <main id="content" class={nav === "home" ? "sheet is-home" : printIn ? "sheet print-in" : "sheet"}>
-      <aside>{Astro.slots.has("aside") ? <slot name="aside" /> : fullBlock && <TitleBlock block={fullBlock} />}</aside>
+      <aside>{Astro.slots.has("aside") ? <slot name="aside" /> : fullBlock && <TitleBlock block={fullBlock} lang={lang} />}</aside>
       <article class="content"><slot /></article>
     </main>
     <footer class="site">

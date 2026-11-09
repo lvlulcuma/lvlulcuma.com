@@ -17,8 +17,8 @@ const has: Record<Part, boolean> = {
   revisions: !!revisions && revisions.length > 0,
 };
 const shown = parts.filter((p) => has[p]);
-// Titles that may be cut after two lines (see .tb-clamp) keep their full text as a tooltip.
-const long = (text: string) => (text.length > 48 ? text : undefined);
+// Titles that may be cut short (after two lines, or one on short screens; see .tb-clamp) keep their full text as a tooltip.
+const long = (text: string) => (text.length > 24 ? text : undefined);
 ---
 {shown.map((p) =>
   p === "filter" ? (

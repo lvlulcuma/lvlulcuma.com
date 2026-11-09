@@ -5,6 +5,7 @@
 // plus …/attack/ and …/defend/ for each, which leave out the parts for the other side. Those two views
 // point search engines at the full page (canonical) and stay out of the sitemap (noindex).
 import Base from "../../../layouts/Base.astro";
+import Sources from "../../../components/Sources.astro";
 import { feedHref } from "../../../lib/feed";
 import { HTML_LANG, LANGS, LANG_LABEL, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
@@ -41,7 +42,6 @@ const short = (code: string) => code.slice(0, 3);   // "A01:2025" → "A01"
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 const other = (c: Cwe) => (c.lang !== lang ? HTML_LANG[c.lang] : undefined);
 const mitre = (n: number) => `https://cwe.mitre.org/data/definitions/${n}.html`;
-const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
 const viewChips = (href: (v: View) => string) => VIEWS.map((v) => ({ text: t[`cweView_${v}`], href: href(v), current: v === view }));
 
 // One weakness
@@ -149,9 +149,7 @@ const d = c?.entry.data;
       <div class={`prose view-${view}`} set:html={html} />
       <div class="prose">
         <h2 id="sources">{t.cweSources}</h2>
-        <ol class="srcs">
-          {d!.sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}
-        </ol>
+        <Sources sources={d!.sources} lang={lang} fold="list" />
         <p class="cwe-official">{fill(t.cweOfficial, { n: c!.id })} <a href={mitre(c!.id)} rel="noopener">{d!.name}</a></p>
       </div>
     </div>

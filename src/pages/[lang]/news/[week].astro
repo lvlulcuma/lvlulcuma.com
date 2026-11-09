@@ -2,9 +2,12 @@
 // One weekly digest: /<lang>/news/2026-w43/. Text: content/news/weeks/2026-w43/<lang>.md.
 // Built only in the languages the week is written in; other languages' lists link to the English page.
 // At the top, ← and → beside the week's dates step to the week before or after, and "All weeks" opens /news/weeks/.
+// Each story's breakdown is linked under the story ("Full breakdown"), not in the box beside the page, so the box
+// stays short enough to fit on the screen.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import ExampleNote from "../../../components/ExampleNote.astro";
+import Sources from "../../../components/Sources.astro";
 import { LANGS, ui, type Lang } from "../../../i18n/ui";
 import { iso } from "../../../lib/articles";
 import { countWord, revisionLog } from "../../../lib/block";
@@ -40,7 +43,6 @@ const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
     contents: d.stories.map((s, n) => ({ slug: `s-${n + 1}`, text: s.title })),
     go: { items: [
       ...weekLinks(lang, newer, older),
-      ...linked.filter((x, i, a) => x && a.indexOf(x) === i).map((i) => ({ kicker: t.breakdown, text: i!.entry.data.title, href: incidentHref(i!) })),
       ...(weeks.length > 1 ? [{ text: t.allWeeks, href: weeksHref(lang) }] : []),
       { kicker: t.nav.news, text: t.allNews, href: `/${lang}/news/` },
     ] },
@@ -88,10 +90,10 @@ const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
           {s.do && <p class="story-do"><span>{t.whatToDo}</span>{ticks(s.do).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>}
         </div>
         {(linked[n] || s.sources.length > 0) && (
-          <p class="story-links">
+          <div class="story-links">
             {linked[n] && <a class="story-bd" href={incidentHref(linked[n]!)}>{t.breakdown}&nbsp;<span class="arr" aria-hidden="true"></span></a>}
-            {s.sources.length > 0 && <span class="story-src"><span class="k">{t.srcs}:</span> {s.sources.map((x, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={x.url} rel="noopener">{x.name}</a></>)}</span>}
-          </p>
+            {s.sources.length > 0 && <Sources sources={s.sources} lang={lang} fold="line" />}
+          </div>
         )}
       </li>
     ))}
