@@ -1,17 +1,20 @@
 ---
-// One row of the "New this week" box (Announcements.astro): what it is (a small blue word), then the title,
-// two lines at most. The whole row links to what changed.
+// One row of the "New this week" box (Announcements.astro): one section of the site and what's new in it, so the eye
+// can run down the left edge and know at once where something was added. The section's name (as in the menu) and how
+// many things changed in it on the first line; under it one short line saying what: the title when it's one thing,
+// a summary when it's several ("Week 45 · 6 breakdowns", "What to learn for 9 jobs"). The whole row links to the
+// one thing, or to the section when there are several.
 import { HTML_LANG, type Lang } from "../i18n/ui";
-import type { Change } from "../lib/changes";
+import type { ChangeGroup } from "../lib/changes";
 
-interface Props { c: Change; lang: Lang; label: string; updated: string }
-const { c, lang, label, updated } = Astro.props;
-const other = c.lang !== lang ? HTML_LANG[c.lang] : undefined;
-const Tag = c.href ? "a" : "div";
+interface Props { g: ChangeGroup; lang: Lang }
+const { g, lang } = Astro.props;
+const other = g.lang && g.lang !== lang ? HTML_LANG[g.lang] : undefined;
+const Tag = g.href ? "a" : "div";
 ---
 <li>
-  <Tag href={c.href} rel={c.href && /^https?:/.test(c.href) ? "noopener" : undefined}>
-    <span class="ann-s">{label}{c.updated && <span class="u"> · {updated}</span>}</span>
-    <span class="ann-t" lang={other}>{c.title}</span>
+  <Tag href={g.href} rel={g.href && /^https?:/.test(g.href) ? "noopener" : undefined}>
+    <span class="ann-g"><span class="ann-sec">{g.label}</span><span class="ann-c">{g.count}</span></span>
+    <span class="ann-t" lang={other}>{g.summary}</span>
   </Tag>
 </li>

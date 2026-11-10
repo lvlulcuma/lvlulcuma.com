@@ -233,13 +233,16 @@ nav.lang a[hreflang="uk"][aria-current="true"] {
 .ann-list li { border-top: 1px solid color-mix(in srgb, var(--ann-b) 22%, var(--line)); }
 .ann-list a, .ann-list li > div { display: block; padding: 9px 16px 10px; color: var(--ink); text-decoration: none; }
 .ann-list a:hover, .ann-list a:focus-visible { background: color-mix(in srgb, var(--ann-b) 12%, transparent); }
-.ann-list a:hover .ann-t, .ann-list a:focus-visible .ann-t { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.ann-list a:hover .ann-sec, .ann-list a:focus-visible .ann-sec { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 .ann-list a:focus-visible { outline-offset: -2px; }
-.ann-s { display: block; font-family: var(--mono); font-size: 11.5px; line-height: 1.5; color: var(--accent); }
-.ann-s .u { color: var(--muted); }
-/* Two lines at most; the rest of a long title is on its page. */
-.ann-t { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 1px; font-weight: 500; font-size: 14.5px; line-height: 1.35; }
-/* More than four rows (three on phones): the rest fold under "N more". */
+.ann-list a:hover .ann-sec, .ann-list a:focus-visible .ann-sec { color: var(--accent); }
+/* A row: the section's name in bold with how many things are new in it at the right edge, in the box's blues, so
+   the eye runs down the left edge and sees at once where things were added; under it one quiet line saying what,
+   one line only (the full title is on its page). */
+.ann-g { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.ann-sec { font-weight: 600; font-size: 15px; line-height: 1.35; color: var(--ink); transition: color var(--ease); }
+.ann-c { flex: 0 0 auto; min-width: 20px; padding: 0 5px; border: 1px solid color-mix(in srgb, var(--ann-b) 45%, var(--line)); background: color-mix(in srgb, var(--ann-b) 10%, var(--panel)); font-family: var(--mono); font-size: 11.5px; line-height: 17px; text-align: center; color: var(--accent); }
+.ann-t { display: block; margin-top: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
 .ann-more { border-top: 1px solid color-mix(in srgb, var(--ann-b) 22%, var(--line)); }
 .ann-more > summary { position: relative; display: block; list-style: none; cursor: pointer; padding: 8px 40px 9px 16px; font-size: 13.5px; font-weight: 500; color: var(--accent); }
 .ann-more > summary::-webkit-details-marker { display: none; }

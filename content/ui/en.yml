@@ -224,6 +224,8 @@ story_one: "story"
 story_other: "stories"
 incident_one: "incident"
 incident_other: "incidents"
+breakdown_one: "breakdown"
+breakdown_other: "breakdowns"
 
 # CWE section (/cwe/): the list of weaknesses and each write-up
 cweKey: "CWEs in the OWASP Top 10"
