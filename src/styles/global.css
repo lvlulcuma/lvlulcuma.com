@@ -227,7 +227,10 @@ nav.lang a[hreflang="uk"][aria-current="true"] {
 .ann-head h2 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 17px; line-height: 1.2; letter-spacing: -.01em; color: var(--ink); }
 .ann-live { flex: 0 0 auto; width: 9px; height: 9px; background: var(--tip); }
 .ann-live.off { background: var(--line); }
-.ann-n { margin-left: auto; min-width: 22px; padding: 2px 6px; background: linear-gradient(135deg, var(--ann-b), var(--ann-c)); color: #fff; font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 16px; text-align: center; }
+/* How many things are new this week, written like added lines in a code change: "+17" in green, the colour of the
+   live square beside the heading, with no box. The "+" is drawn by CSS and left out for screen readers. */
+.ann-n { margin-left: auto; font-family: var(--mono); font-size: 14px; font-weight: 600; line-height: 1.2; color: var(--tip); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ann-n::before { content: "+"; content: "+" / ""; }
 .ann-empty { margin: 0; padding: 0 16px 14px; font-size: 14px; color: var(--muted); }
 .ann-list { list-style: none; margin: 0; padding: 0; }
 .ann-list li { border-top: 1px solid color-mix(in srgb, var(--ann-b) 22%, var(--line)); }
