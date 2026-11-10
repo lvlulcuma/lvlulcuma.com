@@ -405,22 +405,9 @@ kbd { display: inline-block; min-width: 1.9em; padding: 0 6px; font-family: var(
 .source-note { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted); }
 .source-note p { margin: 0; }
 .gnext { margin-top: 56px; }
-/* Guides list, "Follow a path": the chains of guides that build on each other (guidePaths in src/lib/content.ts).
-   Each path: the goal and its total time, then the guides as a numbered line of links joined by the site's arrow,
-   in the order to do them; the last one, the goal, in bold. */
-.gpaths { margin-top: 8px; }
-.gpath-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.gpath-list > li { padding: 13px 18px 14px; background: var(--panel); border: 1px solid var(--line); }
-.gpath-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 16px; margin: 0 0 8px; }
-.gpath-h .t { font-family: var(--display); font-weight: 500; font-size: 17px; line-height: 1.3; }
-.gpath-h .m { font-family: var(--mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; }
-.gpath { list-style: none; margin: 0; padding: 0; counter-reset: gp; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 0; font-size: 14.5px; line-height: 1.45; }
-.gpath li { counter-increment: gp; }
-.gpath li::before { content: counter(gp); margin-right: 6px; font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); }
-.gpath li + li::before { content: "->" "\00a0\00a0" counter(gp); margin-left: 10px; letter-spacing: 0; }
-.gpath a { color: var(--ink); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); text-underline-offset: 3px; }
-.gpath a:hover, .gpath a:focus-visible { color: var(--accent); text-decoration-color: currentColor; }
-.gpath li:last-child a { font-weight: 600; }
+/* Guide cards: how a guide connects to the others ("Before you start: …", "Needed for: …", "Used in: …"), quiet lines. */
+.gc-rel { display: grid; gap: 2px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.gc-rel .k { font-weight: 500; color: var(--ink); }
 /* End of a guide, "What's next": one row each (the whole row is the link): a small grey line saying what it is
    (left out when it's the same as the row above), the title, and for a guide its time and steps; the site's arrow
    on the right. */

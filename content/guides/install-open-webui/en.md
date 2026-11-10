@@ -8,9 +8,9 @@ time: 10   # rough minutes to complete
 platforms: [windows]   # windows | macos | linux
 requires: [install-docker-desktop, install-ollama]   # guides to do first (folder names); shown as "Before you start"
 dek: "A local, browser-based chat interface for Ollama, running in Docker."
-# revisions:          # after publishing, add a line for each change
-#   - date: 2026-12-02
-#     note: "Updated the download link"
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-09
+    note: "Adds what to do when Open WebUI can't see Ollama, and the optional secret key from Open WebUI's docs."
 ---
 
 ## Run the container
@@ -29,6 +29,9 @@ dek: "A local, browser-based chat interface for Ollama, running in Docker."
    > [!NOTE]
    > The first run downloads the image, which can take a few minutes. Afterwards it starts automatically with Docker.
 
+   > [!TIP]
+   > Open WebUI's own docs also add `-e WEBUI_SECRET_KEY=` with a long random value to this command, so you stay signed in when the container is recreated.
+
 ## Open it in your browser
 
 1. Go to `http://localhost:3000`.
@@ -42,4 +45,4 @@ dek: "A local, browser-based chat interface for Ollama, running in Docker."
 1. Open WebUI finds a running Ollama on its own. Pick a model from the dropdown in the top-left corner and start chatting.
 
    > [!TIP]
-   > If the list is empty, pull a model in Ollama first — see [Install Ollama](/en/guides/install-ollama/).
+   > If the list is empty, pull a model in Ollama first — see [Install Ollama](/en/guides/install-ollama/). Still empty? Ollama may only be listening to your own computer. Quit Ollama, add a user environment variable `OLLAMA_HOST` with the value `0.0.0.0`, and start Ollama again. That also lets other devices on your network reach it.

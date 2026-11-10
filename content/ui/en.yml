@@ -154,8 +154,6 @@ nextGuide: "Next guide"
 noGuides: "No guides in this category yet."
 noGuidesShort: "No guides yet"
 allGuides: "All guides"
-guidePaths: "Follow a path"   # the chains of guides that build on each other, at the top of the guides list
-guidePathsIntro: "Some guides build on others. Do them in this order to end up with a working setup."
 whatsNext: "What's next"   # the end of a guide
 buildsOnThis: "Builds on this guide"
 alsoUsedIn: "Also used in"   # before a page elsewhere on the site that links to the guide: "Also used in · Lab"

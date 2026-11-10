@@ -6,19 +6,25 @@ category: install   # install | quick | configure | use | harden | fix
 order: 1   # position within its category
 time: 10   # rough minutes to complete
 platforms: [windows, macos, linux]   # windows | macos | linux
-requires: [check-hash]   # guides to do first (folder names); shown as "Before you start"
+requires: []   # guides to do first (folder names); shown as "Before you start"
 dek: "Run large language models locally from the command line, on Windows, macOS or Linux."
-# revisions:          # after publishing, add a line for each change
-#   - date: 2026-12-02
-#     note: "Updated the download link"
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-09
+    note: "Says where Ollama publishes its hashes, and adds the install command for Linux, which has no installer to download."
 ---
 
 ## Download and install
 
-1. Go to [ollama.com](https://ollama.com/) and download the build for your operating system.
-2. Verify the download — see [Verify a file's hash](/en/guides/check-hash/).
-3. Run the installer. It sets up a background service that detects your GPU automatically.
-4. Open a new terminal and confirm the install:
+1. On Windows or macOS, download Ollama from [ollama.com/download](https://ollama.com/download).
+2. Check the download against its hash. Ollama lists every file's SHA-256 hash in `sha256sum.txt` on its [GitHub releases page](https://github.com/ollama/ollama/releases); see [Verify a file's hash](/en/guides/check-hash/).
+3. Install it. On Windows, run **OllamaSetup.exe**: it installs for your account and doesn't need administrator rights. On macOS, open the download and move **Ollama** to **Applications**, then start it. Ollama then keeps running in the background.
+4. On Linux, there's nothing to download first: install it with Ollama's script instead.
+
+   ```sh
+   curl -fsSL https://ollama.com/install.sh | sh
+   ```
+
+5. Open a new terminal and confirm the install:
 
    ```sh
    ollama --version

@@ -1,13 +1,14 @@
 ---
 // Renders either a single guide (/<lang>/guides/<slug>/) or a category filter (/<lang>/guides/<category>/).
-// A guide ends with "What's next", one row each: the guides that build on it, the pages elsewhere on the site that
-// use it (lab ideas, articles, CWE write-ups; found by guideLinks in src/lib/content.ts), and, when nothing builds on
-// it, the next guide in its category. Then a link back to all guides.
+// A guide ends with "What's next", one row each: the guides that build on it (they list it under `requires:`), the
+// guides that send you to it from one of their steps (guideMentions; that's how the short, reusable how-tos are
+// used), and the pages elsewhere on the site that use it (lab ideas, articles, CWE write-ups; guideLinks). Nothing
+// unrelated is suggested: when nothing uses a guide yet, the section says so. Then a link back to all guides.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import GuidesIndex from "../../../components/GuidesIndex.astro";
 import { GUIDE_CATS, HTML_LANG, LANGS, ui, type Lang, type GuideCat } from "../../../i18n/ui";
-import { categoryFilter, getGuides, getPage, dependents, guideLinks, guideMissingLangs, type Guide } from "../../../lib/content";
+import { categoryFilter, getGuides, getPage, dependents, guideLinks, guideMentions, guideMissingLangs, type Guide } from "../../../lib/content";
 import { iso } from "../../../lib/articles";
 import { revisionLog, toc, countWord } from "../../../lib/block";
 
@@ -28,7 +29,7 @@ const all = await getGuides(lang);
 const guidesPage = await getPage("guides", lang);
 
 let g: Guide | undefined, Content: any = null, headings: any[] = [], revs: ReturnType<typeof revisionLog> = [];
-let before: Guide[] = [], after: Guide[] = [], afterIsNext = false, missing: Lang[] = [];
+let before: Guide[] = [], after: Guide[] = [], mentions: Guide[] = [], missing: Lang[] = [];
 let usedOn: Awaited<ReturnType<typeof guideLinks>> = [];
 if (props.kind === "guide") {
   g = all.find((x) => x.slug === props.slug)!;
@@ -37,11 +38,7 @@ if (props.kind === "guide") {
   missing = await guideMissingLangs(g.slug);
   before = g.entry.data.requires.map((s) => all.find((x) => x.slug === s)!);
   after = dependents(all, g);
-  // Nothing builds on this guide: suggest the next one in the same category instead (never one it requires).
-  if (!after.length) {
-    const next = all.slice(all.indexOf(g) + 1).find((x) => x.category === g!.category && !g!.entry.data.requires.includes(x.slug));
-    if (next) { after = [next]; afterIsNext = true; }
-  }
+  mentions = guideMentions(all, g);
   usedOn = await guideLinks(lang, g.slug);
 }
 // Time, steps and systems sit in the line above the title, like the date on an article.
@@ -51,7 +48,8 @@ const os = osNames.length === 1 ? t.platformOnly.replace("{os}", osNames[0]) : `
 const catCount = props.kind === "cat" ? all.filter((x) => x.category === props.c).length : 0;
 // "What's next": guides first (what builds on this one, or the next one), then the rest of the site.
 const nextRows = [
-  ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.buildsOnThis, title: x.entry.data.title, d: `~${x.time} ${t.min} · ${countWord(x.steps, lang, t, "step")}`, href: `/${x.lang}/guides/${x.slug}/`, lang: x.lang })),
+  ...after.map((x) => ({ kicker: t.buildsOnThis, title: x.entry.data.title, d: `~${x.time} ${t.min} · ${countWord(x.steps, lang, t, "step")}`, href: `/${x.lang}/guides/${x.slug}/`, lang: x.lang })),
+  ...mentions.map((x) => ({ kicker: t.usedIn, title: x.entry.data.title, d: `~${x.time} ${t.min} · ${countWord(x.steps, lang, t, "step")}`, href: `/${x.lang}/guides/${x.slug}/`, lang: x.lang })),
   ...usedOn.map((x) => ({ kicker: `${t.alsoUsedIn} · ${x.kicker}`, title: x.title, d: "", href: x.href, lang: x.lang })),
 ];
 ---
@@ -71,7 +69,8 @@ const nextRows = [
       contents: toc(headings),
       go: { items: [
         ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/guides/${r.slug}/`, hreflang: r.lang !== lang ? HTML_LANG[r.lang] : undefined, lang: r.lang !== lang ? HTML_LANG[r.lang] : undefined })),
-        ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.buildsOnThis, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
+        ...after.map((x) => ({ kicker: t.buildsOnThis, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
+        ...mentions.map((x) => ({ kicker: t.usedIn, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
       ] },
       revisions: revs.length > 1 ? revs : undefined,
     }}>
