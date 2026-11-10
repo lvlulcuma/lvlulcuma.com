@@ -1,0 +1,65 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-engineering/security-automation-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-09
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - soc-basics
+  - incident-response-process
+  - siem
+  - edr
+  - alert-triage
+  - ioc-enrichment
+  - scripting-for-security
+  - regular-expressions
+  - git-basics
+intermediate:
+  - soar-automation
+  - playbook-engineering
+  - tool-apis-integration
+  - automation-coding
+  - no-code-low-code
+  - siem-queries
+  - log-normalization
+  - phishing-analysis
+  - threat-intel-platforms
+  - secrets-management
+  - detection-testing
+  - secure-development-basics
+advanced:
+  - containment-automation
+  - ai-in-automation
+  - security-data-pipelines
+  - automation-testing-shipping
+  - infrastructure-as-code
+  - siem-as-code
+  - detection-engineering
+  - personal-data-in-logs
+expert:
+  - automation-program
+  - soc-metrics
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Defensive Cybersecurity (PD-WRL-001) and Secure Software Development (DD-WRL-003) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Microsoft SC-200 study guide, Security Operations Analyst"
+    url: "https://learn.microsoft.com/en-us/certifications/resources/study-guides/SC-200"
+  - name: "OASIS CACAO Security Playbooks Version 2.0"
+    url: "https://docs.oasis-open.org/cacao/security-playbooks/v2.0/security-playbooks-v2.0.html"
+  - name: "NIST SP 800-61 Rev. 3, Incident Response Recommendations and Considerations"
+    url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+  - name: "CISA, Federal Government Cybersecurity Incident and Vulnerability Response Playbooks (2021)"
+    url: "https://www.cisa.gov/sites/default/files/2024-08/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf"
