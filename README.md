@@ -272,11 +272,11 @@ Readers find older weeks in three places, all updated by themselves: on the News
 
 ### An incident breakdown (News)
 
-Make a folder in `content/news/incidents/` (its name becomes the address, and it can't be one of the types above) and copy `en.md` from an existing breakdown. Every breakdown has the same sections in the same order, so readers know where to look. A section with nothing in it is left out.
+Make a folder in `content/news/incidents/` (its name becomes the address, and it can't be one of the types above) and copy `en.md` from an existing breakdown. Every breakdown has the same sections in the same order, so readers know where to look: first the facts (what happened, how the attack worked, the timeline, what's still unknown), then what to do (what would have caught it, what to check), then who works on this and the sources. A section with nothing in it is left out. Beside "What happened" on wide screens (under it on smaller ones) come the side notes of the weekly story that links to the breakdown.
 
 - `status:` unfolding (facts still coming in), confirmed, or report (the victim or investigators published a full report). When it changes, update it and add a line to `revisions:`.
 - `date:` when the incident became public; `published:` when you published the breakdown. `who`, `sector`, `entry` (how the attackers got in) and `impact` fill the box at the top: the impact first, then who was hit (with the sector) and the way in under it. Separate the parts of `impact` with "; ": they show as short points.
-- `timeline:` dates like `2026-10-14`, or `2026-10` when only the month is known.
+- `timeline:` dates like `2026-10-14`, or `2026-10` when only the month is known. The page shows them as "14 Oct" or "Oct" (with the year when it isn't the year the incident became public), and events on the same day share one date.
 - `attack:` one step per [MITRE ATT&CK](https://attack.mitre.org) technique, with `tactic`, `id` (like `T1190` or `T1003.001`), its official `name`, and what the attackers did. The ID links to the technique's page.
 - `detect:`, `check:` and `unknown:` are short lists. `jobs:` and `topics:` are Roadmap folder names; a misspelled one stops the build.
 - `sources:` primary sources first: the victim's statement, official advisories, court papers. The first three show at the end of the page; more fold under "N more". The text below the second `---` is the "What happened" section.

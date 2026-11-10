@@ -3,18 +3,21 @@
 //   /<lang>/news/incidents/<name>/   an incident breakdown (content/news/incidents/<name>/<lang>.md)
 //   /<lang>/news/incidents/<type>/   the incident list filtered to one type of attack
 // A breakdown is built only in the languages it's written in; other languages' lists link to the English page.
-// Its sections always come in the same order, so readers know where to look: what happened (the text under
-// the dashes), timeline, how the attack worked (ATT&CK), what would have caught it, what to check, who works
-// on this (Roadmap), what's still unknown, sources. Headings and the small notes: content/pages/news/<lang>.md.
+// Its sections always come in the same order, so readers know where to look. First the facts, in the order a
+// reader asks for them: what happened (the text under the dashes), how the attack worked (ATT&CK), the timeline,
+// what's still unknown. Then what to do: what would have caught it, what to check. Then where to go from here:
+// who works on this (Roadmap), sources. Headings and the small notes: content/pages/news/<lang>.md.
+// Beside "What happened" (from 1340px; under it on smaller screens) come the side notes of the weekly story that
+// links here: the terms it explains, written once for the week.
 import { render } from "astro:content";
 import { feedHref } from "../../../../lib/feed";
 import Base from "../../../../layouts/Base.astro";
 import ExampleNote from "../../../../components/ExampleNote.astro";
 import IncidentsIndex from "../../../../components/IncidentsIndex.astro";
 import Sources from "../../../../components/Sources.astro";
-import { HTML_LANG, LANGS, NEWS_TYPES, ui, type Lang, type NewsType } from "../../../../i18n/ui";
+import { HTML_LANG, LANGS, MONTHS, NEWS_TYPES, ui, type Lang, type NewsType } from "../../../../i18n/ui";
 import { iso } from "../../../../lib/articles";
-import { countWord, revisionLog } from "../../../../lib/block";
+import { countWord, dayMonth, revisionLog } from "../../../../lib/block";
 import { getPage } from "../../../../lib/content";
 import { attackUrl, getIncidents, getWeeks, incidentHref, newsMissingLangs, roadmapLinks, ticks, typeFilter, weekHref, type Incident } from "../../../../lib/news";
 
@@ -56,8 +59,8 @@ if (props.kind === "incident") {
 const d = inc?.entry.data;
 const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
 const sections = d ? ([
-  ["what", true], ["timeline", true], ["attack", d.attack.length > 0], ["detect", d.detect.length > 0],
-  ["check", d.check.length > 0], ["roadmap", road.length > 0], ["unknown", d.unknown.length > 0], ["sources", true],
+  ["what", true], ["attack", d.attack.length > 0], ["timeline", true], ["unknown", d.unknown.length > 0],
+  ["detect", d.detect.length > 0], ["check", d.check.length > 0], ["roadmap", road.length > 0], ["sources", true],
 ] as [string, boolean][]).filter(([, on]) => on).map(([k]) => k) : [];
 const typeCount = props.kind === "type" ? all.filter((i) => i.type === props.type).length : 0;
 const jobs = road.filter((r) => r.kind === "job");
@@ -65,6 +68,21 @@ const jobs = road.filter((r) => r.kind === "job");
 // ("about $2.85 billion frozen" -> "About …", but "iPhones" stays as it is).
 const impact = d ? d.impact.split(/;\s+/).map((x) => (/^\p{Ll}\P{Lu}/u.test(x) ? x[0].toLocaleUpperCase(HTML_LANG[lang]) + x.slice(1) : x)) : [];
 const topics = road.filter((r) => r.kind === "topic");
+// The weekly story that links here, for its side notes (the terms it explains), in that week's language.
+const story = covered.map((w) => ({ w, s: w.entry.data.stories.find((x) => x.incident === inc?.slug) })).find((x) => x.s?.notes.length);
+// The timeline, grouped by date (events on the same day share one date) and dated the way people read dates:
+// "29 Oct", "Jun" for a month, with the year only when it isn't the year the incident became public.
+const year = d ? d.date.getUTCFullYear() : 0;
+const when = (x: string) => {
+  const [y, m, day] = x.split("-").map(Number);
+  const text = day ? dayMonth(new Date(Date.UTC(y, m - 1, day)), lang) : MONTHS[lang][m - 1].replace(/^./, (c) => c.toLocaleUpperCase(HTML_LANG[lang]));
+  return y === year ? text : `${text} ${y}`;
+};
+const days = (d?.timeline ?? []).reduce<{ date: string; events: string[] }[]>((acc, e) => {
+  if (acc.at(-1)?.date === e.date) acc.at(-1)!.events.push(e.text);
+  else acc.push({ date: e.date, events: [e.text] });
+  return acc;
+}, []);
 ---
 {props.kind === "type" ? (
   <Base printIn lang={lang} nav="news" title={`${t.incidentsTitle}: ${t.newsTypes[props.type]}`} description={page.incidentsIntro}
@@ -111,14 +129,12 @@ const topics = road.filter((r) => r.kind === "topic");
 
     <div class="inc">
       <h2 id="what">{h.what}</h2>
-      <div class="prose"><Content /></div>
-
-      <h2 id="timeline">{h.timeline}</h2>
-      <ol class="timeline">
-        {d.timeline.map((e) => (
-          <li><time datetime={e.date}>{e.date}</time><p>{ticks(e.text).map((p) => (p.code ? <code>{p.s}</code> : p.s))}</p></li>
-        ))}
-      </ol>
+      {story ? (
+        <div class="noted">
+          <div class="prose"><Content /></div>
+          <aside class="side" lang={other(story.w.lang)}>{story.s!.notes.map((x) => <><p class="side-label">{x.label}</p><p>{ticks(x.text).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p></>)}</aside>
+        </div>
+      ) : <div class="prose"><Content /></div>}
 
       {d.attack.length > 0 && (
         <>
@@ -127,8 +143,8 @@ const topics = road.filter((r) => r.kind === "topic");
             {d.attack.map((a) => (
               <li>
                 <span class="tactic">{a.tactic}</span>
-                <a class="tech" href={attackUrl(a.id)} rel="noopener"><span class="id">{a.id}</span>{a.name}</a>
-                <p>{ticks(a.text).map((p) => (p.code ? <code>{p.s}</code> : p.s))}</p>
+                <a class="tech" href={attackUrl(a.id)} rel="noopener"><span class="nm">{a.name}</span> <span class="id">{a.id}</span></a>
+                <p>{ticks(a.text).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>
               </li>
             ))}
           </ol>
@@ -136,17 +152,31 @@ const topics = road.filter((r) => r.kind === "topic");
         </>
       )}
 
+      <h2 id="timeline">{h.timeline}</h2>
+      <ol class="timeline">
+        {days.map((g) => (
+          <li><time datetime={g.date}>{when(g.date)}</time><div>{g.events.map((e) => <p>{ticks(e).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p>)}</div></li>
+        ))}
+      </ol>
+
+      {d.unknown.length > 0 && (
+        <>
+          <h2 id="unknown">{h.unknown}</h2>
+          <div class="inc-box warn"><ul class="unknown">{d.unknown.map((x) => <li>{ticks(x).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</li>)}</ul></div>
+        </>
+      )}
+
       {d.detect.length > 0 && (
         <>
           <h2 id="detect">{h.detect}</h2>
-          <ul class="detect">{d.detect.map((x) => <li>{ticks(x).map((p) => (p.code ? <code>{p.s}</code> : p.s))}</li>)}</ul>
+          <ul class="detect">{d.detect.map((x) => <li>{ticks(x).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</li>)}</ul>
         </>
       )}
 
       {d.check.length > 0 && (
         <>
           <h2 id="check">{h.check}</h2>
-          <ul class="todo">{d.check.map((x) => <li>{ticks(x).map((p) => (p.code ? <code>{p.s}</code> : p.s))}</li>)}</ul>
+          <div class="inc-box tip"><ul class="todo">{d.check.map((x) => <li>{ticks(x).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</li>)}</ul></div>
         </>
       )}
 
@@ -155,12 +185,12 @@ const topics = road.filter((r) => r.kind === "topic");
           <h2 id="roadmap">{h.roadmap}</h2>
           {page.roadmapIntro && <p class="inc-intro">{page.roadmapIntro}</p>}
           {jobs.length > 0 && (
-            <ul class="fcards road-jobs">
+            <ul class="rows road-jobs">
               {jobs.map((j) => (
                 <li class="linked" lang={other(j.lang)}>
-                  <h3><a href={j.href}>{j.title}</a></h3>
-                  <p>{j.summary}</p>
-                  <p class="fc-go">{j.learn ? t.learn : t.nav.roadmap}&nbsp;<span class="arr" aria-hidden="true"></span></p>
+                  <span class="t"><a href={j.href}>{j.title}</a></span>
+                  <span class="d">{j.summary}</span>
+                  <span class="go">{j.learn ? t.learn : t.nav.roadmap}&nbsp;<span class="arr" aria-hidden="true"></span></span>
                 </li>
               ))}
             </ul>
@@ -173,13 +203,6 @@ const topics = road.filter((r) => r.kind === "topic");
               </ul>
             </>
           )}
-        </>
-      )}
-
-      {d.unknown.length > 0 && (
-        <>
-          <h2 id="unknown">{h.unknown}</h2>
-          <ul class="unknown">{d.unknown.map((x) => <li>{ticks(x).map((p) => (p.code ? <code>{p.s}</code> : p.s))}</li>)}</ul>
         </>
       )}
 
