@@ -100,17 +100,12 @@ const topics = road.filter((r) => r.kind === "topic");
     </p>
     <h1>{d.title}</h1>
     <p class="dek">{d.dek}</p>
-    {/* The facts at a glance, read as a short story: who was hit (and their sector), then the way in -> the impact. */}
-    <div class="glance">
-      <dl class="gl-who">
-        <div><dt>{t.who}</dt><dd>{d.who}</dd></div>
-        <div class="gl-sector"><dt>{t.sector}</dt><dd>{d.sector}</dd></div>
-      </dl>
-      <dl class="gl-path">
-        <div><dt>{t.wayIn}</dt><dd>{d.entry}</dd></div>
-        <div><dt>{t.impact}</dt><dd>{impact.length > 1 ? <ul>{impact.map((x) => <li>{x}</li>)}</ul> : impact[0]}</dd></div>
-      </dl>
-    </div>
+    {/* The facts at a glance, read as a short chain: who was hit (and their sector), the way in, the impact. */}
+    <dl class="glance">
+      <div><dt>{t.who}</dt><dd class="gl-who">{d.who}<span class="gl-sector"><span>{t.sector}</span> {d.sector}</span></dd></div>
+      <div><dt>{t.wayIn}</dt><dd>{d.entry}</dd></div>
+      <div><dt>{t.impact}</dt><dd>{impact.length > 1 ? <ul>{impact.map((x) => <li>{x}</li>)}</ul> : impact[0]}</dd></div>
+    </dl>
 
     <div class="inc">
       <h2 id="what">{h.what}</h2>
