@@ -22,3 +22,17 @@
 /pl/lab/setup/*  /pl/lab/web-app-hacking/  301
 /ua/lab/setup/*  /ua/lab/web-app-hacking/  301
 /lab/compose.yaml  /lab/web-app-hacking/compose.yaml  301
+
+# The two made-up example breakdowns were removed once real ones existed (Nov 2026).
+/en/news/incidents/example-logistics-ransomware  /en/news/incidents/  301
+/pl/news/incidents/example-logistics-ransomware  /pl/news/incidents/  301
+/ua/news/incidents/example-logistics-ransomware  /ua/news/incidents/  301
+/en/news/incidents/examplesoft-npm-supply-chain  /en/news/incidents/  301
+/pl/news/incidents/examplesoft-npm-supply-chain  /pl/news/incidents/  301
+/ua/news/incidents/examplesoft-npm-supply-chain  /ua/news/incidents/  301
+/en/news/incidents/example-logistics-ransomware/*  /en/news/incidents/  301
+/pl/news/incidents/example-logistics-ransomware/*  /pl/news/incidents/  301
+/ua/news/incidents/example-logistics-ransomware/*  /ua/news/incidents/  301
+/en/news/incidents/examplesoft-npm-supply-chain/*  /en/news/incidents/  301
+/pl/news/incidents/examplesoft-npm-supply-chain/*  /pl/news/incidents/  301
+/ua/news/incidents/examplesoft-npm-supply-chain/*  /ua/news/incidents/  301

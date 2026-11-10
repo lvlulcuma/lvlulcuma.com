@@ -281,7 +281,7 @@ Make a folder in `content/news/incidents/` (its name becomes the address, and it
 - `detect:`, `check:` and `unknown:` are short lists. `jobs:` and `topics:` are Roadmap folder names; a misspelled one stops the build.
 - `sources:` primary sources first: the victim's statement, official advisories, court papers. The first three show at the end of the page; more fold under "N more". The text below the second `---` is the "What happened" section.
 
-**Made-up examples:** `example: true` marks a sample that only shows the layout. It's labelled as an example on the page and kept out of search engines, the sitemap, RSS and the home page. The four example folders (`news/weeks/2026-w42`, `news/weeks/2026-w43`, `news/incidents/example-logistics-ransomware`, `news/incidents/examplesoft-npm-supply-chain`) can go once real ones exist.
+**Made-up examples:** `example: true` marks a sample that only shows the layout. It's labelled as an example on the page (with an orange "Example" box, also above any list that holds one) and kept out of search engines, the sitemap, RSS and the home page. The made-up weeks and breakdowns that showed the layout before the first real ones have been removed; to start from a layout, copy a real breakdown such as `news/incidents/binance-crypto-theft`.
 
 ### A guide
 
