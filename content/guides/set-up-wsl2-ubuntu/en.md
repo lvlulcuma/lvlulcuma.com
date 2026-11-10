@@ -8,9 +8,9 @@ time: 15   # rough minutes to complete
 platforms: [windows]   # windows | macos | linux
 requires: []   # guides to do first (folder names); shown as "Before you start"
 dek: "Install the Windows Subsystem for Linux with Ubuntu, on version 2."
-# revisions:          # after publishing, add a line for each change
-#   - date: 2026-12-02
-#     note: "Updated the download link"
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-09
+    note: "Fixes the command for moving Ubuntu to WSL 2, and says what to do if Ubuntu doesn't open by itself."
 ---
 
 ## Install WSL and Ubuntu
@@ -26,7 +26,7 @@ dek: "Install the Windows Subsystem for Linux with Ubuntu, on version 2."
 
 ## Create your Linux user
 
-1. After the restart, Ubuntu opens and asks for a new UNIX username and password.
+1. After the restart, Ubuntu opens (if it doesn't, open **Ubuntu** from the Start menu) and asks for a new UNIX username and password.
 
    > [!NOTE]
    > Nothing appears while you type the password. That's normal on Linux.
@@ -46,4 +46,4 @@ dek: "Install the Windows Subsystem for Linux with Ubuntu, on version 2."
    ```
 
    > [!TIP]
-   > If the VERSION column shows 1, run `wsl --set-default-version 2` and check again.
+   > If the VERSION column shows 1, move Ubuntu to WSL 2 with `wsl --set-version Ubuntu 2` and check again. (`wsl --set-default-version 2` only changes Linux distributions you install later.)

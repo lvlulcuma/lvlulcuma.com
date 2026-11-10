@@ -100,32 +100,21 @@ export async function guideMissingLangs(slug: string): Promise<Lang[]> {
 /** Guides that list this one under `requires:`. */
 export const dependents = (all: Guide[], g: Guide) => all.filter((x) => x.entry.data.requires.includes(g.slug));
 
-/** Paths through the guides, worked out from `requires:`: each guide that needs others and that no other guide
- *  builds on is a goal, and its path is everything it needs, in the order to do it (each guide after the ones it
- *  needs), then the goal itself. Shown as "Follow a path" on the guides list. */
-export function guidePaths(all: Guide[]): { goal: Guide; steps: Guide[]; time: number }[] {
-  const bySlug = new Map(all.map((g) => [g.slug, g]));
-  return all
-    .filter((g) => g.entry.data.requires.length > 0 && dependents(all, g).length === 0)
-    .map((goal) => {
-      const steps: Guide[] = [];
-      const visit = (g: Guide) => {
-        if (steps.includes(g)) return;
-        for (const r of g.entry.data.requires) visit(bySlug.get(r)!);
-        steps.push(g);
-      };
-      visit(goal);
-      return { goal, steps, time: steps.reduce((n, g) => n + g.time, 0) };
-    })
-    .sort((a, b) => b.steps.length - a.steps.length || a.time - b.time);
-}
+/** True when a text links to this guide (/<lang>/guides/<slug>/, any language). */
+const linksTo = (body: string | undefined, slug: string) =>
+  new RegExp(`\\(/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^)]*)?\\)`).test(body ?? "");
+
+/** Guides that send the reader to this one from one of their steps (a link in their text), without needing it
+ *  first. That's how the short, reusable how-tos (Quick steps) are used: "Used in" on their page and their card. */
+export const guideMentions = (all: Guide[], g: Guide) =>
+  all.filter((x) => x !== g && !x.entry.data.requires.includes(g.slug) && linksTo(x.entry.body, g.slug));
 
 /** Other pages on the site that link to a guide in their text (lab ideas, the lab's "Get started" page, articles,
  *  CWE write-ups), found by looking for /<lang>/guides/<slug>/ in them, so a guide shows where it's used without
  *  anyone keeping a list. Guides are English-only for now, so English links count on every language's page. */
 export async function guideLinks(lang: Lang, slug: string): Promise<{ kicker: string; title: string; href: string; lang: Lang }[]> {
   const t = ui[lang];
-  const links = (body: string | undefined) => new RegExp(`\\(/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^)]*)?\\)`).test(body ?? "");
+  const links = (body: string | undefined) => linksTo(body, slug);
   const out: { kicker: string; title: string; href: string; lang: Lang }[] = [];
   for (const i of await getIdeas(lang)) if (links(i.entry.body)) out.push({ kicker: t.nav.lab, title: i.entry.data.title, href: `/${i.lang}/lab/${i.slug}/`, lang: i.lang });
   const start = await getPage("lab-start", lang);

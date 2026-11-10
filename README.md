@@ -289,8 +289,10 @@ Make a folder in `content/guides/` (its name becomes the address) with an `en.md
 
 - `category:` install, quick, configure, use, harden or fix. `order:` its place in that category. A category shows on the guides list (and in its filter) once it has a guide.
 - `time:` rough minutes to finish. `platforms:` any of `[windows, macos, linux]`.
-- `requires:` folder names of guides to do first, like `[install-docker-desktop, install-ollama]`. They show as "Before you start" at the top, and this guide shows under "What's next" on theirs. They also make the paths at the top of the guides list ("Follow a path"): every guide that needs others and that nothing else builds on gets a path of everything it needs, in order, with the total time.
-- "What's next" at the end of a guide also lists the pages elsewhere on the site that link to it (lab ideas, the lab's "Get started" page, articles, CWE write-ups), found by themselves from the links in their text. When nothing builds on a guide, the next guide in its category is suggested.
+- `requires:` folder names of guides to do first, like `[install-docker-desktop, install-ollama]`. Only list what readers really must have done before they start (Open WebUI needs Docker Desktop and Ollama installed). They show as "Before you start" at the top and on the guide's card, and this guide shows under "Builds on this guide" on theirs.
+- **Short, reusable how-tos** (the Quick steps, like "Verify a file's hash") aren't prerequisites: link to them from the step where they're needed, for example `see [Verify a file's hash](/en/guides/check-hash/)`. Their page and card then show "Used in" with every guide that links to them, found by themselves from the links.
+- "What's next" at the end of a guide lists what builds on it, the guides that use it, and the pages elsewhere on the site that link to it (lab ideas, the lab's "Get started" page, articles, CWE write-ups). Nothing unrelated is suggested.
+- When a guide says to check a download, also say where the publisher lists the hash (or, when there's none, how to check the installer's signature).
 
 Write each part as a `## Heading` (numbered 01, 02, … by itself) followed by a numbered list of steps. Inside a step, indent by three spaces:
 

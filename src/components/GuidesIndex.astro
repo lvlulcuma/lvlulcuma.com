@@ -1,9 +1,10 @@
 ---
-// The guides list: first "Follow a path" (the chains of guides that build on each other, from `requires:`; see
-// guidePaths in src/lib/content.ts), then one section of cards per category that has guides. Empty categories stay
-// out of the list and the filter until their first guide. Category filters are separate pages (no JavaScript).
-import { GUIDE_CATS, HTML_LANG, LANG_LABEL, ui, type Lang, type GuideCat } from "../i18n/ui";
-import { getGuides, getPage, guidePaths } from "../lib/content";
+// The guides list: one section of cards per category that has guides; empty categories stay out of the list and
+// the filter until their first guide. Each card says how it connects to the others (GuideRow.astro): what to do
+// before it, or, for a short reusable how-to, which guides send you to it. Category filters are separate pages
+// (no JavaScript).
+import { GUIDE_CATS, ui, type Lang, type GuideCat } from "../i18n/ui";
+import { getGuides, getPage } from "../lib/content";
 import { countWord } from "../lib/block";
 import GuideRow from "./GuideRow.astro";
 interface Props { lang: Lang; cat?: GuideCat }
@@ -14,9 +15,7 @@ const page = (await getPage("guides", lang)).data;
 const catText = (c: GuideCat): string | undefined => page.categories?.[c];
 const pad = (n: number) => String(n).padStart(2, "0");
 const shown = cat ? [cat] : GUIDE_CATS.filter((c) => all.some((g) => g.category === c));
-const paths = cat ? [] : guidePaths(all);
-const href = (g: (typeof all)[number]) => `/${g.lang}/guides/${g.slug}/`;
-const other = (g: (typeof all)[number]) => (g.lang !== lang ? HTML_LANG[g.lang] : undefined);
+
 ---
 <h1>{cat ? `${t.nav.guides}: ${t.guideCats[cat]}` : t.nav.guides}</h1>
 <p class="lede">{cat ? catText(cat) ?? page.intro : page.intro}</p>
@@ -25,24 +24,6 @@ const other = (g: (typeof all)[number]) => (g.lang !== lang ? HTML_LANG[g.lang] 
   {GUIDE_CATS.filter((c) => c === cat || all.some((g) => g.category === c)).map((c) => <a href={`/${lang}/guides/${c}/`} aria-current={cat === c ? "page" : undefined}>{t.guideCats[c]}</a>)}
 </nav>
 
-{paths.length > 0 && (
-  <section class="gsec gpaths" aria-labelledby="paths">
-    <div class="block-head">
-      <h2 id="paths">{t.guidePaths}</h2>
-      <p class="bh-desc">{t.guidePathsIntro}</p>
-    </div>
-    <ol class="gpath-list">
-      {paths.map((p) => (
-        <li>
-          <p class="gpath-h"><span class="t" lang={other(p.goal)}>{p.goal.entry.data.title}{p.goal.lang !== lang && <span class="gc-lang">{LANG_LABEL[p.goal.lang]}</span>}</span><span class="m">{countWord(p.steps.length, lang, t, "guide")} · ~{p.time} {t.min}</span></p>
-          <ol class="gpath">
-            {p.steps.map((g) => <li><a href={href(g)} hreflang={other(g)} lang={other(g)}>{g.entry.data.title}</a></li>)}
-          </ol>
-        </li>
-      ))}
-    </ol>
-  </section>
-)}
 
 {shown.map((c) => {
   const list = all.filter((g) => g.category === c);
@@ -60,7 +41,7 @@ const other = (g: (typeof all)[number]) => (g.lang !== lang ? HTML_LANG[g.lang] 
       )}
       {list.length > 0 ? (
         <ul class="gcards">
-          {list.map((g) => <GuideRow guide={g} lang={lang} label="" />)}
+          {list.map((g) => <GuideRow guide={g} all={all} lang={lang} label="" />)}
         </ul>
       ) : cat ? (
         <p class="gsec-empty">{t.noGuides}</p>

@@ -1,21 +1,33 @@
 ---
-// One guide in a grid of guide cards (the guides list, and "Used in" under a guide).
-// `label` is the small text in the top-left corner: the guide's number in its category, or its category.
+// One guide in the grid of guide cards on the guides list.
+// `label` is the small text in the top-left corner (left empty on the list).
+// Under the summary, a line or two say how it connects to the other guides: "Before you start: …" (its `requires:`),
+// "Needed for: …" (the guides that list it under `requires:`) and, for a short reusable how-to, "Used in: …" (the
+// guides that send you to it from one of their steps).
 // A guide that isn't translated yet links to its English page and is marked EN.
 import { HTML_LANG, LANG_LABEL, ui, type Lang } from "../i18n/ui";
-import type { Guide } from "../lib/content";
+import { dependents, guideMentions, type Guide } from "../lib/content";
 import { countWord } from "../lib/block";
-interface Props { guide: Guide; lang: Lang; label: string }
-const { guide, lang, label } = Astro.props;
+interface Props { guide: Guide; all: Guide[]; lang: Lang; label: string }
+const { guide, all, lang, label } = Astro.props;
 const t = ui[lang];
 const os = guide.entry.data.platforms.map((p) => t.platforms[p]).join(" · ");
 const other = guide.lang !== lang;
+const title = (slug: string) => all.find((x) => x.slug === slug)?.entry.data.title ?? slug;
+const rel = [
+  [t.before, guide.entry.data.requires.map(title)],
+  [t.neededFor, dependents(all, guide).map((x) => x.entry.data.title)],
+  [t.usedIn, guideMentions(all, guide).map((x) => x.entry.data.title)],
+].filter(([, list]) => list.length > 0) as [string, string[]][];
 ---
 <li>
   <a href={`/${guide.lang}/guides/${guide.slug}/`} hreflang={other ? HTML_LANG[guide.lang] : undefined}>
     <span class="gc-top"><span class="n">{label}{other && <span class="gc-lang">{LANG_LABEL[guide.lang]}</span>}</span><span>{os}</span></span>
     <span class="t" lang={other ? HTML_LANG[guide.lang] : undefined}>{guide.entry.data.title}</span>
     <span class="d" lang={other ? HTML_LANG[guide.lang] : undefined}>{guide.entry.data.dek}</span>
+    {rel.length > 0 && (
+      <span class="gc-rel">{rel.map(([k, list]) => <span><span class="k">{k}:</span> <span lang={other ? HTML_LANG[guide.lang] : undefined}>{list.join(", ")}</span></span>)}</span>
+    )}
     <span class="gc-meta">
       <span>~{guide.time} {t.min}</span>
       <span>{countWord(guide.steps, lang, t, "step")}</span>
