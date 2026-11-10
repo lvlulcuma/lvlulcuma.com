@@ -402,6 +402,80 @@ kbd { display: inline-block; min-width: 1.9em; padding: 0 6px; font-family: var(
 .hire { margin: 28px 0 0; padding: 0 18px 12px 16px; }
 .hire p { margin: 0; font-size: 15px; color: var(--muted); }
 .hire + .gsec { margin-top: 48px; }
+/* Career moves (src/lib/roadmap.ts, jobMoves). On a job's page, "Where you can go next": a row for each move (the whole
+   row opens the move's page): the job, how many topics it still needs on the right in blue, its one-line summary, and
+   a thin bar showing how much of the other job's "enough to apply" list this job already covers (blue part), with
+   "N of M already in common" under it. Bar widths are classes in steps of 5% (p0 … p100; the CSP rules out inline
+   styles). "Seen in real attacks": a row for each incident breakdown that lists the job, with its date and type, the
+   title, and the topics of this path it involved. */
+.moves-sec, .attacks-sec { margin-top: 56px; }
+.rows.moves li, .rows.seen li { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; padding: 13px 12px 14px; }
+.rows.moves .t, .rows.seen .t { font-family: var(--body); font-size: 16px; font-weight: 600; line-height: 1.4; }
+.rows.moves .n { grid-column: 2; grid-row: 1; align-self: baseline; font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--accent); white-space: nowrap; }
+.rows.moves .d { grid-column: 1 / -1; font-size: 14.5px; line-height: 1.45; }
+.mv-bar { grid-column: 1 / -1; display: block; height: 4px; margin-top: 8px; background: color-mix(in srgb, var(--line) 70%, transparent); }
+.mv-have { display: block; height: 100%; background: var(--accent); }
+.rows.moves .mv-k { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.rows.moves .mv-k .lv { margin-right: 8px; padding-right: 9px; border-right: 1px solid var(--line); color: var(--ink); }
+.mv-have.p0 { width: 0%; }
+.mv-have.p5 { width: 5%; }
+.mv-have.p10 { width: 10%; }
+.mv-have.p15 { width: 15%; }
+.mv-have.p20 { width: 20%; }
+.mv-have.p25 { width: 25%; }
+.mv-have.p30 { width: 30%; }
+.mv-have.p35 { width: 35%; }
+.mv-have.p40 { width: 40%; }
+.mv-have.p45 { width: 45%; }
+.mv-have.p50 { width: 50%; }
+.mv-have.p55 { width: 55%; }
+.mv-have.p60 { width: 60%; }
+.mv-have.p65 { width: 65%; }
+.mv-have.p70 { width: 70%; }
+.mv-have.p75 { width: 75%; }
+.mv-have.p80 { width: 80%; }
+.mv-have.p85 { width: 85%; }
+.mv-have.p90 { width: 90%; }
+.mv-have.p95 { width: 95%; }
+.mv-have.p100 { width: 100%; }
+.rows.seen .k { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.rows.seen .k time { font-family: var(--mono); }
+.rows.seen .t { grid-column: 1 / -1; }
+.rows.seen .d { grid-column: 1 / -1; font-size: 14px; line-height: 1.45; }
+.rows.seen .d .lbl { color: var(--ink); font-weight: 500; }
+/* A field's job cards: the closest move, one quiet line above "What to learn". */
+.fcards p.fc-move { margin: auto 0 0; padding-top: 8px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink); }
+.fcards p.fc-move > span:first-child { color: var(--muted); }
+.fcards p.also + p.fc-move { margin-top: 0; padding-top: 2px; border-top: 0; }
+.fcards p.fc-move + p.fc-go { margin-top: 0; padding-top: 6px; }
+/* A move's own page: the big bar under the summary, and the shared topics folded under "What you already bring". */
+.mv-line { margin: 18px 0 0; max-width: 420px; }
+.mv-bar.big { height: 6px; margin: 0; }
+.mv-have-list > summary { display: flex; align-items: baseline; gap: 14px; list-style: none; cursor: pointer; padding-bottom: 12px; border-bottom: 1.5px solid var(--ink); }
+.mv-have-list > summary::-webkit-details-marker { display: none; }
+.mv-have-list > summary h2 { margin: 0; }
+.mv-have-list > summary .bh-count { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.mv-have-list > summary::after { content: ""; width: 7px; height: 7px; margin: 0 4px 0 0; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-3px) rotate(45deg); }
+.mv-have-list[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.mv-have-list > summary:hover h2 { color: var(--accent); }
+.mv-have-list .road-topics { margin-top: 14px; }
+.mv-have-list .road-topics span { color: var(--ink); }
+/* The Roadmap page: "Where people start, and where it leads". A row for each first job: its name on the left, and
+   its closest moves on the right, each a link with the topics it still needs, joined by the site's arrow. */
+.starts { margin-top: 8px; }
+.start-list { list-style: none; margin: 0; padding: 0; }
+.start-list > li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 6px 20px; align-items: baseline; padding: 14px 4px 15px; border-bottom: 1px solid var(--line); }
+.start-list .sj { font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none; }
+.start-list .sj:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.start-list .sm { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.start-list .sm li::before { content: "->"; margin-right: 10px; font-family: var(--mono); font-size: 12.5px; color: var(--accent); }
+.start-list .sm a { color: var(--ink); text-decoration: none; }
+.start-list .sm a:hover > span:first-child, .start-list .sm a:focus-visible > span:first-child { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.start-list .sm .n { margin-left: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+@media (max-width: 560px) {
+  .start-list > li { grid-template-columns: minmax(0, 1fr); }
+  .rows.moves li, .rows.seen li { padding-left: 4px; padding-right: 4px; }
+}
 .source-note { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted); }
 .source-note p { margin: 0; }
 .gnext { margin-top: 56px; }

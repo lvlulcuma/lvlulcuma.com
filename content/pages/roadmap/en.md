@@ -51,6 +51,23 @@ learnIntro: "Everything to learn for this job, from your first steps to expert l
 learnHire:   # the line after the level employers usually expect (`hire:` in the job's learn.yml)
   title: "Enough to apply for this job"
   text: "Employers usually expect everything above this line. The rest is how you grow in the job."
+moves:   # career moves, worked out from the learning paths (src/lib/roadmap.ts, jobMoves)
+  heading: "Where you can go next"   # on a job's page, after its learning path
+  intro: "Jobs you can move to from here, closest first. The number is how many topics you'd still need on top of this job's, to be ready to apply."
+  add: "{topics} to add"             # {topics} is "14 topics"
+  shared: "{n} of {total} already in common"
+  closest: "Closest next job"        # on a field's job cards
+  title: "From {from} to {to}"       # a move's own page; {from} and {to} are job titles
+  dek: "To be ready for {to} jobs, learn these {topics} on top of what you know from {from}. They're grouped by level, in the order they come in the {to} path."
+  have: "What you already bring"     # the topics both jobs share, folded
+  back: "Back to"
+  full: "Full path"
+  start: "Where people start, and where it leads"   # on the Roadmap page
+  startText: "The most common first jobs, and the closest jobs you can move to from each."
+attacks:   # on a job's page: incident breakdowns whose `jobs:` lists the job
+  heading: "Seen in real attacks"
+  intro: "Breakdowns from the News where this job's skills were needed, newest first."
+  topics: "Topics from this path"
 learnSources: "This list is based on"
 learnAnd: "and"
 ---
