@@ -1,8 +1,9 @@
 // Reads the editable text in content/ for the page templates.
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import { GUIDE_CATS, LANGS, ui, type GuideCat, type Lang } from "../i18n/ui";
-import { iso } from "./articles";
+import { ALL_LANGS, GUIDE_CATS, LANGS, ui, type GuideCat, type Lang } from "../i18n/ui";
+import { getArticles, iso } from "./articles";
 import type { Block } from "./block";
+import { getCwes } from "./cwe";
 import { getIdeas } from "./lab";
 
 export type PageName = "home" | "news" | "articles" | "roadmap" | "research" | "lab" | "lab-start" | "lab-rules" | "about" | "contact" | "colophon" | "cwe";
@@ -99,6 +100,41 @@ export async function guideMissingLangs(slug: string): Promise<Lang[]> {
 /** Guides that list this one under `requires:`. */
 export const dependents = (all: Guide[], g: Guide) => all.filter((x) => x.entry.data.requires.includes(g.slug));
 
+/** Paths through the guides, worked out from `requires:`: each guide that needs others and that no other guide
+ *  builds on is a goal, and its path is everything it needs, in the order to do it (each guide after the ones it
+ *  needs), then the goal itself. Shown as "Follow a path" on the guides list. */
+export function guidePaths(all: Guide[]): { goal: Guide; steps: Guide[]; time: number }[] {
+  const bySlug = new Map(all.map((g) => [g.slug, g]));
+  return all
+    .filter((g) => g.entry.data.requires.length > 0 && dependents(all, g).length === 0)
+    .map((goal) => {
+      const steps: Guide[] = [];
+      const visit = (g: Guide) => {
+        if (steps.includes(g)) return;
+        for (const r of g.entry.data.requires) visit(bySlug.get(r)!);
+        steps.push(g);
+      };
+      visit(goal);
+      return { goal, steps, time: steps.reduce((n, g) => n + g.time, 0) };
+    })
+    .sort((a, b) => b.steps.length - a.steps.length || a.time - b.time);
+}
+
+/** Other pages on the site that link to a guide in their text (lab ideas, the lab's "Get started" page, articles,
+ *  CWE write-ups), found by looking for /<lang>/guides/<slug>/ in them, so a guide shows where it's used without
+ *  anyone keeping a list. Guides are English-only for now, so English links count on every language's page. */
+export async function guideLinks(lang: Lang, slug: string): Promise<{ kicker: string; title: string; href: string; lang: Lang }[]> {
+  const t = ui[lang];
+  const links = (body: string | undefined) => new RegExp(`\\(/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^)]*)?\\)`).test(body ?? "");
+  const out: { kicker: string; title: string; href: string; lang: Lang }[] = [];
+  for (const i of await getIdeas(lang)) if (links(i.entry.body)) out.push({ kicker: t.nav.lab, title: i.entry.data.title, href: `/${i.lang}/lab/${i.slug}/`, lang: i.lang });
+  const start = await getPage("lab-start", lang);
+  if (links(start.entry.body)) out.push({ kicker: t.nav.lab, title: start.data.title, href: `/${lang}/lab/start/`, lang });
+  for (const a of await getArticles(lang)) if (links(a.entry.body)) out.push({ kicker: t.nav.articles, title: a.entry.data.title, href: `/${lang}/articles/${a.slug}/`, lang });
+  for (const c of await getCwes(lang)) if (links(c.entry.body)) out.push({ kicker: `CWE-${c.id}`, title: c.entry.data.title, href: `/${c.lang}/cwe/${c.id}/`, lang: c.lang });
+  return out;
+}
+
 /** Resolves an article's `related:` value ("research/<slug>", "lab/<idea>", "lab/start" or "lab/rules") to a link. */
 export async function pageRef(lang: Lang, path: string): Promise<{ href: string; tag: string; title: string } | null> {
   const [section, slug] = path.replace(/^\/+|\/+$/g, "").split("/");
@@ -124,7 +160,9 @@ export function categoryFilter(lang: Lang, all: Guide[], current?: GuideCat): No
     label: t.category,
     items: [
       { text: t.all, href: `/${lang}/guides/`, count: all.length, current: !current },
-      ...GUIDE_CATS.map((c) => ({ text: t.guideCats[c], href: `/${lang}/guides/${c}/`, count: all.filter((g) => g.category === c).length, current: current === c })),
+      // Only categories that have a guide (and the one being shown), like the type filter on News.
+      ...GUIDE_CATS.filter((c) => c === current || all.some((g) => g.category === c))
+        .map((c) => ({ text: t.guideCats[c], href: `/${lang}/guides/${c}/`, count: all.filter((g) => g.category === c).length, current: current === c })),
     ],
   };
 }
