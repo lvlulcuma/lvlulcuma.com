@@ -35,7 +35,7 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 - Below the second `---`: normal Markdown (paragraphs, lists, tables), shown as the page body.
 - Lines starting with `#` between the `---` lines are notes for you and never appear on the site.
 
-New weekly digest or incident breakdown: see "Adding a weekly digest" and "Adding an incident breakdown" in the main README.md. Entries with `example: true` are made-up samples; delete them once real ones exist.
+New weekly digest or incident breakdown: see "Adding a weekly digest" and "Adding an incident breakdown" in the main README.md. Entries with `example: true` are made-up samples, labelled as such on the page; there are none left.
 
 New monthly article: run `npm run new-article` from the project folder. It creates the next month's folder here in `articles/`.
 

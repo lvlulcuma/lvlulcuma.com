@@ -1,9 +1,8 @@
 # Playbook: an incident breakdown
 
 A breakdown is a full page about one big incident: `content/news/incidents/<folder>/{en,ua,pl}.md`, shown at
-`/en/news/incidents/<folder>/`. README.md ("An incident breakdown") lists every field. The two example folders
-(`example-logistics-ransomware`, `examplesoft-npm-supply-chain`) show the layout: copy their structure, never their
-made-up content, and leave out `example: true`.
+`/en/news/incidents/<folder>/`. README.md ("An incident breakdown") lists every field. A published breakdown such
+as `binance-crypto-theft` shows the layout: copy its structure (the fields and their comments), never its content.
 
 ## 1. How it goes out
 
