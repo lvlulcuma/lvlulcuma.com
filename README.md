@@ -275,7 +275,7 @@ Readers find older weeks in three places, all updated by themselves: on the News
 Make a folder in `content/news/incidents/` (its name becomes the address, and it can't be one of the types above) and copy `en.md` from an existing breakdown. Every breakdown has the same sections in the same order, so readers know where to look. A section with nothing in it is left out.
 
 - `status:` unfolding (facts still coming in), confirmed, or report (the victim or investigators published a full report). When it changes, update it and add a line to `revisions:`.
-- `date:` when the incident became public; `published:` when you published the breakdown. `who`, `sector`, `entry` (how the attackers got in) and `impact` fill the box at the top.
+- `date:` when the incident became public; `published:` when you published the breakdown. `who`, `sector`, `entry` (how the attackers got in) and `impact` fill the box at the top, read as who was hit, then the way in -> the impact. Separate the parts of `impact` with "; ": they show as short points.
 - `timeline:` dates like `2026-10-14`, or `2026-10` when only the month is known.
 - `attack:` one step per [MITRE ATT&CK](https://attack.mitre.org) technique, with `tactic`, `id` (like `T1190` or `T1003.001`), its official `name`, and what the attackers did. The ID links to the technique's page.
 - `detect:`, `check:` and `unknown:` are short lists. `jobs:` and `topics:` are Roadmap folder names; a misspelled one stops the build.

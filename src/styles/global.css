@@ -72,8 +72,9 @@ nav.lang a[hreflang="uk"][aria-current="true"] { background: linear-gradient(#00
 /* Title block: the box beside each page. It glows lightly in the favicon's blues (--glow-a/b/c, in
    tokens.css), a quieter version of the home page's "New this week" box, so the left
    side looks alike from page to page: a thin gradient frame toned towards the line colour, a faint blue fade at
-   the top and a soft blue shadow. On phones the strip that stands in for it (.tb-strip) gets the same. */
-.tb, .tb-strip { border: 1px solid transparent;
+   the top and a soft blue shadow. On phones the strip that stands in for it (.tb-strip) gets the same, and so do the
+   facts at the top of an incident breakdown (.glance). */
+.tb, .tb-strip, .glance { border: 1px solid transparent;
   background:
     linear-gradient(170deg, color-mix(in srgb, var(--glow-b) 11%, var(--panel)) 0%, color-mix(in srgb, var(--glow-b) 3%, var(--panel)) 35%, var(--panel) 70%) padding-box,
     linear-gradient(135deg, color-mix(in srgb, var(--glow-a) 70%, var(--line)), color-mix(in srgb, var(--glow-b) 70%, var(--line)) 45%, color-mix(in srgb, var(--glow-c) 70%, var(--line))) border-box;
@@ -921,17 +922,26 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 .stories .side p { margin: 0; }
 .stories .side p + p { margin-top: 2px; }
 .stories .side .side-label:not(:first-child) { margin-top: 12px; }
-/* An incident: the facts at a glance (who was hit, sector, way in, impact), then numbered sections. The facts are
-   laid out like "Why it matters" under a weekly story, so a story and its breakdown look related: a soft frame, a
-   bold label over each fact and a thin line between the two rows, on the panel colour of the story boxes. Two side
-   by side; one under another on phones. */
-.glance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 8px; padding: 13px 16px 14px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); background: var(--panel); }
-.glance > div { min-width: 0; }
-.glance > div:nth-child(odd) { padding-right: 16px; }
-.glance > div:nth-child(even) { padding-left: 16px; }
-.glance > div:nth-child(n+3) { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
-.glance dt { margin-bottom: 1px; font-size: 14px; font-weight: 600; color: var(--ink); }
-.glance dd { margin: 0; font-size: 15.5px; line-height: 1.55; }
+/* An incident: the facts at a glance, then numbered sections. The facts sit in the same glowing frame as the box
+   beside the page (see .tb) and read as a short story: who was hit, in large type, with their sector under it; then,
+   under a thin line, the way in -> the impact, side by side with the site's arrow between them. The impact is a
+   list of short points ([slug].astro splits `impact:` at its "; "). Labels are small blue capitals in the mono font,
+   like "Topic of the week" on the home page. On phones the way in and the impact stack, the arrow before "Impact". */
+.glance { margin: 0 0 8px; padding: 16px 18px 18px; }
+.glance dl { margin: 0; }
+.glance dd { margin: 0; }
+.glance dt { margin: 0 0 3px; font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.gl-who dd { font-size: 17px; font-weight: 500; line-height: 1.45; color: var(--ink); }
+.gl-who .gl-sector { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; margin-top: 6px; }
+.gl-who .gl-sector dt { margin: 0; font-family: var(--body); font-size: 14px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.gl-who .gl-sector dd { font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--ink); }
+.glance .gl-path { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 44px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.gl-path > div { position: relative; min-width: 0; }
+.gl-path > div + div > dt::before { content: "->"; position: absolute; left: -32px; top: -1px; font-size: 14px; letter-spacing: 0; color: var(--accent); }
+.gl-path dd { font-size: 15.5px; line-height: 1.55; color: var(--ink); }
+.gl-path ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.gl-path li { position: relative; padding-left: 15px; }
+.gl-path li::before { content: ""; position: absolute; left: 1px; top: .62em; width: 5px; height: 5px; background: var(--accent); }
 .inc { counter-reset: sec; }
 .inc > h2 { counter-increment: sec; display: flex; align-items: baseline; gap: 12px; margin: 44px 0 18px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 20px; }
 .inc > h2::before { content: counter(sec, decimal-leading-zero); flex: 0 0 auto; color: var(--accent); font-family: var(--mono); font-size: 14px; font-weight: 500; }
@@ -1212,9 +1222,10 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .kv > div { grid-template-columns: 1fr; }
   .pn { grid-template-columns: 1fr; }
   .pn a.next { grid-column: 1; text-align: left; }
-  .glance { grid-template-columns: 1fr; }
-  .glance > div:nth-child(n) { padding-inline: 0; }
-  .glance > div + div { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  .glance { padding: 14px 16px 16px; }
+  .glance .gl-path { grid-template-columns: 1fr; row-gap: 14px; }
+  .gl-path > div + div { padding-top: 14px; border-top: 1px dashed var(--line); }
+  .gl-path > div + div > dt::before { position: static; margin-right: 8px; }
   .week-card { padding: 16px 16px 14px; }
   /* A week's page: "All weeks" moves up beside the tag, and ← week → gets its own line, arrows at the two ends. */
   .kicker .ws { order: 1; flex: 1 0 100%; justify-content: space-between; margin-top: 6px; }
