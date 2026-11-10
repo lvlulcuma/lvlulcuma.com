@@ -921,13 +921,17 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 .stories .side p { margin: 0; }
 .stories .side p + p { margin-top: 2px; }
 .stories .side .side-label:not(:first-child) { margin-top: 12px; }
-/* An incident: the facts at a glance, then numbered sections */
-.glance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 8px; border: 1px solid var(--ink); background: var(--panel); }
-.glance > div { padding: 11px 16px 13px; border-top: 1px solid var(--line); min-width: 0; }
-.glance > div:nth-child(-n+2) { border-top: 0; }
-.glance > div:nth-child(even) { border-left: 1px solid var(--line); }
-.glance dt { font-size: 13px; color: var(--muted); }
-.glance dd { margin: 3px 0 0; font-size: 15.5px; font-weight: 500; line-height: 1.45; }
+/* An incident: the facts at a glance (who was hit, sector, way in, impact), then numbered sections. The facts are
+   laid out like "Why it matters" under a weekly story, so a story and its breakdown look related: a soft frame, a
+   bold label over each fact and a thin line between the two rows, on the panel colour of the story boxes. Two side
+   by side; one under another on phones. */
+.glance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 8px; padding: 13px 16px 14px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); background: var(--panel); }
+.glance > div { min-width: 0; }
+.glance > div:nth-child(odd) { padding-right: 16px; }
+.glance > div:nth-child(even) { padding-left: 16px; }
+.glance > div:nth-child(n+3) { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.glance dt { margin-bottom: 1px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.glance dd { margin: 0; font-size: 15.5px; line-height: 1.55; }
 .inc { counter-reset: sec; }
 .inc > h2 { counter-increment: sec; display: flex; align-items: baseline; gap: 12px; margin: 44px 0 18px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 20px; }
 .inc > h2::before { content: counter(sec, decimal-leading-zero); flex: 0 0 auto; color: var(--accent); font-family: var(--mono); font-size: 14px; font-weight: 500; }
@@ -1209,8 +1213,8 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .pn { grid-template-columns: 1fr; }
   .pn a.next { grid-column: 1; text-align: left; }
   .glance { grid-template-columns: 1fr; }
-  .glance > div:nth-child(2) { border-top: 1px solid var(--line); }
-  .glance > div:nth-child(even) { border-left: 0; }
+  .glance > div:nth-child(n) { padding-inline: 0; }
+  .glance > div + div { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
   .week-card { padding: 16px 16px 14px; }
   /* A week's page: "All weeks" moves up beside the tag, and ← week → gets its own line, arrows at the two ends. */
   .kicker .ws { order: 1; flex: 1 0 100%; justify-content: space-between; margin-top: 6px; }
