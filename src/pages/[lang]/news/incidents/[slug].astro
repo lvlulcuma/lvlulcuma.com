@@ -61,6 +61,9 @@ const sections = d ? ([
 ] as [string, boolean][]).filter(([, on]) => on).map(([k]) => k) : [];
 const typeCount = props.kind === "type" ? all.filter((i) => i.type === props.type).length : 0;
 const jobs = road.filter((r) => r.kind === "job");
+// The impact as short points: `impact:` split at its "; ", each point starting with a capital letter
+// ("about $2.85 billion frozen" -> "About …", but "iPhones" stays as it is).
+const impact = d ? d.impact.split(/;\s+/).map((x) => (/^\p{Ll}\P{Lu}/u.test(x) ? x[0].toLocaleUpperCase(HTML_LANG[lang]) + x.slice(1) : x)) : [];
 const topics = road.filter((r) => r.kind === "topic");
 ---
 {props.kind === "type" ? (
@@ -97,12 +100,14 @@ const topics = road.filter((r) => r.kind === "topic");
     </p>
     <h1>{d.title}</h1>
     <p class="dek">{d.dek}</p>
-    <dl class="glance">
-      <div><dt>{t.who}</dt><dd>{d.who}</dd></div>
-      <div><dt>{t.sector}</dt><dd>{d.sector}</dd></div>
-      <div><dt>{t.wayIn}</dt><dd>{d.entry}</dd></div>
-      <div><dt>{t.impact}</dt><dd>{d.impact}</dd></div>
-    </dl>
+    {/* The facts at a glance: the impact first, as short points; who was hit (and their sector) and the way in under it. */}
+    <div class="glance">
+      <dl class="gl-top"><dt>{t.impact}</dt><dd>{impact.length > 1 ? <ul>{impact.map((x) => <li>{x}</li>)}</ul> : impact[0]}</dd></dl>
+      <dl class="gl-foot">
+        <div><dt>{t.who}</dt><dd class="gl-who">{d.who}<span class="gl-sector"><span>{t.sector}</span> {d.sector}</span></dd></div>
+        <div><dt>{t.wayIn}</dt><dd>{d.entry}</dd></div>
+      </dl>
+    </div>
 
     <div class="inc">
       <h2 id="what">{h.what}</h2>
