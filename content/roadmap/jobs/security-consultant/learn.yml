@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-engineering/security-consultant/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-09
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - control-frameworks
+  - risk-management-basics
+  - gdpr-security-basics
+  - nis2-scope
+  - identity-access-basics
+  - network-security-basics
+  - vulnerability-basics
+  - security-baselines
+  - pentest-basics
+  - incident-response-process
+intermediate:
+  - security-assessments
+  - isms-implementation
+  - policy-writing
+  - security-roadmaps
+  - client-engagement
+  - awareness-programs
+  - nis2-security-measures
+  - business-continuity
+  - data-classification
+  - cloud-security-fundamentals
+  - mfa-conditional-access
+  - backup-resilience
+advanced:
+  - tabletop-exercises
+  - dora-overview
+  - cra-overview
+  - incident-reporting-rules
+  - threat-modeling
+  - zero-trust
+  - ad-hardening
+  - cloud-security-posture
+expert:
+  - advisory-practice
+  - executive-reporting
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Security Control Assessment (OG-WRL-012) and Cybersecurity Policy and Planning (OG-WRL-002) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Risk Manager and Cybersecurity Auditor profiles"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CISSP exam outline (2024)"
+    url: "https://www.isc2.org/certifications/cissp/cissp-exam-refresh-faq"
+  - name: "ISO/IEC 27001:2022, Information security management systems"
+    url: "https://www.iso.org/standard/27001"
+  - name: "NIST Cybersecurity Framework (CSF) 2.0"
+    url: "https://www.nist.gov/cyberframework"
+  - name: "NIS2 Directive (EU) 2022/2555"
+    url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"
