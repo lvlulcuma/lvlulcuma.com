@@ -923,25 +923,25 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 .stories .side p + p { margin-top: 2px; }
 .stories .side .side-label:not(:first-child) { margin-top: 12px; }
 /* An incident: the facts at a glance, then numbered sections. The facts sit in the same glowing frame as the box
-   beside the page (see .tb) and read as a short chain, one row each, so no fact leaves empty space beside it:
-   who was hit (with their sector under it), the way in, the impact. The labels share a column on the left, small
-   blue capitals in the mono font like "Topic of the week" on the home page, each with a square on a thin line,
-   like the Timeline further down; the last square (Impact) is filled. The impact is a list of short points
-   ([slug].astro splits `impact:` at its "; "). On phones each label sits above its fact. */
-.glance { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 22px; margin: 0 0 8px; padding: 18px 20px 18px 18px; }
-.glance > div { position: relative; display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: baseline; }
-.glance > div:not(:last-child) { padding-bottom: 16px; }
-.glance > div:not(:last-child)::after { content: ""; position: absolute; left: 4px; top: 21px; bottom: -6px; width: 1px; background: color-mix(in srgb, var(--accent) 35%, var(--line)); }
-.glance dt { position: relative; padding-left: 21px; font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: var(--accent); }
-.glance dt::before { content: ""; position: absolute; left: 0; top: 50%; width: 9px; height: 9px; margin-top: -5px; box-sizing: border-box; border: 1.5px solid var(--accent); }
-.glance > div:last-child dt::before { background: var(--accent); }
-.glance dd { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--ink); }
-.glance dd.gl-who { font-size: 17px; font-weight: 500; line-height: 1.45; }
-.gl-sector { display: block; margin-top: 3px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--ink); }
+   beside the page (see .tb). What happened leads: the impact, as short points in larger type ([slug].astro splits
+   `impact:` at its "; "). Under a thin line, a quieter strip on a light paper tint holds who was hit (with their
+   sector) and the way in, side by side. Labels are small capitals in the mono font, the impact's in blue like
+   "Topic of the week" on the home page, the strip's grey. On phones the strip's two facts stack. */
+.glance { margin: 0 0 8px; }
+.glance dl, .glance dd { margin: 0; }
+.glance dt { margin: 0 0 4px; font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.gl-top { padding: 16px 18px; }
+.gl-top dd { font-size: 16.5px; line-height: 1.5; color: var(--ink); }
+.gl-top ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.gl-top li { position: relative; padding-left: 15px; }
+.gl-top li::before { content: ""; position: absolute; left: 1px; top: .6em; width: 5px; height: 5px; background: var(--accent); }
+.gl-foot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; padding: 13px 18px 15px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 55%, transparent); }
+.gl-foot > div { min-width: 0; }
+.gl-foot dt { color: var(--muted); }
+.gl-foot dd { font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+.gl-foot dd.gl-who { font-weight: 500; }
+.gl-sector { display: block; margin-top: 4px; font-size: 13.5px; font-weight: 400; }
 .gl-sector > span { margin-right: 4px; color: var(--muted); }
-.glance ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
-.glance li { position: relative; padding-left: 15px; }
-.glance li::before { content: ""; position: absolute; left: 1px; top: .62em; width: 5px; height: 5px; background: var(--accent); }
 .inc { counter-reset: sec; }
 .inc > h2 { counter-increment: sec; display: flex; align-items: baseline; gap: 12px; margin: 44px 0 18px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 20px; }
 .inc > h2::before { content: counter(sec, decimal-leading-zero); flex: 0 0 auto; color: var(--accent); font-family: var(--mono); font-size: 14px; font-weight: 500; }
@@ -1222,9 +1222,8 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .kv > div { grid-template-columns: 1fr; }
   .pn { grid-template-columns: 1fr; }
   .pn a.next { grid-column: 1; text-align: left; }
-  .glance { grid-template-columns: minmax(0, 1fr); padding: 15px 16px 16px; }
-  .glance dt { margin-bottom: 3px; }
-  .glance dd { padding-left: 21px; }
+  .gl-top { padding: 14px 16px; }
+  .gl-foot { grid-template-columns: minmax(0, 1fr); row-gap: 12px; padding: 12px 16px 14px; }
   .week-card { padding: 16px 16px 14px; }
   /* A week's page: "All weeks" moves up beside the tag, and ← week → gets its own line, arrows at the two ends. */
   .kicker .ws { order: 1; flex: 1 0 100%; justify-content: space-between; margin-top: 6px; }
