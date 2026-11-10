@@ -51,6 +51,23 @@ learnIntro: "Wszystko, czego warto się nauczyć do tego zawodu, od pierwszych k
 learnHire:   # the line after the level employers usually expect (`hire:` in the job's learn.yml)
   title: "Wystarczy, by aplikować na to stanowisko"
   text: "Pracodawcy zwykle oczekują wszystkiego, co jest powyżej tej linii. Reszta to rozwój na stanowisku."
+moves:   # career moves, worked out from the learning paths (src/lib/roadmap.ts, jobMoves)
+  heading: "Dokąd możesz pójść dalej"
+  intro: "Zawody, na które można stąd przejść, od najbliższych. Liczba mówi, ile tematów trzeba jeszcze dodać do tych z tego zawodu, aby aplikować."
+  add: "jeszcze {topics}"
+  shared: "{n} z {total} już wspólne"
+  closest: "Najbliższy krok"
+  title: "Przejście: {from} → {to}"
+  dek: "Aby aplikować na stanowisko „{to}”, do tego, co znasz jako „{from}”, dodaj jeszcze {topics}. Są pogrupowane według poziomów, w kolejności ze ścieżki „{to}”."
+  have: "Co już masz"
+  back: "Wróć do"
+  full: "Pełna ścieżka"
+  start: "Od czego się zaczyna i dokąd to prowadzi"
+  startText: "Najczęstsze pierwsze zawody i najbliższe, na które można z każdego z nich przejść."
+attacks:
+  heading: "W prawdziwych atakach"
+  intro: "Analizy z działu Aktualności, w których potrzebne były umiejętności z tego zawodu, od najnowszych."
+  topics: "Tematy z tej ścieżki"
 learnSources: "Ta lista powstała na podstawie"
 learnAnd: "i"
 ---

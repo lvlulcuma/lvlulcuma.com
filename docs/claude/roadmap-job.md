@@ -89,6 +89,10 @@ To redo it: `git checkout -- content/roadmap && git clean -fd content/roadmap`, 
 1. The checks in CLAUDE.md (`build:all-langs`, `build`, `check:links`).
 2. Every topic shows on the page:
    `grep -o 'id="t-[a-z0-9-]*"' dist/en/roadmap/<field>/<job>/index.html | wc -l` equals the total in `learn.yml`.
-3. Pull request `Roadmap: what to learn for <Job title>`, with: the topic count and how many are new, the hiring
+3. Career moves are worked out by themselves from the paths (`jobMoves()` in `src/lib/roadmap.ts`), so a new path
+   changes "Where you can go next" on its own page and on other jobs' pages. Look at the new job's moves and the moves
+   that now point to it (`grep -l 'to-<job>/' dist/en/roadmap/*/*/index.html`) and check they make sense as real
+   career moves; mention anything odd in the pull request instead of changing the rules.
+4. Pull request `Roadmap: what to learn for <Job title>`, with: the topic count and how many are new, the hiring
    level, a few bullets per level highlighting the new topics, the sources, which shared topics changed (if any),
-   and the checks you ran.
+   the new job's moves, and the checks you ran.

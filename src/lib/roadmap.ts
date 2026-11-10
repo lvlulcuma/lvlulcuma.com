@@ -85,3 +85,57 @@ export async function getLearn(): Promise<Map<string, Learn>> {
   }
   return out;
 }
+
+/** The topics a job's learning path lists up to the level employers usually expect (`hire:`), in order. */
+export const readyTopics = (l: Learn) => l.levels.slice(0, LEARN_LEVELS.indexOf(l.data.hire) + 1).flatMap((x) => x.topics);
+
+/** One career move from a job to another, worked out from their learning paths: `add` are the topics the other job
+ *  needs to apply (up to its `hire:` level) that this job's path doesn't reach, in the other path's order, each with
+ *  the level it's listed at there; `shared` the ones both have. */
+export type Move = { to: Job; add: { slug: string; level: LearnLevel }[]; shared: string[]; total: number };
+
+/** How many moves a job page shows, closest first. Every move shown has its own page, and only those. */
+export const MOVES_SHOWN = 4;
+
+/** Career levels in order, for "moves don't go down": a senior job's moves are to other senior jobs.
+ *  "Any stage" (bug bounty) counts as mid level. */
+const STAGE: Record<JobLevel, number> = { entry: 0, mid: 1, any: 1, senior: 2 };
+
+/** Where someone in this job can move to, worked out from the learning paths (learn.yml), so every new path joins the
+ *  moves by itself. Only real moves count:
+ *  - to a job at the same career level, or one level up (entry → mid, mid → senior; never down, never skipping one);
+ *  - in the same field, or sharing at least a fifth of the other job's specialist topics (its "enough to apply" list
+ *    without the beginner basics every path shares), so a short path doesn't look close just because of the basics.
+ *  The ones shown are the three step-ups and the one same-level move that share the most (same field counts extra),
+ *  topped up from the rest, then listed with the fewest topics to add first. A job can show fewer than four, or none. */
+export function jobMoves(job: Job, jobs: Job[], learn: Map<string, Learn>): Move[] {
+  const from = learn.get(job.slug);
+  if (!from) return [];
+  const have = new Set(readyTopics(from));
+  const scored = jobs
+    .filter((j) => j.slug !== job.slug && learn.has(j.slug) && [0, 1].includes(STAGE[j.level] - STAGE[job.level]))
+    .map((to) => {
+      const l = learn.get(to.slug)!;
+      const basics = new Set(l.levels[0].topics);
+      const need = l.levels.slice(0, LEARN_LEVELS.indexOf(l.data.hire) + 1).flatMap((x) => x.topics.map((slug) => ({ slug, level: x.id })));
+      const spec = need.filter((x) => !basics.has(x.slug));
+      const cover = spec.length ? spec.filter((x) => have.has(x.slug)).length / spec.length : 0;
+      const sameField = to.field === job.field;
+      const move: Move = { to, add: need.filter((x) => !have.has(x.slug)), shared: need.filter((x) => have.has(x.slug)).map((x) => x.slug), total: need.length };
+      return { move, ok: sameField || cover >= 0.2, score: cover + (sameField ? 0.15 : 0), up: STAGE[to.level] > STAGE[job.level] };
+    })
+    .filter((x) => x.ok)
+    .sort((a, b) => b.score - a.score || a.move.add.length - b.move.add.length);
+  const pick = [...scored.filter((x) => x.up).slice(0, MOVES_SHOWN - 1), ...scored.filter((x) => !x.up).slice(0, 1)];
+  for (const x of scored) if (pick.length < MOVES_SHOWN && !pick.includes(x)) pick.push(x);
+  return pick.map((x) => x.move).sort((a, b) =>
+    a.add.length - b.add.length ||
+    Number(b.to.field === job.field) - Number(a.to.field === job.field) ||
+    a.to.entry.data.title.localeCompare(b.to.entry.data.title));
+}
+
+/** True when a move goes to a higher career level. */
+export const isStepUp = (from: Job, m: Move) => STAGE[m.to.level] > STAGE[from.level];
+
+/** Where a move's own page is: /<lang>/roadmap/<field>/<job>/to-<other job>/. */
+export const moveHref = (lang: Lang, from: Job, to: Job) => `/${lang}/roadmap/${from.field}/${from.slug}/to-${to.slug}/`;

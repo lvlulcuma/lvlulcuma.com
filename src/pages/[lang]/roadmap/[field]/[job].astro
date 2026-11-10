@@ -4,12 +4,16 @@
 // with a line after the level employers usually expect when hiring (`hire:` in learn.yml).
 // Topic titles and summaries: content/roadmap/topics/<topic>/<lang>.md. Level headings, the intro and the
 // "enough to apply" line: `learnLevels:`, `learnIntro:`, `learnHire:` and `learnSources:` in content/pages/roadmap/<lang>.md.
+// After the path: "Where you can go next", the closest jobs to move to with how many topics each still needs (jobMoves in
+// src/lib/roadmap.ts; each opens its own page, [job]/to/[target].astro), and "Seen in real attacks", the incident
+// breakdowns whose `jobs:` lists this job, with the topics of this path they involved. Words: `moves:` and `attacks:`.
 import Base from "../../../../layouts/Base.astro";
 import { HTML_LANG, LANGS, ui, type Lang } from "../../../../i18n/ui";
 import { getPage } from "../../../../lib/content";
-import { getFields, getJobs, getLearn, getTopics } from "../../../../lib/roadmap";
+import { getFields, getJobs, getLearn, getTopics, jobMoves, moveHref } from "../../../../lib/roadmap";
 import { iso } from "../../../../lib/articles";
 import { countWord } from "../../../../lib/block";
+import { getIncidents, incidentHref } from "../../../../lib/news";
 
 export async function getStaticPaths() {
   const learn = await getLearn();
@@ -41,10 +45,21 @@ const levels = learn.levels.filter((l) => l.topics.length > 0).map((l) => ({
 const hire = levelText(learn.data.hire);
 const jd = job.entry.data;
 const jobLevel: string | undefined = d.levels?.[job.level]?.title;
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m));
+for (const k of ["heading", "intro", "add", "shared"]) if (!d.moves?.[k]) throw new Error(`${file}: moves → ${k} is missing.`);
+for (const k of ["heading", "intro", "topics"]) if (!d.attacks?.[k]) throw new Error(`${file}: attacks → ${k} is missing.`);
+const moves = jobMoves(job, jobs, await getLearn());
+const mine = new Set(learn.levels.flatMap((l) => l.topics));
+const seen = (await getIncidents(lang)).filter((i) => !i.example && i.entry.data.jobs.includes(job.slug)).slice(0, 5)
+  .map((i) => ({ i, topics: i.entry.data.topics.filter((x) => mine.has(x)).map((x) => topics.get(x)!) }));
+const extra = [
+  ...(moves.length ? [{ slug: "next", text: d.moves.heading }] : []),
+  ...(seen.length ? [{ slug: "attacks", text: d.attacks.heading }] : []),
+];
 ---
 <Base lang={lang} nav="roadmap" title={`${jd.title}: ${t.learn.toLowerCase()}`} description={jd.summary} block={{
     key: { label: t.learn, value: countWord(learn.count, lang, t, "topic") },
-    contents: levels.map((l) => ({ slug: l.id, text: l.title })),
+    contents: [...levels.map((l) => ({ slug: l.id, text: l.title })), ...extra],
     go: { items: [
       { kicker: t.fieldLabel, text: field.entry.data.title, href: `/${lang}/roadmap/${field.slug}/#${job.slug}`, lang: other(field.lang) },
       { kicker: t.nav.roadmap, text: t.allFields, href: `/${lang}/roadmap/` },
@@ -87,6 +102,44 @@ const jobLevel: string | undefined = d.levels?.[job.level]?.title;
       )}
     </>
   ))}
+
+  {moves.length > 0 && (
+    <section class="gsec moves-sec" aria-labelledby="next">
+      <div class="block-head">
+        <h2 id="next">{d.moves.heading}</h2>
+        <p class="bh-desc">{d.moves.intro}</p>
+      </div>
+      <ul class="rows moves">
+        {moves.map((m) => (
+          <li class="linked" lang={other(m.to.lang)}>
+            <span class="t"><a href={moveHref(lang, job, m.to)}>{m.to.entry.data.title}</a></span>
+            <span class="n">{fill(d.moves.add, { topics: countWord(m.add.length, lang, t, "topic") })}</span>
+            <span class="d">{m.to.entry.data.summary}</span>
+            <span class="mv-bar" aria-hidden="true"><span class={`mv-have p${Math.round((m.shared.length / m.total) * 20) * 5}`}></span></span>
+            <span class="mv-k">{d.levels?.[m.to.level]?.title && <span class="lv">{d.levels[m.to.level].title}</span>}{fill(d.moves.shared, { n: m.shared.length, total: m.total })}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {seen.length > 0 && (
+    <section class="gsec attacks-sec" aria-labelledby="attacks">
+      <div class="block-head">
+        <h2 id="attacks">{d.attacks.heading}</h2>
+        <p class="bh-desc">{d.attacks.intro}</p>
+      </div>
+      <ul class="rows seen">
+        {seen.map(({ i, topics: ts }) => (
+          <li class="linked" lang={other(i.lang)}>
+            <span class="k"><time datetime={iso(i.date)}>{iso(i.date)}</time> · {t.newsTypes[i.type]}</span>
+            <span class="t"><a href={incidentHref(i)}>{i.entry.data.title}</a></span>
+            {ts.length > 0 && <span class="d"><span class="lbl">{d.attacks.topics}:</span> {ts.map((x) => x.entry.data.title).join(", ")}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <div class="source-note">
     {learn.data.sources.length > 0 && (

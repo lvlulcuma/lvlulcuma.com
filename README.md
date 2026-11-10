@@ -310,7 +310,11 @@ The Roadmap (`/en/roadmap/`) is for people looking for a way into cybersecurity.
 
 **Topics** (`content/roadmap/topics/`) are written once and shared by every job that lists them, so "Networking basics" is the same for a SOC analyst and a penetration tester. Each has a `title:` and a `summary:` (exactly what to know, in a sentence or two) in each language. Write text below a topic's second `---` and it gets its own page, like `/en/roadmap/topics/networking-basics/`, and becomes a link everywhere it's listed. A misspelled or repeated topic in a `learn.yml` stops the build and names the job.
 
-The headings and short texts around the Roadmap (group names, level names, the "Enough to apply" line) are in `content/pages/roadmap/<language>.md`.
+**Career moves** are worked out from the learning paths, so nobody keeps a list (`jobMoves()` in `src/lib/roadmap.ts`). After its path, each job page shows "Where you can go next": up to four jobs to move to, with how many topics each still needs and how much is already in common. Only real moves count: the same career level or one level up (never down, never skipping one), in the same field or sharing at least a fifth of the other job's specialist topics. Each move has its own page (`/<lang>/roadmap/<field>/<job>/to-<other job>/`) listing only the missing topics, by level. A field's job cards show the closest move, and the Roadmap page shows "Where people start, and where it leads" for the entry-level jobs. A job with no real move yet shows none; moves appear by themselves as more learning paths are written.
+
+**Seen in real attacks:** a job page lists the incident breakdowns whose `jobs:` names the job (newest first, up to five), with the topics of its path that the breakdown's `topics:` names. Every new breakdown adds to it.
+
+The headings and short texts around the Roadmap (group names, level names, the "Enough to apply" line, the moves and real-attacks words under `moves:` and `attacks:`) are in `content/pages/roadmap/<language>.md`.
 
 ### Weaknesses (CWE)
 

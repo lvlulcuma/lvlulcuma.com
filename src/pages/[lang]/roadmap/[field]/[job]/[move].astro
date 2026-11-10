@@ -1,0 +1,98 @@
+---
+// One career move: /<lang>/roadmap/<field>/<job>/to-<other job>/. Built for the moves a job's page shows ("Where you
+// can go next"; jobMoves in src/lib/roadmap.ts), and only those. It lists the topics the other job needs to apply that
+// this job's path doesn't reach, grouped by level in the other path's order, then what both share (folded). Words:
+// `moves:` in content/pages/roadmap/<lang>.md; topic titles and summaries from content/roadmap/topics/.
+import Base from "../../../../../layouts/Base.astro";
+import { HTML_LANG, LANGS, LEARN_LEVELS, ui, type Lang } from "../../../../../i18n/ui";
+import { getPage } from "../../../../../lib/content";
+import { getJobs, getLearn, getTopics, jobMoves, moveHref } from "../../../../../lib/roadmap";
+import { countWord } from "../../../../../lib/block";
+
+export async function getStaticPaths() {
+  const learn = await getLearn();
+  const paths = [];
+  for (const lang of LANGS) {
+    const jobs = await getJobs(lang);
+    for (const j of jobs) for (const m of jobMoves(j, jobs, learn))
+      paths.push({ params: { lang, field: j.field, job: j.slug, move: `to-${m.to.slug}` } });
+  }
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("roadmap", lang);
+const d = page.data;
+const file = `content/pages/roadmap/${lang}.md`;
+for (const k of ["title", "dek", "have", "back", "full", "shared"]) if (!d.moves?.[k]) throw new Error(`${file}: moves → ${k} is missing.`);
+const jobs = await getJobs(lang);
+const learn = await getLearn();
+const from = jobs.find((j) => j.slug === Astro.params.job)!;
+const move = jobMoves(from, jobs, learn).find((m) => `to-${m.to.slug}` === Astro.params.move)!;
+const to = move.to;
+const topics = await getTopics(lang);
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m));
+const levelTitle = (id: string): string => d.learnLevels?.[id]?.title ?? id;
+const groups = LEARN_LEVELS.map((id) => ({ id, title: levelTitle(id), items: move.add.filter((x) => x.level === id).map((x) => topics.get(x.slug)!) }))
+  .filter((g) => g.items.length > 0);
+const shared = move.shared.map((s) => topics.get(s)!);
+const ft = from.entry.data.title, tt = to.entry.data.title;
+const count = countWord(move.add.length, lang, t, "topic");
+const fromHref = `/${lang}/roadmap/${from.field}/${from.slug}/`, toHref = `/${lang}/roadmap/${to.field}/${to.slug}/`;
+const title = fill(d.moves.title, { from: ft, to: tt });
+const hire: string = d.learnLevels?.[learn.get(to.slug)!.data.hire]?.title ?? "";
+// The other moves from the same job, for the box beside the page.
+const siblings = jobMoves(from, jobs, learn).filter((m) => m.to.slug !== to.slug);
+---
+<Base lang={lang} nav="roadmap" title={title} description={fill(d.moves.dek, { from: ft, to: tt, topics: count })} block={{
+    key: { label: t.learn, value: count },
+    contents: groups.map((g) => ({ slug: g.id, text: g.title })).concat(shared.length ? [{ slug: "have", text: d.moves.have }] : []),
+    go: { items: [
+      { kicker: d.moves.back, text: ft, href: fromHref, lang: other(from.lang) },
+      { kicker: d.moves.full, text: tt, href: toHref, lang: other(to.lang) },
+      ...siblings.map((m, i) => ({ kicker: i === 0 ? d.moves.heading : undefined, text: m.to.entry.data.title, href: moveHref(lang, from, m.to), lang: other(m.to.lang) })),
+    ] },
+    rows: [[t.applyAfter, hire]],
+    strip: [fill(d.moves.shared, { n: move.shared.length, total: move.total })],
+  }}>
+  <p class="kicker">
+    <a class="tag" href={fromHref} lang={other(from.lang)}>{ft}</a>
+    <span class="mono">{fill(d.moves.shared, { n: move.shared.length, total: move.total })}</span>
+  </p>
+  <h1>{title}</h1>
+  <p class="lede">{fill(d.moves.dek, { from: ft, to: tt, topics: count })}</p>
+  <p class="mv-line" aria-hidden="true"><span class="mv-bar big"><span class={`mv-have p${Math.round((move.shared.length / move.total) * 20) * 5}`}></span></span></p>
+
+  {groups.map((g, n) => (
+    <section class="gsec" aria-labelledby={g.id}>
+      <div class="block-head num">
+        <span class="sec-n" aria-hidden="true">{String(n + 1).padStart(2, "0")}</span>
+        <h2 id={g.id}>{g.title}</h2>
+        <span class="bh-count">{countWord(g.items.length, lang, t, "topic")}</span>
+      </div>
+      <ol class="topics">
+        {g.items.map((x) => (
+          <li id={`t-${x.slug}`} lang={other(x.lang)}>
+            <h3>{x.hasPage ? <a href={`/${lang}/roadmap/topics/${x.slug}/`}>{x.entry.data.title}</a> : x.entry.data.title}</h3>
+            <p>{x.entry.data.summary}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+
+  {shared.length > 0 && (
+    <section class="gsec" aria-labelledby="have">
+      <details class="mv-have-list">
+        <summary><h2 id="have">{d.moves.have}</h2><span class="bh-count">{countWord(shared.length, lang, t, "topic")}</span></summary>
+        <ul class="road-topics">{shared.map((x) => <li lang={other(x.lang)}><span>{x.entry.data.title}</span></li>)}</ul>
+      </details>
+    </section>
+  )}
+
+  <nav class="pn" aria-label={t.nav.roadmap}>
+    <a class="prev" href={fromHref} lang={other(from.lang)}><span><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{d.moves.back}</span>{ft}</a>
+    <a class="next" href={toHref} lang={other(to.lang)}><span>{d.moves.full}&nbsp;<span class="arr" aria-hidden="true"></span></span>{tt}</a>
+  </nav>
+</Base>
