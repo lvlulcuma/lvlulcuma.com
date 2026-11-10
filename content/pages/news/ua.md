@@ -6,7 +6,7 @@ intro: "Що сталося в кібербезпеці за тиждень: к�
 incidentsIntro: "Великі атаки, розібрані тоді, коли факти вже відомі: як зловмисники проникли, що робили крок за кроком, що могло їх виявити і що перевірити у своїх системах."
 weeksIntro: "Усі огляди тижня, від найновішого: кілька коротких новин за кожен тиждень із поясненням, чому вони важливі й що робити."   # intro of /news/weeks/, also its Google description
 note: "Усе тут написано за відкритими джерелами: офіційними попередженнями, заявами постраждалих, судовими документами та звітами дослідників. Кожен розбір показує, наскільки факти встановлені і що досі невідомо, а пізніші зміни видно в історії змін."
-headings:   # section headings on every incident breakdown, always in this order (empty sections are left out)
+headings:   # section headings on every incident breakdown (the page shows them in its own order: what, attack, timeline, unknown, detect, check, roadmap, sources; empty sections are left out)
   what: "Що сталося"
   timeline: "Хронологія"
   attack: "Як працювала атака"

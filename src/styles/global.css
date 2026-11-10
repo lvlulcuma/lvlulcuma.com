@@ -961,34 +961,55 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 .inc-note, .inc-intro { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
 .inc-note { margin: 12px 0 0; }
 .inc-intro { margin: -6px 0 16px; }
-/* Timeline: a vertical line of dates */
-.timeline { list-style: none; margin: 0; padding: 0; }
-.timeline li { position: relative; display: grid; grid-template-columns: 11ch minmax(0, 1fr); gap: 2px 16px; padding: 0 0 16px 26px; }
+/* Each section of a breakdown has its own shape, so the page doesn't read as one long list and you can tell at a
+   glance where you are: the story is plain text with its terms in the margin; the attack is a numbered chain; the
+   timeline a line of dates; the open questions and the checklist sit in coloured frames (orange: not known yet,
+   green: something to do); the jobs are rows; the sources a numbered list. */
+/* How the attack worked: the ATT&CK steps as a chain, a numbered square for each step joined by a thin line,
+   like the facts at the top of the page. The tactic is a small blue label, then the technique (its ATT&CK ID in
+   grey after it), then what happened in that step in normal text. */
+.attack { list-style: none; margin: 0; padding: 0; counter-reset: at; }
+.attack li { counter-increment: at; position: relative; margin: 0; padding: 0 0 20px 42px; }
+.attack li:last-child { padding-bottom: 2px; }
+.attack li::before { content: counter(at); position: absolute; left: 0; top: 0; width: 24px; height: 24px; display: grid; place-items: center; box-sizing: border-box; border: 1.5px solid var(--accent); background: var(--panel); font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); }
+.attack li:last-child::before { background: var(--accent); color: var(--panel); }
+.attack li:not(:last-child)::after { content: ""; position: absolute; left: 11.5px; top: 24px; bottom: 0; width: 1px; background: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.attack .tactic { display: block; padding-top: 4px; font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.attack .tech { display: inline; margin: 0; color: var(--ink); font-weight: 600; line-height: 1.5; text-decoration: none; }
+.attack .tech .id { margin-left: 4px; font-family: var(--mono); font-size: 12.5px; font-weight: 400; color: var(--muted); white-space: nowrap; }
+.attack .tech:hover .nm { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.attack p { margin: 2px 0 0; font-size: 15.5px; line-height: 1.55; color: var(--ink); }
+/* Timeline: a line of dates, read the way people read dates ("29 Oct", "Jun"; [slug].astro). Events on the same
+   day share one date and one square, split by a dashed line; the last square is filled. */
+/* The dates share one column, as wide as the longest date on the page (a subgrid), so the events line up. */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 18px; }
+.timeline li { position: relative; display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; row-gap: 2px; padding: 0 0 18px 26px; }
 .timeline li::before { content: ""; position: absolute; left: 0; top: 7px; width: 9px; height: 9px; border: 1.5px solid var(--accent); background: var(--paper); }
-.timeline li::after { content: ""; position: absolute; left: 5px; top: 22px; bottom: 0; width: 1px; background: var(--line); }
+.timeline li::after { content: ""; position: absolute; left: 5px; top: 22px; bottom: 0; width: 1px; background: color-mix(in srgb, var(--accent) 35%, var(--line)); }
 .timeline li:last-child { padding-bottom: 0; }
 .timeline li:last-child::before { background: var(--accent); }
 .timeline li:last-child::after { display: none; }
-.timeline time { font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.timeline time { font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1.75; color: var(--ink); white-space: nowrap; }
 .timeline p { margin: 0; }
-/* How the attack worked: ATT&CK steps, numbered and joined */
-.attack { list-style: none; margin: 0; padding: 0; counter-reset: at; }
-.attack li { counter-increment: at; position: relative; margin: 0; padding: 0 0 20px 34px; }
-.attack li::before { content: counter(at) "."; position: absolute; left: 0; top: 0; font-weight: 600; font-size: 15px; line-height: 1.6; color: var(--ink); }
-.attack li:last-child { padding-bottom: 2px; }
-.attack .tactic { display: block; font-size: 13.5px; color: var(--muted); }
-.attack .tech { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 1px 0 4px; color: var(--ink); font-weight: 600; text-decoration: none; }
-.attack .tech .id { font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--accent); }
-.attack .tech:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.attack p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+.timeline p + p { margin-top: 8px; padding-top: 8px; border-top: 1px dashed color-mix(in srgb, var(--line) 80%, transparent); }
 /* Marker lists: what would have caught it (◉), what to check (a box to tick), still unknown (?) */
 .detect, .todo, .unknown { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 .detect li, .todo li, .unknown li { position: relative; padding-left: 28px; line-height: 1.55; }
 .detect li::before { content: ""; position: absolute; left: 3px; top: .5em; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--accent); box-shadow: inset 0 0 0 2px var(--panel), inset 0 0 0 6px var(--accent); }
 .todo li::before { content: ""; position: absolute; left: 1px; top: .32em; width: 14px; height: 14px; border: 1.5px solid var(--tip); background: var(--panel); }
 .unknown li::before { content: "?"; position: absolute; left: 2px; top: 0; width: 16px; text-align: center; font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--warn); }
-/* Who works on this: job cards from the Roadmap, then topic links */
+/* The open questions (orange) and the checklist (green) in a frame of that colour, with a light glow of it at
+   the top, like the Note and Tip boxes in articles (without their tab: the section heading names it). */
+.inc-box { --c: var(--accent); padding: 15px 18px 16px; border: 1px solid color-mix(in srgb, var(--c) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--c) 9%, var(--panel)), var(--panel) 70%); }
+.inc-box.warn { --c: var(--warn); }
+.inc-box.tip { --c: var(--tip); }
+.inc-box .todo li::before { background: transparent; }
+/* Who works on this: a row for each Roadmap job (the whole row opens it), then the topics as links. */
 .road-jobs { margin-bottom: 4px; }
+.rows.road-jobs li { padding: 12px 10px 13px 12px; gap: 2px 16px; }
+.rows.road-jobs .t { font-family: var(--body); font-size: 16px; font-weight: 600; }
+.rows.road-jobs .d { font-size: 14.5px; line-height: 1.45; }
+.rows.road-jobs .go { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-family: var(--mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
 .road-h { margin: 20px 0 6px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
 /* Topics as a plain sentence-style list: linked ones read as links, the rest as text. */
 .road-topics { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 0; font-size: 15.5px; line-height: 1.55; }
@@ -1247,7 +1268,11 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .stories > li { padding: 18px 16px 16px; }
   .story-take { padding: 12px 14px 13px; }
   .inc > h2 { font-size: 18px; }
-  .timeline li { grid-template-columns: 1fr; padding-left: 24px; }
+  .timeline { grid-template-columns: minmax(0, 1fr); }
+  /* Job rows on phones: "What to learn" under the summary, so the text keeps the full width. */
+  .rows.road-jobs li { grid-template-columns: minmax(0, 1fr); }
+  .rows.road-jobs .go { grid-column: 1; grid-row: auto; margin-top: 4px; }
+  .timeline li { grid-template-columns: minmax(0, 1fr); padding-left: 24px; }
 }
 
 /* Wide screens: three columns. The box on the left, the text (714px) in the exact middle of the screen, and a

@@ -6,7 +6,7 @@ intro: "What happened in cybersecurity each week, in a few short stories with wh
 incidentsIntro: "Big attacks taken apart once the facts are public: how the attackers got in, what they did step by step, what would have caught them, and what to check in your own systems."
 weeksIntro: "Every weekly digest, newest first: a few short stories from each week, with why they matter and what to do."   # intro of /news/weeks/, also its Google description
 note: "Everything here is written from public sources: official advisories, the victim's own statements, court papers and researchers' reports. Each breakdown says how settled the facts are and what's still unknown, and lists later changes under Revisions."
-headings:   # section headings on every incident breakdown, always in this order (empty sections are left out)
+headings:   # section headings on every incident breakdown (the page shows them in its own order: what, attack, timeline, unknown, detect, check, roadmap, sources; empty sections are left out)
   what: "What happened"
   timeline: "Timeline"
   attack: "How the attack worked"

@@ -46,6 +46,7 @@ made-up content, and leave out `example: true`.
 - `date:` when it became public; `published:` today.
 - `who`, `sector`, `entry` (how they got in: "Not known yet" when nobody has said), `impact`.
 - `timeline:` oldest first. Earlier events go in only if a source connects them, or as plainly labelled context.
+  Events on the same day share one date on the page, so give each its own entry with that date.
 - `attack:` only techniques a source supports, each with its official ATT&CK ID and name (check them on
   attack.mitre.org). If nobody knows yet how it was done, leave `attack:` out; an empty section isn't shown.
 - `detect:` and `check:` practical points for readers (teams running similar services, and ordinary users where

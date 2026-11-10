@@ -6,7 +6,7 @@ intro: "Co wydarzyło się w cyberbezpieczeństwie w danym tygodniu: kilka krót
 incidentsIntro: "Duże ataki rozłożone na czynniki pierwsze, gdy fakty są już znane: jak atakujący dostali się do środka, co robili krok po kroku, co mogło ich wykryć i co sprawdzić u siebie."
 weeksIntro: "Wszystkie przeglądy tygodnia, od najnowszego: kilka krótkich wiadomości z każdego tygodnia z wyjaśnieniem, dlaczego są ważne i co zrobić."   # intro of /news/weeks/, also its Google description
 note: "Wszystko tu powstaje na podstawie publicznych źródeł: oficjalnych ostrzeżeń, oświadczeń poszkodowanych, dokumentów sądowych i raportów badaczy. Każda analiza mówi, na ile fakty są pewne i czego jeszcze nie wiadomo, a późniejsze zmiany są w historii zmian."
-headings:   # section headings on every incident breakdown, always in this order (empty sections are left out)
+headings:   # section headings on every incident breakdown (the page shows them in its own order: what, attack, timeline, unknown, detect, check, roadmap, sources; empty sections are left out)
   what: "Co się stało"
   timeline: "Oś czasu"
   attack: "Jak przebiegł atak"
