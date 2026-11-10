@@ -1,30 +1,26 @@
 ---
 // Sources, kept short so they don't push the text apart. Every source stays one or two clicks away; <details>
 // opens and closes by itself, so no JavaScript is needed.
-// - fold="line" (a story in a weekly digest): one line saying who reported it, "Sources: The Record · Spider's
-//   Web", that opens into the full list (headline and site of each). The outlet is the part of `name` before the
-//   first ": " (the playbook's "Outlet: headline"), or the whole name when there's no ": "; an outlet used twice
-//   is named once.
+// - fold="box" (a story in a weekly digest): a small framed box, "Sources 3", that opens across the story into
+//   the full list (headline and site of each, as written in `name`: "Outlet: headline").
 // - fold="list" (the Sources section at the end of an incident breakdown or a CWE write-up): the first three in
 //   full, the rest folded under "N more", like "New this week" on the home page. Four or fewer show in full.
 import { ui, type Lang } from "../i18n/ui";
 
 type Source = { name: string; url: string };
-interface Props { sources: Source[]; lang: Lang; fold: "line" | "list" }
+interface Props { sources: Source[]; lang: Lang; fold: "box" | "list" }
 const { sources, lang, fold } = Astro.props;
 const t = ui[lang];
 const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
-const outlet = (name: string) => (name.includes(": ") ? name.slice(0, name.indexOf(": ")) : name);
-const outlets = [...new Set(sources.map((s) => outlet(s.name)))];
 const SHOW = 3;
 const folded = fold === "list" && sources.length > SHOW + 1;
 const first = folded ? sources.slice(0, SHOW) : sources;
 const rest = folded ? sources.slice(SHOW) : [];
 if (fold === "list" && !t.srcsMore) throw new Error(`content/ui/${lang}.yml: "srcsMore" (the fold under the first three sources) is missing.`);
 ---
-{fold === "line" ? (
-  <details class="src-line">
-    <summary><span class="k">{t.srcs}:</span> {outlets.map((o, i) => <>{i > 0 && <span class="dot"> · </span>}<span class="o">{o}</span></>)}</summary>
+{fold === "box" ? (
+  <details class="src-box">
+    <summary><span class="k">{t.srcs}</span><span class="n">{sources.length}</span></summary>
     <ol class="srcs">{sources.map((s) => <li><a href={s.url} rel="noopener">{s.name}</a><span class="host">{host(s.url)}</span></li>)}</ol>
   </details>
 ) : (
