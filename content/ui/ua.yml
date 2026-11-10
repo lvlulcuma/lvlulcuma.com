@@ -168,6 +168,12 @@ nextGuide: "Наступна інструкція"
 noGuides: "У цій категорії ще немає інструкцій."
 noGuidesShort: "Поки немає інструкцій"
 allGuides: "Усі інструкції"
+guidePaths: "Шляхи крок за кроком"   # the chains of guides that build on each other, at the top of the guides list
+guidePathsIntro: "Деякі інструкції спираються на інші. Виконайте їх у цьому порядку, і все запрацює."
+whatsNext: "Що далі"   # the end of a guide
+buildsOnThis: "Спирається на цю інструкцію"
+alsoUsedIn: "Також використовується"   # before a page elsewhere on the site that links to the guide: "Also used in · Lab"
+guideDone: "Поки жодна інструкція не спирається на цю."
 platforms:
   windows: "Windows"
   macos: "macOS"

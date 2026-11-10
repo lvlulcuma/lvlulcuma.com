@@ -287,9 +287,10 @@ Make a folder in `content/news/incidents/` (its name becomes the address, and it
 
 Make a folder in `content/guides/` (its name becomes the address) with an `en.md`, copying the top part from an existing guide. Translations are optional: add `ua.md` or `pl.md` when they're ready. Until then the Ukrainian and Polish guide lists show the English guide, marked EN.
 
-- `category:` install, quick, configure, use, harden or fix. `order:` its place in that category.
+- `category:` install, quick, configure, use, harden or fix. `order:` its place in that category. A category shows on the guides list (and in its filter) once it has a guide.
 - `time:` rough minutes to finish. `platforms:` any of `[windows, macos, linux]`.
-- `requires:` folder names of guides to do first, like `[install-docker-desktop, install-ollama]`. They show as "Before you start" at the top, and this guide shows under "Used in" on theirs.
+- `requires:` folder names of guides to do first, like `[install-docker-desktop, install-ollama]`. They show as "Before you start" at the top, and this guide shows under "What's next" on theirs. They also make the paths at the top of the guides list ("Follow a path"): every guide that needs others and that nothing else builds on gets a path of everything it needs, in order, with the total time.
+- "What's next" at the end of a guide also lists the pages elsewhere on the site that link to it (lab ideas, the lab's "Get started" page, articles, CWE write-ups), found by themselves from the links in their text. When nothing builds on a guide, the next guide in its category is suggested.
 
 Write each part as a `## Heading` (numbered 01, 02, … by itself) followed by a numbered list of steps. Inside a step, indent by three spaces:
 

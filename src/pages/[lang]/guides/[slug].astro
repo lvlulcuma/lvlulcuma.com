@@ -1,11 +1,13 @@
 ---
 // Renders either a single guide (/<lang>/guides/<slug>/) or a category filter (/<lang>/guides/<category>/).
+// A guide ends with "What's next", one row each: the guides that build on it, the pages elsewhere on the site that
+// use it (lab ideas, articles, CWE write-ups; found by guideLinks in src/lib/content.ts), and, when nothing builds on
+// it, the next guide in its category. Then a link back to all guides.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import GuidesIndex from "../../../components/GuidesIndex.astro";
-import GuideRow from "../../../components/GuideRow.astro";
 import { GUIDE_CATS, HTML_LANG, LANGS, ui, type Lang, type GuideCat } from "../../../i18n/ui";
-import { categoryFilter, getGuides, getPage, dependents, guideMissingLangs, type Guide } from "../../../lib/content";
+import { categoryFilter, getGuides, getPage, dependents, guideLinks, guideMissingLangs, type Guide } from "../../../lib/content";
 import { iso } from "../../../lib/articles";
 import { revisionLog, toc, countWord } from "../../../lib/block";
 
@@ -27,6 +29,7 @@ const guidesPage = await getPage("guides", lang);
 
 let g: Guide | undefined, Content: any = null, headings: any[] = [], revs: ReturnType<typeof revisionLog> = [];
 let before: Guide[] = [], after: Guide[] = [], afterIsNext = false, missing: Lang[] = [];
+let usedOn: Awaited<ReturnType<typeof guideLinks>> = [];
 if (props.kind === "guide") {
   g = all.find((x) => x.slug === props.slug)!;
   ({ Content, headings } = await render(g.entry));
@@ -39,12 +42,18 @@ if (props.kind === "guide") {
     const next = all.slice(all.indexOf(g) + 1).find((x) => x.category === g!.category && !g!.entry.data.requires.includes(x.slug));
     if (next) { after = [next]; afterIsNext = true; }
   }
+  usedOn = await guideLinks(lang, g.slug);
 }
 // Time, steps and systems sit in the line above the title, like the date on an article.
 // "Windows only" when a guide covers one system, otherwise "Windows, macOS and Linux".
 const osNames = g ? g.entry.data.platforms.map((p) => t.platforms[p]) : [];
 const os = osNames.length === 1 ? t.platformOnly.replace("{os}", osNames[0]) : `${osNames.slice(0, -1).join(", ")} ${t.listAnd} ${osNames.at(-1)}`;
 const catCount = props.kind === "cat" ? all.filter((x) => x.category === props.c).length : 0;
+// "What's next": guides first (what builds on this one, or the next one), then the rest of the site.
+const nextRows = [
+  ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.buildsOnThis, title: x.entry.data.title, d: `~${x.time} ${t.min} · ${countWord(x.steps, lang, t, "step")}`, href: `/${x.lang}/guides/${x.slug}/`, lang: x.lang })),
+  ...usedOn.map((x) => ({ kicker: `${t.alsoUsedIn} · ${x.kicker}`, title: x.title, d: "", href: x.href, lang: x.lang })),
+];
 ---
 {props.kind === "cat" ? (
   <Base printIn lang={lang} nav="guides" title={`${t.nav.guides}: ${t.guideCats[props.c]}`} description={guidesPage.data.categories?.[props.c] ?? guidesPage.data.intro} block={{
@@ -62,7 +71,7 @@ const catCount = props.kind === "cat" ? all.filter((x) => x.category === props.c
       contents: toc(headings),
       go: { items: [
         ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/guides/${r.slug}/`, hreflang: r.lang !== lang ? HTML_LANG[r.lang] : undefined, lang: r.lang !== lang ? HTML_LANG[r.lang] : undefined })),
-        ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.usedIn, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
+        ...after.map((x) => ({ kicker: afterIsNext ? t.nextGuide : t.buildsOnThis, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
       ] },
       revisions: revs.length > 1 ? revs : undefined,
     }}>
@@ -86,13 +95,22 @@ const catCount = props.kind === "cat" ? all.filter((x) => x.category === props.c
 
     <section class="gsec gnext" aria-labelledby="after">
       <div class="block-head">
-        <h2 id="after">{after.length ? (afterIsNext ? t.nextGuide : t.usedIn) : t.allGuides}</h2>
-        {after.length > 0 && <a href={`/${lang}/guides/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.allGuides}</a>}
+        <h2 id="after">{t.whatsNext}</h2>
+        <a href={`/${lang}/guides/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.allGuides}</a>
       </div>
-      {after.length > 0 ? (
-        <ul class="gcards">{after.map((x) => <GuideRow guide={x} lang={lang} label={t.guideCats[x.category]} />)}</ul>
+      {nextRows.length > 0 ? (
+        <ul class="rows next-rows">
+          {nextRows.map((r, i) => (
+            <li class="linked" lang={r.lang !== lang ? HTML_LANG[r.lang] : undefined}>
+              {r.kicker !== nextRows[i - 1]?.kicker && <span class="k">{r.kicker}</span>}
+              <span class="t"><a href={r.href}>{r.title}</a></span>
+              {r.d && <span class="d">{r.d}</span>}
+              <span class="go arr" aria-hidden="true"></span>
+            </li>
+          ))}
+        </ul>
       ) : (
-        <p><a class="go" href={`/${lang}/guides/`}><span class="arr arr-back" aria-hidden="true"></span>&nbsp;{t.allGuides}</a></p>
+        <p class="gnext-none">{t.guideDone}</p>
       )}
     </section>
   </Base>

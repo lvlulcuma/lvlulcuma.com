@@ -168,6 +168,12 @@ nextGuide: "Następny poradnik"
 noGuides: "W tej kategorii nie ma jeszcze poradników."
 noGuidesShort: "Brak poradników"
 allGuides: "Wszystkie poradniki"
+guidePaths: "Ścieżki krok po kroku"   # the chains of guides that build on each other, at the top of the guides list
+guidePathsIntro: "Niektóre poradniki opierają się na innych. Wykonaj je w tej kolejności, a wszystko zadziała."
+whatsNext: "Co dalej"   # the end of a guide
+buildsOnThis: "Opiera się na tym poradniku"
+alsoUsedIn: "Używany też w"   # before a page elsewhere on the site that links to the guide: "Also used in · Lab"
+guideDone: "Żaden poradnik nie opiera się jeszcze na tym."
 platforms:
   windows: "Windows"
   macos: "macOS"
