@@ -53,9 +53,22 @@ nav.lang a { font-family: var(--mono); font-size: 12px; font-weight: 500; color:
 nav.lang a + a { border-left: 1.5px solid var(--ink); }
 nav.lang a[aria-current="true"] { background: var(--ink); color: var(--paper); }
 nav.lang a:hover:not([aria-current="true"]) { background: var(--panel); }
-/* Ukrainian selected: the UA button becomes the flag, blue over yellow, with "UA" in white and a thin dark outline
-   (four 1px shadows), so the letters stand out on both halves. */
-nav.lang a[hreflang="uk"][aria-current="true"] { background: linear-gradient(#0057b7 50%, #ffd700 50%); color: #fff; text-shadow: 1px 0 0 #0b1a33, -1px 0 0 #0b1a33, 0 1px 0 #0b1a33, 0 -1px 0 #0b1a33; }
+/* Ukrainian selected: the UA button becomes the flag, blue over yellow, waving. Each half is shaded from light to
+   deep, and a layer of soft folds (light and shadow bands, twice as wide as the button) drifts slowly across it,
+   like cloth in the wind. A thin light line on top and a darker one at the bottom give it depth. "UA" stays white
+   with a thin dark outline (four 1px shadows) and a soft shadow under it, so the letters stand out on both halves.
+   With reduced motion the folds stay still. */
+nav.lang a[hreflang="uk"][aria-current="true"] {
+  color: #fff; text-shadow: 0 0 1px #0b1a33, 0 1px 2px rgba(5, 15, 35, .7), 1px 0 0 #0b1a33, -1px 0 0 #0b1a33, 0 1px 0 #0b1a33, 0 -1px 0 #0b1a33;
+  background:
+    linear-gradient(100deg, rgba(0, 0, 0, .16) 0%, rgba(255, 255, 255, .22) 18%, rgba(0, 0, 0, .14) 38%, rgba(255, 255, 255, .26) 58%, rgba(0, 0, 0, .18) 80%, rgba(255, 255, 255, .12) 100%) 0 0 / 200% 100%,
+    linear-gradient(#1a6fd6 0%, #0057b7 25%, #00479a 50%, #ffdf3a 50%, #ffd700 75%, #ecb800 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -1px 0 rgba(90, 50, 0, .3);
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.lang a[hreflang="uk"][aria-current="true"] { animation: ua-wave 5s ease-in-out infinite alternate; }
+  @keyframes ua-wave { to { background-position: 100% 0, 0 0; } }
+}
 
 /* Path bar */
 .path { font-family: var(--mono); font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); background: var(--paper); }
