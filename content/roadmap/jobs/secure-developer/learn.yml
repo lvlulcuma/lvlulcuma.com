@@ -1,0 +1,65 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/application-security/secure-developer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-09
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - owasp-top-10
+  - input-handling
+  - secure-authentication
+  - access-control-in-code
+  - secrets-management
+  - software-supply-chain
+  - code-scanning
+  - vulnerability-basics
+intermediate:
+  - threat-modeling
+  - secure-design-principles
+  - security-requirements
+  - api-security
+  - browser-security-controls
+  - using-cryptography
+  - secure-code-review
+  - application-logging
+  - personal-data-in-logs
+  - privacy-by-design
+advanced:
+  - ci-cd-security
+  - ai-coding-assistants
+  - securing-ai-systems
+  - iam-architecture
+  - memory-safety-bugs
+  - fuzzing
+  - cloud-security-posture
+  - vulnerability-disclosure
+  - cra-overview
+expert:
+  - secure-sdlc
+  - security-champions
+  - architecture-reviews
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Secure Software Development (DD-WRL-003) and Software Security Assessment (DD-WRL-005) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CSSLP exam outline (2023)"
+    url: "https://www.isc2.org/certifications/csslp/csslp-certification-exam-outline"
+  - name: "OWASP Top 10:2025"
+    url: "https://owasp.org/Top10/2025/"
+  - name: "OWASP Top 10 Proactive Controls (2024)"
+    url: "https://owasp.org/www-project-proactive-controls/"
+  - name: "NIST SP 800-218, Secure Software Development Framework (SSDF)"
+    url: "https://csrc.nist.gov/pubs/sp/800/218/final"
