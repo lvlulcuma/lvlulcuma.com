@@ -884,23 +884,39 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 .stories .story-take p + p { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
 .story-why > span:first-child, .story-do > span:first-child { display: block; margin-bottom: 1px; font-size: 14px; font-weight: 600; color: var(--ink); }
 .story-do > span:first-child { color: var(--tip); }
-.story-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin: 14px 0 0 !important; font-size: 13.5px; }
-.story-bd { font-family: var(--mono); font-size: 13px; font-weight: 500; }
-/* A story's sources (Sources.astro, fold="line"): one line naming who reported it, beside "Full breakdown".
-   Clicking it opens the full list underneath: each headline as a link, with its site. Same chevron as the
-   "N more" folds. */
-.src-line { flex: 1 1 260px; min-width: 0; }
-.src-line > summary { display: block; list-style: none; cursor: pointer; color: var(--muted); }
-.src-line > summary::-webkit-details-marker { display: none; }
-.src-line > summary .k { font-weight: 500; color: var(--ink); }
-.src-line > summary .dot { color: var(--line); }
-.src-line > summary::after { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 2px 0 9px; vertical-align: 3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
-.src-line[open] > summary::after { vertical-align: 0; transform: rotate(-135deg); }
-.src-line > summary:hover, .src-line > summary:hover .k { color: var(--accent); }
-.src-line > summary:hover .o { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.src-line > summary:focus-visible { outline-offset: 2px; }
-.src-line .srcs { margin: 9px 0 2px; padding-left: 22px; gap: 6px; font-size: 14px; line-height: 1.45; }
-.src-line .srcs .host { font-size: 11.5px; }
+.story-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 16px 0 0 !important; font-size: 13.5px; }
+/* The foot of a story: the Sources box on the left, "Full breakdown" on the right. Both sit above the cover that
+   makes the whole story a link (.stories > li.bd), so the box opens by itself and never opens the breakdown. */
+.story-bd { position: relative; z-index: 1; margin-left: auto; font-family: var(--mono); font-size: 13px; font-weight: 500; }
+/* A story's sources (Sources.astro, fold="box"): a small box, "Sources 3", in the frame and background of the
+   "Why it matters" panel above it. Clicking it opens it across the story with the full list, each headline a
+   link, with its site. On hover only its frame and words turn blue, like the chips. */
+.src-box { position: relative; z-index: 1; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); background: var(--paper); transition: border-color var(--ease); }
+.src-box[open] { flex-basis: 100%; }
+.src-box > summary { display: flex; align-items: center; gap: 8px; padding: 6px 12px 7px; list-style: none; cursor: pointer; font-weight: 500; color: var(--ink); transition: color var(--ease); }
+.src-box > summary::-webkit-details-marker { display: none; }
+.src-box .n { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--muted); transition: color var(--ease); }
+.src-box > summary::after { content: ""; width: 6px; height: 6px; margin: -4px 0 0 4px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+.src-box[open] > summary::after { margin-top: 3px; transform: rotate(-135deg); }
+/* Keyboard focus always shows; hover only where there's a pointer, so a tapped box doesn't stay blue on a phone. */
+.src-box:has(> summary:focus-visible) { border-color: var(--accent); }
+.src-box > summary:focus-visible, .src-box > summary:focus-visible .n { color: var(--accent); }
+@media (hover: hover) {
+  .src-box:has(> summary:hover) { border-color: var(--accent); }
+  .src-box > summary:hover, .src-box > summary:hover .n { color: var(--accent); }
+}
+.src-box > summary:focus-visible { outline: none; }
+.src-box[open] > summary { border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.src-box .srcs { margin: 0; padding: 11px 16px 13px 40px; gap: 6px; font-size: 14px; line-height: 1.45; }
+.src-box .srcs .host { font-size: 11.5px; }
+/* A story with a breakdown ([week].astro): the whole story is one link to it, a card like the ones on the Roadmap.
+   The title's link covers the story (::after); hovering anywhere on it lights it up with the cards' glow and lifts
+   it 2px (see "Cards" under Hover), the title turns blue and the arrow after "Full breakdown" steps forward. The
+   side notes beside the story on wide screens are outside it. */
+.stories > li.bd h3 a { color: inherit; text-decoration: none; }
+.stories > li.bd h3 a::after { content: ""; position: absolute; inset: 0; }
+.stories > li.bd h3 a:focus-visible { outline: none; }
+.stories > li.bd:has(h3 a:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 /* A story's side notes ([week].astro): on narrow screens they sit under the story's text; from 1340px beside it (see .noted). */
 .stories .side p { margin: 0; }
 .stories .side p + p { margin-top: 2px; }
@@ -987,11 +1003,11 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 a:hover .arr, a:focus-visible .arr, .linked:hover .arr, .linked:focus-within .arr { --go: 1; }
 /* Cards. The glow is a layer under the card's text (::before, behind the content in the card's own stacking
    context) that covers the card's border and fades in, because a gradient frame can't fade in by itself. */
-.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card {
+.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card, .stories > li.bd {
   position: relative; isolation: isolate;
   transition: box-shadow .3s var(--ease-soft), transform .3s var(--ease-soft);
 }
-:is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card)::before {
+:is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card, .stories > li.bd)::before {
   content: ""; position: absolute; inset: -1px; z-index: -1; pointer-events: none;
   border: 1px solid transparent;
   background:
@@ -999,18 +1015,23 @@ a:hover .arr, a:focus-visible .arr, .linked:hover .arr, .linked:focus-within .ar
     linear-gradient(135deg, var(--glow-a), var(--glow-b) 45%, var(--glow-c)) border-box;
   opacity: 0; transition: opacity .3s var(--ease-soft);
 }
-.gcards a .t, .fcards li.linked h3 a, a.feature h3, .plain li a { transition: color .2s var(--ease-soft); }
+.gcards a .t, .fcards li.linked h3 a, a.feature h3, .plain li a, .stories > li.bd h3 a { transition: color .2s var(--ease-soft); }
 .gcards a:hover, .gcards a:focus-visible, .fcards li.linked:hover, .fcards li.linked:focus-within,
 a.feature:hover, a.feature:focus-visible, .plain li a:hover, .plain li a:focus-visible, .yr .on > a:hover, .yr .on > a:focus-visible,
 /* The week box lights up like a card when the pointer is on the box itself (or on "Read the week"),
    but not on a headline row: that row has its own highlight and opens its own story. */
-.week-card:has(h3 a:hover), .week-card:has(h3 a:focus-visible), .week-card:has(a.go:hover) {
+.week-card:has(h3 a:hover), .week-card:has(h3 a:focus-visible), .week-card:has(a.go:hover),
+/* A story lights up when the pointer is on the story itself or on "Full breakdown", not on its Sources box. */
+.stories > li.bd:has(h3 a:hover), .stories > li.bd:has(h3 a:focus-visible), .stories > li.bd:has(.story-bd:hover) {
   box-shadow: 0 14px 32px -16px color-mix(in srgb, var(--glow-b) 55%, transparent); transform: translateY(-2px);
 }
 :is(.gcards a:hover, .gcards a:focus-visible, .fcards li.linked:hover, .fcards li.linked:focus-within,
 a.feature:hover, a.feature:focus-visible, .plain li a:hover, .plain li a:focus-visible, .yr .on > a:hover, .yr .on > a:focus-visible,
-.week-card:has(h3 a:hover), .week-card:has(h3 a:focus-visible), .week-card:has(a.go:hover))::before { opacity: 1; }
-.week-card:has(h3 a:hover) .go .arr, .week-card:has(h3 a:focus-visible) .go .arr { --go: 1; }
+.week-card:has(h3 a:hover), .week-card:has(h3 a:focus-visible), .week-card:has(a.go:hover),
+.stories > li.bd:has(h3 a:hover), .stories > li.bd:has(h3 a:focus-visible), .stories > li.bd:has(.story-bd:hover))::before { opacity: 1; }
+.week-card:has(h3 a:hover) .go .arr, .week-card:has(h3 a:focus-visible) .go .arr,
+.stories > li.bd:has(h3 a:is(:hover, :focus-visible)) .story-bd .arr { --go: 1; }
+.stories > li.bd:has(h3 a:is(:hover, :focus-visible), .story-bd:hover) :is(h3 a, .story-bd) { color: var(--accent); }
 .gcards a:hover .t, .gcards a:focus-visible .t, .fcards li.linked:hover h3 a, .fcards li.linked:focus-within h3 a,
 a.feature:hover h3, a.feature:focus-visible h3, .plain li a:hover { color: var(--accent); }
 /* Rows */
@@ -1088,7 +1109,7 @@ a.related:focus-visible { outline-offset: 3px; }
 .index .arrow { grid-column: 2; grid-row: 1; font-family: var(--mono); color: var(--accent); }
 .index .desc { grid-column: 1; color: var(--muted); font-size: 15px; }
 @media (prefers-reduced-motion: reduce) {
-  .arr, .arr::before, .arr::after, .gcards a, .fcards li.linked, a.feature, .week-card, a.related, a.related .t, a.related .arr, .plain li a, .list a, .prereq a, .prereq a .t, .week-heads a, .index a, .rows li.linked, .chips a, .road-topics a, .kicker a.tag, .ws-step { transition: none; }
+  .arr, .arr::before, .arr::after, .gcards a, .fcards li.linked, a.feature, .week-card, .stories > li.bd, .stories > li.bd h3 a, a.related, a.related .t, a.related .arr, .plain li a, .list a, .prereq a, .prereq a .t, .week-heads a, .index a, .rows li.linked, .chips a, .road-topics a, .kicker a.tag, .ws-step { transition: none; }
   /* The boxes with links still light up, but at once; the Related box doesn't rise and the bar doesn't grow. */
   .prereq, .prereq .prereq-h, .prereq a::before, .prereq a::after, a.related::before, a.related small { transition: none; }
   /* Side box rows light up at once; the bar is there without growing. */
@@ -1339,8 +1360,8 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 @media (prefers-reduced-motion: reduce) { .cwe-list .arr { transition: none; } }
 /* Cards still light up with reduced motion, but at once and without rising. */
 @media (prefers-reduced-motion: reduce) {
-  :is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card)::before { transition: none; }
-  :is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card):is(:hover, :focus-visible, :focus-within) { transform: none; }
+  :is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card, .stories > li.bd)::before { transition: none; }
+  :is(.gcards a, .fcards li.linked, a.feature, .plain li a, .yr .on > a, .week-card, .stories > li.bd):is(:hover, :focus-visible, :focus-within) { transform: none; }
 }
 @media (max-width: 560px) {
   .cwe-list li, .cwe-list li.is-written a { grid-template-columns: 68px minmax(0, 1fr) auto; column-gap: 10px; font-size: 14.5px; }

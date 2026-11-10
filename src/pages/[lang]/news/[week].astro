@@ -2,8 +2,9 @@
 // One weekly digest: /<lang>/news/2026-w43/. Text: content/news/weeks/2026-w43/<lang>.md.
 // Built only in the languages the week is written in; other languages' lists link to the English page.
 // At the top, ← and → beside the week's dates step to the week before or after, and "All weeks" opens /news/weeks/.
-// Each story's breakdown is linked under the story ("Full breakdown"), not in the box beside the page, so the box
-// stays short enough to fit on the screen.
+// A story with a breakdown is one big link to it: its title links there and covers the whole story (like the cards
+// on the Roadmap), and "Full breakdown" at its foot says where it goes. Only the Sources box sits on top and opens
+// by itself. The breakdowns aren't repeated in the box beside the page, so that box stays short enough for the screen.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import ExampleNote from "../../../components/ExampleNote.astro";
@@ -75,11 +76,11 @@ const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
   <div class="block-head stories-head"><h2>{t.weekStories}</h2><span>{countWord(d.stories.length, lang, t, "story")}</span></div>
   <ol class="stories">
     {d.stories.map((s, n) => (
-      <li id={`s-${n + 1}`}>
+      <li id={`s-${n + 1}`} class={linked[n] ? "bd" : undefined}>
         <div class="story-head">
           <span class="story-n">{String(n + 1).padStart(2, "0")}</span>
           <span class="tag story-type">{t.newsTypes[s.type]}</span>
-          <h3>{s.title}</h3>
+          <h3>{linked[n] ? <a href={incidentHref(linked[n]!)}>{s.title}</a> : s.title}</h3>
         </div>
         {s.notes.length > 0 && (
           <aside class="side story-note">{s.notes.map((x) => <><p class="side-label">{x.label}</p><p>{ticks(x.text).map((q) => (q.code ? <code>{q.s}</code> : q.s))}</p></>)}</aside>
@@ -91,8 +92,8 @@ const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
         </div>
         {(linked[n] || s.sources.length > 0) && (
           <div class="story-links">
+            {s.sources.length > 0 && <Sources sources={s.sources} lang={lang} fold="box" />}
             {linked[n] && <a class="story-bd" href={incidentHref(linked[n]!)}>{t.breakdown}&nbsp;<span class="arr" aria-hidden="true"></span></a>}
-            {s.sources.length > 0 && <Sources sources={s.sources} lang={lang} fold="line" />}
           </div>
         )}
       </li>
