@@ -244,6 +244,10 @@ incident_one: "incydent"
 incident_few: "incydenty"
 incident_many: "incydentów"
 incident_other: "incydentu"
+breakdown_one: "analiza"
+breakdown_few: "analizy"
+breakdown_many: "analiz"
+breakdown_other: "analizy"
 
 # CWE section (/cwe/): the list of weaknesses and each write-up
 cweKey: "CWE w OWASP Top 10"

@@ -49,8 +49,9 @@ changes:
     lab: "Lab idea"
     site: "Site"   # the announcements below
   roadmap: "What to learn: {job}"   # title of a Roadmap row; {job} is the job's name
+  roadmap_n: "What to learn for {jobs}"   # one line for several Roadmap jobs at once; {jobs} is "9 jobs"
   updated: "Updated"                # before the note of something that changed after it was published
-  more: "{n} more"                  # opens the rest when there are more than five rows (three on phones)
+  more: "{n} more"   # opens the rest when there are more sections than fit (five, three on phones)
   empty: "Nothing new in the last 7 days."
   next_digest: "Next digest"
 # Announcements: news about the site that the box can't see by itself (a new section, a new feature).

@@ -166,7 +166,7 @@ Everything below the second --- line is the page's body, written in Markdown.
 
 ### "New this week" on the home page
 
-The glowing box beside the home page headline (right under it on phones) lists everything published or changed on the site in the last 7 days, newest first, one short row each. It fills itself from the dates already in the content: a weekly digest's `date:`, a breakdown's `published:`, an article's, guide's or CWE write-up's `date:`, `updated:` in a Roadmap job's `learn.yml`, a research project's `published:`, and any `revisions:` (shown as "updated"). Made-up examples (`example: true`) and drafts never show. Four rows fit (three on phones); more fold under "N more". Under them: when the next weekly digest is due, and RSS.
+The glowing box beside the home page headline (right under it on phones) shows everything published or changed on the site in the last 7 days, one row per section (News, Roadmap, Lab…), the section with the newest change first: its name, how many things are new in it, and one short line saying what (the title when it's one thing; "Week 45 · 6 breakdowns" or "What to learn for 9 jobs" when it's several). A busy week stays a few rows, so the box always fits on the screen and reads at a glance. It fills itself from the dates already in the content: a weekly digest's `date:`, a breakdown's `published:`, an article's, guide's or CWE write-up's `date:`, `updated:` in a Roadmap job's `learn.yml`, a research project's `published:`, and any `revisions:` (shown as "updated"). Made-up examples (`example: true`) and drafts never show. Five sections fit (three on phones); more fold under "N more". Under them: when the next weekly digest is due, and RSS.
 
 "The last 7 days" means today and the six days before, by the calendar in Eastern Time. A row drops off on the seventh day after its date, and the box says "Nothing new in the last 7 days" when it's empty. Because the site is static, this happens when it's rebuilt: every push does that, and so does a nightly rebuild (see "Nightly rebuild" in section 7). To see the box as it would look on another day: `SITE_TODAY=2026-11-04 npm run build`.
 
@@ -180,7 +180,7 @@ announcements:
     link: "/research/ransomware-by-sector/"   # optional: a page on this site (without /en/) or a full https:// address
 ```
 
-The box's own words (its heading, the small word above each title, "N more", the empty message) are under `changes:` in the same file.
+The box's own words (its heading, "N more", the empty message, the line for several Roadmap jobs) are under `changes:` in the same file; the section names are the menu's.
 
 ### What fills the home page by itself
 
