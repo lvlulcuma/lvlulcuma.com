@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-engineering/security-architect/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-09
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - control-frameworks
+  - risk-management-basics
+  - system-design-basics
+  - identity-access-basics
+  - network-security-basics
+  - vulnerability-basics
+  - security-baselines
+  - secure-development-basics
+  - gdpr-security-basics
+  - incident-response-process
+intermediate:
+  - secure-design-principles
+  - security-requirements
+  - architecture-documentation
+  - security-architecture-frameworks
+  - threat-modeling
+  - iam-architecture
+  - data-protection-architecture
+  - network-security-architecture
+  - cloud-security-fundamentals
+  - mfa-conditional-access
+  - pki-certificates
+  - data-classification
+  - nis2-security-measures
+advanced:
+  - zero-trust
+  - cloud-security-architecture
+  - resilient-architecture
+  - privileged-access
+  - logging-strategy
+  - software-supply-chain
+  - cra-overview
+  - securing-ai-systems
+  - post-quantum-migration
+  - architecture-reviews
+expert:
+  - security-architecture-program
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Cybersecurity Architecture (DD-WRL-001) and Enterprise Architecture (DD-WRL-002) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Architect profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CISSP-ISSAP exam outline (2025)"
+    url: "https://www.isc2.org/certifications/issap/issap-certification-exam-outline"
+  - name: "NIST SP 800-160 Vol. 1 Rev. 1, Engineering Trustworthy Secure Systems (2022)"
+    url: "https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final"
+  - name: "NIST SP 800-207, Zero Trust Architecture (2020)"
+    url: "https://csrc.nist.gov/pubs/sp/800/207/final"
+  - name: "CISA, Secure by Design"
+    url: "https://www.cisa.gov/securebydesign"
