@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/ot-iot-security/ot-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - ot-fundamentals
+  - industrial-protocols
+  - routing-switching
+  - network-security-basics
+  - windows-administration
+  - linux-administration
+  - identity-access-basics
+  - security-baselines
+  - vulnerability-basics
+  - risk-management-basics
+intermediate:
+  - iec-62443
+  - ot-network-segmentation
+  - ics-hardening
+  - ot-risk-assessment
+  - ot-change-management
+  - ot-remote-access
+  - ot-asset-visibility
+  - ot-vulnerability-management
+  - ot-threats
+  - ngfw-operations
+  - firewall-rule-management
+  - application-control
+  - backup-resilience
+advanced:
+  - ot-secure-connectivity
+  - sis-security
+  - ot-project-security
+  - ot-incident-response
+  - network-security-architecture
+  - edge-device-hardening
+  - privileged-sessions
+  - pki-certificates
+  - nis2-security-measures
+expert:
+  - ot-security-program
+  - resilient-architecture
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Operational Technology (OT) Cybersecurity Engineering (DD-WRL-009) work role"
+    url: "https://niccs.cisa.gov/tools/nice-framework/work-role/operational-technology-ot-cybersecurity-engineering"
+  - name: "GIAC Global Industrial Cyber Security Professional (GICSP)"
+    url: "https://www.giac.org/certifications/global-industrial-cyber-security-professional-gicsp/"
+  - name: "ISA/IEC 62443 Cybersecurity Certificate Program"
+    url: "https://www.isa.org/certification/certificate-programs/isa-iec-62443-cybersecurity-certificate-program"
+  - name: "ISA Global Cybersecurity Alliance, Quick Start Guide: An Overview of ISA/IEC 62443 Standards (2020)"
+    url: "https://gca.isa.org/hubfs/ISAGCA%20Quick%20Start%20Guide%20FINAL.pdf"
+  - name: "UK NCSC, CISA and partners, Secure connectivity principles for operational technology (2026)"
+    url: "https://www.cyber.gov.au/business-government/secure-design/operational-technology-environments/secure-connectivity-principles-for-operational-technology"
+  - name: "CISA, FBI, EPA and DOE, Primary Mitigations to Reduce Cyber Threats to Operational Technology (2025)"
+    url: "https://www.cisa.gov/sites/default/files/2025-05/fact-sheet-primary-mitigations-to-reduce-cyber-threats-to-operational-technology-508c.pdf"
