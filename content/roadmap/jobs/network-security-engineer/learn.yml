@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/network-security/network-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - routing-switching
+  - network-security-basics
+  - linux-administration
+  - identity-access-basics
+  - vulnerability-basics
+  - patch-management
+  - log-analysis
+  - it-service-management
+  - incident-response-process
+intermediate:
+  - ngfw-operations
+  - firewall-rule-management
+  - secure-remote-access
+  - network-access-control
+  - edge-device-hardening
+  - ids-ips
+  - network-traffic-analysis
+  - pki-certificates
+  - mfa-conditional-access
+  - siem
+  - network-scanning
+  - scripting-for-security
+  - security-baselines
+advanced:
+  - network-security-architecture
+  - zero-trust
+  - ddos-defense
+  - network-automation
+  - edge-device-incidents
+  - cloud-networking
+  - privileged-access
+  - vulnerability-prioritization
+  - nis2-security-measures
+expert:
+  - resilient-architecture
+  - security-tool-evaluation
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Network Operations (IO-WRL-004) and Infrastructure Support (PD-WRL-004) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Fortinet NSE 4, FortiOS Administrator"
+    url: "https://www.fortinet.com/nse-training/training-program-update"
+  - name: "NSA, Network Infrastructure Security Guide (2022)"
+    url: "https://media.defense.gov/2022/Jun/15/2003018261/-1/-1/0/CTR_NSA_NETWORK_INFRASTRUCTURE_SECURITY_GUIDE_20220615.PDF"
+  - name: "ASD, CCCS, NCSC-UK, CISA and partners, guidance on edge devices (2025)"
+    url: "https://www.cisa.gov/news-events/alerts/2025/02/04/cisa-partners-asds-acsc-cccs-ncsc-uk-and-other-international-and-us-organizations-release-guidance"
+  - name: "NIST SP 800-77 Rev. 1, Guide to IPsec VPNs (2020)"
+    url: "https://csrc.nist.gov/pubs/sp/800/77/r1/final"
