@@ -3,7 +3,6 @@ title: "Three days or 80? How fast new bugs get attacked"
 date: 2026-11-30
 topic: research
 dek: "This year's reports put the time from a bug going public to the first attacks anywhere between minus seven days and 80 days. I counted every bug on CISA's list of attacked bugs to find the number worth planning around."
-draft: true           # remove this line (or set false) to publish
 # revisions:          # after publishing, add a line for each change (shown as REV B, C, …)
 #   - date: 2026-12-02
 #     note: "Fixed a typo in the table"

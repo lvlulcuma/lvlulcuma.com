@@ -3,7 +3,6 @@ title: "Три дні чи 80? Як швидко атакують нові вр�
 date: 2026-11-30
 topic: research
 dek: "Цьогорічні звіти оцінюють час від оприлюднення вразливості до перших атак будь-де від мінус семи до 80 днів. Щоб знайти число, на яке варто орієнтуватися, я рахую кожну вразливість зі списку атакованих вразливостей CISA."
-draft: true           # remove this line (or set false) to publish
 # revisions:          # after publishing, add a line for each change (shown as REV B, C, …)
 #   - date: 2026-12-02
 #     note: "Fixed a typo in the table"

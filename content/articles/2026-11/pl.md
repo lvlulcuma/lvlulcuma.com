@@ -3,7 +3,6 @@ title: "Trzy dni czy 80? Jak szybko atakowane są nowe podatności"
 date: 2026-11-30
 topic: research
 dek: "Tegoroczne raporty podają, że od ujawnienia podatności do pierwszych ataków mija od minus siedmiu do 80 dni. Żeby znaleźć liczbę, na której warto się oprzeć, liczę każdą podatność z listy atakowanych podatności CISA."
-draft: true           # remove this line (or set false) to publish
 # revisions:          # after publishing, add a line for each change (shown as REV B, C, …)
 #   - date: 2026-12-02
 #     note: "Fixed a typo in the table"
