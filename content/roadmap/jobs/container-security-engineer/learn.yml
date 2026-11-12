@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cloud-security/container-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - linux-administration
+  - container-basics
+  - kubernetes-architecture
+  - cloud-platform-basics
+  - cloud-iam
+  - git-basics
+  - ci-cd-basics
+  - scripting-for-security
+  - vulnerability-basics
+  - network-security-basics
+intermediate:
+  - kubernetes-security
+  - container-image-security
+  - container-isolation
+  - kubernetes-policy-as-code
+  - kubernetes-network-security
+  - workload-identity
+  - secrets-management
+  - signing-and-provenance
+  - infrastructure-as-code
+  - cloud-security-posture
+  - ci-cd-security
+  - vulnerability-prioritization
+advanced:
+  - container-runtime-security
+  - kubernetes-attacks
+  - supply-chain-attacks
+  - cnapp-attack-paths
+  - cloud-incident-response
+  - linux-forensics
+  - detection-engineering
+  - cloud-compliance
+expert:
+  - devsecops-platform
+  - cloud-security-architecture
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support (PD-WRL-004) and Systems Security Analysis (IO-WRL-006) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Linux Foundation, Certified Kubernetes Security Specialist (CKS)"
+    url: "https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/"
+  - name: "Linux Foundation, Kubernetes and Cloud Native Security Associate (KCSA)"
+    url: "https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/"
+  - name: "NSA and CISA, Kubernetes Hardening Guide v1.2 (2022)"
+    url: "https://media.defense.gov/2022/Aug/29/2003066362/1/1/0/CTR_KUBERNETES_HARDENING_GUIDANCE_1.2_20220829.PDF"
+  - name: "NIST SP 800-190, Application Container Security Guide"
+    url: "https://csrc.nist.gov/pubs/sp/800/190/final"
