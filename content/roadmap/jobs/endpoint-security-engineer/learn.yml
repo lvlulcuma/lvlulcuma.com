@@ -1,0 +1,68 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/network-security/endpoint-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - windows-administration
+  - linux-administration
+  - identity-access-basics
+  - endpoint-protection-operations
+  - edr
+  - patch-management
+  - security-baselines
+  - vulnerability-basics
+  - scripting-for-security
+  - it-service-management
+intermediate:
+  - edr-deployment
+  - endpoint-hardening
+  - application-control
+  - device-management
+  - macos-security
+  - browser-security
+  - linux-hardening
+  - mfa-conditional-access
+  - windows-event-logs
+  - audit-policies
+  - alert-triage
+  - incident-response-process
+  - vulnerability-prioritization
+advanced:
+  - edr-tampering
+  - mobile-security
+  - living-off-the-land
+  - normal-windows-behavior
+  - endpoint-hunting
+  - detection-engineering
+  - malware-triage
+  - privileged-access
+  - ad-hardening
+expert:
+  - zero-trust
+  - security-tool-evaluation
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support (PD-WRL-004) and Defensive Cybersecurity (PD-WRL-001) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Microsoft 365 Certified: Endpoint Administrator Associate (MD-102)"
+    url: "https://learn.microsoft.com/en-us/credentials/certifications/m365-endpoint-administrator"
+  - name: "CIS Benchmarks"
+    url: "https://www.cisecurity.org/cis-benchmarks"
+  - name: "NIST SP 800-124 Rev. 2, Managing the Security of Mobile Devices in the Enterprise (2023)"
+    url: "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
+  - name: "NSA and CISA, Top Ten Cybersecurity Misconfigurations (2023)"
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-278a"
