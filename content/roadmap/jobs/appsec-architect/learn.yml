@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/application-security/appsec-architect/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - system-design-basics
+  - owasp-top-10
+  - input-handling
+  - secure-authentication
+  - access-control-in-code
+  - code-scanning
+  - software-supply-chain
+  - vulnerability-basics
+  - risk-management-basics
+intermediate:
+  - threat-modeling
+  - secure-design-principles
+  - security-requirements
+  - secure-code-review
+  - api-security
+  - browser-security-controls
+  - using-cryptography
+  - ci-cd-security
+  - architecture-documentation
+  - iam-architecture
+  - data-protection-architecture
+  - privacy-by-design
+advanced:
+  - architecture-reviews
+  - secure-defaults-libraries
+  - microservices-security
+  - multi-tenancy-security
+  - cloud-security-architecture
+  - signing-and-provenance
+  - securing-ai-systems
+  - ai-native-sdlc
+  - post-quantum-migration
+  - product-security-response
+  - cra-overview
+  - secure-sdlc
+expert:
+  - appsec-program
+  - security-architecture-program
+  - cra-product-compliance
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Cybersecurity Architecture (DD-WRL-001) and Software Security Assessment (DD-WRL-005) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Architect profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CSSLP exam outline (2023)"
+    url: "https://www.isc2.org/certifications/csslp/csslp-certification-exam-outline"
+  - name: "OWASP Application Security Verification Standard (ASVS) 5.0"
+    url: "https://owasp.org/www-project-application-security-verification-standard/"
+  - name: "NIST SP 800-218, Secure Software Development Framework (SSDF)"
+    url: "https://csrc.nist.gov/pubs/sp/800/218/final"
+  - name: "Regulation (EU) 2024/2847, the Cyber Resilience Act"
+    url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj"
