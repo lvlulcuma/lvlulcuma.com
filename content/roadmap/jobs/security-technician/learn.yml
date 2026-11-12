@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/network-security/security-technician/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - it-service-management
+  - windows-administration
+  - account-administration
+  - identity-access-basics
+  - network-security-basics
+  - patch-management
+  - endpoint-protection-operations
+  - edr
+  - vulnerability-basics
+  - phishing-analysis
+  - first-response
+  - incident-response-process
+intermediate:
+  - device-management
+  - linux-administration
+  - asset-inventory
+  - security-baselines
+  - endpoint-hardening
+  - mfa-conditional-access
+  - email-security
+  - vulnerability-scanning
+  - backup-resilience
+  - log-analysis
+  - security-reporting
+advanced:
+  - windows-event-logs
+  - siem
+  - alert-triage
+  - firewall-rule-management
+  - privileged-access
+  - scripting-for-security
+  - awareness-programs
+  - nis2-security-measures
+expert:
+  - ad-hardening
+  - zero-trust
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support (PD-WRL-004) and Technical Support (IO-WRL-007) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "CompTIA Security+ V8 (SY0-801)"
+    url: "https://www.comptia.org/en-us/certifications/security/v8/"
+  - name: "ISC2 Certified in Cybersecurity (CC) exam outline (2026)"
+    url: "https://www.isc2.org/certifications/cc/cc-certification-exam-outline"
+  - name: "CIS Critical Security Controls v8.1, Implementation Group 1"
+    url: "https://www.cisecurity.org/controls/implementation-groups/ig1"
+  - name: "NIST SP 800-40 Rev. 4, Guide to Enterprise Patch Management Planning (2022)"
+    url: "https://csrc.nist.gov/pubs/sp/800/40/r4/final"
