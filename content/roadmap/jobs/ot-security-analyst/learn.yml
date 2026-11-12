@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/ot-iot-security/ot-security-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - ot-fundamentals
+  - industrial-protocols
+  - network-security-basics
+  - windows-administration
+  - soc-basics
+  - siem
+  - log-analysis
+  - vulnerability-basics
+  - incident-response-process
+  - risk-management-basics
+intermediate:
+  - ot-asset-visibility
+  - ot-threats
+  - iec-62443
+  - ot-vulnerability-management
+  - ot-remote-access
+  - network-traffic-analysis
+  - ids-ips
+  - alert-triage
+  - asset-inventory
+  - windows-event-logs
+  - threat-intelligence-basics
+  - security-reporting
+advanced:
+  - ot-incident-response
+  - detection-engineering
+  - network-security-architecture
+  - backup-resilience
+  - nis2-security-measures
+  - malware-triage
+  - edge-device-hardening
+  - privileged-sessions
+expert:
+  - resilient-architecture
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Operational Technology (OT) Cybersecurity Engineering (DD-WRL-009) work role"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "GIAC Response and Industrial Defense (GRID)"
+    url: "https://www.giac.org/certifications/response-industrial-defense-grid/"
+  - name: "NIST SP 800-82 Rev. 3, Guide to Operational Technology Security (2023)"
+    url: "https://csrc.nist.gov/pubs/sp/800/82/r3/final"
+  - name: "ISA Global Cybersecurity Alliance, Quick Start Guide: An Overview of ISA/IEC 62443 Standards (2020)"
+    url: "https://gca.isa.org/hubfs/ISAGCA%20Quick%20Start%20Guide%20FINAL.pdf"
+  - name: "MITRE ATT&CK for ICS"
+    url: "https://attack.mitre.org/matrices/ics/"
+  - name: "CISA and partners, Foundations for OT Cybersecurity: Asset Inventory Guidance (2025)"
+    url: "https://www.cisa.gov/sites/default/files/2025-08/joint-guide-foundations-for-OT-cybersecurity-asset-inventory-guidance_508c.pdf"
