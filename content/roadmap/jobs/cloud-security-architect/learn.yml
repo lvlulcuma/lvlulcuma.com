@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cloud-security/cloud-security-architect/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - cloud-platform-basics
+  - cloud-security-fundamentals
+  - cloud-iam
+  - identity-access-basics
+  - network-security-basics
+  - container-basics
+  - system-design-basics
+  - risk-management-basics
+  - control-frameworks
+  - gdpr-security-basics
+intermediate:
+  - secure-design-principles
+  - threat-modeling
+  - architecture-documentation
+  - infrastructure-as-code
+  - cloud-networking
+  - cloud-guardrails
+  - cloud-logging-setup
+  - workload-identity
+  - cloud-key-management
+  - mfa-conditional-access
+  - cnapp-attack-paths
+  - kubernetes-security
+  - cloud-compliance
+advanced:
+  - cloud-security-architecture
+  - data-perimeter
+  - iam-architecture
+  - zero-trust
+  - data-protection-architecture
+  - saas-security
+  - resilient-architecture
+  - sovereign-cloud
+  - logging-strategy
+  - cloud-incident-response
+  - securing-ai-systems
+  - architecture-reviews
+expert:
+  - cloud-governance
+  - security-architecture-program
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Cybersecurity Architecture (DD-WRL-001) work role"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Architect profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CCSP exam outline (2026)"
+    url: "https://www.isc2.org/certifications/ccsp/ccsp-certification-exam-outline"
+  - name: "Cloud Security Alliance, Security Guidance v5 (2024)"
+    url: "https://cloudsecurityalliance.org/artifacts/security-guidance-v5"
+  - name: "AWS Security Reference Architecture (AWS SRA)"
+    url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html"
+  - name: "Microsoft Cloud Adoption Framework, Govern"
+    url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/"
