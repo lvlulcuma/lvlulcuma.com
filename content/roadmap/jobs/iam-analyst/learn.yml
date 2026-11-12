@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/identity-access/iam-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - identity-access-basics
+  - account-administration
+  - identity-governance
+  - access-reviews
+  - password-policies
+  - windows-administration
+  - it-service-management
+  - security-reporting
+  - gdpr-security-basics
+  - risk-management-basics
+intermediate:
+  - roles-and-sod
+  - sso-federation
+  - mfa-conditional-access
+  - privileged-access
+  - cloud-iam
+  - cloud-logs
+  - log-analysis
+  - control-frameworks
+  - scripting-for-security
+  - identity-attacks
+  - data-classification
+  - incident-response-process
+advanced:
+  - access-control-audits
+  - non-human-identities
+  - saas-security
+  - workload-identity
+  - ad-hardening
+  - secrets-management
+  - nis2-security-measures
+  - dora-overview
+expert:
+  - iam-architecture
+  - zero-trust
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Administration (IO-WRL-005) work role"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "Microsoft SC-300, Identity and Access Administrator (skills as of October 2026)"
+    url: "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-300"
+  - name: "IDPro Body of Knowledge"
+    url: "https://idpro.org/body-of-knowledge/"
+  - name: "Commission Delegated Regulation (EU) 2024/1774 (DORA ICT risk management), Article 21"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj"
+  - name: "Commission Implementing Regulation (EU) 2024/2690 (NIS2), Annex section 11 on access control"
+    url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj"
+  - name: "OWASP Non-Human Identities Top 10 (2025)"
+    url: "https://owasp.org/www-project-non-human-identities-top-10/"
