@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/identity-access/pam-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - identity-access-basics
+  - windows-administration
+  - linux-administration
+  - account-administration
+  - authentication-protocols
+  - password-policies
+  - network-security-basics
+  - cloud-platform-basics
+  - scripting-for-security
+  - it-service-management
+intermediate:
+  - privileged-access
+  - pam-vault
+  - privileged-sessions
+  - endpoint-privilege-management
+  - mfa-conditional-access
+  - secrets-management
+  - non-human-identities
+  - cloud-iam
+  - identity-governance
+  - access-reviews
+  - pki-certificates
+  - identity-attacks
+  - audit-policies
+advanced:
+  - cloud-privileged-access
+  - ssh-key-management
+  - ad-hardening
+  - token-security
+  - idp-security
+  - access-control-audits
+  - workload-identity
+  - identity-automation
+  - ad-compromise-recovery
+expert:
+  - pam-program
+  - iam-architecture
+  - zero-trust
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Administration (IO-WRL-005) and Infrastructure Support (PD-WRL-004) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "CyberArk certifications: Defender, Sentry and Guardian"
+    url: "https://www.cyberark.com/certification/"
+  - name: "Commission Implementing Regulation (EU) 2024/2690 (NIS2), Annex point 11.3 on privileged accounts"
+    url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj"
+  - name: "Commission Delegated Regulation (EU) 2024/1774 (DORA ICT risk management), Article 21"
+    url: "https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj"
+  - name: "NSA and CISA, Top Ten Cybersecurity Misconfigurations (2023)"
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-278a"
+  - name: "NIST IR 7966, Security of Interactive and Automated Access Management Using SSH (2015)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf"
