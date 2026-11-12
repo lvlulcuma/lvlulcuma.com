@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cloud-security/cloud-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - cloud-platform-basics
+  - cloud-security-fundamentals
+  - cloud-iam
+  - identity-access-basics
+  - network-security-basics
+  - linux-administration
+  - git-basics
+  - scripting-for-security
+  - vulnerability-basics
+  - control-frameworks
+intermediate:
+  - infrastructure-as-code
+  - cloud-guardrails
+  - cloud-networking
+  - cloud-logging-setup
+  - cloud-logs
+  - workload-identity
+  - cloud-key-management
+  - secrets-management
+  - cloud-security-posture
+  - cnapp-attack-paths
+  - cloud-data-exposure
+  - container-basics
+  - mfa-conditional-access
+advanced:
+  - cloud-threat-detection
+  - kubernetes-security
+  - container-image-security
+  - container-runtime-security
+  - serverless-security
+  - ci-cd-security
+  - cloud-incident-response
+  - containment-automation
+  - cloud-compliance
+  - securing-ai-systems
+expert:
+  - cloud-security-architecture
+  - security-tool-evaluation
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Infrastructure Support (PD-WRL-004) and Systems Security Analysis (IO-WRL-006) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Google Cloud, Professional Cloud Security Engineer exam guide"
+    url: "https://cloud.google.com/learn/certification/cloud-security-engineer"
+  - name: "AWS Certified Security – Specialty (SCS-C03)"
+    url: "https://aws.amazon.com/certification/certified-security-specialty/"
+  - name: "AWS Well-Architected Framework, Security Pillar"
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html"
+  - name: "Microsoft cloud security benchmark"
+    url: "https://learn.microsoft.com/en-us/security/benchmark/azure/"
