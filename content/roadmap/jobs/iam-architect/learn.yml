@@ -1,0 +1,71 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/identity-access/iam-architect/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - identity-access-basics
+  - authentication-protocols
+  - windows-administration
+  - cloud-platform-basics
+  - network-security-basics
+  - system-design-basics
+  - risk-management-basics
+  - control-frameworks
+  - gdpr-security-basics
+intermediate:
+  - sso-federation
+  - mfa-conditional-access
+  - identity-governance
+  - roles-and-sod
+  - privileged-access
+  - cloud-iam
+  - hybrid-identity
+  - pki-certificates
+  - workload-identity
+  - secrets-management
+  - secure-design-principles
+  - threat-modeling
+  - architecture-documentation
+advanced:
+  - iam-architecture
+  - zero-trust
+  - authorization-design
+  - idp-security
+  - token-security
+  - customer-identity
+  - non-human-identities
+  - ai-agent-identity
+  - digital-identity-wallets
+  - identity-migration
+  - saas-security
+  - architecture-reviews
+expert:
+  - identity-strategy
+  - security-architecture-program
+  - post-quantum-migration
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Cybersecurity Architecture (DD-WRL-001) work role"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Architect profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "NIST SP 800-63-4, Digital Identity Guidelines (2025)"
+    url: "https://pages.nist.gov/800-63-4/"
+  - name: "CISA, Zero Trust Maturity Model 2.0 (2023)"
+    url: "https://www.cisa.gov/zero-trust-maturity-model"
+  - name: "Regulation (EU) 2024/1183, European Digital Identity Framework (eIDAS 2)"
+    url: "https://eur-lex.europa.eu/eli/reg/2024/1183/oj"
+  - name: "IDPro Body of Knowledge"
+    url: "https://idpro.org/body-of-knowledge/"
