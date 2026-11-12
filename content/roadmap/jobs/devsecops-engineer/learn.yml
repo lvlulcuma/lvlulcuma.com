@@ -1,0 +1,65 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/application-security/devsecops-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - ci-cd-basics
+  - container-basics
+  - linux-administration
+  - cloud-security-fundamentals
+  - owasp-top-10
+  - code-scanning
+  - software-supply-chain
+  - secrets-management
+  - vulnerability-basics
+intermediate:
+  - ci-cd-security
+  - infrastructure-as-code
+  - cloud-security-posture
+  - container-image-security
+  - kubernetes-security
+  - signing-and-provenance
+  - scanner-tuning
+  - appsec-findings-management
+  - security-test-automation
+  - vulnerability-prioritization
+  - threat-modeling
+  - secure-development-basics
+advanced:
+  - container-runtime-security
+  - supply-chain-attacks
+  - cloud-security-architecture
+  - ai-coding-assistants
+  - securing-ai-systems
+  - cra-overview
+expert:
+  - devsecops-platform
+  - secure-sdlc
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Secure Systems Development (DD-WRL-004) and Secure Software Development (DD-WRL-003) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile (alternative title: DevSecOps Engineer)"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Linux Foundation, Certified Kubernetes Security Specialist (CKS)"
+    url: "https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/"
+  - name: "OWASP Top 10 CI/CD Security Risks"
+    url: "https://owasp.org/www-project-top-10-ci-cd-security-risks/"
+  - name: "NIST SP 800-204D, Software Supply Chain Security in DevSecOps CI/CD Pipelines (2024)"
+    url: "https://csrc.nist.gov/pubs/sp/800/204/d/final"
+  - name: "SLSA, Supply-chain Levels for Software Artifacts"
+    url: "https://slsa.dev/"
