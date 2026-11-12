@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/ot-iot-security/iot-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - embedded-fundamentals
+  - embedded-programming
+  - iot-protocols
+  - linux-administration
+  - network-security-basics
+  - git-basics
+  - vulnerability-basics
+  - software-supply-chain
+  - cra-overview
+  - risk-management-basics
+intermediate:
+  - secure-boot
+  - secure-firmware-updates
+  - device-identity
+  - iot-security-standards
+  - embedded-linux-hardening
+  - threat-modeling
+  - secure-design-principles
+  - using-cryptography
+  - pki-certificates
+  - memory-safety-bugs
+  - secure-code-review
+  - firmware-security
+  - code-scanning
+advanced:
+  - hardware-attacks
+  - automotive-cybersecurity
+  - fuzzing
+  - exploit-mitigations
+  - api-security
+  - product-security-response
+  - vulnerability-disclosure
+  - post-quantum-migration
+expert:
+  - cra-product-compliance
+  - secure-sdlc
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Secure Systems Development (DD-WRL-004) work role"
+    url: "https://niccs.cisa.gov/tools/nice-framework/work-role/secure-systems-development"
+  - name: "ETSI EN 303 645 V3.1.3 (2024), Cyber Security for Consumer Internet of Things: Baseline Requirements"
+    url: "https://shop.standards.ie/en-ie/standards/etsi-en-303-645-v3-1-3-2024-09--1380032_saig_etsi_etsi_3457299"
+  - name: "Commission Implementing Decision (EU) 2025/138, EN 18031 standards under the Radio Equipment Directive"
+    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ%3AL_202500138"
+  - name: "Regulation (EU) 2024/2847, the Cyber Resilience Act"
+    url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj"
+  - name: "NIST SP 800-193, Platform Firmware Resiliency Guidelines (2018)"
+    url: "https://csrc.nist.gov/pubs/sp/800/193/final"
+  - name: "UK Vehicle Certification Agency, Cyber security and software updating (UN R155 and R156)"
+    url: "https://www.vehicle-certification-agency.gov.uk/connected-and-automated-vehicles/cyber-security-and-software-updating/"
