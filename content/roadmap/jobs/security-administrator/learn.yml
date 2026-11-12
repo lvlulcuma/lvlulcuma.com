@@ -1,0 +1,69 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/network-security/security-administrator/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - windows-administration
+  - linux-administration
+  - account-administration
+  - identity-access-basics
+  - password-policies
+  - network-security-basics
+  - patch-management
+  - security-baselines
+  - endpoint-protection-operations
+  - vulnerability-basics
+  - it-service-management
+intermediate:
+  - endpoint-hardening
+  - linux-hardening
+  - file-share-security
+  - mfa-conditional-access
+  - m365-security
+  - device-management
+  - pki-certificates
+  - audit-policies
+  - backup-resilience
+  - virtualization-security
+  - edr
+  - vulnerability-scanning
+  - incident-response-process
+advanced:
+  - privileged-access
+  - ad-hardening
+  - email-security
+  - firewall-rule-management
+  - windows-event-logs
+  - siem
+  - secrets-management
+  - scripting-for-security
+  - nis2-security-measures
+expert:
+  - zero-trust
+  - logging-strategy
+  - security-tool-evaluation
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Administration (IO-WRL-005) and Infrastructure Support (PD-WRL-004) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cybersecurity Implementer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "CompTIA Security+ V8 (SY0-801)"
+    url: "https://www.comptia.org/en-us/certifications/security/v8/"
+  - name: "Microsoft Certified: Windows Server Administrator Associate (AZ-802)"
+    url: "https://learn.microsoft.com/en-us/credentials/certifications/windows-server-administrator-associate/"
+  - name: "CIS Benchmarks"
+    url: "https://www.cisecurity.org/cis-benchmarks"
+  - name: "NSA and CISA, Top Ten Cybersecurity Misconfigurations (2023)"
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-278a"
