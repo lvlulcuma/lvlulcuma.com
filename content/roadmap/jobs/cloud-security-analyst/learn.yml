@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cloud-security/cloud-security-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - cloud-platform-basics
+  - cloud-security-fundamentals
+  - cloud-iam
+  - identity-access-basics
+  - soc-basics
+  - siem
+  - log-analysis
+  - alert-triage
+  - scripting-for-security
+  - vulnerability-basics
+intermediate:
+  - cloud-logs
+  - cloud-threat-detection
+  - cloud-networking
+  - cloud-security-posture
+  - cnapp-attack-paths
+  - cloud-data-exposure
+  - siem-queries
+  - mfa-conditional-access
+  - identity-attacks
+  - container-basics
+  - infrastructure-as-code
+  - vulnerability-prioritization
+advanced:
+  - cloud-incident-response
+  - cloud-hunting
+  - cloud-pentesting
+  - kubernetes-security
+  - container-runtime-security
+  - containment-automation
+  - detection-engineering
+  - cloud-compliance
+expert:
+  - cloud-security-architecture
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Defensive Cybersecurity (PD-WRL-001) and Vulnerability Analysis (PD-WRL-007) work roles"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Incident Responder profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "AWS Certified Security – Specialty (SCS-C03)"
+    url: "https://aws.amazon.com/certification/certified-security-specialty/"
+  - name: "MITRE ATT&CK, Cloud matrix"
+    url: "https://attack.mitre.org/matrices/enterprise/cloud/"
+  - name: "CSA Cloud Controls Matrix v4.1"
+    url: "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1"
+  - name: "CIS Benchmarks"
+    url: "https://www.cisecurity.org/cis-benchmarks"
