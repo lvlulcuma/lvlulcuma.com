@@ -1,0 +1,68 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/identity-access/iam-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - identity-access-basics
+  - authentication-protocols
+  - windows-administration
+  - linux-administration
+  - account-administration
+  - password-policies
+  - cloud-platform-basics
+  - network-security-basics
+  - scripting-for-security
+  - it-service-management
+intermediate:
+  - sso-federation
+  - mfa-conditional-access
+  - hybrid-identity
+  - idp-security
+  - token-security
+  - pki-certificates
+  - identity-governance
+  - privileged-access
+  - cloud-iam
+  - workload-identity
+  - identity-attacks
+  - cloud-logs
+  - secrets-management
+advanced:
+  - identity-automation
+  - customer-identity
+  - non-human-identities
+  - roles-and-sod
+  - ad-hardening
+  - saas-security
+  - infrastructure-as-code
+  - api-security
+  - ad-compromise-recovery
+expert:
+  - iam-architecture
+  - zero-trust
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Administration (IO-WRL-005) work role"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "Microsoft SC-300, Identity and Access Administrator (skills as of October 2026)"
+    url: "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-300"
+  - name: "NIST SP 800-63-4, Digital Identity Guidelines (2025)"
+    url: "https://pages.nist.gov/800-63-4/"
+  - name: "IETF RFC 9700, Best Current Practice for OAuth 2.0 Security (2025)"
+    url: "https://www.rfc-editor.org/rfc/rfc9700"
+  - name: "NSA and CISA (ESF), Identity and Access Management: Recommended Best Practices for Administrators (2023)"
+    url: "https://media.defense.gov/2023/Mar/21/2003183448/-1/-1/0/ESF%20IDENTITY%20AND%20ACCESS%20MANAGEMENT%20RECOMMENDED%20BEST%20PRACTICES%20FOR%20ADMINISTRATORS%20PP-23-0248_508C.PDF"
+  - name: "IDPro Body of Knowledge"
+    url: "https://idpro.org/body-of-knowledge/"
