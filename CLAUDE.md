@@ -63,10 +63,14 @@ The owner's rule for every section of the site:
 - **Overview pages stay high level**, like the lab's Get started: what something is, why it matters, which choice to
   make and the few commands that count, with pictures where they help. No click-by-click instructions there.
 - **Detailed how-tos are guides** in `content/guides/`, one per task ("Install VirtualBox on Windows"). The overview
-  page offers them as an optional extra in a **"Step by step" box**: a line `<!-- guides: install-utm, check-hash -->`
-  on its own in its text (works on Get started; `src/components/GuideSteps.astro` can be wired into other pages).
-- **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its row in the box says
-  "Coming soon" until the guide is published; the build stops on a name that's neither written nor planned.
+  page offers each one as an optional extra **right where it talks about that task**: a "Step by step" line under
+  that sentence. In the text, `<!-- guide: install-utm -->` at the end of the paragraph or list item (several guides
+  for one task on different systems: `<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->`); in a picture's
+  card, a `guide:` field. Works on Get started (`fillGuideRefs` and `guideRefHtml` in `src/lib/content.ts` can serve
+  other pages too).
+- **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its mention says
+  "Coming soon", without a link, until the guide is published; the build stops on a name that's neither written nor
+  planned.
 - **Order of work:** finish the overview page first. Then write each guide it announces **separately, one guide per
   request and per pull request** (`docs/claude/guide.md`), so each gets its own research and full precision. Never
   write the guides in the same run as the page that announces them.

@@ -92,8 +92,8 @@ const guides = defineCollection({
   }),
 });
 
-// content/guides/planned.yml  →  guides that pages already point to but that aren't written yet. Their rows in a
-// "Step by step" box show the working title and "Coming soon" until the guide is published (src/lib/content.ts).
+// content/guides/planned.yml  →  guides that pages already point to but that aren't written yet. Their "Step by step"
+// mentions show the working title and "Coming soon", without a link, until the guide is published (src/lib/content.ts).
 const guidePlan = defineCollection({
   loader: glob({ pattern: "planned.yml", base: "./content/guides" }),
   schema: z.object({

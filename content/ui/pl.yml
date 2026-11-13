@@ -163,8 +163,8 @@ guide_many: "poradników"
 guide_other: "poradnika"
 before: "Zanim zaczniesz"
 beforeText: "Jeśli jeszcze tego nie zrobiłeś, najpierw wykonaj te kroki:"
-stepByStep: "Krok po kroku"   # the box on an overview page that lists detailed guides for one part of it
-stepByStepText: "Potrzebujesz każdego szczegółu? Te instrukcje pokażą wszystko, kliknięcie po kliknięciu:"
+stepByStep: "Krok po kroku"   # before the detailed guide for a task, where a page talks about it
+stepByStepShort: "Instrukcja krok po kroku"   # the same in a card that already names the tool
 usedIn: "Gdzie jest używany"
 nextGuide: "Następny poradnik"
 noGuides: "W tej kategorii nie ma jeszcze poradników."

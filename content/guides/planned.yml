@@ -1,9 +1,9 @@
 # Guides that a page already points to but that aren't written yet.
 #
-# Overview pages (the lab's Get started, for now) stay short and high level. Where a reader may want every click,
-# they point to a step-by-step guide with a line of its own in their text:  <!-- guides: install-utm, check-hash -->
-# That draws a "Step by step" box. A published guide is a link there; a guide listed here shows its title, its
-# systems and "Coming soon", without a link, until it's published.
+# Overview pages (the lab's Get started, for now) stay short and high level. Where they talk about a task a reader may
+# want every click for, they point to its guide right there: <!-- guide: install-utm --> at the end of the paragraph
+# or list item (or a `guide:` field in a picture's card) adds a "Step by step" line under it. A published guide is a
+# link there; a guide listed here shows its working title and "Coming soon", without a link, until it's published.
 #
 # Write them one at a time, each in its own run and pull request (docs/claude/guide.md), top to bottom unless the
 # owner picks another. Delete the guide's entry here in that same pull request: the build stops if a published guide

@@ -1769,13 +1769,29 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .gs-layer span { padding: 5px 3px; font-size: 11.5px; overflow-wrap: anywhere; }
 }
 
-/* "Step by step" (src/components/GuideSteps.astro): on an overview page like the lab's Get started, the detailed
-   guides for one part of it, in the same box as "Before you start" on a guide, with the same hover. A guide that
-   isn't written yet (content/guides/planned.yml) is a quiet row without a link, "Coming soon" where the time goes.
-   When a title and its time don't fit on one line, the time moves under the title. */
-.steps a, .steps .row { flex-wrap: wrap; row-gap: 1px; }
-.steps .t { flex: 1 1 14em; }
-.steps .row { display: flex; justify-content: space-between; align-items: baseline; column-gap: 16px; padding: 9px 18px 9px 16px; }
-.steps .soon .t { font-weight: 500; color: var(--muted); }
-.steps .soon .m { color: color-mix(in srgb, var(--muted) 75%, var(--panel)); }
-.steps .t .gc-lang { margin-left: 8px; font-weight: 400; }
+/* "Step by step" lines: right where a page talks about a task (installing a tool, setting something up), the guide
+   that shows every click (guideRefHtml in src/lib/content.ts). In running text: a small blue label in capitals,
+   then the guide's title as a link with its time; several guides for one task (VirtualBox, UTM) sit side by side,
+   split by thin lines like an article's kicker. In a card that already names the tool, just "Step-by-step guide".
+   A guide that isn't written yet (content/guides/planned.yml) is grey text with "Coming soon", not a link. The
+   line always starts on its own line under the sentence it belongs to. */
+.gref { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin-top: 7px; font-size: 15px; line-height: 1.5; }
+.prose > .gref { margin: -4px 0 20px; }
+.gref-k { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.gref-list { display: flex; flex-wrap: wrap; column-gap: 25px; row-gap: 2px; overflow: hidden; }
+.gref-list > * + * { position: relative; }
+.gref-list > * + *::after { content: ""; position: absolute; left: -13px; top: 50%; height: 1.1em; transform: translateY(-50%); border-left: 1px solid var(--line); }
+.gref-i { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+.gref a { font-weight: 500; text-decoration: none; }
+.gref a:hover, .gref a:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.gref a .arr { margin-left: .4em; }
+.gref-m { font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.gref .soon .gref-t { color: var(--muted); }
+.gref .gc-lang { margin-left: 6px; }
+.gref.short { display: block; margin-top: 4px; font-size: 14px; }
+.gref.short .gref-i { display: inline; }
+.gref.short .gref-m { margin-left: 2px; }
+.gs .gs-guide { margin-top: 6px; }
+.gs-pick-body { margin-bottom: 14px; }
+.gs .gs-pick-body .gs-pick-why { margin-bottom: 0; }
+.gs-kv dd .gref.short { margin-top: 1px; }

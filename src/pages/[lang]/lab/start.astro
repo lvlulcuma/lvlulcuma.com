@@ -1,15 +1,15 @@
 ---
 // Get started: what a home lab needs and how to set one up safely, before picking an idea.
 // Text: content/pages/lab-start/<lang>.md. The text below its second --- is the page; a line <!-- lab:<name> -->
-// in it places one of the pictures from src/components/LabStartVisual.astro there, with the words from `visuals:`,
-// and a line <!-- guides: a, b --> places a "Step by step" box with those guides (src/components/GuideSteps.astro).
+// in it places one of the pictures from src/components/LabStartVisual.astro there, with the words from `visuals:`.
+// A <!-- guide: a, b --> at the end of a paragraph or list item becomes a "Step by step" line with those guides,
+// right where the page talks about that task (fillGuideRefs in src/lib/content.ts); cards do the same with `guide:`.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import LabIdeaCard from "../../../components/LabIdeaCard.astro";
 import LabStartVisual from "../../../components/LabStartVisual.astro";
-import GuideSteps from "../../../components/GuideSteps.astro";
 import { langPaths, ui, type Lang } from "../../../i18n/ui";
-import { getPage, stepRows, type StepRow } from "../../../lib/content";
+import { fillGuideRefs, getPage } from "../../../lib/content";
 import { toc } from "../../../lib/block";
 import { getIdeas } from "../../../lib/lab";
 
@@ -19,21 +19,15 @@ const t = ui[lang];
 const page = await getPage("lab-start", lang);
 const { headings } = await render(page.entry);
 const rules = (await getPage("lab-rules", lang)).data;
-// Split the text at the picture and "Step by step" lines: [text, line, text, line, text, …]. Such a line inside a
-// list or a box would cut it in two, so they stand on their own line between paragraphs.
+// Split the text at the picture lines: [text, name, text, name, text, …]. A picture line inside a list or a box
+// would cut it in two, so they stand on their own line between paragraphs. The "Step by step" mentions in the text
+// are filled in first.
 const PICTURES = ["map", "plan", "ram", "check", "kinds", "pick", "systems", "nets", "snaps", "notebook", "weekend"];
 const file = `content/pages/lab-start/${lang}.md`;
-const raw = (page.entry.rendered?.html ?? "").split(/<!--\s*(lab:[a-z]+|guides:[a-z0-9,\s-]+?)\s*-->/);
-type Part = { html: string } | { picture: string } | { steps: StepRow[]; n: number };
-const parts: Part[] = await Promise.all(raw.map(async (p, i): Promise<Part> => {
-  if (i % 2 === 0) return { html: p };
-  if (p.startsWith("guides:")) return { steps: await stepRows(lang, p.slice(7).split(",").map((x) => x.trim()).filter(Boolean), file), n: i };
-  const name = p.slice(4);
-  if (!PICTURES.includes(name)) throw new Error(`${file}: there is no picture "lab:${name}". Pictures: ${PICTURES.join(", ")}.`);
-  return { picture: name };
-}));
-// Only the first "Step by step" box on the page says what the boxes are ("Want every click?").
-const firstBox = parts.find((p): p is { steps: StepRow[]; n: number } => "steps" in p)?.n;
+const parts = (await fillGuideRefs(page.entry.rendered?.html ?? "", lang, file)).split(/<!--\s*lab:([a-z]+)\s*-->/);
+parts.forEach((p, i) => {
+  if (i % 2 && !PICTURES.includes(p)) throw new Error(`${file}: there is no picture "lab:${p}". Pictures: ${PICTURES.join(", ")}.`);
+});
 // "Then try one of these": the easiest ideas first.
 const LEVELS = ["beginner", "intermediate", "advanced"];
 const first = (await getIdeas(lang)).slice().sort((a, b) => LEVELS.indexOf(a.entry.data.level) - LEVELS.indexOf(b.entry.data.level) || a.entry.data.time - b.entry.data.time).slice(0, 4);
@@ -51,7 +45,7 @@ const first = (await getIdeas(lang)).slice().sort((a, b) => LEVELS.indexOf(a.ent
   <h1>{page.data.title}</h1>
   <p class="lede">{page.data.intro}</p>
   <div class="prose guide gs-page">
-    {parts.map((p) => ("html" in p ? <Fragment set:html={p.html} /> : "picture" in p ? <LabStartVisual name={p.picture} v={page.data.visuals ?? {}} headings={headings} /> : <GuideSteps rows={p.steps} lang={lang} n={p.n} intro={p.n === firstBox} />))}
+    {parts.map((p, i) => (i % 2 ? <LabStartVisual name={p} v={page.data.visuals ?? {}} headings={headings} lang={lang} /> : <Fragment set:html={p} />))}
   </div>
 
   {first.length > 0 && (

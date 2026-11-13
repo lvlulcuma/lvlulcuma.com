@@ -2,8 +2,9 @@
 
 A guide walks through one task, click by click: installing a tool, setting something up, using one feature. Guides
 are English-only for now: `content/guides/<slug>/en.md`, shown at `/en/guides/<slug>/` and listed on `/en/guides/`.
-Overview pages (the lab's Get started, for now) stay high level and offer guides as an optional extra in a
-"Step by step" box; the guides they announce but that aren't written yet wait in `content/guides/planned.yml`.
+Overview pages (the lab's Get started, for now) stay high level and offer a guide as an optional extra right where
+they talk about its task, in a "Step by step" line; the guides they announce but that aren't written yet wait in
+`content/guides/planned.yml`.
 Look at `content/guides/install-docker-desktop/` and `content/guides/check-hash/` first: they set the tone and the
 level of detail.
 
@@ -14,7 +15,8 @@ Each guide gets its own research, so every step is right for the current version
 
 - The owner names the guide, or take the first entry in `content/guides/planned.yml`. Its `slug` becomes the
   folder; its `title`, `category`, `platforms` and `scope` are a starting point, not facts.
-- Find the pages that announce it (`grep -rn "<slug>" content/`: a `<!-- guides: … -->` line) and read that section.
+- Find the pages that announce it (`grep -rn "<slug>" content/`: a `<!-- guide: … -->` in the text or a `guide:`
+  field in a card) and read that part.
   The guide starts where that reader is and uses the same words (host-only, NAT, snapshot, hypervisor…), and it may
   go into everything the overview page left out on purpose.
 
@@ -64,8 +66,9 @@ A short how-to used inside a step (checking a hash) is a link in that step, not 
 ## 5. Finish
 
 - Delete the guide's entry from `content/guides/planned.yml`: the build stops if a published guide is still listed.
-  The "Step by step" boxes that name it then turn its row into a link by themselves, with the guide's own title,
-  time and systems. If its title changed from the working title, check that the box still reads well.
-- The checks in `CLAUDE.md`. Look at the guide and at the page with the box, on desktop and phone, in light and dark.
+  The "Step by step" mentions that name it then become links by themselves, with the guide's own title and time.
+  If its title changed from the working title, check that the sentence it sits under still reads well.
+- The checks in `CLAUDE.md`. Look at the guide and at the page that mentions it, on desktop and phone, in light and
+  dark.
 - Branch `claude/guide-<slug>`, commit `Guides: <title>`, pull request. In it (and in your reply), name the next
   guide waiting in `planned.yml`.

@@ -14,9 +14,11 @@
 //   notebook  a sample lab notebook, shown like a file
 //   weekend   the first weekend as a checklist with boxes to tick
 import type { MarkdownHeading } from "astro";
+import type { Lang } from "../i18n/ui";
+import { guideRefHtml, stepRows } from "../lib/content";
 
-interface Props { name: string; v: Record<string, any>; headings: MarkdownHeading[] }
-const { name, v, headings } = Astro.props;
+interface Props { name: string; v: Record<string, any>; headings: MarkdownHeading[]; lang: Lang }
+const { name, v, headings, lang } = Astro.props;
 const d = v[name];
 if (!d) throw new Error(`content/pages/lab-start: <!-- lab:${name} --> has no words under visuals: ${name}:`);
 const two = (n: number) => String(n).padStart(2, "0");
@@ -24,6 +26,12 @@ const two = (n: number) => String(n).padStart(2, "0");
 const top = headings.filter((h) => h.depth === 2);
 if (name === "plan" && d.times.length > top.length) throw new Error(`content/pages/lab-start: plan has ${d.times.length} times but the page has only ${top.length} headings.`);
 const LIGHTS = ["go", "wait", "stop"];
+// A card's "Step-by-step guide" line: `guide:` (the tool the card names) and `dockerGuide:` (its containers line)
+// name a guide folder, written or planned (content/guides/planned.yml).
+const ref = async (slug?: string) => (slug ? guideRefHtml(lang, await stepRows(lang, [slug], `content/pages/lab-start/${lang}.md`), true) : "");
+const refs = name === "pick"
+  ? await Promise.all(d.systems.map(async (s: any) => ({ main: await ref(s.guide), docker: await ref(s.dockerGuide) })))
+  : name === "systems" ? await Promise.all(d.map(async (s: any) => ({ main: await ref(s.guide), docker: "" }))) : [];
 ---
 {name === "map" && (
   <figure class="gs gs-map">
@@ -114,15 +122,18 @@ const LIGHTS = ["go", "wait", "stop"];
 {name === "pick" && (
   <div class="gs gs-pick">
     <ul class="gs-list gs-pick-cols">
-      {d.systems.map((s: any) => (
+      {d.systems.map((s: any, i: number) => (
         <li>
           <p class="gs-pick-os">{s.name}</p>
           <p class="gs-pick-first">{d.first}</p>
           <p class="gs-pick-main">{s.main}</p>
-          <p class="gs-pick-why">{s.why}</p>
+          <div class="gs-pick-body">
+            <p class="gs-pick-why">{s.why}</p>
+            {refs[i].main && <p class="gs-guide" set:html={refs[i].main} />}
+          </div>
           <dl class="gs-kv">
             <div><dt>{d.or}</dt><dd>{s.alt}</dd></div>
-            <div><dt>{d.docker}</dt><dd set:html={s.docker} /></div>
+            <div><dt>{d.docker}</dt><dd><span set:html={s.docker} />{refs[i].docker && <Fragment set:html={refs[i].docker} />}</dd></div>
           </dl>
         </li>
       ))}
@@ -140,11 +151,12 @@ const LIGHTS = ["go", "wait", "stop"];
 
 {name === "systems" && (
   <div class="gs gs-systems"><ul class="gs-list">
-    {d.map((s: any) => (
+    {d.map((s: any, i: number) => (
       <li>
         <span class="gs-sys-k">{s.kicker}</span>
         <span class="gs-sys-t">{s.name}</span>
         <span class="gs-sys-d" set:html={s.text} />
+        {refs[i].main && <span class="gs-guide" set:html={refs[i].main} />}
         <span class="gs-sys-facts">{s.facts.map((f: string) => <span set:html={f} />)}</span>
       </li>
     ))}

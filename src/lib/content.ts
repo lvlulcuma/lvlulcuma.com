@@ -1,6 +1,6 @@
 // Reads the editable text in content/ for the page templates.
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import { ALL_LANGS, GUIDE_CATS, LANGS, ui, type GuideCat, type Lang, type Platform } from "../i18n/ui";
+import { ALL_LANGS, GUIDE_CATS, HTML_LANG, LANG_LABEL, LANGS, ui, type GuideCat, type Lang, type Platform } from "../i18n/ui";
 import { getArticles, iso } from "./articles";
 import type { Block } from "./block";
 import { getCwes } from "./cwe";
@@ -105,16 +105,23 @@ const linksTo = (body: string | undefined, slug: string) =>
   new RegExp(`\\(/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^)]*)?\\)`).test(body ?? "");
 
 /** True when a page points to this guide in any way: a Markdown link, an HTML link in its front matter (the words of
- *  Get started's pictures), or a "Step by step" box (a line <!-- guides: a, b --> in its text). */
+ *  Get started's pictures), a "Step by step" mention in its text (<!-- guide: a, b -->), or a `guide:` field in its
+ *  front matter (a card's mention). */
 const usesGuide = (text: string | undefined, slug: string) =>
   linksTo(text, slug) ||
   new RegExp(`href="/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^"]*)?"`).test(text ?? "") ||
-  stepBoxes(text).some((box) => box.includes(slug));
+  guideMentionsIn(text).includes(slug);
 
-/** The "Step by step" boxes in a page's text: each line <!-- guides: a, b --> is one box, listing guide folders. */
-export const STEP_BOX = /<!--\s*guides:\s*([a-z0-9,\s-]+?)\s*-->/g;
-export const stepBoxes = (text: string | undefined) =>
-  [...(text ?? "").matchAll(STEP_BOX)].map((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean));
+/** A "Step by step" mention in a page's text: <!-- guide: install-utm --> or, for one task on several systems,
+ *  <!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->, at the end of the paragraph or list item that talks
+ *  about the task (or on its own line after it). fillGuideRefs() turns it into a line of links. */
+export const GUIDE_REF = /<!--\s*guides?:\s*([a-z0-9,\s-]+?)\s*-->/g;
+const slugList = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
+/** Every guide a page mentions: in its text, and in `guide:` / `dockerGuide:` fields of its front matter (as JSON). */
+export const guideMentionsIn = (text: string | undefined) => [
+  ...[...(text ?? "").matchAll(GUIDE_REF)].flatMap((m) => slugList(m[1])),
+  ...[...(text ?? "").matchAll(/"(?:guide|dockerGuide)":"([a-z0-9-]+)"/g)].map((m) => m[1]),
+];
 
 export type GuidePlanned = { slug: string; title: string; category: GuideCat; platforms: Platform[]; scope?: string };
 
@@ -141,9 +148,9 @@ export function platformLine(lang: Lang, platforms: Platform[]) {
 
 export type StepRow = { slug: string; title: string; meta: string; href?: string; lang: Lang };
 
-/** One "Step by step" box: a row per guide, in the order given. A published guide is a link with its time and
- *  systems; a planned one shows its working title, its systems and "Coming soon". A folder that's neither stops the
- *  build, so a typo never ships. `where` names the file for that message. */
+/** The guides a "Step by step" mention names, in the order given. A published guide gets its link, time and systems;
+ *  a planned one its working title, systems and "Coming soon". A folder that's neither stops the build, so a typo
+ *  never ships. `where` names the file for that message. */
 export async function stepRows(lang: Lang, slugs: string[], where: string): Promise<StepRow[]> {
   const t = ui[lang];
   const all = await getGuides(lang);
@@ -153,8 +160,38 @@ export async function stepRows(lang: Lang, slugs: string[], where: string): Prom
     if (g) return { slug, title: g.entry.data.title, meta: `~${g.time} ${t.min} · ${platformLine(lang, g.entry.data.platforms)}`, href: `/${g.lang}/guides/${g.slug}/`, lang: g.lang };
     const p = plan.find((x) => x.slug === slug);
     if (p) return { slug, title: p.title, meta: `${platformLine(lang, p.platforms)} · ${t.comingSoon}`, lang: "en" as Lang };
-    throw new Error(`${where}: <!-- guides: … --> lists "${slug}", but there is no guide content/guides/${slug}/ and it isn't in content/guides/planned.yml.`);
+    throw new Error(`${where}: names the guide "${slug}", but there is no guide content/guides/${slug}/ and it isn't in content/guides/planned.yml.`);
   });
+}
+
+const esc = (x: string) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** A "Step by step" line: where a page talks about a task, the guide that shows every click. A published guide is a
+ *  link with its time; one that isn't written yet (content/guides/planned.yml) is quiet text with "Coming soon".
+ *  The full line ("Step by step  Install UTM on a Mac") goes in running text; `short` ("Step-by-step guide") goes in
+ *  a card that already names the tool. Guides are English-only for now, so other languages mark them EN.
+ *  Returned as HTML, because it often sits inside a paragraph or a list item. */
+export function guideRefHtml(lang: Lang, rows: StepRow[], short = false): string {
+  const t = ui[lang];
+  const mark = (r: StepRow) => (r.lang !== lang ? `<span class="gc-lang">${LANG_LABEL[r.lang]}</span>` : "");
+  const items = rows.map((r) => {
+    const name = short ? `${esc(t.stepByStepShort)}<span class="vh">: ${esc(r.title)}</span>` : `<span lang="${HTML_LANG[r.lang]}">${esc(r.title)}</span>`;
+    const time = r.href ? esc(r.meta.split(" · ")[0]) : esc(t.comingSoon);
+    return r.href
+      ? `<span class="gref-i"><a href="${r.href}"${r.lang !== lang ? ` hreflang="${HTML_LANG[r.lang]}"` : ""}>${name}${mark(r)}<span class="arr" aria-hidden="true"></span></a> <span class="gref-m">${time}</span></span>`
+      : `<span class="gref-i soon"><span class="gref-t">${name}${mark(r)}</span> <span class="gref-m">${time}</span></span>`;
+  });
+  return short
+    ? `<span class="gref short">${items.join("")}</span>`
+    : `<span class="gref"><span class="gref-k">${esc(t.stepByStep)}</span><span class="gref-list">${items.join("")}</span></span>`;
+}
+
+/** Turns every <!-- guide: … --> in a page's rendered text into its "Step by step" line. */
+export async function fillGuideRefs(html: string, lang: Lang, where: string): Promise<string> {
+  const found = [...html.matchAll(GUIDE_REF)];
+  const lines = await Promise.all(found.map(async (m) => guideRefHtml(lang, await stepRows(lang, slugList(m[1]), where))));
+  let i = 0;
+  return html.replace(GUIDE_REF, () => lines[i++]);
 }
 
 /** Guides that send the reader to this one from one of their steps (a link in their text), without needing it

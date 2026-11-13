@@ -2,8 +2,9 @@
 # Get started → lvlulcuma.com/pl/lab/start/
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
-# A line like <!-- guides: install-utm, check-hash --> places a "Step by step" box with those guides (folders in
-# content/guides/, or planned in content/guides/planned.yml). Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
+# A <!-- guide: install-utm --> at the end of a paragraph or list item adds a "Step by step" line there, with that
+# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same.
+# Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Pierwsze kroki"
 summary: "Od zera do pierwszego laboratorium w jeden weekend: czego potrzebuje twój komputer, jakie darmowe oprogramowanie zainstalować i jak oddzielić to wszystko od prawdziwej sieci."   # one line on the Lab page
@@ -91,18 +92,24 @@ visuals:
         main: "VirtualBox"
         why: "Darmowy, z otwartym kodem. Bez zakładania konta."
         alt: "VMware Workstation Pro"
-        docker: "Docker Desktop (<a href=\"/en/guides/install-docker-desktop/\">instrukcja po angielsku</a>)"
+        docker: "Docker Desktop"
+        dockerGuide: install-docker-desktop
+        guide: install-virtualbox-windows
       - name: "Mac"
         main: "UTM"
         why: "Darmowy ze strony UTM. Wersja z App Store to ta sama aplikacja, płatna, z automatycznymi aktualizacjami."
         alt: "VMware Fusion Pro"
         docker: "Docker Desktop"
+        dockerGuide: install-docker-desktop-mac
+        guide: install-utm
         note: "<strong>Na Macu z Apple silicon</strong> (M1 i nowsze) pobieraj wersję Arm (arm64) każdego systemu: wersje na x86 działają tylko w emulacji, i to powoli."
       - name: "Linux"
         main: "VirtualBox"
         why: "Darmowy, z otwartym kodem. Bez zakładania konta."
         alt: "VMware Workstation Pro"
         docker: "Docker Engine z wtyczką Compose"
+        dockerGuide: install-docker-engine-linux
+        guide: install-virtualbox-linux
     more: "Wszystkie darmowe opcje obok siebie"
     head: ["Hipernadzorca", "Działa na", "Warto wiedzieć"]
     all:
@@ -124,6 +131,7 @@ visuals:
       name: "Windows"
       text: "Darmowe wersje próbne z Microsoft Evaluation Center, bez klucza produktu. Gdy okres próbny się skończy, zbuduj nową maszynę: to i tak dobre ćwiczenie."
       facts: ["Windows 11 Enterprise: 90&nbsp;dni", "Windows Server 2025: 180&nbsp;dni"]
+      guide: set-up-windows-trial-virtualbox
   nets:
     can: ["Wychodzi do internetu", "Dostępna z domu"]
     yes: "Tak"
@@ -223,7 +231,7 @@ w tych ustawieniach.
 shutdown /r /fw /t 0
 ```
 
-<!-- guides: turn-on-virtualization -->
+<!-- guide: turn-on-virtualization -->
 
 **Miejsce na dysku:** zostaw 100 GB wolnego, najlepiej na SSD. Maszyna z Windows 11 potrzebuje dysku 64 GB;
 większości maszyn z Linuksem wystarczy 20–30 GB.
@@ -244,8 +252,6 @@ pamięci i procesora. Wszystkie są darmowe. Wybierz ten dla swojego systemu:
 
 <!-- lab:pick -->
 
-<!-- guides: install-virtualbox-windows, install-docker-desktop, install-utm, install-docker-desktop-mac, install-virtualbox-linux, install-docker-engine-linux -->
-
 > [!NOTE]
 > W Windowsie VirtualBox może pokazywać zielonego żółwia na dole okna maszyny. To znak, że działa własny
 > hipernadzorca Windowsa (włączają go Docker Desktop i WSL), a VirtualBox pracuje na nim, co bywa wyraźnie
@@ -257,9 +263,11 @@ Maszyna wirtualna, tak jak prawdziwy komputer, potrzebuje systemu operacyjnego. 
 
 <!-- lab:systems -->
 
-Zacznij od Kali. Pobierz jej maszynę wirtualną dla swojego hipernadzorcy, rozpakuj i otwórz ją w nim: dokumentacja
-Kali ma krótką instrukcję dla każdego hipernadzorcy. Większość hipernadzorców podłącza nową maszynę do NAT, czyli
-sieci, przez którą wychodzi ona do internetu. Na pierwszą aktualizację to w sam raz. Zaloguj się i wpisz:
+Zacznij od Kali. Pobierz jej maszynę wirtualną dla swojego hipernadzorcy, rozpakuj i otwórz ją w nim.
+<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->
+
+Większość hipernadzorców podłącza nową maszynę do NAT, czyli sieci, przez którą wychodzi ona do internetu. Na
+pierwszą aktualizację to w sam raz. Zaloguj się i wpisz:
 
 ```sh
 passwd
@@ -268,8 +276,6 @@ sudo apt update && sudo apt full-upgrade -y
 
 Pierwsze polecenie zamienia hasło `kali` na twoje własne. Drugie aktualizuje wszystkie narzędzia; za pierwszym
 razem trwa to dłuższą chwilę.
-
-<!-- guides: set-up-kali-virtualbox, set-up-kali-utm, check-hash, set-up-windows-trial-virtualbox -->
 
 > [!NOTE]
 > Wersję próbną Windows Server trzeba aktywować przez internet w ciągu pierwszych 10 dni, inaczej sama się
@@ -285,13 +291,11 @@ o sygnalizacji świetlnej:
 
 Cztery zasady, które to zapewniają:
 
-1. Podłączaj podatne maszyny tylko do sieci host-only albo wewnętrznej.
+1. Podłączaj podatne maszyny tylko do sieci host-only albo wewnętrznej. <!-- guide: virtualbox-host-only, utm-host-only -->
 2. Przełączaj maszynę na NAT tylko na czas instalowania aktualizacji albo narzędzi, a potem z powrotem.
 3. Nigdy nie mostkuj podatnej maszyny i nigdy nie przekierowuj portu z routera do laboratorium.
 4. W kontenerach przypinaj każdy port do `127.0.0.1`, tak jak w
    [Laboratorium do atakowania aplikacji webowych i API](/pl/lab/web-app-hacking/).
-
-<!-- guides: virtualbox-host-only, utm-host-only -->
 
 ## Zrób migawkę
 
@@ -300,11 +304,9 @@ Migawka (snapshot) zapisuje maszynę wirtualną dokładnie w obecnym stanie, jak
 
 <!-- lab:snaps -->
 
-1. Zrób pierwszą migawkę, gdy tylko maszyna jest zainstalowana i zaktualizowana. Nazwij ją `clean`.
+1. Zrób pierwszą migawkę, gdy tylko maszyna jest zainstalowana i zaktualizowana. Nazwij ją `clean`. <!-- guide: virtualbox-snapshots, utm-snapshots -->
 2. Rób kolejną przed każdą większą zmianą: nowym narzędziem, atakiem, próbką złośliwego oprogramowania.
 3. Gdy coś się zepsuje, przywróć ostatnią dobrą migawkę zamiast naprawiać.
-
-<!-- guides: virtualbox-snapshots, utm-snapshots -->
 
 > [!WARNING]
 > Migawki to nie kopie zapasowe: leżą na tym samym dysku co maszyna. Notatki i pliki konfiguracyjne trzymaj też
