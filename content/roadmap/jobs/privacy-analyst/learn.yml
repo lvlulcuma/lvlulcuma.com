@@ -1,0 +1,64 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/privacy/privacy-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - gdpr-principles
+  - controller-processor-roles
+  - data-mapping-ropa
+  - data-subject-requests
+  - consent-and-cookies
+  - gdpr-security-basics
+  - data-classification
+  - grc-basics
+  - policy-writing
+  - risk-management-basics
+intermediate:
+  - dpia-practice
+  - international-transfers
+  - retention-schedules
+  - privacy-tools
+  - data-breach-response
+  - vendor-contracts
+  - privacy-by-design
+  - personal-data-in-logs
+  - ai-and-gdpr
+  - awareness-programs
+  - third-party-risk-basics
+advanced:
+  - privacy-frameworks
+  - integrated-management-systems
+  - eu-ai-act-basics
+  - regulator-engagement
+  - regulatory-change
+  - risk-assessment-methods
+  - grc-metrics
+expert:
+  - privacy-program
+  - executive-reporting
+  - grc-program
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Privacy Compliance work role (OG-WRL-008)"
+    url: "https://niccs.cisa.gov/workforce-development/nice-framework/task/t1898"
+  - name: "ENISA ECSF, Cyber Legal, Policy & Compliance Officer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "IAPP, CIPP/E body of knowledge (September 2025 update)"
+    url: "https://iapp.org/certify/q3-2025-annual-updates"
+  - name: "GDPR Article 30: records of processing activities"
+    url: "https://gdpr-text.com/en/read/article-30/"
+  - name: "EDPB Guidelines 01/2022 on the right of access (version 2.1)"
+    url: "https://www.edpb.europa.eu/system/files/2023-04/edpb_guidelines_202201_data_subject_rights_access_v2_en.pdf"
+  - name: "EDPB, Report of the cookie banner taskforce (2023)"
+    url: "https://www.edpb.europa.eu:443/system/files/2023-01/edpb_20230118_report_cookie_banner_taskforce_en.pdf"
