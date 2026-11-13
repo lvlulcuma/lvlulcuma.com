@@ -2,7 +2,7 @@
 // Roadmap: the fields of cybersecurity, grouped; each card opens the field's page with its jobs.
 // Text: content/pages/roadmap/<lang>.md. Fields: content/roadmap/fields/<field>/<lang>.md.
 // Jobs: content/roadmap/jobs/<job>/<lang>.md (see src/lib/roadmap.ts for what comes next).
-// Under the intro, "Where people start, and where it leads": the entry-level jobs that have a learning path, each with
+// After the fields, "Where people start, and where it leads": the entry-level jobs that have a learning path, each with
 // its closest moves (jobMoves), linking to their move pages. Words: `moves: start` and `moves: startText`.
 import { render } from "astro:content";
 import { feedHref } from "../../../lib/feed";
@@ -43,34 +43,13 @@ const groups = ROADMAP_GROUPS.map((g) => {
 ---
 <Base printIn lang={lang} nav="roadmap" title={heading} description={page.data.intro} block={{
     key: { label: t.fields, value: String(fields.length) },
-    contents: [...(starts.length ? [{ slug: "start", text: page.data.moves.start }] : []), ...groups.map((g) => ({ slug: g.id, text: g.title }))],
+    contents: [...groups.map((g) => ({ slug: g.id, text: g.title })), ...(starts.length ? [{ slug: "start", text: page.data.moves.start }] : [])],
     go: { items: [{ text: t.rssRoadmap, href: feedHref(lang, "roadmap") }], phone: false },
     rows: [[t.jobs, String(jobs.length)], [t.learn, learnValue], [t.updated, page.updated]],
     strip: [countWord(jobs.length, lang, t, "job")],
   }}>
   <h1>{heading}</h1>
   <p class="lede">{page.data.intro}</p>
-
-  {starts.length > 0 && (
-    <section class="gsec starts" aria-labelledby="start">
-      <div class="block-head">
-        <h2 id="start">{page.data.moves.start}</h2>
-        {page.data.moves.startText && <p class="bh-desc">{page.data.moves.startText}</p>}
-      </div>
-      <ul class="start-list">
-        {starts.map(({ j, moves }) => (
-          <li>
-            <a class="sj" href={`/${lang}/roadmap/${j.field}/${j.slug}/`} lang={other(j.lang)}>{j.entry.data.title}</a>
-            <ul class="sm">
-              {moves.map((m) => (
-                <li><a href={moveHref(lang, j, m.to)}><span lang={other(m.to.lang)}>{m.to.entry.data.title}</span><span class="n">{fill(page.data.moves.add, { topics: countWord(m.add.length, lang, t, "topic") })}</span></a></li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
 
   {groups.map((g, i) => (
     <section class="gsec" aria-labelledby={g.id}>
@@ -95,6 +74,27 @@ const groups = ROADMAP_GROUPS.map((g) => {
       </ul>
     </section>
   ))}
+
+  {starts.length > 0 && (
+    <section class="gsec starts" aria-labelledby="start">
+      <div class="block-head">
+        <h2 id="start">{page.data.moves.start}</h2>
+        {page.data.moves.startText && <p class="bh-desc">{page.data.moves.startText}</p>}
+      </div>
+      <ul class="start-list">
+        {starts.map(({ j, moves }) => (
+          <li>
+            <a class="sj" href={`/${lang}/roadmap/${j.field}/${j.slug}/`} lang={other(j.lang)}>{j.entry.data.title}</a>
+            <ul class="sm">
+              {moves.map((m) => (
+                <li><a href={moveHref(lang, j, m.to)}><span lang={other(m.to.lang)}>{m.to.entry.data.title}</span><span class="n">{fill(page.data.moves.add, { topics: countWord(m.add.length, lang, t, "topic") })}</span></a></li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <div class="source-note"><Content /></div>
 </Base>
