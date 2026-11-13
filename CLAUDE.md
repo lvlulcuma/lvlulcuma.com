@@ -66,8 +66,11 @@ The owner's rule for every section of the site:
   page offers each one as an optional extra **right where it talks about that task**: a "Step by step" line under
   that sentence. In the text, `<!-- guide: install-utm -->` at the end of the paragraph or list item (several guides
   for one task on different systems: `<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->`); in a picture's
-  card, a `guide:` field. Works on Get started (`fillGuideRefs` and `guideRefHtml` in `src/lib/content.ts` can serve
-  other pages too).
+  card, a `guide:` field. Works on Get started and inside guides (`fillGuideRefs` and `guideRefHtml` in
+  `src/lib/content.ts` can serve other pages too).
+- **Guides are for beginners too**, so they show what the reader will see: pictures drawn in HTML and CSS (an app's
+  window, where to click, a firmware screen, a fold per computer maker), never screenshots. Their words go under
+  `visuals:` in the guide's front matter and a line `<!-- pic: <name> -->` places each one (`docs/claude/guide.md`).
 - **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its mention says
   "Coming soon", without a link, until the guide is published; the build stops on a name that's neither written nor
   planned.

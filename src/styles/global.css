@@ -341,7 +341,9 @@ kbd { display: inline-block; min-width: 1.9em; padding: 0 6px; font-family: var(
 .guide ol > li:last-child { padding-bottom: 4px; }
 .guide ol > li > :last-child { margin-bottom: 0; }
 .guide ol > li > p { margin-bottom: 0; }
-.guide ol > li > * + * { margin-top: 12px; }
+/* Space between the blocks of a step (its text, a box, a picture). Not between words in a short step without
+   paragraphs: there a key (<kbd>) after bold text would get the space too and push its line down. */
+.guide ol > li > * + *:not(kbd, code, strong, em, a, b, i, sup, sub, abbr, mark) { margin-top: 12px; }
 .guide table { font-size: 14.5px; margin: 12px 0 0; }
 .guide td:first-child { white-space: normal; }
 
@@ -1795,3 +1797,115 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .gs-pick-body { margin-bottom: 14px; }
 .gs .gs-pick-body .gs-pick-why { margin-bottom: 0; }
 .gs-kv dd .gref.short { margin-top: 1px; }
+
+/* Guides: pictures (src/components/GuideVisual.astro), each placed in a guide's text by a line <!-- pic: <name> -->.
+   They share Get started's look: windows like the terminal blocks (a bar on top, a thin dark outline), small blue
+   labels in capitals, cards on the panel. What the reader should find is marked the way a highlighter would mark
+   it on paper (--mark), or, on a text-mode screen, with the inverted bar such screens use. Each picture is its own
+   container, so it stacks in a step's narrower column and on phones. Nothing moves on its own; the folds open
+   with a click, without JavaScript, and opening one closes the others. */
+.guide .gv { container-type: inline-size; margin: 22px 0 26px; }
+.guide li > .gv { margin: 14px 0 6px; }
+.gv p, .gv dl, .gv dd { margin: 0; }
+.prose .gv ul { list-style: none; margin: 0; padding: 0; }
+.prose .gv li { margin: 0; }
+.gv .gv-cap { margin-top: 10px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.gv .gv-k { font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+/* An app's window: the bar with its title (and the state, as a coloured dot and word), a heading line, then the
+   rows, label on the left and value on the right. Two states sit side by side: switched off, switched on. */
+.gv-panes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.gv-two .gv-panes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gv-win { border: 1px solid var(--term-edge); background: var(--panel); }
+.gv .gv-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 5px 12px; border-bottom: 1px solid var(--term-rule); background: var(--term-bar); font-family: var(--mono); font-size: 12px; line-height: 1.5; color: var(--term-ink); }
+.gv-bar-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gv-state { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.gv-state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.gv-go .gv-state { color: var(--tip); }
+.gv-stop .gv-state { color: var(--attack); }
+.gv .gv-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 14px; padding: 9px 14px 8px; border-bottom: 1px solid var(--line); }
+.gv-head b { font-size: 19px; font-weight: 600; line-height: 1.3; }
+.gv-head span { font-size: 13px; line-height: 1.4; color: var(--muted); }
+.gv-rows { padding: 7px 6px 9px; }
+.gv-rows > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 2px 8px; font-size: 14px; line-height: 1.5; }
+.gv-rows dt { color: var(--muted); }
+.gv-rows dd { text-align: right; }
+.gv-rows > div.on { background: color-mix(in srgb, var(--mark) 50%, var(--panel)); }
+.gv-rows > div.on dt { color: var(--ink); font-weight: 600; }
+.gv-rows > div.on dd { font-weight: 600; }
+.gv-go .gv-rows > div.on dd { color: var(--tip); }
+.gv-stop .gv-rows > div.on dd { color: var(--attack); }
+
+/* Where to click: each stage is a small label over a row of buttons joined by arrows. The last button, where the
+   route ends, is blue. A row too long for the column wraps, and its next line starts with the arrow. */
+.gv-route { display: grid; gap: 14px; }
+.gv-stage { display: grid; gap: 7px; }
+.prose .gv .gv-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 0; }
+.gv-chips li { position: relative; padding: 3px 10px 4px; border: 1px solid var(--line); background: var(--panel); font-size: 14px; font-weight: 500; line-height: 1.4; }
+.prose .gv .gv-chips li + li { margin-left: 28px; }
+.gv-chips li + li::before { content: "->"; content: "->" / ""; position: absolute; left: -23px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--muted); }
+.gv-chips li.end { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--panel)); color: var(--accent); }
+
+/* Cards side by side (three fit in the text column), each with labels drawn like the words on the screen. */
+.gv-card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.gv-card-list > li { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 15px; border: 1px solid var(--line); background: var(--panel); }
+.gv .gv-card-t { font-family: var(--display); font-size: 17px; font-weight: 500; letter-spacing: -.01em; line-height: 1.25; }
+.gv .gv-card-d { font-size: 14px; line-height: 1.5; color: var(--muted); }
+.prose .gv .gv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.gv-tags li { padding: 1px 8px 2px; border: 1px solid var(--term-edge); background: var(--term); font-family: var(--mono); font-size: 12.5px; line-height: 1.5; color: var(--term-ink); }
+/* Stacked (layout: rows): one box, a row per card, its title and text on the left and the labels on the right. */
+.gv-cards-rows .gv-card-list { grid-template-columns: minmax(0, 1fr); gap: 0; border: 1px solid var(--line); background: var(--panel); }
+.gv-cards-rows .gv-card-list > li { display: grid; grid-template-columns: minmax(150px, 34%) minmax(0, 1fr); align-content: start; gap: 4px 20px; padding: 13px 16px 14px; border: 0; background: none; }
+.gv-cards-rows .gv-card-list > li + li { border-top: 1px solid var(--line); }
+.prose .gv-cards-rows .gv-tags { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
+
+/* Folds, one per maker: the name and the key to press in the summary; opened, the key, where to go and a note,
+   each after a small blue label, then a link to the maker's own instructions with its address. */
+.gv-finder .gv-k { margin-bottom: 8px; }
+.gv-folds { border: 1px solid var(--line); background: var(--panel); }
+.gv-fold + .gv-fold { border-top: 1px solid var(--line); }
+.gv-fold > summary { display: flex; align-items: center; gap: 12px; padding: 9px 14px 10px; list-style: none; cursor: pointer; font-weight: 500; line-height: 1.4; transition: color var(--ease); }
+.gv-fold > summary::-webkit-details-marker { display: none; }
+.gv-fold > summary::after { content: ""; flex: 0 0 auto; width: 6px; height: 6px; margin: -4px 3px 0 0; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); }
+.gv-fold[open] > summary::after { margin-top: 3px; transform: rotate(-135deg); }
+.gv-fold-n { flex: 1 1 auto; min-width: 0; }
+.gv-fold > summary kbd { flex: 0 0 auto; font-size: 12px; }
+.gv-fold-tag { flex: 0 0 auto; font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--tip); }
+.gv-fold > summary:hover, .gv-fold > summary:focus-visible, .gv-fold[open] > summary { color: var(--accent); }
+.gv-fold > summary:focus-visible { outline-offset: -2px; }
+.gv-fold[open] { background: color-mix(in srgb, var(--accent) 4%, var(--panel)); }
+.gv-fold-body { padding: 0 14px; }
+.gv-fold-body > div { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 2px 14px; padding: 8px 0; border-top: 1px dashed var(--line); font-size: 14.5px; line-height: 1.55; }
+.gv-fold-body dt { padding-top: 3px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.gv .gv-fold-src { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; padding: 8px 14px 12px; border-top: 1px dashed var(--line); font-size: 14px; }
+.gv-fold-src .host { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* A text-mode screen, like a computer's firmware setup: the title centred in the bar (with "Example" on the right),
+   the tabs with the open one inverted, the settings with the selected one on an inverted bar, and the keys along
+   the bottom. In terminal colours: light in light mode, dark in dark mode, like the code blocks. */
+.gv-scr { border: 1px solid var(--term-edge); background: var(--term); font-family: var(--mono); font-size: 13px; line-height: 1.6; color: var(--term-ink); }
+.gv .gv-scr-t { position: relative; padding: 5px 84px; border-bottom: 1px solid var(--term-rule); background: var(--term-bar); font-size: 12px; font-weight: 500; text-align: center; }
+.gv-badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); padding: 0 6px; border: 1px solid currentColor; font-size: 10.5px; font-weight: 500; letter-spacing: .08em; line-height: 1.6; text-transform: uppercase; color: var(--term-muted); }
+.prose .gv .gv-scr-tabs { display: flex; flex-wrap: wrap; gap: 2px; padding: 7px 10px 0; border-bottom: 1px solid var(--term-muted); }
+.gv-scr-tabs li { padding: 1px 10px 2px; color: var(--term-muted); }
+.gv-scr-tabs li.on { background: var(--term-accent); color: var(--term); }
+.gv-scr-rows { padding: 10px 10px 12px; }
+.gv-scr-rows > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; padding: 1px 8px; }
+.gv-scr-rows > div:not(.on) dt { color: var(--term-muted); }
+.gv-scr-rows dd { white-space: nowrap; }
+.gv-scr-rows > div.on { background: var(--term-accent); color: var(--term); font-weight: 500; }
+.prose .gv .gv-scr-keys { display: flex; flex-wrap: wrap; gap: 2px 18px; padding: 6px 12px 7px; border-top: 1px dashed var(--term-muted); font-size: 12px; color: var(--term-muted); }
+.gv-scr-keys b { font-weight: 600; color: var(--term-ink); }
+
+/* Phones and narrow columns: two windows stack, stacked cards put their labels under the title, a fold's labels
+   sit above their text, and the screen's title makes room for its badge on a line of its own. */
+@container (max-width: 480px) {
+  .gv-two .gv-panes { grid-template-columns: minmax(0, 1fr); }
+  .gv-cards-rows .gv-card-list > li { grid-template-columns: minmax(0, 1fr); }
+  .prose .gv-cards-rows .gv-tags { grid-column: 1; grid-row: auto; margin-top: 4px; }
+  .gv-fold-body > div { grid-template-columns: minmax(0, 1fr); }
+  .gv-fold-body dt { padding-top: 0; }
+  .gv .gv-scr-t { padding: 5px 12px; }
+  .gv-badge { position: static; display: inline-block; margin-left: 8px; transform: none; }
+  .gv-scr-rows > div { gap: 10px; }
+}
