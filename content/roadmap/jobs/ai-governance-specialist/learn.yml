@@ -1,0 +1,63 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/ai-security/ai-governance-specialist/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - ml-fundamentals
+  - llm-app-architecture
+  - eu-ai-act-basics
+  - responsible-ai-basics
+  - risk-management-basics
+  - control-frameworks
+  - gdpr-security-basics
+  - data-classification
+  - policy-writing
+intermediate:
+  - ai-risk-management
+  - iso-42001
+  - ai-use-case-intake
+  - ai-impact-assessment
+  - high-risk-ai-obligations
+  - ai-transparency-documentation
+  - ai-and-gdpr
+  - ai-vendor-risk
+  - isms-implementation
+  - privacy-by-design
+advanced:
+  - ai-evaluation-assurance
+  - ai-post-market-monitoring
+  - gpai-rules
+  - eu-ai-act-security
+  - securing-ai-systems
+  - ml-attacks
+  - ai-incidents
+  - awareness-programs
+expert:
+  - ai-governance-program
+  - ai-security-program
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "IAPP, AIGP Body of Knowledge, version 2.1 (2026)"
+    url: "https://iapp.org/certify/body-of-knowledge-aigp"
+  - name: "NIST AI 600-1, AI RMF Generative Artificial Intelligence Profile (2024)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+  - name: "ISO/IEC 42001:2023, AI management system"
+    url: "https://www.iso.org/standard/42001"
+  - name: "ISO/IEC 42005:2025, AI system impact assessment"
+    url: "https://www.iso.org/standard/42005"
+  - name: "EU AI Act, Article 6: classification rules for high-risk AI systems (AI Act Service Desk)"
+    url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-6"
+  - name: "Future of Privacy Forum, The AI Act implementation timeline under the AI Omnibus (2026)"
+    url: "https://fpf.org/blog/the-ai-act-implementation-timeline-what-changes-under-the-ai-omnibus/"
