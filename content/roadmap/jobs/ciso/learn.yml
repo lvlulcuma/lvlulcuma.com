@@ -1,0 +1,72 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-leadership/ciso/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - risk-management-basics
+  - control-frameworks
+  - iso-27001-basics
+  - identity-access-basics
+  - incident-response-process
+  - vulnerability-management-lifecycle
+  - cloud-platform-basics
+  - threat-intelligence-basics
+intermediate:
+  - ciso-role
+  - security-function-model
+  - security-team-staffing
+  - security-exceptions
+  - policy-writing
+  - risk-register
+  - awareness-programs
+  - mssp-management
+  - security-budget-tracking
+  - isms-management
+  - gdpr-security-basics
+  - nis2-security-measures
+advanced:
+  - board-cyber-oversight
+  - ciso-personal-liability
+  - security-in-mergers
+  - security-strategy
+  - management-accountability
+  - executive-reporting
+  - risk-appetite
+  - regulator-engagement
+  - incident-leadership
+  - crisis-communications
+  - ransom-decisions
+  - business-continuity
+  - security-investment-decisions
+expert:
+  - high-risk-vendors
+  - enterprise-risk-management
+  - risk-quantification
+  - cyber-insurance
+  - ai-governance-program
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Executive Cybersecurity Leadership work role (OG-WRL-007)"
+    url: "https://niccs.cisa.gov/workforce-development/nice-framework/task/t1518"
+  - name: "ENISA ECSF, Chief Information Security Officer (CISO) profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISACA, updated CISM exam content outline (2026)"
+    url: "https://www.isaca.org/about-us/newsroom/press-releases/2026/isaca-updates-cism-exam-content-outline-factoring-in-todays-technologies-security-responsibilities"
+  - name: "IANS, 2026 State of the CISO (Infosecurity Magazine)"
+    url: "https://infosecurity-magazine.com/news/ciso-role-inflexion-point"
+  - name: "NACD, Director's Handbook on Cyber-Risk Oversight (2026)"
+    url: "https://prod.nacdonline.org/all-governance/governance-resources/governance-research/director-handbooks/2026-cyber-risk-oversight/cyber-risk-handbook-principles-2026/"
+  - name: "Inside Privacy, the Commission's Cybersecurity Act 2 proposal (2026)"
+    url: "https://www.insideprivacy.com/cybersecurity-2/european-commission-proposes-cybersecurity-act-2-new-eu-supply-chain-rules-and-certification-reforms/"
