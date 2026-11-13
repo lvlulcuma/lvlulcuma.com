@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/grc/grc-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - control-frameworks
+  - iso-27001-basics
+  - risk-management-basics
+  - risk-register
+  - policy-writing
+  - compliance-evidence
+  - grc-tools
+  - gdpr-security-basics
+  - nis2-scope
+intermediate:
+  - risk-assessment-methods
+  - control-testing
+  - control-mapping
+  - audit-support
+  - soc2-basics
+  - security-questionnaires
+  - third-party-risk-basics
+  - grc-metrics
+  - isms-implementation
+  - nis2-security-measures
+  - business-continuity
+  - data-classification
+  - awareness-programs
+advanced:
+  - risk-quantification
+  - continuous-compliance
+  - regulatory-change
+  - dora-overview
+  - cra-overview
+  - incident-reporting-rules
+  - cloud-compliance
+  - eu-ai-act-basics
+expert:
+  - grc-program
+  - executive-reporting
+  - security-roadmaps
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Security Control Assessment work role (OG-WRL-012)"
+    url: "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+  - name: "ENISA ECSF, Cyber Legal, Policy & Compliance Officer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CGRC exam outline (2024)"
+    url: "https://www.isc2.org/Certifications/CGRC/Certification-Exam-Outline"
+  - name: "NIST IR 8286A Rev. 1, Identifying and Estimating Cybersecurity Risk for Enterprise Risk Management (2025)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ir/2025/NIST.IR.8286Ar1.pdf"
+  - name: "ENISA, NIS2 technical implementation guidance (2025)"
+    url: "https://www.enisa.europa.eu/publications/NIS2-technical-implementation-guidance"
+  - name: "NIST CSF 2.0 Informative References"
+    url: "https://www.nist.gov/cyberframework/informative-references"
