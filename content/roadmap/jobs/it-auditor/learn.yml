@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/grc/it-auditor/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - it-audit-basics
+  - grc-basics
+  - control-frameworks
+  - iso-27001-basics
+  - risk-management-basics
+  - itgc-basics
+  - identity-access-basics
+  - control-testing
+  - audit-sampling
+  - compliance-evidence
+  - audit-findings
+intermediate:
+  - application-controls
+  - audit-data-analytics
+  - service-org-reports
+  - isms-auditing
+  - access-control-audits
+  - soc2-basics
+  - control-mapping
+  - risk-assessment-methods
+  - gdpr-security-basics
+  - nis2-security-measures
+  - business-continuity
+  - cloud-compliance
+advanced:
+  - ksc-audits
+  - ai-audits
+  - continuous-compliance
+  - third-party-risk-basics
+  - secure-sdlc
+  - dora-overview
+  - incident-reporting-rules
+  - grc-metrics
+expert:
+  - audit-leadership
+  - executive-reporting
+  - grc-program
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "ISACA CISA exam content outline (2024)"
+    url: "https://isaca.org/about-us/newsroom/press-releases/2024/isacas-cisa-exam-updated-to-reflect-innovations-and-evolving-technologies-impacting-it-audit"
+  - name: "ENISA ECSF, Cybersecurity Auditor profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "The IIA, Global Internal Audit Standards (2024)"
+    url: "https://theiia.org/en/content/standards/complete-global-internal-audit-standards"
+  - name: "FRC, Thematic review: audit sampling (2023)"
+    url: "https://www.frc.org.uk/news-and-events/news/2023/11/frc-publishes-thematic-review-of-audit-sampling/"
+  - name: "IAASB, ISAE 3402 Assurance Reports on Controls at a Service Organization"
+    url: "https://www.iaasb.org/news-events/2009-12/iaasb-issues-new-assurance-standard-controls-service-organizations"
+  - name: "Ministry of Digital Affairs (Poland), duties of key and important entities under the amended KSC act"
+    url: "https://www.gov.pl/web/cyfryzacja/nowelizacja-ustawy-o-krajowym-systemie-cyberbezpieczenstwa-ksc---obowiazki-podmiotow-kluczowych-i-waznych"
