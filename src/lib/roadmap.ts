@@ -125,7 +125,8 @@ export function jobMoves(job: Job, jobs: Job[], learn: Map<string, Learn>): Move
       return { move, ok: sameField || cover >= 0.2, score: cover + (sameField ? 0.15 : 0), up: STAGE[to.level] > STAGE[job.level] };
     })
     .filter((x) => x.ok)
-    .sort((a, b) => b.score - a.score || a.move.add.length - b.move.add.length);
+    // Last tie-break on the slug, so every language picks the same moves (titles sort differently per language).
+    .sort((a, b) => b.score - a.score || a.move.add.length - b.move.add.length || a.move.to.slug.localeCompare(b.move.to.slug));
   const pick = [...scored.filter((x) => x.up).slice(0, MOVES_SHOWN - 1), ...scored.filter((x) => !x.up).slice(0, 1)];
   for (const x of scored) if (pick.length < MOVES_SHOWN && !pick.includes(x)) pick.push(x);
   return pick.map((x) => x.move).sort((a, b) =>
