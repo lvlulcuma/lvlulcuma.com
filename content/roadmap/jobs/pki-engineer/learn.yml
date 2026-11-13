@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cryptography/pki-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - x509-fundamentals
+  - pki-certificates
+  - windows-administration
+  - linux-administration
+  - network-security-basics
+  - identity-access-basics
+  - authentication-protocols
+  - scripting-for-security
+  - it-service-management
+  - cloud-platform-basics
+intermediate:
+  - ca-operations
+  - adcs-security
+  - certificate-lifecycle-automation
+  - hsm-operations
+  - webpki-rules
+  - using-cryptography
+  - cloud-key-management
+  - secrets-management
+  - ssh-key-management
+  - device-identity
+  - workload-identity
+  - mfa-conditional-access
+advanced:
+  - signing-services
+  - eidas-trust-services
+  - pki-incident-response
+  - post-quantum-migration
+  - ad-hardening
+  - signing-and-provenance
+  - infrastructure-as-code
+  - data-protection-architecture
+expert:
+  - pki-strategy
+  - iam-architecture
+  - security-tool-evaluation
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "RFC 5280, Internet X.509 Public Key Infrastructure Certificate and CRL Profile (2008)"
+    url: "https://www.rfc-editor.org/info/rfc5280"
+  - name: "CA/Browser Forum, Baseline Requirements for TLS server certificates"
+    url: "https://cabforum.org/working-groups/server/baseline-requirements/requirements/"
+  - name: "SpecterOps, Certified Pre-Owned: Abusing Active Directory Certificate Services (2021)"
+    url: "https://specterops.io/assets/resources/Certified_Pre-Owned.pdf"
+  - name: "NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management (2020)"
+    url: "https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final"
+  - name: "RFC 9773, ACME Renewal Information (ARI) Extension (2025)"
+    url: "https://www.rfc-editor.org/rfc/rfc9773.html"
+  - name: "Regulation (EU) No 910/2014 (eIDAS), electronic identification and trust services"
+    url: "https://eur-lex.europa.eu/eli/reg/2014/910/oj"
