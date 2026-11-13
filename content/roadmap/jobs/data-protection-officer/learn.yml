@@ -1,0 +1,71 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/privacy/data-protection-officer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - gdpr-principles
+  - controller-processor-roles
+  - data-mapping-ropa
+  - data-subject-requests
+  - consent-and-cookies
+  - gdpr-security-basics
+  - data-classification
+  - grc-basics
+  - policy-writing
+  - risk-management-basics
+intermediate:
+  - dpo-role
+  - dpia-practice
+  - international-transfers
+  - retention-schedules
+  - data-breach-response
+  - vendor-contracts
+  - privacy-by-design
+  - personal-data-in-logs
+  - pseudonymisation-anonymisation
+  - ai-and-gdpr
+  - awareness-programs
+  - privacy-tools
+advanced:
+  - dpo-independence
+  - uodo-enforcement
+  - gdpr-cross-border-enforcement
+  - gdpr-compensation-claims
+  - gdpr-and-eu-digital-laws
+  - privacy-program
+  - privacy-frameworks
+  - regulator-engagement
+  - regulatory-change
+  - eu-ai-act-basics
+  - integrated-management-systems
+  - grc-metrics
+expert:
+  - data-protection-leadership
+  - executive-reporting
+  - grc-program
+  - compliance-function
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "GDPR Article 38: position of the data protection officer"
+    url: "https://gdpr-info.eu/art-38-gdpr/"
+  - name: "EDPB, Coordinated enforcement report on the designation and position of DPOs (2024)"
+    url: "https://www.edpb.europa.eu/system/files/2024-01/edpb_report_20240116_cef_dpo_en.pdf"
+  - name: "ENISA ECSF, Cyber Legal, Policy & Compliance Officer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "IAPP, CIPM body of knowledge (September 2025 update)"
+    url: "https://iapp.org/certify/q3-2025-annual-updates"
+  - name: "Grant Thornton Poland, report on UODO fines in 2025 (2026)"
+    url: "https://grantthornton.pl/wp-content/uploads/2026/02/Kto-placi-za-naruszenie-RODO-Grant-Thornton-2026.pdf"
+  - name: "eucrim, New regulation on cross-border GDPR complaints (EU) 2025/2518"
+    url: "https://eucrim.eu/news/new-regulation-speeds-up-handling-of-cross-border-gdpr-complaints/"
