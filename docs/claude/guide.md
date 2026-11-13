@@ -6,7 +6,7 @@ Overview pages (the lab's Get started, for now) stay high level and offer a guid
 they talk about its task, in a "Step by step" line; the guides they announce but that aren't written yet wait in
 `content/guides/planned.yml`.
 Look at `content/guides/install-docker-desktop/` and `content/guides/check-hash/` first: they set the tone and the
-level of detail.
+level of detail. `content/guides/turn-on-virtualization/` shows the pictures (section 5).
 
 **One guide per run and per pull request.** Don't write two in one go, and don't rework the page that announces it.
 Each guide gets its own research, so every step is right for the current version.
@@ -62,13 +62,47 @@ A short how-to used inside a step (checking a hash) is a link in that step, not 
   updating, never bridged, container ports bound to `127.0.0.1`; link `/en/lab/rules/` where practice could reach
   real systems.
 - Plain, friendly English and the rest of the rules in `CLAUDE.md`. Nothing personal ("on my Mac" is out).
+- A short opening paragraph (before the first `##`) when a beginner needs to know what the thing is and why it
+  matters, in two or three sentences. A box at the top for readers who can skip the guide (a Mac, say).
+- Another guide that the reader needs at one step, but not before starting: a link in that step, or a "Step by step"
+  line (`<!-- guide: <slug> -->` on its own line after the paragraph), which also works for a guide still in
+  `planned.yml` ("Coming soon"). If that planned guide has to cover something because of it, add it to its `scope`.
 
-## 5. Finish
+## 5. Pictures
+
+Guides are read by beginners, so show them what they'll see and where to look, instead of only telling them. The
+pictures are drawn in HTML and CSS from words in the guide's front matter, never screenshots: they stay sharp,
+follow light and dark mode, need no files and can be translated with the text. Two to five per guide is plenty; put
+each one where the reader needs it, inside a step when it belongs to that step.
+
+- Words under `visuals: <name>:` in the front matter, with a `kind`; a line `<!-- pic: <name> -->` in the text puts
+  the picture there (indented under a step to sit inside it). The build stops on a picture line without words, and
+  on words no line places.
+- The kinds (schema `guideVisual` in `src/content.config.ts`, drawing `src/components/GuideVisual.astro`, CSS
+  "Guides: pictures" in `src/styles/global.css`):
+  - `window`: an app's window (Task Manager, a settings dialog): `title`, an optional `head` line, label/value
+    `rows` and the `mark`ed one. With `states`, the window is drawn once per state side by side (switched off,
+    switched on), each giving the marked row its value.
+  - `route`: where to click, in order: `stages`, each a `where` label and its `steps` as buttons with arrows.
+  - `cards`: cards side by side, each a `title`, a line of `text` and `tags` drawn the way they look on screen;
+    `layout: rows` stacks them when the tags are long.
+  - `finder`: a fold per maker or system (`items`: `name`, `key` or `tag`, `press`, `where`, `note`, `link` to their
+    own instructions); opening one closes the others.
+  - `screen`: a text-mode screen (firmware setup, an installer): `tabs` with the open `tab`, `rows` with the `mark`ed
+    one, `keys` along the bottom, and a `badge` such as "Example".
+- Rows and tabs count from 1. The words may hold `<strong>`, `<code>`, `<kbd>` and `<a>`.
+- A made-up screen says so (`badge: "Example"` and the caption). Values that don't matter are "…", not invented
+  numbers. Every name, label and menu in a picture is as real as the text around it: from the publisher's docs.
+- Need a kind that isn't there? Add it to the schema, the component and the CSS in the same pull request, keep it
+  general enough for other guides, and list it here.
+
+## 6. Finish
 
 - Delete the guide's entry from `content/guides/planned.yml`: the build stops if a published guide is still listed.
   The "Step by step" mentions that name it then become links by themselves, with the guide's own title and time.
   If its title changed from the working title, check that the sentence it sits under still reads well.
-- The checks in `CLAUDE.md`. Look at the guide and at the page that mentions it, on desktop and phone, in light and
-  dark.
+- If the guides list changed (a new guide), set `updated:` in `content/pages/guides/{en,ua,pl}.md` to today.
+- The checks in `CLAUDE.md`. Look at the guide (every picture, and a fold opened) and at the page that mentions it,
+  on desktop and phone, in light and dark.
 - Branch `claude/guide-<slug>`, commit `Guides: <title>`, pull request. In it (and in your reply), name the next
   guide waiting in `planned.yml`.

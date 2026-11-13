@@ -16,16 +16,11 @@
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
 guides:
-  - slug: turn-on-virtualization
-    title: "Turn on virtualization in UEFI (BIOS)"
-    category: configure
-    platforms: [windows, linux]
-    scope: "Get into the UEFI settings (Windows 11: shutdown /r /fw /t 0 or Settings > Recovery; otherwise the maker's key at startup), find Intel VT-x / AMD SVM under the common menu names of the big PC makers, save, check that Task Manager or lscpu now shows it."
   - slug: install-virtualbox-windows
     title: "Install VirtualBox on Windows"
     category: install
     platforms: [windows]
-    scope: "Download from virtualbox.org, check the hash Oracle publishes, install (the Visual C++ runtime it may ask for), first start. The green turtle when Hyper-V is on (Docker Desktop, WSL) and what to do about it."
+    scope: "Download from virtualbox.org, check the hash Oracle publishes, install (the Visual C++ runtime it may ask for), first start. The green turtle when Hyper-V is on (Docker Desktop, WSL) and what to do about it. Probably requires: [turn-on-virtualization]. That guide's last trouble (Task Manager says Enabled, but VirtualBox says VT-x isn't available) sends readers here, so cover it."
   - slug: set-up-kali-virtualbox
     title: "Set up Kali Linux in VirtualBox"
     category: install

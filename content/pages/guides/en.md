@@ -1,7 +1,7 @@
 ---
 # Guides list → lvlulcuma.com/en/guides/
 # (Each guide is in content/guides/.)
-updated: 2026-11-09
+updated: 2026-11-13
 intro: "Step-by-step guides for setting up and securing the tools I use. Short and to the point."
 # One line under each category heading. Categories without guides aren't shown.
 categories:

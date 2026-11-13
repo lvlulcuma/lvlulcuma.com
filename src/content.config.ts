@@ -75,6 +75,48 @@ const settings = defineCollection({
   }),
 });
 
+// A guide's pictures: `visuals:` in its front matter, one entry per picture, each placed in the text by a line
+// <!-- pic: <name> --> (drawn by src/components/GuideVisual.astro). Their words may hold <strong>, <code>, <kbd>
+// and <a>. Rows and tabs are counted from 1 (`mark: 2` is the second row).
+const pair = z.tuple([z.string(), z.string()]);
+const caption = z.string().optional();
+const guideVisual = z.discriminatedUnion("kind", [
+  // A window of an app (Task Manager, a settings dialog): label and value rows, one of them marked. With `states`,
+  // the same window is drawn once per state, side by side, each giving the marked row its own value.
+  z.object({
+    kind: z.literal("window"), title: z.string(), head: pair.optional(), rows: z.array(pair).min(1),
+    mark: z.number().int().positive().optional(),
+    states: z.array(z.object({ label: z.string(), value: z.string(), tone: z.enum(["go", "stop"]).optional() })).optional(),
+    caption,
+  }),
+  // Where to click, in order: one row of buttons per stage ("In Windows", "After the restart").
+  z.object({ kind: z.literal("route"), stages: z.array(z.object({ where: z.string(), steps: z.array(z.string()).min(1) })).min(1), caption }),
+  // Cards side by side, each with a title, a line of text and labels shown the way they look on screen. With
+  // `layout: rows` they stack instead, title on the left and labels on the right, for labels too long for a column.
+  z.object({
+    kind: z.literal("cards"), layout: z.enum(["side", "rows"]).default("side"),
+    cards: z.array(z.object({ title: z.string(), text: z.string().optional(), tags: z.array(z.string()).default([]) })).min(1),
+    caption,
+  }),
+  // A list of folds, one per maker or system: the key in its summary, then where to go, a note and their own page.
+  z.object({
+    kind: z.literal("finder"), title: z.string().optional(),
+    labels: z.object({ key: z.string(), where: z.string(), note: z.string(), link: z.string() }),
+    items: z.array(z.object({
+      name: z.string(), key: z.string().optional(), tag: z.string().optional(), press: z.string().optional(),
+      where: z.string(), note: z.string().optional(), link: z.string().url().optional(),
+    })).min(1),
+    caption,
+  }),
+  // A text-mode screen (firmware setup, an installer): tabs, setting rows with one marked, the keys along the bottom.
+  z.object({
+    kind: z.literal("screen"), title: z.string(), badge: z.string().optional(), tabs: z.array(z.string()).default([]),
+    tab: z.number().int().positive().optional(), rows: z.array(pair).min(1), mark: z.number().int().positive().optional(),
+    keys: z.array(pair).default([]), caption,
+  }),
+]);
+export type GuideVisualData = z.infer<typeof guideVisual>;
+
 // content/guides/<slug>/en.md  →  /en/guides/<slug>/
 const guides = defineCollection({
   loader: glob({ pattern: `*/${lang}.md`, base: "./content/guides" }),
@@ -87,6 +129,7 @@ const guides = defineCollection({
     time: z.number().int().positive(),       // rough minutes to complete
     platforms: z.array(z.enum(["windows", "macos", "linux"])).min(1),
     requires: z.array(z.string()).default([]), // guide folders to do first
+    visuals: z.record(z.string().regex(/^[a-z0-9-]+$/), guideVisual).optional(), // pictures, see guideVisual above
     draft: z.boolean().default(false),
     revisions: z.array(z.object({ date: z.coerce.date(), note: z.string() })).optional(),
   }),

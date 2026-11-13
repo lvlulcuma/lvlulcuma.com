@@ -1,0 +1,109 @@
+---
+// One picture in a guide, placed by a line <!-- pic: <name> --> in content/guides/<slug>/<lang>.md. Its words are
+// under `visuals: <name>:` in the same file, with a `kind` that says how it's drawn (schema: guideVisual in
+// src/content.config.ts). <strong>, <code>, <kbd> and <a> in the words are kept (set:html).
+// No JavaScript and no inline styles: sizes and colours come from classes (CSS "Guides: pictures" in global.css).
+//   window   an app's window (Task Manager, a settings dialog) with one row marked, once per state side by side
+//   route    where to click, as rows of buttons joined by arrows, one row per stage
+//   cards    cards side by side (or stacked rows), each with labels drawn the way they look on screen
+//   finder   a fold per maker or system: the key to press, where to go, a note and a link to their own instructions
+//   screen   a text-mode screen (firmware setup, an installer): tabs, rows with one marked, the keys at the bottom
+import type { GuideVisualData } from "../content.config";
+
+interface Props { name: string; d: GuideVisualData; file: string }
+const { name, d, file } = Astro.props;
+const bad = (msg: string) => { throw new Error(`${file}: picture "${name}" ${msg}`); };
+if ((d.kind === "window" || d.kind === "screen") && d.mark && d.mark > d.rows.length) bad(`marks row ${d.mark}, but it has ${d.rows.length} rows.`);
+if (d.kind === "window" && d.states && !d.mark) bad("has `states` but no `mark`: the states change the marked row.");
+if (d.kind === "screen" && d.tab && d.tab > d.tabs.length) bad(`opens tab ${d.tab}, but it has ${d.tabs.length} tabs.`);
+const host = (url: string) => new URL(url).hostname.replace(/^www\./, "");
+// A window without states is drawn once, as written.
+const panes = d.kind === "window" ? (d.states ?? [{ label: "", value: "", tone: undefined }]) : [];
+---
+{d.kind === "window" && (
+  <figure class={`gv gv-window${panes.length > 1 ? " gv-two" : ""}`}>
+    <div class="gv-panes">
+      {panes.map((s) => (
+        <div class={`gv-win${s.tone ? ` gv-${s.tone}` : ""}`}>
+          <p class="gv-bar"><span class="gv-bar-t">{d.title}</span>{s.label && <span class="gv-state">{s.label}</span>}</p>
+          {d.head && <p class="gv-head"><b set:html={d.head[0]} /><span set:html={d.head[1]} /></p>}
+          <dl class="gv-rows">
+            {d.rows.map((r, i) => (
+              <div class={i + 1 === d.mark ? "on" : undefined}>
+                <dt set:html={r[0]} />
+                <dd set:html={i + 1 === d.mark && d.states ? s.value : r[1]} />
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </div>
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
+
+{d.kind === "route" && (
+  <figure class="gv gv-route">
+    {d.stages.map((s, si) => (
+      <div class="gv-stage">
+        <p class="gv-k">{s.where}</p>
+        <ul class="gv-chips">
+          {s.steps.map((x, i) => <li class={si === d.stages.length - 1 && i === s.steps.length - 1 ? "end" : undefined} set:html={x} />)}
+        </ul>
+      </div>
+    ))}
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
+
+{d.kind === "cards" && (
+  <figure class={`gv gv-cards${d.layout === "rows" ? " gv-cards-rows" : ""}`}>
+    <ul class="gv-card-list">
+      {d.cards.map((c) => (
+        <li>
+          <p class="gv-card-t" set:html={c.title} />
+          {c.text && <p class="gv-card-d" set:html={c.text} />}
+          {c.tags.length > 0 && <ul class="gv-tags">{c.tags.map((t) => <li set:html={t} />)}</ul>}
+        </li>
+      ))}
+    </ul>
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
+
+{d.kind === "finder" && (
+  <figure class="gv gv-finder">
+    {d.title && <p class="gv-k">{d.title}</p>}
+    <div class="gv-folds">
+      {d.items.map((it) => (
+        <details class="gv-fold" name={`gv-${name}`}>
+          <summary>
+            <span class="gv-fold-n" set:html={it.name} />
+            {it.tag ? <span class="gv-fold-tag" set:html={it.tag} /> : it.key && <kbd set:html={it.key} />}
+          </summary>
+          <dl class="gv-fold-body">
+            {(it.press || it.key) && <div><dt>{d.labels.key}</dt><dd set:html={it.press ?? `<kbd>${it.key}</kbd>`} /></div>}
+            <div><dt>{d.labels.where}</dt><dd set:html={it.where} /></div>
+            {it.note && <div><dt>{d.labels.note}</dt><dd set:html={it.note} /></div>}
+          </dl>
+          {it.link && <p class="gv-fold-src"><a href={it.link} rel="noopener">{d.labels.link}</a><span class="host">{host(it.link)}</span></p>}
+        </details>
+      ))}
+    </div>
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
+
+{d.kind === "screen" && (
+  <figure class="gv gv-screen">
+    <div class="gv-scr">
+      <p class="gv-scr-t"><span>{d.title}</span>{d.badge && <span class="gv-badge">{d.badge}</span>}</p>
+      {d.tabs.length > 0 && <ul class="gv-scr-tabs">{d.tabs.map((t, i) => <li class={i + 1 === d.tab ? "on" : undefined}>{t}</li>)}</ul>}
+      <dl class="gv-scr-rows">
+        {d.rows.map((r, i) => <div class={i + 1 === d.mark ? "on" : undefined}><dt set:html={r[0]} /><dd set:html={r[1]} /></div>)}
+      </dl>
+      {d.keys.length > 0 && <ul class="gv-scr-keys">{d.keys.map((k) => <li><b>{k[0]}</b> {k[1]}</li>)}</ul>}
+    </div>
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
