@@ -1,0 +1,73 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-leadership/security-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - risk-management-basics
+  - control-frameworks
+  - iso-27001-basics
+  - identity-access-basics
+  - incident-response-process
+  - vulnerability-management-lifecycle
+  - cloud-platform-basics
+  - it-service-management
+  - project-management-basics
+  - soc-basics
+intermediate:
+  - security-function-model
+  - security-team-staffing
+  - soc-team-leadership
+  - security-exceptions
+  - policy-writing
+  - risk-register
+  - awareness-programs
+  - mssp-management
+  - security-budget-tracking
+  - vendor-contracts
+  - mfa-conditional-access
+  - nis2-security-measures
+  - incident-reporting-rules
+advanced:
+  - management-accountability
+  - isms-management
+  - incident-leadership
+  - tabletop-exercises
+  - crisis-communications
+  - data-breach-response
+  - business-continuity
+  - security-investment-decisions
+  - executive-reporting
+  - risk-assessment-methods
+  - grc-metrics
+  - security-portfolio-management
+  - supply-chain-risk-management
+expert:
+  - security-strategy
+  - grc-program
+  - enterprise-risk-management
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Systems Security Management work role (OG-WRL-014)"
+    url: "https://niccs.cisa.gov/workforce-development/nice-framework/task/t1304"
+  - name: "ENISA ECSF, Chief Information Security Officer (CISO) profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISACA, updated CISM exam content outline (2026)"
+    url: "https://www.isaca.org/about-us/newsroom/press-releases/2026/isaca-updates-cism-exam-content-outline-factoring-in-todays-technologies-security-responsibilities"
+  - name: "ISC2, 2025 Cybersecurity Workforce Study"
+    url: "https://www.isc2.org/insights/2025/12/2025-isc2-cybersecurity-workforce-study"
+  - name: "Ministry of Digital Affairs, the amended KSC act in force (2026)"
+    url: "https://www.gov.pl/web/cyfryzacja/nowelizacja-ustawy-o-krajowym-systemie-cyberbezpieczenstwa-zaczyna-obowiazywac"
+  - name: "KPMG Poland, the amended KSC act and managers' duties"
+    url: "https://kpmg.com/pl/pl/wiedza/podatki/nowelizacja-ustawy-o-krajowym-systemie-cyberbezpieczenstwa.html"
