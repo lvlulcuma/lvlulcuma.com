@@ -1,9 +1,11 @@
 ---
 // Get started: what a home lab needs and how to set one up safely, before picking an idea.
-// Text: content/pages/lab-start/<lang>.md
+// Text: content/pages/lab-start/<lang>.md. The text below its second --- is the page; a line <!-- lab:<name> -->
+// in it places one of the pictures from src/components/LabStartVisual.astro there, with the words from `visuals:`.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import LabIdeaCard from "../../../components/LabIdeaCard.astro";
+import LabStartVisual from "../../../components/LabStartVisual.astro";
 import { langPaths, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
 import { toc } from "../../../lib/block";
@@ -13,8 +15,15 @@ export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const t = ui[lang];
 const page = await getPage("lab-start", lang);
-const { Content, headings } = await render(page.entry);
+const { headings } = await render(page.entry);
 const rules = (await getPage("lab-rules", lang)).data;
+// Split the text at the picture lines: [text, name, text, name, text, …]. A picture line inside a list or a box
+// would cut it in two, so they stand on their own line between paragraphs.
+const PICTURES = ["map", "plan", "ram", "check", "kinds", "pick", "systems", "nets", "snaps", "notebook", "weekend"];
+const parts = (page.entry.rendered?.html ?? "").split(/<!--\s*lab:([a-z]+)\s*-->/);
+parts.forEach((p, i) => {
+  if (i % 2 && !PICTURES.includes(p)) throw new Error(`content/pages/lab-start/${lang}.md: there is no picture "lab:${p}". Pictures: ${PICTURES.join(", ")}.`);
+});
 // "Then try one of these": the easiest ideas first.
 const LEVELS = ["beginner", "intermediate", "advanced"];
 const first = (await getIdeas(lang)).slice().sort((a, b) => LEVELS.indexOf(a.entry.data.level) - LEVELS.indexOf(b.entry.data.level) || a.entry.data.time - b.entry.data.time).slice(0, 4);
@@ -31,7 +40,9 @@ const first = (await getIdeas(lang)).slice().sort((a, b) => LEVELS.indexOf(a.ent
   }}>
   <h1>{page.data.title}</h1>
   <p class="lede">{page.data.intro}</p>
-  <div class="prose guide"><Content /></div>
+  <div class="prose guide gs-page">
+    {parts.map((p, i) => (i % 2 ? <LabStartVisual name={p} v={page.data.visuals ?? {}} headings={headings} /> : <Fragment set:html={p} />))}
+  </div>
 
   {first.length > 0 && (
     <section class="gsec gnext" aria-labelledby="first-ideas">
