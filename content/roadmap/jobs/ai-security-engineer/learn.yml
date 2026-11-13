@@ -1,0 +1,64 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/ai-security/ai-security-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - ml-fundamentals
+  - llm-app-architecture
+  - cloud-platform-basics
+  - identity-access-basics
+  - vulnerability-basics
+  - data-classification
+intermediate:
+  - prompt-injection-defense
+  - agent-security
+  - rag-data-security
+  - ml-supply-chain
+  - ai-guardrails-monitoring
+  - ml-attacks
+  - llm-app-testing
+  - threat-modeling
+  - secure-design-principles
+  - api-security
+  - secrets-management
+  - software-supply-chain
+advanced:
+  - ai-security-architecture
+  - eu-ai-act-security
+  - ai-agent-identity
+  - ai-native-sdlc
+  - ai-coding-assistants
+  - ai-incidents
+  - data-protection-architecture
+  - ci-cd-security
+expert:
+  - ai-security-program
+  - security-engineering-leadership
+  - architecture-reviews
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Artificial Intelligence (AI) Security competency area"
+    url: "https://niccs.cisa.gov/tools/nice-framework/competency-area/artificial-intelligence-ai-security"
+  - name: "OWASP Top 10 for Agentic Applications for 2026"
+    url: "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+  - name: "NIST AI 100-2 E2025, Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations"
+    url: "https://csrc.nist.gov/pubs/ai/100/2/e2025/final"
+  - name: "ETSI EN 304 223, Baseline Cyber Security Requirements for AI Models and Systems"
+    url: "https://www.etsi.org/deliver/etsi_en/304200_304299/304223/02.01.01_60/en_304223v020101p.pdf"
+  - name: "EU AI Act, Article 15: accuracy, robustness and cybersecurity (AI Act Service Desk)"
+    url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-15"
+  - name: "Simon Willison, The lethal trifecta for AI agents (2025)"
+    url: "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/"
