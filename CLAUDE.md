@@ -71,6 +71,7 @@ The owner's rule for every section of the site:
 - **Guides are for beginners too**, so they show what the reader will see: pictures drawn in HTML and CSS (an app's
   window, where to click, a firmware screen, a fold per computer maker), never screenshots. Their words go under
   `visuals:` in the guide's front matter and a line `<!-- pic: <name> -->` places each one (`docs/claude/guide.md`).
+  A guide for several systems puts each system's steps in its own labelled box (`<!-- for: windows -->`).
 - **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its mention says
   "Coming soon", without a link, until the guide is published; the build stops on a name that's neither written nor
   planned.

@@ -1909,3 +1909,16 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .gv-badge { position: static; display: inline-block; margin-left: 8px; transform: none; }
   .gv-scr-rows > div { gap: 10px; }
 }
+
+/* A system's part of a guide for several systems (fillLanes in src/lib/content.ts, a line <!-- for: windows -->):
+   a box with the system's name on its top edge, in the inverted blue of the open tab on a firmware screen, so a
+   reader finds "Windows" or "Linux" at a glance and skips the other. Steps, pictures and code sit inside as usual. */
+.guide .lane { position: relative; margin: 32px 0 26px; padding: 26px 20px 18px; border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 60%, transparent); }
+.guide .lane + .lane { margin-top: 36px; }
+.guide .lane > .lane-tab { position: absolute; top: 0; left: 14px; transform: translateY(-50%); margin: 0; padding: 2px 10px 3px; background: var(--accent); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; line-height: 1.4; text-transform: uppercase; color: var(--panel); }
+.guide .lane > .lane-tab + * { margin-top: 0; }
+.guide .lane > :last-child { margin-bottom: 0; }
+.guide .lane > .gref { margin: -4px 0 0; }
+@media (max-width: 560px) {
+  .guide .lane { padding: 24px 14px 14px; }
+}

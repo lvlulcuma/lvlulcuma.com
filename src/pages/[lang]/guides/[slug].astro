@@ -6,13 +6,15 @@
 // unrelated is suggested: when nothing uses a guide yet, the section says so. Then a link back to all guides.
 // In the text, a line <!-- pic: <name> --> places one of the guide's pictures (`visuals:` in its front matter, drawn
 // by src/components/GuideVisual.astro), and <!-- guide: a, b --> becomes a "Step by step" line naming other guides
-// (fillGuideRefs in src/lib/content.ts), the same as on the overview pages.
+// (fillGuideRefs in src/lib/content.ts), the same as on the overview pages. In a guide for several systems, a line
+// <!-- for: windows --> puts the steps after it in a box labelled "Windows" (fillLanes), so each system's part
+// stands apart.
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import GuidesIndex from "../../../components/GuidesIndex.astro";
 import GuideVisual from "../../../components/GuideVisual.astro";
 import { GUIDE_CATS, HTML_LANG, LANGS, ui, type Lang, type GuideCat } from "../../../i18n/ui";
-import { categoryFilter, fillGuideRefs, getGuides, getPage, dependents, guideLinks, guideMentions, guideMissingLangs, type Guide } from "../../../lib/content";
+import { categoryFilter, fillGuideRefs, fillLanes, getGuides, getPage, dependents, guideLinks, guideMentions, guideMissingLangs, type Guide } from "../../../lib/content";
 import { iso } from "../../../lib/articles";
 import { revisionLog, toc, countWord } from "../../../lib/block";
 
@@ -48,7 +50,8 @@ if (props.kind === "guide") {
   // The text split at its picture lines: [text, name, text, name, text, …]. Every name needs its words under
   // `visuals:`, and every picture there needs its line, so none is forgotten.
   file = `content/guides/${g.slug}/${g.lang}.md`;
-  parts = (await fillGuideRefs(g.entry.rendered?.html ?? "", lang, file)).split(/<!--\s*pic:\s*([a-z0-9-]+)\s*-->/);
+  const html = fillLanes(await fillGuideRefs(g.entry.rendered?.html ?? "", lang, file), lang, g.entry.data.platforms, file);
+  parts = html.split(/<!--\s*pic:\s*([a-z0-9-]+)\s*-->/);
   const vis = g.entry.data.visuals ?? {};
   const placed = parts.filter((_, i) => i % 2);
   for (const p of placed) if (!vis[p]) throw new Error(`${file}: <!-- pic: ${p} --> has no words under visuals: ${p}:`);

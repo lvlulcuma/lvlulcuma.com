@@ -62,6 +62,11 @@ A short how-to used inside a step (checking a hash) is a link in that step, not 
   updating, never bridged, container ports bound to `127.0.0.1`; link `/en/lab/rules/` where practice could reach
   real systems.
 - Plain, friendly English and the rest of the rules in `CLAUDE.md`. Nothing personal ("on my Mac" is out).
+- A guide for several systems keeps each system's part apart, so readers find theirs at a glance: a line
+  `<!-- for: windows -->` (several systems: `<!-- for: macos, linux -->`) puts what follows in a box labelled with
+  the system's name, until the next such line, a line `<!-- /for -->` or the next `##`. What's the same on every
+  system (the firmware, a note for everyone) stays outside the boxes. The build stops on a system the guide's
+  `platforms` doesn't list (`fillLanes` in `src/lib/content.ts`).
 - A short opening paragraph (before the first `##`) when a beginner needs to know what the thing is and why it
   matters, in two or three sentences. A box at the top for readers who can skip the guide (a Mac, say).
 - Another guide that the reader needs at one step, but not before starting: a link in that step, or a "Step by step"

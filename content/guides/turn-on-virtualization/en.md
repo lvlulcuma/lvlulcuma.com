@@ -7,6 +7,9 @@ order: 1   # position within its category
 time: 10   # rough minutes to complete
 platforms: [windows, linux]   # windows | macos | linux
 requires: []   # guides to do first (folder names); shown as "Before you start"
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-13
+    note: "The Windows and the Linux steps of each section sit in their own labelled boxes."
 dek: "Check whether your processor's virtualization is on, switch it on in your computer's startup settings if it isn't, and make sure it worked."
 # Pictures: each one is placed in the text below by a line <!-- pic: <name> -->. How each kind is drawn:
 # src/components/GuideVisual.astro. Rows and tabs count from 1.
@@ -155,6 +158,8 @@ change one setting there.
 
 ## Check whether it's already on
 
+<!-- for: windows -->
+
 1. Press <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>Esc</kbd> to open **Task Manager**.
 2. Select **Performance**, then **CPU**.
 3. Find **Virtualization** in the list under the graph.
@@ -166,7 +171,9 @@ change one setting there.
 4. While you're here, note the processor's name at the top right. It starts with **Intel** or **AMD**, and the switch
    has a different name for each.
 
-On Linux (Kali, Ubuntu or Debian), open a terminal. The first command installs a small checker, the second runs it:
+<!-- for: linux -->
+
+On Kali, Ubuntu or Debian, open a terminal. The first command installs a small checker, the second runs it:
 
 ```sh
 sudo apt install cpu-checker
@@ -179,10 +186,13 @@ whether your processor is Intel or AMD, run `lscpu | grep "Model name"`.
 
 ## Open the UEFI settings
 
-Save your work first: the computer restarts. If your drive is encrypted with BitLocker or Device encryption, also
-make sure you can get your recovery key (with a Microsoft account, it's at
-[aka.ms/myrecoverykey](https://aka.ms/myrecoverykey)): Windows sometimes asks for it after the startup settings
-change.
+Save your work first: the computer restarts.
+
+<!-- for: windows -->
+
+If your drive is encrypted with BitLocker or Device encryption, make sure you can get your recovery key (with a
+Microsoft account, it's at [aka.ms/myrecoverykey](https://aka.ms/myrecoverykey)): Windows sometimes asks for it after
+the startup settings change.
 
 <!-- pic: way-in -->
 
@@ -199,11 +209,15 @@ change.
 shutdown /r /fw /t 0
 ```
 
-On Linux, this command restarts into the UEFI:
+<!-- for: linux -->
+
+This command restarts into the UEFI:
 
 ```sh
 systemctl reboot --firmware-setup
 ```
+
+<!-- /for -->
 
 **No UEFI Firmware Settings button, or the command gives an error?** Use your maker's key instead: restart the
 computer and tap the key right away, about twice a second, until the settings appear. Each maker's key is in the
@@ -243,24 +257,27 @@ What the switch is called depends on your processor and the maker:
 
 ## Check it works
 
+<!-- for: windows -->
+
 1. Open **Task Manager** again (<kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>Esc</kbd>) and go to **Performance** > **CPU**.
 2. **Virtualization** now says **Enabled**. Your computer is ready for virtual machines.
 
-On Linux, run `sudo kvm-ok` again: it now says **KVM acceleration can be used**.
+<!-- for: linux -->
+
+Run `sudo kvm-ok` again: it now says **KVM acceleration can be used**. Your computer is ready for virtual machines.
+
+<!-- /for -->
 
 > [!NOTE]
-> Still **Disabled**? Some computers only take the change after a full power-off. Shut down (don't restart), wait a
-> few seconds, and switch the computer on again.
+> Still **Disabled** (or **can NOT be used**)? Some computers only take the change after a full power-off. Shut down
+> (don't restart), wait a few seconds, and switch the computer on again.
 
 ## If something goes wrong
 
-**The computer starts Windows instead of the settings.** The key has to be pressed early: tap it from the moment the
-screen goes dark or you press the power button. Or use the way through Windows Settings above, which needs no key.
-On laptops where the top keys also change the volume and brightness, hold <kbd>Fn</kbd> with the key (<kbd>Fn</kbd>
-<kbd>F2</kbd>).
-
-**There's no UEFI Firmware Settings button.** Windows was probably installed the older way (in legacy BIOS mode), or
-the computer doesn't offer it. Use your maker's key instead.
+**The computer starts as usual instead of opening the settings.** The key has to be pressed early: tap it from the
+moment the screen goes dark or you press the power button. Or use the way through Windows Settings or the Linux
+command above, which need no key. On laptops where the top keys also change the volume and brightness, hold
+<kbd>Fn</kbd> with the key (<kbd>Fn</kbd> <kbd>F2</kbd>).
 
 **There's no virtualization setting anywhere.** Look through every tab, and try the maker's key for hidden settings
 (Dell: <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>S</kbd>; Acer: <kbd>Ctrl</kbd> <kbd>S</kbd>). If it really isn't there,
@@ -268,6 +285,11 @@ Dell and Lenovo say the computer doesn't support virtualization.
 
 **The setting is greyed out.** On an ASUS laptop, set **Intel Trusted Execution Technology** to **Disabled** first.
 On a work or school computer, an administrator may have locked the settings with a password: ask them.
+
+<!-- for: windows -->
+
+**There's no UEFI Firmware Settings button.** Windows was probably installed the older way (in legacy BIOS mode), or
+the computer doesn't offer it. Use your maker's key instead.
 
 **Windows asks for a BitLocker recovery key.** On another device, open
 [aka.ms/myrecoverykey](https://aka.ms/myrecoverykey), sign in with the Microsoft account you use on this computer,
