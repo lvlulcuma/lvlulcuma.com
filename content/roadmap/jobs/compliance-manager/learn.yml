@@ -1,0 +1,68 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/grc/compliance-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - control-frameworks
+  - iso-27001-basics
+  - risk-management-basics
+  - policy-writing
+  - compliance-evidence
+  - gdpr-security-basics
+  - nis2-scope
+  - soc2-basics
+intermediate:
+  - iso-27001-certification
+  - isms-implementation
+  - soc2-readiness
+  - pci-dss-basics
+  - integrated-management-systems
+  - control-mapping
+  - audit-support
+  - risk-assessment-methods
+  - nis2-security-measures
+  - security-questionnaires
+  - third-party-risk-basics
+  - business-continuity
+  - awareness-programs
+advanced:
+  - tisax-assessments
+  - regulator-engagement
+  - dora-overview
+  - ksc-audits
+  - incident-reporting-rules
+  - cra-overview
+  - eidas-trust-services
+  - continuous-compliance
+  - regulatory-change
+  - grc-metrics
+expert:
+  - compliance-function
+  - grc-program
+  - executive-reporting
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "PECB, ISO/IEC 27001 Lead Implementer candidate handbook (2026)"
+    url: "https://pecb.com/pdf/candidate-handbooks/pecb-candidate-handbook-iso-27001-lead-implementer-mc.pdf"
+  - name: "ENISA ECSF, Cyber Legal, Policy & Compliance Officer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISC2 CGRC exam outline (2024)"
+    url: "https://www.isc2.org/Certifications/CGRC/Certification-Exam-Outline"
+  - name: "PCI Security Standards Council, PCI DSS v4.0.1 published (2024)"
+    url: "https://blog.pcisecuritystandards.org/just-published-pci-dss-v4-0-1"
+  - name: "NIS2 Article 32: supervision of essential entities"
+    url: "https://www.springlex.eu/en/packages/nis2/nis2-directive/article-32/"
+  - name: "DNV, Revision of ISO/IEC 27701 (2025)"
+    url: "https://www.dnv.com/assurance/Management-Systems/new-iso/transition/revision-of-iso-iec-27701/"
