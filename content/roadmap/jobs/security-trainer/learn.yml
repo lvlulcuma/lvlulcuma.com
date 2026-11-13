@@ -1,0 +1,62 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-awareness/security-trainer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - instructional-design
+  - teaching-delivery
+  - awareness-content
+  - owasp-top-10
+  - pentest-basics
+  - soc-basics
+  - incident-response-process
+  - vulnerability-basics
+  - identity-access-basics
+  - cloud-platform-basics
+intermediate:
+  - hands-on-labs
+  - ctf-and-ranges
+  - training-evaluation
+  - certification-courses
+  - detection-lab
+  - mitre-attack
+  - scripting-for-security
+  - tabletop-exercises
+  - awareness-metrics
+  - everyday-threats
+advanced:
+  - web-app-testing
+  - malware-lab
+  - purple-team-exercises
+  - awareness-program-planning
+  - security-change-adoption
+  - champions-network
+expert:
+  - security-academy
+  - program-governance
+  - security-team-staffing
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Cybersecurity Instruction work role (OG-WRL-005)"
+    url: "https://niccs.cisa.gov/workforce-development/nice-framework/task/t1517"
+  - name: "ENISA ECSF, Cybersecurity Educator profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "Iowa State University CELT, Revised Bloom's Taxonomy"
+    url: "https://www.celt.iastate.edu/teaching/effective-practice/revised-blooms-taxonomy/"
+  - name: "Kirkpatrick Partners, The Kirkpatrick Model"
+    url: "https://www.kirkpatrickpartners.com/the-kirkpatrick-model/"
+  - name: "OWASP Juice Shop"
+    url: "https://owasp.org/www-project-juice-shop/"
+  - name: "ENISA, European Cybersecurity Challenge 2025"
+    url: "https://www.enisa.europa.eu/node/19319"
