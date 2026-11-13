@@ -1,0 +1,66 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/grc/third-party-risk-analyst/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: knowledgeable   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - third-party-risk-basics
+  - risk-management-basics
+  - risk-register
+  - control-frameworks
+  - iso-27001-basics
+  - vendor-tiering
+  - vendor-due-diligence
+  - security-questionnaires
+  - soc2-basics
+  - gdpr-security-basics
+intermediate:
+  - vendor-contracts
+  - vendor-monitoring
+  - fourth-party-risk
+  - service-org-reports
+  - cloud-compliance
+  - ai-vendor-risk
+  - software-supply-chain
+  - risk-assessment-methods
+  - nis2-security-measures
+  - dora-overview
+  - third-party-incidents
+  - business-continuity
+advanced:
+  - dora-ict-third-party
+  - supply-chain-risk-management
+  - cra-overview
+  - risk-quantification
+  - continuous-compliance
+  - grc-metrics
+  - control-mapping
+expert:
+  - tprm-program
+  - executive-reporting
+  - grc-program
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "Shared Assessments, CTPRP exam prep guide (2025)"
+    url: "https://sharedassessments.org/wp-content/uploads/sa-uploads/2025/03/2025_CTPRP-Exam-Prep-Guide-2.pdf"
+  - name: "ENISA ECSF, Cyber Legal, Policy & Compliance Officer profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "NIST SP 800-161 Rev. 1, Cybersecurity Supply Chain Risk Management Practices (Update 1, 2024)"
+    url: "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-161r1-upd1.pdf"
+  - name: "DORA Article 30: key contractual provisions"
+    url: "https://advisera.com/dora-regulation/key-contractual-provisions/"
+  - name: "FRB, FDIC and OCC, Interagency guidance on third-party relationships (2023), summarized by KPMG"
+    url: "https://kpmg.com/us/en/articles/2023/third-party-risk-management-final-interagency-guidance-reg-alert.html"
+  - name: "NIS2 Article 21: cybersecurity risk-management measures, including supply chain security"
+    url: "https://www.springlex.eu/en/packages/nis2/nis2-directive/article-21/"
