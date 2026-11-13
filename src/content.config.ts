@@ -92,6 +92,21 @@ const guides = defineCollection({
   }),
 });
 
+// content/guides/planned.yml  →  guides that pages already point to but that aren't written yet. Their rows in a
+// "Step by step" box show the working title and "Coming soon" until the guide is published (src/lib/content.ts).
+const guidePlan = defineCollection({
+  loader: glob({ pattern: "planned.yml", base: "./content/guides" }),
+  schema: z.object({
+    guides: z.array(z.object({
+      slug: z.string().regex(/^[a-z0-9-]+$/),                    // the folder it will get in content/guides/
+      title: z.string().min(1),                                  // working title; the guide's own replaces it
+      category: z.enum(["install", "quick", "configure", "use", "harden", "fix"]),
+      platforms: z.array(z.enum(["windows", "macos", "linux"])).min(1),
+      scope: z.string().optional(),                              // notes for whoever writes it; never shown
+    })).default([]),
+  }),
+});
+
 // content/lab/<idea>/en.md  →  /en/lab/<idea>/
 // One home lab idea: a full step-by-step guide to building one practice setup. Listed on /en/lab/ by group.
 // Keep the groups and levels in step with LAB_GROUPS and LAB_LEVELS in src/i18n/ui.ts.
@@ -296,4 +311,4 @@ const cwe = defineCollection({
   }),
 });
 
-export const collections = { articles, research, pages, ui, settings, guides, lab, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe };
+export const collections = { articles, research, pages, ui, settings, guides, guidePlan, lab, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe };

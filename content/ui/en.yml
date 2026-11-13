@@ -149,6 +149,8 @@ guide_one: "guide"
 guide_other: "guides"
 before: "Before you start"
 beforeText: "Do these first if you haven't already:"
+stepByStep: "Step by step"   # the box on an overview page that lists detailed guides for one part of it
+stepByStepText: "Want every click? These guides walk you through it:"
 usedIn: "Used in"
 nextGuide: "Next guide"
 noGuides: "No guides in this category yet."

@@ -2,7 +2,8 @@
 # Get started → lvlulcuma.com/en/lab/start/
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
-# Inside those words, <strong>, <code>, <kbd> and <a href="…"> work. The pictures: map, plan, ram, check, kinds,
+# A line like <!-- guides: install-utm, check-hash --> places a "Step by step" box with those guides (folders in
+# content/guides/, or planned in content/guides/planned.yml). Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. The pictures: map, plan, ram, check, kinds,
 # pick, systems, nets, snaps, notebook, weekend. Each one's comment says what it shows.
 updated: 2026-11-13
 title: "Get started"
@@ -237,6 +238,8 @@ work, open Terminal as administrator and type this. The computer restarts straig
 shutdown /r /fw /t 0
 ```
 
+<!-- guides: turn-on-virtualization -->
+
 **Disk space:** keep 100 GB free, ideally on an SSD. A Windows 11 machine wants a 64 GB disk; most Linux machines
 are happy with 20 to 30 GB.
 
@@ -254,6 +257,8 @@ A virtual machine runs inside a **hypervisor**: the program that gives each mach
 processor. They're all free. Pick the one for your system:
 
 <!-- lab:pick -->
+
+<!-- guides: install-virtualbox-windows, install-docker-desktop, install-utm, install-docker-desktop-mac, install-virtualbox-linux, install-docker-engine-linux -->
 
 > [!NOTE]
 > On Windows, VirtualBox may show a green turtle at the bottom of a machine's window. It means Windows' own
@@ -278,6 +283,8 @@ sudo apt update && sudo apt full-upgrade -y
 The first command swaps the `kali` password for one of your own. The second updates every tool; the first time, that
 takes a while.
 
+<!-- guides: set-up-kali-virtualbox, set-up-kali-utm, check-hash, set-up-windows-trial-virtualbox -->
+
 > [!NOTE]
 > A Windows Server trial must be activated over the internet in its first 10 days, or it shuts itself down. Keep it
 > on NAT for its first start.
@@ -296,6 +303,8 @@ Four rules keep it that way:
 3. Never bridge a vulnerable machine, and never forward a port from your router to the lab.
 4. In containers, bind every port to `127.0.0.1`, as the [Web and API hacking lab](/en/lab/web-app-hacking/) does.
 
+<!-- guides: virtualbox-host-only, utm-host-only -->
+
 ## Take a snapshot
 
 A snapshot saves a virtual machine exactly as it is, like a save point in a game. It's your undo button: when
@@ -306,6 +315,8 @@ something breaks, you jump back instead of spending an evening on repairs.
 1. Take the first snapshot as soon as a machine is installed and updated. Call it `clean`.
 2. Take another before every big change: a new tool, an attack, a malware sample.
 3. When something breaks, restore the latest good snapshot instead of fixing it.
+
+<!-- guides: virtualbox-snapshots, utm-snapshots -->
 
 > [!WARNING]
 > Snapshots aren't backups: they sit on the same disk as the machine. Keep your notes and configuration files

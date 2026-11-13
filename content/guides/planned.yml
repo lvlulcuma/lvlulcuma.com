@@ -1,0 +1,83 @@
+# Guides that a page already points to but that aren't written yet.
+#
+# Overview pages (the lab's Get started, for now) stay short and high level. Where a reader may want every click,
+# they point to a step-by-step guide with a line of its own in their text:  <!-- guides: install-utm, check-hash -->
+# That draws a "Step by step" box. A published guide is a link there; a guide listed here shows its title, its
+# systems and "Coming soon", without a link, until it's published.
+#
+# Write them one at a time, each in its own run and pull request (docs/claude/guide.md), top to bottom unless the
+# owner picks another. Delete the guide's entry here in that same pull request: the build stops if a published guide
+# is still listed. A draft guide (draft: true) can stay listed until it's published.
+#
+#   slug        the folder the guide will get in content/guides/ (its address: /en/guides/<slug>/)
+#   title       working title, shown until the guide exists; the guide's own title replaces it
+#   category    install | quick | configure | use | harden | fix
+#   platforms   windows | macos | linux
+#   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
+#               source: check every fact in the guide's own run.
+guides:
+  - slug: turn-on-virtualization
+    title: "Turn on virtualization in UEFI (BIOS)"
+    category: configure
+    platforms: [windows, linux]
+    scope: "Get into the UEFI settings (Windows 11: shutdown /r /fw /t 0 or Settings > Recovery; otherwise the maker's key at startup), find Intel VT-x / AMD SVM under the common menu names of the big PC makers, save, check that Task Manager or lscpu now shows it."
+  - slug: install-virtualbox-windows
+    title: "Install VirtualBox on Windows"
+    category: install
+    platforms: [windows]
+    scope: "Download from virtualbox.org, check the hash Oracle publishes, install (the Visual C++ runtime it may ask for), first start. The green turtle when Hyper-V is on (Docker Desktop, WSL) and what to do about it."
+  - slug: set-up-kali-virtualbox
+    title: "Set up Kali Linux in VirtualBox"
+    category: install
+    platforms: [windows, linux]
+    scope: "Download Kali's ready-made VirtualBox image, check its SHA-256, unpack and add it to VirtualBox, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
+  - slug: virtualbox-host-only
+    title: "Put VirtualBox machines on a host-only network"
+    category: configure
+    platforms: [windows, linux]
+    scope: "Create or check the host-only network, switch a machine's adapter between NAT and Host-only Adapter (and Internal Network), see the addresses the machines get, check that they reach each other but not the internet."
+  - slug: virtualbox-snapshots
+    title: "Take and restore snapshots in VirtualBox"
+    category: use
+    platforms: [windows, linux]
+    scope: "Take a snapshot called clean, take more before risky changes, restore one, delete old ones to save disk space. Snapshots aren't backups."
+  - slug: install-utm
+    title: "Install UTM on a Mac"
+    category: install
+    platforms: [macos]
+    scope: "Free download from the UTM website (or the paid App Store version with automatic updates), first start, the Virtualize vs Emulate choice on Apple silicon."
+  - slug: set-up-kali-utm
+    title: "Set up Kali Linux in UTM"
+    category: install
+    platforms: [macos]
+    scope: "Kali's Arm (arm64) image on Apple silicon, check its SHA-256, create the virtual machine in UTM, first login, change the password, update on Shared Network."
+  - slug: utm-host-only
+    title: "Put UTM machines on a host-only network"
+    category: configure
+    platforms: [macos]
+    scope: "Switch a machine between Shared Network and Host Only in UTM, check that the machines reach each other but not the internet."
+  - slug: utm-snapshots
+    title: "Take and restore snapshots in UTM"
+    category: use
+    platforms: [macos]
+    scope: "The Snapshots tab added in UTM 5: take, restore, rename, delete; which macOS versions it needs for QEMU and Apple Virtualization machines."
+  - slug: install-virtualbox-linux
+    title: "Install VirtualBox on Ubuntu or Debian"
+    category: install
+    platforms: [linux]
+    scope: "Oracle's own package or repository, the kernel modules and Secure Boot signing, adding your user to vboxusers, first start."
+  - slug: install-docker-engine-linux
+    title: "Install Docker Engine on Ubuntu or Debian"
+    category: install
+    platforms: [linux]
+    scope: "Docker's own apt repository with the Compose plugin, run without sudo (docker group, and what that allows), hello-world check."
+  - slug: install-docker-desktop-mac
+    title: "Install Docker Desktop on a Mac"
+    category: install
+    platforms: [macos]
+    scope: "Apple silicon or Intel download, check it, first start and the license terms, docker compose version check. Once it's out, the Windows guide (install-docker-desktop, titled just \"Install Docker Desktop\") may want \"on Windows\" in its title."
+  - slug: set-up-windows-trial-virtualbox
+    title: "Set up a Windows 11 trial in VirtualBox"
+    category: install
+    platforms: [windows, linux]
+    scope: "Evaluation Center ISO (90 days, no key), the VirtualBox settings Windows 11 needs (TPM, Secure Boot, memory), install, activate online on NAT, snapshot, what to do when the trial ends."

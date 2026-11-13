@@ -56,6 +56,21 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
 - Keep the design as it is: use the existing CSS variables and components, don't add JavaScript or inline styles
   (the CSP check fails on them).
 
+## Overview pages and step-by-step guides
+
+The owner's rule for every section of the site:
+
+- **Overview pages stay high level**, like the lab's Get started: what something is, why it matters, which choice to
+  make and the few commands that count, with pictures where they help. No click-by-click instructions there.
+- **Detailed how-tos are guides** in `content/guides/`, one per task ("Install VirtualBox on Windows"). The overview
+  page offers them as an optional extra in a **"Step by step" box**: a line `<!-- guides: install-utm, check-hash -->`
+  on its own in its text (works on Get started; `src/components/GuideSteps.astro` can be wired into other pages).
+- **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its row in the box says
+  "Coming soon" until the guide is published; the build stops on a name that's neither written nor planned.
+- **Order of work:** finish the overview page first. Then write each guide it announces **separately, one guide per
+  request and per pull request** (`docs/claude/guide.md`), so each gets its own research and full precision. Never
+  write the guides in the same run as the page that announces them.
+
 ## Playbooks
 
 | Task | Playbook |
@@ -66,6 +81,7 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
 | One Roadmap job's "what to learn" | `docs/claude/roadmap-job.md` |
 | One CWE weakness explained (attack + defense) | `docs/claude/cwe-entry.md` |
 | One home lab idea (a step-by-step build) | `docs/claude/lab-idea.md` |
+| One step-by-step guide (the next one is first in `content/guides/planned.yml`) | `docs/claude/guide.md` |
 | Monthly site check | `docs/claude/site-check.md` |
 | Words and style in Ukrainian and Polish | `docs/claude/translation.md` |
 
@@ -73,7 +89,7 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
 
 - `content/`: all text. Pages in `content/pages/<page>/<lang>.md`, interface words in `content/ui/<lang>.yml`,
   news in `content/news/weeks/` and `content/news/incidents/`, articles in `content/articles/`, guides in
-  `content/guides/`, home lab ideas in `content/lab/` (their downloads in `public/lab/<idea>/`), the Roadmap in `content/roadmap/{fields,jobs,topics}/`, the CWE write-ups in `content/cwe/<id>/`
+  `content/guides/` (the ones still to write: `content/guides/planned.yml`), home lab ideas in `content/lab/` (their downloads in `public/lab/<idea>/`), the Roadmap in `content/roadmap/{fields,jobs,topics}/`, the CWE write-ups in `content/cwe/<id>/`
   (the categories and CWE names are in `content/cwe/owasp-2025.yml`). `content/README.md` maps pages to files.
 - `src/`: Astro pages, components, `src/lib/*.ts` helpers, `src/styles/global.css`. Content schemas: `src/content.config.ts`.
 - `scripts/`: build steps (`check-csp.mjs`, …), `check-links.mjs`, `build-all-langs.mjs`, and `scripts/roadmap/`

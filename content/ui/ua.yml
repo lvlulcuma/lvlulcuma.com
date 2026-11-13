@@ -163,6 +163,8 @@ guide_many: "інструкцій"
 guide_other: "інструкції"
 before: "Перш ніж почати"
 beforeText: "Якщо ще не зробили цього, спершу виконайте ці кроки:"
+stepByStep: "Крок за кроком"   # the box on an overview page that lists detailed guides for one part of it
+stepByStepText: "Потрібна кожна дрібниця? Ці інструкції покажуть усе, клік за кліком:"
 usedIn: "Де використовується"
 nextGuide: "Наступна інструкція"
 noGuides: "У цій категорії ще немає інструкцій."

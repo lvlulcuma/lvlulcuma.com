@@ -2,7 +2,8 @@
 # Get started → lvlulcuma.com/pl/lab/start/
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
-# Inside those words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
+# A line like <!-- guides: install-utm, check-hash --> places a "Step by step" box with those guides (folders in
+# content/guides/, or planned in content/guides/planned.yml). Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Pierwsze kroki"
 summary: "Od zera do pierwszego laboratorium w jeden weekend: czego potrzebuje twój komputer, jakie darmowe oprogramowanie zainstalować i jak oddzielić to wszystko od prawdziwej sieci."   # one line on the Lab page
@@ -222,6 +223,8 @@ w tych ustawieniach.
 shutdown /r /fw /t 0
 ```
 
+<!-- guides: turn-on-virtualization -->
+
 **Miejsce na dysku:** zostaw 100 GB wolnego, najlepiej na SSD. Maszyna z Windows 11 potrzebuje dysku 64 GB;
 większości maszyn z Linuksem wystarczy 20–30 GB.
 
@@ -240,6 +243,8 @@ Maszyna wirtualna działa w **hipernadzorcy** (hypervisor): programie, który pr
 pamięci i procesora. Wszystkie są darmowe. Wybierz ten dla swojego systemu:
 
 <!-- lab:pick -->
+
+<!-- guides: install-virtualbox-windows, install-docker-desktop, install-utm, install-docker-desktop-mac, install-virtualbox-linux, install-docker-engine-linux -->
 
 > [!NOTE]
 > W Windowsie VirtualBox może pokazywać zielonego żółwia na dole okna maszyny. To znak, że działa własny
@@ -264,6 +269,8 @@ sudo apt update && sudo apt full-upgrade -y
 Pierwsze polecenie zamienia hasło `kali` na twoje własne. Drugie aktualizuje wszystkie narzędzia; za pierwszym
 razem trwa to dłuższą chwilę.
 
+<!-- guides: set-up-kali-virtualbox, set-up-kali-utm, check-hash, set-up-windows-trial-virtualbox -->
+
 > [!NOTE]
 > Wersję próbną Windows Server trzeba aktywować przez internet w ciągu pierwszych 10 dni, inaczej sama się
 > wyłącza. Przy pierwszym uruchomieniu trzymaj ją na NAT.
@@ -284,6 +291,8 @@ Cztery zasady, które to zapewniają:
 4. W kontenerach przypinaj każdy port do `127.0.0.1`, tak jak w
    [Laboratorium do atakowania aplikacji webowych i API](/pl/lab/web-app-hacking/).
 
+<!-- guides: virtualbox-host-only, utm-host-only -->
+
 ## Zrób migawkę
 
 Migawka (snapshot) zapisuje maszynę wirtualną dokładnie w obecnym stanie, jak punkt zapisu w grze. To twój przycisk
@@ -294,6 +303,8 @@ Migawka (snapshot) zapisuje maszynę wirtualną dokładnie w obecnym stanie, jak
 1. Zrób pierwszą migawkę, gdy tylko maszyna jest zainstalowana i zaktualizowana. Nazwij ją `clean`.
 2. Rób kolejną przed każdą większą zmianą: nowym narzędziem, atakiem, próbką złośliwego oprogramowania.
 3. Gdy coś się zepsuje, przywróć ostatnią dobrą migawkę zamiast naprawiać.
+
+<!-- guides: virtualbox-snapshots, utm-snapshots -->
 
 > [!WARNING]
 > Migawki to nie kopie zapasowe: leżą na tym samym dysku co maszyna. Notatki i pliki konfiguracyjne trzymaj też

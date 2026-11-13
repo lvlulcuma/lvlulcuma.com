@@ -2,7 +2,8 @@
 # Get started → lvlulcuma.com/ua/lab/start/
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
-# Inside those words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
+# A line like <!-- guides: install-utm, check-hash --> places a "Step by step" box with those guides (folders in
+# content/guides/, or planned in content/guides/planned.yml). Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Перші кроки"
 summary: "Від нуля до першої лабораторії за вихідні: що потрібно вашому комп'ютеру, яке безкоштовне ПЗ встановити і як відгородити все це від справжньої мережі."   # one line on the Lab page
@@ -222,6 +223,8 @@ visuals:
 shutdown /r /fw /t 0
 ```
 
+<!-- guides: turn-on-virtualization -->
+
 **Місце на диску:** тримайте вільними 100 ГБ, краще на SSD. Машині з Windows 11 потрібен диск на 64 ГБ; більшості
 машин з Linux вистачає 20–30 ГБ.
 
@@ -240,6 +243,8 @@ shutdown /r /fw /t 0
 й процесора. Усі вони безкоштовні. Виберіть той, що для вашої системи:
 
 <!-- lab:pick -->
+
+<!-- guides: install-virtualbox-windows, install-docker-desktop, install-utm, install-docker-desktop-mac, install-virtualbox-linux, install-docker-engine-linux -->
 
 > [!NOTE]
 > У Windows VirtualBox може показувати зелену черепаху внизу вікна машини. Це означає, що працює власний гіпервізор
@@ -264,6 +269,8 @@ sudo apt update && sudo apt full-upgrade -y
 
 Перша команда замінює пароль `kali` на ваш власний. Друга оновлює всі інструменти; першого разу це триває довго.
 
+<!-- guides: set-up-kali-virtualbox, set-up-kali-utm, check-hash, set-up-windows-trial-virtualbox -->
+
 > [!NOTE]
 > Пробну версію Windows Server треба активувати через інтернет протягом перших 10 днів, інакше вона сама
 > вимикається. Під час першого запуску тримайте її на NAT.
@@ -283,6 +290,8 @@ sudo apt update && sudo apt full-upgrade -y
 4. У контейнерах прив'язуйте кожен порт до `127.0.0.1`, як у
    [Лабораторії для атак на вебзастосунки та API](/ua/lab/web-app-hacking/).
 
+<!-- guides: virtualbox-host-only, utm-host-only -->
+
 ## Зробіть знімок
 
 Знімок (snapshot) зберігає віртуальну машину точно в поточному стані, як точка збереження в грі. Це ваша кнопка
@@ -293,6 +302,8 @@ sudo apt update && sudo apt full-upgrade -y
 1. Зробіть перший знімок, щойно машину встановлено й оновлено. Назвіть його `clean`.
 2. Робіть новий перед кожною великою зміною: новим інструментом, атакою, зразком шкідливого ПЗ.
 3. Коли щось зламалося, відновіть останній вдалий знімок замість того, щоб лагодити.
+
+<!-- guides: virtualbox-snapshots, utm-snapshots -->
 
 > [!WARNING]
 > Знімки — не резервні копії: вони лежать на тому самому диску, що й машина. Зберігайте нотатки та файли

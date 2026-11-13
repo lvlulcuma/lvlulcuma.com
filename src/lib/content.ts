@@ -1,6 +1,6 @@
 // Reads the editable text in content/ for the page templates.
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import { ALL_LANGS, GUIDE_CATS, LANGS, ui, type GuideCat, type Lang } from "../i18n/ui";
+import { ALL_LANGS, GUIDE_CATS, LANGS, ui, type GuideCat, type Lang, type Platform } from "../i18n/ui";
 import { getArticles, iso } from "./articles";
 import type { Block } from "./block";
 import { getCwes } from "./cwe";
@@ -104,6 +104,59 @@ export const dependents = (all: Guide[], g: Guide) => all.filter((x) => x.entry.
 const linksTo = (body: string | undefined, slug: string) =>
   new RegExp(`\\(/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^)]*)?\\)`).test(body ?? "");
 
+/** True when a page points to this guide in any way: a Markdown link, an HTML link in its front matter (the words of
+ *  Get started's pictures), or a "Step by step" box (a line <!-- guides: a, b --> in its text). */
+const usesGuide = (text: string | undefined, slug: string) =>
+  linksTo(text, slug) ||
+  new RegExp(`href="/(?:${ALL_LANGS.join("|")})/guides/${slug}/?(?:#[^"]*)?"`).test(text ?? "") ||
+  stepBoxes(text).some((box) => box.includes(slug));
+
+/** The "Step by step" boxes in a page's text: each line <!-- guides: a, b --> is one box, listing guide folders. */
+export const STEP_BOX = /<!--\s*guides:\s*([a-z0-9,\s-]+?)\s*-->/g;
+export const stepBoxes = (text: string | undefined) =>
+  [...(text ?? "").matchAll(STEP_BOX)].map((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean));
+
+export type GuidePlanned = { slug: string; title: string; category: GuideCat; platforms: Platform[]; scope?: string };
+
+/** content/guides/planned.yml: guides that pages already point to but that aren't published yet. */
+export async function getGuidePlan(): Promise<GuidePlanned[]> {
+  const entry = await getEntry("guidePlan", "planned");
+  const list = (entry?.data.guides ?? []) as GuidePlanned[];
+  const published = new Set((await getCollection("guides", (e) => !e.data.draft)).map((e) => e.id.split("/")[0]));
+  const seen = new Set<string>();
+  for (const p of list) {
+    if (seen.has(p.slug)) throw new Error(`content/guides/planned.yml: "${p.slug}" is listed twice.`);
+    seen.add(p.slug);
+    if (published.has(p.slug)) throw new Error(`content/guides/planned.yml: "${p.slug}" is published now. Delete its entry from planned.yml.`);
+  }
+  return list;
+}
+
+/** "Windows only", or "Windows, macOS and Linux". */
+export function platformLine(lang: Lang, platforms: Platform[]) {
+  const t = ui[lang];
+  const names = platforms.map((p) => t.platforms[p]);
+  return names.length === 1 ? t.platformOnly.replace("{os}", names[0]) : `${names.slice(0, -1).join(", ")} ${t.listAnd} ${names.at(-1)}`;
+}
+
+export type StepRow = { slug: string; title: string; meta: string; href?: string; lang: Lang };
+
+/** One "Step by step" box: a row per guide, in the order given. A published guide is a link with its time and
+ *  systems; a planned one shows its working title, its systems and "Coming soon". A folder that's neither stops the
+ *  build, so a typo never ships. `where` names the file for that message. */
+export async function stepRows(lang: Lang, slugs: string[], where: string): Promise<StepRow[]> {
+  const t = ui[lang];
+  const all = await getGuides(lang);
+  const plan = await getGuidePlan();
+  return slugs.map((slug) => {
+    const g = all.find((x) => x.slug === slug);
+    if (g) return { slug, title: g.entry.data.title, meta: `~${g.time} ${t.min} · ${platformLine(lang, g.entry.data.platforms)}`, href: `/${g.lang}/guides/${g.slug}/`, lang: g.lang };
+    const p = plan.find((x) => x.slug === slug);
+    if (p) return { slug, title: p.title, meta: `${platformLine(lang, p.platforms)} · ${t.comingSoon}`, lang: "en" as Lang };
+    throw new Error(`${where}: <!-- guides: … --> lists "${slug}", but there is no guide content/guides/${slug}/ and it isn't in content/guides/planned.yml.`);
+  });
+}
+
 /** Guides that send the reader to this one from one of their steps (a link in their text), without needing it
  *  first. That's how the short, reusable how-tos (Quick steps) are used: "Used in" on their page and their card. */
 export const guideMentions = (all: Guide[], g: Guide) =>
@@ -114,11 +167,11 @@ export const guideMentions = (all: Guide[], g: Guide) =>
  *  anyone keeping a list. Guides are English-only for now, so English links count on every language's page. */
 export async function guideLinks(lang: Lang, slug: string): Promise<{ kicker: string; title: string; href: string; lang: Lang }[]> {
   const t = ui[lang];
-  const links = (body: string | undefined) => linksTo(body, slug);
+  const links = (body: string | undefined) => usesGuide(body, slug);
   const out: { kicker: string; title: string; href: string; lang: Lang }[] = [];
   for (const i of await getIdeas(lang)) if (links(i.entry.body)) out.push({ kicker: t.nav.lab, title: i.entry.data.title, href: `/${i.lang}/lab/${i.slug}/`, lang: i.lang });
   const start = await getPage("lab-start", lang);
-  if (links(start.entry.body)) out.push({ kicker: t.nav.lab, title: start.data.title, href: `/${lang}/lab/start/`, lang });
+  if (links(start.entry.body) || links(JSON.stringify(start.data.visuals ?? {}).replaceAll('\\"', '"'))) out.push({ kicker: t.nav.lab, title: start.data.title, href: `/${lang}/lab/start/`, lang });
   for (const a of await getArticles(lang)) if (links(a.entry.body)) out.push({ kicker: t.nav.articles, title: a.entry.data.title, href: `/${lang}/articles/${a.slug}/`, lang });
   for (const c of await getCwes(lang)) if (links(c.entry.body)) out.push({ kicker: `CWE-${c.id}`, title: c.entry.data.title, href: `/${c.lang}/cwe/${c.id}/`, lang: c.lang });
   return out;
