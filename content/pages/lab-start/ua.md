@@ -2,7 +2,9 @@
 # Get started → lvlulcuma.com/ua/lab/start/
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
-# Inside those words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
+# A <!-- guide: install-utm --> at the end of a paragraph or list item adds a "Step by step" line there, with that
+# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same.
+# Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Перші кроки"
 summary: "Від нуля до першої лабораторії за вихідні: що потрібно вашому комп'ютеру, яке безкоштовне ПЗ встановити і як відгородити все це від справжньої мережі."   # one line on the Lab page
@@ -90,18 +92,24 @@ visuals:
         main: "VirtualBox"
         why: "Безкоштовний, з відкритим кодом. Акаунт не потрібен."
         alt: "VMware Workstation Pro"
-        docker: "Docker Desktop (<a href=\"/en/guides/install-docker-desktop/\">інструкція англійською</a>)"
+        docker: "Docker Desktop"
+        dockerGuide: install-docker-desktop
+        guide: install-virtualbox-windows
       - name: "Mac"
         main: "UTM"
         why: "Безкоштовний на сайті UTM. Версія з App Store — той самий застосунок, платний, з автоматичними оновленнями."
         alt: "VMware Fusion Pro"
         docker: "Docker Desktop"
+        dockerGuide: install-docker-desktop-mac
+        guide: install-utm
         note: "<strong>На Mac з Apple silicon</strong> (M1 і новіші) завантажуйте Arm-версію (arm64) кожної системи: версії для x86 працюють лише в емуляції, і повільно."
       - name: "Linux"
         main: "VirtualBox"
         why: "Безкоштовний, з відкритим кодом. Акаунт не потрібен."
         alt: "VMware Workstation Pro"
         docker: "Docker Engine з плагіном Compose"
+        dockerGuide: install-docker-engine-linux
+        guide: install-virtualbox-linux
     more: "Усі безкоштовні варіанти поруч"
     head: ["Гіпервізор", "Працює на", "Що варто знати"]
     all:
@@ -123,6 +131,7 @@ visuals:
       name: "Windows"
       text: "Безкоштовні пробні версії з Microsoft Evaluation Center, без ключа продукту. Коли пробний період закінчиться, зберіть нову машину: це однаково добра практика."
       facts: ["Windows 11 Enterprise: 90&nbsp;днів", "Windows Server 2025: 180&nbsp;днів"]
+      guide: set-up-windows-trial-virtualbox
   nets:
     can: ["Виходить в інтернет", "Доступна з дому"]
     yes: "Так"
@@ -222,6 +231,8 @@ visuals:
 shutdown /r /fw /t 0
 ```
 
+<!-- guide: turn-on-virtualization -->
+
 **Місце на диску:** тримайте вільними 100 ГБ, краще на SSD. Машині з Windows 11 потрібен диск на 64 ГБ; більшості
 машин з Linux вистачає 20–30 ГБ.
 
@@ -253,9 +264,11 @@ shutdown /r /fw /t 0
 
 <!-- lab:systems -->
 
-Почніть із Kali. Завантажте її віртуальну машину для свого гіпервізора, розпакуйте й відкрийте в ньому: у документації
-Kali є коротка інструкція для кожного гіпервізора. Більшість гіпервізорів підключають нову машину до NAT — мережі,
-через яку вона виходить в інтернет. Для першого оновлення це саме те, що треба. Увійдіть і введіть:
+Почніть із Kali. Завантажте її віртуальну машину для свого гіпервізора, розпакуйте й відкрийте в ньому.
+<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->
+
+Більшість гіпервізорів підключають нову машину до NAT — мережі, через яку вона виходить в інтернет. Для першого
+оновлення це саме те, що треба. Увійдіть і введіть:
 
 ```sh
 passwd
@@ -277,7 +290,7 @@ sudo apt update && sudo apt full-upgrade -y
 
 Чотири правила, які тримають лабораторію осторонь:
 
-1. Підключайте вразливі машини лише до мережі host-only або внутрішньої.
+1. Підключайте вразливі машини лише до мережі host-only або внутрішньої. <!-- guide: virtualbox-host-only, utm-host-only -->
 2. Перемикайте машину на NAT тільки на час встановлення оновлень чи інструментів, а потім повертайте назад.
 3. Ніколи не підключайте вразливу машину мостом і ніколи не прокидайте порт із роутера в лабораторію.
 4. У контейнерах прив'язуйте кожен порт до `127.0.0.1`, як у
@@ -290,7 +303,7 @@ sudo apt update && sudo apt full-upgrade -y
 
 <!-- lab:snaps -->
 
-1. Зробіть перший знімок, щойно машину встановлено й оновлено. Назвіть його `clean`.
+1. Зробіть перший знімок, щойно машину встановлено й оновлено. Назвіть його `clean`. <!-- guide: virtualbox-snapshots, utm-snapshots -->
 2. Робіть новий перед кожною великою зміною: новим інструментом, атакою, зразком шкідливого ПЗ.
 3. Коли щось зламалося, відновіть останній вдалий знімок замість того, щоб лагодити.
 

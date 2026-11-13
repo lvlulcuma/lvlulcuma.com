@@ -163,6 +163,8 @@ guide_many: "інструкцій"
 guide_other: "інструкції"
 before: "Перш ніж почати"
 beforeText: "Якщо ще не зробили цього, спершу виконайте ці кроки:"
+stepByStep: "Крок за кроком"   # before the detailed guide for a task, where a page talks about it
+stepByStepShort: "Покрокова інструкція"   # the same in a card that already names the tool
 usedIn: "Де використовується"
 nextGuide: "Наступна інструкція"
 noGuides: "У цій категорії ще немає інструкцій."
