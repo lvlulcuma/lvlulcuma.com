@@ -194,6 +194,29 @@ export async function fillGuideRefs(html: string, lang: Lang, where: string): Pr
   return html.replace(GUIDE_REF, () => lines[i++]);
 }
 
+/** A guide for several systems keeps each system's steps apart: a line <!-- for: windows --> (or several systems,
+ *  <!-- for: macos, linux -->) opens a box labelled with the system's name on its top edge, so readers find their
+ *  part at a glance and skip the other. The box runs until the next such line, a line <!-- /for --> (text for every
+ *  system follows), or the section's end (the next ## heading). The label is a heading for screen readers too. */
+const LANE = /<!--\s*(?:for:\s*([a-z,\s]+?)|\/for)\s*-->|<h2[\s>]/g;
+export function fillLanes(html: string, lang: Lang, platforms: Platform[], where: string): string {
+  const t = ui[lang];
+  let open = false;
+  const out = html.replace(LANE, (m, list?: string) => {
+    const close = open ? "</div>" : "";
+    open = false;
+    if (m.startsWith("<h2")) return close + m;
+    if (list === undefined) return close;
+    const systems = list.split(",").map((s) => s.trim()).filter(Boolean) as Platform[];
+    for (const s of systems) if (!platforms.includes(s)) throw new Error(`${where}: <!-- for: ${list} --> names "${s}", which isn't in the guide's platforms: [${platforms.join(", ")}].`);
+    open = true;
+    const names = systems.map((s) => t.platforms[s]);
+    const label = names.length === 1 ? names[0] : `${names.slice(0, -1).join(", ")} ${t.listAnd} ${names.at(-1)}`;
+    return `${close}<div class="lane"><h3 class="lane-tab">${label}</h3>`;
+  });
+  return open ? `${out}</div>` : out;
+}
+
 /** Guides that send the reader to this one from one of their steps (a link in their text), without needing it
  *  first. That's how the short, reusable how-tos (Quick steps) are used: "Used in" on their page and their card. */
 export const guideMentions = (all: Guide[], g: Guide) =>
