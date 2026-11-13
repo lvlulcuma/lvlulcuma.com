@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/grc/risk-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - grc-basics
+  - risk-management-basics
+  - control-frameworks
+  - iso-27001-basics
+  - risk-register
+  - threat-landscape
+  - policy-writing
+  - gdpr-security-basics
+  - nis2-scope
+intermediate:
+  - risk-assessment-methods
+  - enterprise-risk-management
+  - risk-appetite
+  - threat-informed-risk
+  - business-continuity
+  - third-party-risk-basics
+  - control-testing
+  - grc-metrics
+  - nis2-security-measures
+  - dora-overview
+  - ai-risk-management
+  - incident-reporting-rules
+advanced:
+  - risk-quantification
+  - cyber-insurance
+  - security-investment-decisions
+  - threat-profile
+  - fourth-party-risk
+  - regulator-engagement
+  - tabletop-exercises
+  - ransom-decisions
+  - regulatory-change
+  - executive-reporting
+expert:
+  - risk-function-leadership
+  - grc-program
+  - security-roadmaps
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "ENISA ECSF, Cybersecurity Risk Manager profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ISACA, CRISC exam content outline"
+    url: "https://www.isaca.org/credentialing/crisc/crisc-exam-content-outline"
+  - name: "NIST IR 8286A Rev. 1, Identifying and Estimating Cybersecurity Risk for Enterprise Risk Management (2025)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ir/2025/NIST.IR.8286Ar1.pdf"
+  - name: "ISO 31000:2018, Risk management — Guidelines"
+    url: "https://committee.iso.org/sites/tc262/home/projects/published/iso-31000-2018-risk-management.html"
+  - name: "The Open Group, Open FAIR body of knowledge (O-RT and O-RA)"
+    url: "https://blog.opengroup.org/2020/12/02/updates-to-the-open-fair-body-of-knowledge-part-2"
+  - name: "Lloyd's, Market Bulletin Y5381: state backed cyber-attack exclusions (2022)"
+    url: "https://assets.lloyds.com/media/e9a4058c-4c25-48d6-99d3-0c466987e099/Y5381%20Market%20Bulletin%20-%20Cyber-attack%20exclusions.pdf"
