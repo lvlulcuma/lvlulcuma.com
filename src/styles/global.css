@@ -1516,3 +1516,255 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend) > .for-tag + h2 { margin-top: 48px; }
   .cwe-body :is(.for-attack + .for-attack, .for-defend + .for-defend)::before { top: 0; }
 }
+
+/* ---------------------------------------------------------------------------------------------
+   Lab: Get started (/en/lab/start/). The page is a guide (numbered sections) with a picture in most sections,
+   so a beginner sees what each step is about before reading it (src/components/LabStartVisual.astro; the words
+   are under `visuals:` in content/pages/lab-start/<lang>.md). They're built from the site's own pieces, so they
+   read as part of it: the framed boxes and tabs of the Note and Tip boxes, cards like the guide cards, small
+   terminal windows, the numbered squares and lines of an incident's attack chain, and blue mono labels like
+   "Topic of the week". Colour carries one meaning each: blue for the lab, green / amber / red for the network
+   traffic light. Each picture is its own container: below 560px of room its cards stack, so it works on phones
+   and in the narrower text column of tablets. Pages you read stay still, so nothing here moves on its own. */
+.gs-page .gs { container-type: inline-size; margin: 24px 0 30px; }
+.gs-page > .gs:first-child { margin-top: 30px; }
+.prose .gs-list { list-style: none; margin: 0; padding: 0; }
+.prose .gs-list > li { margin: 0; }
+.gs p, .gs dl, .gs dd { margin: 0; }
+.gs .gs-cap { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+/* Small labels: blue capitals in the mono font, like "Topic of the week". */
+.gs-ram .gs-verdict, .gs .gs-pick-os, .gs-sys-k, .gs-lights .gs-verdict { font-family: var(--mono); font-size: 11.5px; font-weight: 500; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+/* Card titles in the display font, as on the guide cards. */
+.gs-ram .gs-gb, .gs .gs-kind-t, .gs .gs-pick-main, .gs-sys-t, .gs-net-t, .gs .gs-day-t { font-family: var(--display); font-weight: 500; letter-spacing: -.01em; line-height: 1.25; text-wrap: balance; }
+/* Cards: the panel with a thin line around it. */
+.gs-ram li, .gs-kinds li, .gs-pick-cols > li, .gs-systems li, .gs-day { border: 1px solid var(--line); background: var(--panel); }
+
+/* What you're building: your computer (a box with a tab on its top edge), the hypervisor in it (dashed, blue),
+   two machines like small terminal windows joined by the lab network, then a dashed red line with a cross down to
+   your home network, which sits outside on the page's grid. */
+.gs .gs-tab { position: absolute; top: 0; left: 12px; max-width: calc(100% - 24px); transform: translateY(-50%); padding: 1px 8px 2px; border: 1px solid var(--ink); background: var(--panel); font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1.4; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gs-host { position: relative; padding: 28px 18px 18px; border: 1.5px solid var(--ink); background: var(--panel); }
+.gs-hv { position: relative; padding: 30px 16px 18px; border: 1px dashed color-mix(in srgb, var(--accent) 65%, var(--line)); background: color-mix(in srgb, var(--accent) 5%, var(--panel)); }
+.gs .gs-tab-hv { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); background: color-mix(in srgb, var(--accent) 12%, var(--panel)); color: var(--accent); }
+.gs-vms { display: grid; grid-template-columns: minmax(0, 1fr) minmax(104px, .75fr) minmax(0, 1fr); }
+.gs-vm { border: 1px solid var(--term-edge); background: var(--term); }
+.gs .gs-vm-bar { display: flex; align-items: center; gap: 7px; padding: 4px 10px; border-bottom: 1px solid var(--term-rule); background: var(--term-bar); font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--term-ink); }
+.gs .gs-vm-bar::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; background: var(--term-accent); }
+.gs-vm-target .gs-vm-bar::before { background: var(--warn); }
+.gs .gs-vm-body { padding: 10px 10px 12px; font-size: 14.5px; line-height: 1.4; color: var(--term-ink); }
+.gs-wire { position: relative; min-height: 64px; }
+.gs-wire::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid var(--accent); }
+.gs-wire span { position: absolute; left: 4px; right: 4px; bottom: calc(50% + 6px); font-family: var(--mono); font-size: 11.5px; line-height: 1.3; text-align: center; color: var(--accent); }
+.gs-wall { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; height: 56px; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--attack) 60%, var(--line)) 0 5px, transparent 5px 10px) 50% 0 / 2px 100% no-repeat; font-family: var(--mono); font-size: 12px; color: var(--attack); }
+.gs-x { grid-column: 2; position: relative; width: 24px; height: 24px; border: 1.5px solid var(--attack); border-radius: 50%; background: var(--paper); }
+.gs-x::before, .gs-x::after { content: ""; position: absolute; left: 5px; right: 5px; top: calc(50% - 1px); height: 2px; background: var(--attack); transform: rotate(45deg); }
+.gs-x::after { transform: rotate(-45deg); }
+.gs-wall > span:last-child { grid-column: 3; }
+.gs-home { position: relative; padding: 26px 16px 14px; border: 1px dashed color-mix(in srgb, var(--muted) 55%, var(--line)); }
+.gs-home .gs-tab { border-color: color-mix(in srgb, var(--muted) 55%, var(--line)); background: var(--paper); color: var(--muted); }
+.prose .gs-devices { display: flex; flex-wrap: wrap; gap: 8px; }
+.gs-devices li { padding: 2px 9px 3px; border: 1px solid var(--line); background: var(--panel); font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* The plan: the steps as numbered squares joined by a line, like an incident's attack chain, read left to right.
+   Each step is a link to its section. */
+.gs-plan ul { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+.gs-plan li { position: relative; }
+.gs-plan li:not(:last-child)::after { content: ""; position: absolute; top: 13px; left: 34px; right: 6px; height: 1px; background: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.gs-plan a { display: flex; flex-direction: column; gap: 3px; height: 100%; padding: 0 12px 4px 0; color: var(--ink); text-decoration: none; }
+.gs-plan .gs-n { display: grid; place-items: center; width: 27px; height: 27px; margin-bottom: 9px; border: 1.5px solid var(--accent); background: var(--panel); font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); transition: background-color var(--ease), color var(--ease); }
+.gs-plan .gs-t { font-size: 15px; font-weight: 600; line-height: 1.35; transition: color var(--ease); }
+.gs-plan .gs-time { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.gs-plan a:hover .gs-n, .gs-plan a:focus-visible .gs-n { background: var(--accent); color: var(--panel); }
+.gs-plan a:hover .gs-t, .gs-plan a:focus-visible .gs-t { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* Memory: three cards; the middle one, the sweet spot, has the side box's glow. The squares are machines that
+   run at the same time. */
+.gs-ram ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gs-ram li { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 15px; }
+.gs-ram li:not(.best) .gs-verdict { color: var(--muted); }
+.gs-ram li.best { border-color: transparent;
+  background:
+    linear-gradient(170deg, color-mix(in srgb, var(--glow-b) 11%, var(--panel)) 0%, color-mix(in srgb, var(--glow-b) 3%, var(--panel)) 35%, var(--panel) 70%) padding-box,
+    linear-gradient(135deg, color-mix(in srgb, var(--glow-a) 70%, var(--line)), color-mix(in srgb, var(--glow-b) 70%, var(--line)) 45%, color-mix(in srgb, var(--glow-c) 70%, var(--line))) border-box;
+  box-shadow: 0 10px 28px -16px color-mix(in srgb, var(--glow-b) 38%, transparent); }
+.gs-ram .gs-gb { font-size: 22px; }
+.gs-pips { display: flex; gap: 4px; margin: 2px 0 4px; }
+.gs-pips span { width: 15px; height: 11px; border: 1px solid var(--line); }
+.gs-pips span.on { border-color: var(--accent); background: var(--accent); }
+.gs-ram .gs-fits { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+
+/* Check yours: a small terminal window, one row per system. */
+.gs-check { border: 1px solid var(--term-edge); background: var(--panel); }
+.gs .gs-check-bar { padding: 5px 14px; border-bottom: 1px solid var(--term-rule); background: var(--term-bar); font-family: var(--mono); font-size: 12px; color: var(--term-ink); }
+.gs-check dl > div { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 4px 16px; padding: 13px 16px 14px; }
+.gs-check dl > div + div { border-top: 1px solid var(--line); }
+.gs-check dt { padding-top: 2px; font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--accent); }
+.gs-check li { font-size: 15px; line-height: 1.55; }
+.gs-check li + li { margin-top: 7px; }
+.gs-check li .gs-cmd { display: block; width: fit-content; max-width: 100%; margin: 0 0 3px; padding: 2px 9px; border: 1px solid var(--term-edge); background: var(--term); font-size: 13px; color: var(--term-ink); overflow-wrap: anywhere; }
+.gs-cmd::before { content: "$ "; content: "$ " / ""; color: var(--term-accent); }
+
+/* A virtual machine and a container: a stack of layers each, top to bottom, with the one that makes the
+   difference (its own system / your computer's system) in blue. */
+.gs-kinds ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.gs-kinds li { display: flex; flex-direction: column; padding: 16px 18px 14px; }
+.gs .gs-kind-t { font-size: 18px; }
+.gs .gs-kind-w { margin-top: 3px; font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+.gs-stack { display: grid; gap: 4px; margin: 14px 0; }
+.gs-layer { display: flex; gap: 4px; }
+.gs-layer span { flex: 1 1 0; min-width: 0; padding: 5px 6px; border: 1px solid var(--line); background: var(--paper); font-family: var(--mono); font-size: 12px; line-height: 1.35; text-align: center; color: var(--muted); }
+.gs-layer.mark span { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); background: color-mix(in srgb, var(--accent) 12%, var(--panel)); font-weight: 500; color: var(--accent); }
+.gs-layer.base span { border-color: var(--ink); color: var(--ink); }
+.gs .gs-kv { display: grid; gap: 6px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); }
+.gs-kv > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 1.45; }
+.gs-kv dt { color: var(--muted); }
+
+/* Which hypervisor: one card per system, then every free choice in a fold, like the sources' "N more". */
+.gs-pick-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gs-pick-cols > li { display: flex; flex-direction: column; padding: 14px 16px; }
+.gs .gs-pick-first { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.gs .gs-pick-main { font-size: 19px; }
+.gs .gs-pick-why { margin: 4px 0 14px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.gs .gs-pick-note { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.gs-pick-note strong { font-weight: 600; color: var(--ink); }
+.gs-pick .gs-kv > div { grid-template-columns: 1fr; gap: 0; }
+.gs-pick .gs-kv dt { font-size: 12.5px; }
+.gs-more { margin-top: 14px; }
+.gs-more > summary { display: inline-flex; align-items: center; gap: 9px; list-style: none; cursor: pointer; padding: 3px 0; font-size: 15px; font-weight: 500; color: var(--accent); }
+.gs-more > summary::-webkit-details-marker { display: none; }
+.gs-more > summary::after { content: ""; width: 6px; height: 6px; margin-top: -4px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+.gs-more[open] > summary::after { margin-top: 3px; transform: rotate(-135deg); }
+.gs-more > summary:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.gs-more table { margin-top: 8px; font-size: 14px; }
+
+/* The free systems: cards with a blue label, the name, what it's for, and its facts at the bottom in mono. */
+.gs-systems ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gs-systems li { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px 12px; }
+.gs-sys-t { font-size: 18px; }
+.gs-sys-d { flex: 1; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+.gs-sys-facts { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12px; line-height: 1.45; }
+.gs-sys-facts code { padding: 0; border: 0; background: none; font-size: inherit; color: var(--accent); }
+
+/* Networks as a traffic light: a frame in the light's colour with its glow at the top, like the Note and Tip
+   boxes, a lamp before the verdict, the network's name, and what it can reach. Then the names in each hypervisor. */
+.gs-lights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gs-lights > li { --c: var(--tip); display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border: 1px solid color-mix(in srgb, var(--c) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--c) 9%, var(--panel)), var(--panel) 70%); }
+.gs-lights > li.gs-light-wait { --c: var(--warn); }
+.gs-lights > li.gs-light-stop { --c: var(--attack); }
+.gs-lights .gs-verdict { display: flex; align-items: center; gap: 9px; color: var(--c); }
+.gs-lamp { flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent); }
+.gs-net-t { font-size: 18px; }
+.gs-reach { display: grid; gap: 3px; margin: 2px 0; }
+.gs-reach > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 13.5px; line-height: 1.45; }
+.gs-reach dt { color: var(--muted); }
+.gs-reach dd { font-family: var(--mono); font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.gs-net-d { margin-top: auto; padding-top: 9px; border-top: 1px solid color-mix(in srgb, var(--c) 30%, var(--line)); font-size: 14px; line-height: 1.5; color: var(--muted); }
+.gs-names { margin-top: 18px; font-size: 14px; }
+.gs-names caption { caption-side: top; padding-bottom: 6px; text-align: left; font-size: 14px; font-weight: 600; }
+.gs-names thead :is(th, td) { border-bottom: 1.5px solid var(--ink); }
+.gs-names thead th { color: var(--ink); --c: var(--tip); }
+.gs-names thead th.gs-light-wait { --c: var(--warn); }
+.gs-names thead th.gs-light-stop { --c: var(--attack); }
+.gs-names thead .gs-lamp { display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: 1px; box-shadow: none; }
+.gs-names tbody th { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.gs-names tbody td { padding: 10px 12px 10px 0; }
+.guide .gs-names td:first-child { font-weight: 400; white-space: normal; }
+
+/* Snapshots: save points on a line (filled blue squares), then a break (a red circle with a cross); a dashed
+   arrow arches back over the line to the last good point, with what to do above it. On phones the line runs down. */
+.gs-snaps { display: flex; flex-direction: column; }
+.gs-snaps ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gs-snaps .gs-list { margin-top: 11px; }
+.gs-snaps li { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 24px 12px 0 0; }
+.gs-snaps li::before { content: ""; position: absolute; top: 0; left: 0; width: 13px; height: 13px; box-sizing: border-box; border: 1.5px solid var(--accent); background: var(--accent); }
+.gs-snaps li:not(:last-child)::after { content: ""; position: absolute; top: 6px; left: 17px; right: 4px; height: 1.5px; background: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.gs-snaps li.broke::before { top: -3px; left: -3px; width: 19px; height: 19px; border-color: var(--attack); border-radius: 50%; background: var(--paper); }
+.gs-snaps li.broke::after { content: ""; position: absolute; top: 1px; left: 1px; width: 11px; height: 11px;
+  background: linear-gradient(45deg, transparent calc(50% - 1px), var(--attack) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), linear-gradient(-45deg, transparent calc(50% - 1px), var(--attack) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)); }
+.gs-snaps li code { padding: 0; border: 0; background: none; font-size: 13px; font-weight: 500; color: var(--accent); }
+.gs-snaps li > span { font-size: 14px; line-height: 1.45; color: var(--muted); }
+.gs-snaps .gs-broke { font-size: 14px; font-weight: 600; color: var(--attack); }
+.gs .gs-back { order: -1; position: relative; margin-left: 50%; padding: 0 0 24px; font-size: 14px; line-height: 1.45; }
+.gs .gs-back code { padding: 0; border: 0; background: none; font-weight: 500; color: var(--accent); }
+.gs-back-arrow { position: absolute; bottom: 0; left: 5.75px; width: calc(50% + 1.5px); height: 14px; border: 1.5px dashed var(--accent); border-bottom: 0; }
+.gs-back-arrow::after { content: ""; position: absolute; left: -6px; bottom: -8px; border-top: 7px solid var(--accent); border-left: 5.25px solid transparent; border-right: 5.25px solid transparent; }
+
+/* The sample notebook is a code block with the file's name in its bar. */
+.gs-page figure.gs-notebook pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* The first weekend: a card per day with boxes to tick (they keep no state; reloading clears them). A day with
+   every box ticked gets a green frame; when the whole weekend is done, a green line says so. */
+.gs-days { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.gs-day { padding: 14px 16px 6px; transition: border-color .3s var(--ease-soft); }
+.gs .gs-day-t { margin-bottom: 4px; font-size: 18px; }
+.gs-day li + li { border-top: 1px solid var(--line); }
+.gs-day label { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; column-gap: 11px; align-items: start; padding: 10px 0; font-size: 15px; line-height: 1.45; cursor: pointer; }
+.gs-day input { width: 16px; height: 16px; margin: 3px 0 0; accent-color: var(--tip); cursor: pointer; }
+.gs-day .gs-time { padding-top: 2px; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.gs-todo { transition: color .2s var(--ease-soft); }
+.gs-day input:checked ~ .gs-todo { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
+/* The line under the days: "[ ] Tick everything…" in grey, then "[+] Weekend done…" in green once every box is
+   ticked. Both lines sit in the same place and only one is visible, so nothing moves. The :has() rules style only
+   the element they match (a day, the whole weekend), and the line takes its look from variables set on the
+   weekend: Chrome doesn't always restyle what's inside an element a :has() rule matched when a box is ticked by
+   hand, or anything with :has() inside a container, so this picture isn't a container (its days stack with a
+   media query). Written as "done, unless a box is still empty", the rule Chrome keeps up to date. Without :has()
+   the grey line simply stays. */
+.gs-page .gs-weekend { --gs-todo: visible; --gs-done: hidden; --gs-c: var(--line); --gs-bg: transparent; --gs-ink: var(--muted); --gs-w: 400; --gs-b: dashed; }
+.gs .gs-done { display: grid; margin-top: 12px; padding: 10px 14px; border: 1px var(--gs-b) var(--gs-c); background-color: var(--gs-bg); font-size: 15px; font-weight: var(--gs-w); color: var(--gs-ink); transition: border-color .3s var(--ease-soft), background-color .3s var(--ease-soft), color .3s var(--ease-soft); }
+.gs-done > span { grid-area: 1 / 1; }
+.gs-done > span::before { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.gs-done-no { visibility: var(--gs-todo); }
+.gs-done-yes { visibility: var(--gs-done); }
+.gs-done-no::before { content: "[ ] "; content: "[ ] " / ""; }
+.gs-done-yes::before { content: "[+] "; content: "[+] " / ""; color: var(--tip); }
+@supports selector(:has(a)) {
+  .gs-page .gs-day { border-color: var(--tip); }
+  .gs-page .gs-day:has(input:not(:checked)) { border-color: var(--line); }
+  .gs-page .gs-weekend { --gs-todo: hidden; --gs-done: visible; --gs-c: color-mix(in srgb, var(--tip) 55%, var(--line)); --gs-bg: color-mix(in srgb, var(--tip) 8%, var(--panel)); --gs-ink: var(--ink); --gs-w: 500; --gs-b: solid; }
+  .gs-page .gs-weekend:has(input:not(:checked)) { --gs-todo: visible; --gs-done: hidden; --gs-c: var(--line); --gs-bg: transparent; --gs-ink: var(--muted); --gs-w: 400; --gs-b: dashed; }
+}
+.gs-page .gs-weekend { container-type: normal; }
+@media (max-width: 640px) { .gs-days { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .gs-plan .gs-n, .gs-plan .gs-t, .gs-day, .gs-todo, .gs .gs-done { transition: none; } }
+
+/* Less than 560px of room (phones, and tablets' narrower text column): cards stack, the plan and the snapshots
+   run down instead of across, and the machines in "What you're building" sit one above the other. */
+@container (max-width: 560px) {
+  .gs-ram ul, .gs-kinds ul, .gs-pick-cols, .gs-systems ul, .gs-lights { grid-template-columns: minmax(0, 1fr); }
+  .gs-vms { grid-template-columns: minmax(0, 1fr); }
+  .gs-wire { min-height: 52px; }
+  .gs-wire::before { left: 50%; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px solid var(--accent); }
+  .gs-wire span { left: calc(50% + 12px); right: 0; bottom: auto; top: 50%; transform: translateY(-50%); text-align: left; }
+  .gs-plan ul { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
+  .gs-plan li:not(:last-child)::after { top: 27px; bottom: 0; left: 13px; right: auto; width: 1px; height: auto; }
+  .gs-plan a { display: grid; grid-template-columns: 27px minmax(0, 1fr) auto; column-gap: 14px; align-items: center; padding: 0 0 12px; }
+  .gs-plan li:last-child a { padding-bottom: 0; }
+  .gs-plan .gs-n { margin: 0; }
+  .gs-check dl > div { grid-template-columns: minmax(0, 1fr); }
+  .gs-snaps ul { grid-template-columns: minmax(0, 1fr); }
+  .gs-snaps .gs-list { margin-top: 0; }
+  .gs-snaps li { padding: 0 0 18px 30px; }
+  .gs-snaps li:not(:last-child)::after { top: 17px; bottom: 4px; left: 5.75px; right: auto; width: 1.5px; height: auto; }
+  .gs-snaps li.broke { padding-bottom: 0; }
+  .gs .gs-back { order: 0; margin: 12px 0 0; padding: 0 0 0 30px; }
+  .gs-back-arrow { display: none; }
+  /* The names table: a block per hypervisor, each name after a dot in its light's colour (the cards above say
+     what the colours mean). The column headings stay for screen readers only. */
+  .gs-names, .gs-names caption, .gs-names tbody, .gs-names tr { display: block; }
+  .gs-names thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .gs-names tr { padding: 10px 0 11px; border-bottom: 1px solid var(--line); }
+  .gs-names tbody th { display: block; padding: 0 0 4px; border: 0; }
+  .gs-names tbody td { display: flex; align-items: baseline; gap: 9px; padding: 1px 0; border: 0; }
+  .gs-names tbody td::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--tip); }
+  .gs-names tbody td:nth-of-type(2)::before { background: var(--warn); }
+  .gs-names tbody td:nth-of-type(3)::before { background: var(--attack); }
+  .gs .gs-back::before { content: "<-"; content: "<-" / ""; position: absolute; left: 0; top: 0; font-family: var(--mono); font-size: 13px; color: var(--accent); }
+}
+/* Narrowest phones: the tabs of "What you're building" may take two lines (the boxes make room for them), and the
+   layers of the stacks get a little smaller, so three words still fit side by side. */
+@container (max-width: 400px) {
+  .gs .gs-tab { white-space: normal; text-overflow: clip; }
+  .gs-hv { padding-top: 44px; }
+  .gs-layer span { padding: 5px 3px; font-size: 11.5px; overflow-wrap: anywhere; }
+}

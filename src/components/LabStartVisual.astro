@@ -1,0 +1,214 @@
+---
+// The pictures on Get started (/en/lab/start/), one per <!-- lab:<name> --> line in content/pages/lab-start/<lang>.md.
+// Their words are under `visuals:` in the same file; <strong>, <code>, <kbd> and <a> in them are kept (set:html).
+// No JavaScript and no inline styles: sizes and colours come from classes (CSS "Lab: Get started" in global.css).
+//   map       what you'll build: your computer, the hypervisor, two machines on a lab network, your home network kept out
+//   plan      the first five steps with rough times, linked to their headings
+//   ram       8 / 16 / 32 GB and how many virtual machines each runs
+//   check     where to see memory and virtualization on Windows, macOS and Linux
+//   kinds     a virtual machine and a container side by side, as stacks of layers
+//   pick      which hypervisor to install on each system, then every free choice in a fold
+//   systems   the free operating systems: Kali, Ubuntu/Debian, Windows trials
+//   nets      host-only, NAT and bridged as a traffic light, then their names in each hypervisor
+//   snaps     snapshots as save points on a line, and jumping back
+//   notebook  a sample lab notebook, shown like a file
+//   weekend   the first weekend as a checklist with boxes to tick
+import type { MarkdownHeading } from "astro";
+
+interface Props { name: string; v: Record<string, any>; headings: MarkdownHeading[] }
+const { name, v, headings } = Astro.props;
+const d = v[name];
+if (!d) throw new Error(`content/pages/lab-start: <!-- lab:${name} --> has no words under visuals: ${name}:`);
+const two = (n: number) => String(n).padStart(2, "0");
+// The plan links the first sections: its steps are the page's first headings.
+const top = headings.filter((h) => h.depth === 2);
+if (name === "plan" && d.times.length > top.length) throw new Error(`content/pages/lab-start: plan has ${d.times.length} times but the page has only ${top.length} headings.`);
+const LIGHTS = ["go", "wait", "stop"];
+---
+{name === "map" && (
+  <figure class="gs gs-map">
+    <div class="gs-host">
+      <p class="gs-tab">{d.host}</p>
+      <div class="gs-hv">
+        <p class="gs-tab gs-tab-hv">{d.hypervisor}</p>
+        <div class="gs-vms">
+          <div class="gs-vm"><p class="gs-vm-bar">{d.attacker.name}</p><p class="gs-vm-body">{d.attacker.role}</p></div>
+          <div class="gs-wire"><span>{d.wire}</span></div>
+          <div class="gs-vm gs-vm-target"><p class="gs-vm-bar">{d.target.name}</p><p class="gs-vm-body">{d.target.role}</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="gs-wall"><span class="gs-x" aria-hidden="true"></span><span>{d.wall}</span></div>
+    <div class="gs-home">
+      <p class="gs-tab">{d.home}</p>
+      <ul class="gs-list gs-devices">{d.devices.map((x: string) => <li>{x}</li>)}</ul>
+    </div>
+    <figcaption class="gs-cap">{d.caption}</figcaption>
+  </figure>
+)}
+
+{name === "plan" && (
+  <nav class="gs gs-plan" aria-label={d.label}>
+    <ul class="gs-list">
+      {d.times.map((time: string, i: number) => (
+        <li><a href={`#${top[i].slug}`}><span class="gs-n">{two(i + 1)}</span><span class="gs-t">{top[i].text.replace(/^\d+[.)]\s+/, "")}</span><span class="gs-time">{time}</span></a></li>
+      ))}
+    </ul>
+    <p class="gs-cap">{d.total}</p>
+  </nav>
+)}
+
+{name === "ram" && (
+  <figure class="gs gs-ram">
+    <ul class="gs-list">
+      {d.tiers.map((x: any) => (
+        <li class={x.best ? "best" : undefined}>
+          <span class="gs-verdict">{x.verdict}</span>
+          <span class="gs-gb">{x.size}</span>
+          <span class="gs-pips" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((n) => <span class={n <= x.pips ? "on" : undefined} />)}</span>
+          <span class="gs-fits">{x.fits}</span>
+        </li>
+      ))}
+    </ul>
+    <figcaption class="gs-cap">{d.caption}</figcaption>
+  </figure>
+)}
+
+{name === "check" && (
+  <section class="gs gs-check" aria-label={d.title}>
+    <p class="gs-check-bar">{d.title}</p>
+    <dl>
+      {d.systems.map((s: any) => (
+        <div>
+          <dt>{s.name}</dt>
+          <dd>
+            <ul class="gs-list">
+              {s.steps.map((x: any) => (
+                <li>{x.cmd && <code class="gs-cmd">{x.cmd}</code>}<span set:html={x.text} /></li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+)}
+
+{name === "kinds" && (
+  <div class="gs gs-kinds"><ul class="gs-list">
+    {d.map((k: any) => (
+      <li>
+        <p class="gs-kind-t">{k.name}</p>
+        <p class="gs-kind-w">{k.what}</p>
+        <div class="gs-stack" aria-hidden="true">
+          {k.layers.map((row: string[], i: number) => (
+            <div class={`gs-layer${i + 1 === k.mark ? " mark" : ""}${i === k.layers.length - 1 ? " base" : ""}`}>{row.map((x) => <span>{x}</span>)}</div>
+          ))}
+        </div>
+        <dl class="gs-kv">{k.rows.map((r: any) => <div><dt>{r.label}</dt><dd set:html={r.text} /></div>)}</dl>
+      </li>
+    ))}
+  </ul></div>
+)}
+
+{name === "pick" && (
+  <div class="gs gs-pick">
+    <ul class="gs-list gs-pick-cols">
+      {d.systems.map((s: any) => (
+        <li>
+          <p class="gs-pick-os">{s.name}</p>
+          <p class="gs-pick-first">{d.first}</p>
+          <p class="gs-pick-main">{s.main}</p>
+          <p class="gs-pick-why">{s.why}</p>
+          <dl class="gs-kv">
+            <div><dt>{d.or}</dt><dd>{s.alt}</dd></div>
+            <div><dt>{d.docker}</dt><dd set:html={s.docker} /></div>
+          </dl>
+        </li>
+      ))}
+    </ul>
+    {d.systems.filter((s: any) => s.note).map((s: any) => <p class="gs-pick-note" set:html={s.note} />)}
+    <details class="gs-more">
+      <summary>{d.more}</summary>
+      <table>
+        <thead><tr>{d.head.map((h: string) => <th>{h}</th>)}</tr></thead>
+        <tbody>{d.all.map((r: string[]) => <tr>{r.map((c) => <td set:html={c} />)}</tr>)}</tbody>
+      </table>
+    </details>
+  </div>
+)}
+
+{name === "systems" && (
+  <div class="gs gs-systems"><ul class="gs-list">
+    {d.map((s: any) => (
+      <li>
+        <span class="gs-sys-k">{s.kicker}</span>
+        <span class="gs-sys-t">{s.name}</span>
+        <span class="gs-sys-d" set:html={s.text} />
+        <span class="gs-sys-facts">{s.facts.map((f: string) => <span set:html={f} />)}</span>
+      </li>
+    ))}
+  </ul></div>
+)}
+
+{name === "nets" && (
+  <div class="gs gs-nets">
+    <ul class="gs-list gs-lights">
+      {d.modes.map((m: any) => {
+        if (!LIGHTS.includes(m.light)) throw new Error(`content/pages/lab-start: nets light "${m.light}" must be go, wait or stop.`);
+        return (
+          <li class={`gs-light-${m.light}`}>
+            <span class="gs-verdict"><span class="gs-lamp" aria-hidden="true" />{m.verdict}</span>
+            <span class="gs-net-t">{m.name}</span>
+            <dl class="gs-reach">
+              {d.can.map((c: string, i: number) => (
+                <div class={m.reach[i] ? "yes" : "no"}><dt>{c}</dt><dd>{m.reach[i] ? d.yes : d.no}</dd></div>
+              ))}
+            </dl>
+            <span class="gs-net-d">{m.text}</span>
+          </li>
+        );
+      })}
+    </ul>
+    <table class="gs-names">
+      <caption>{d.names.title}</caption>
+      <thead><tr><td></td>{d.modes.map((m: any) => <th scope="col" class={`gs-light-${m.light}`}><span class="gs-lamp" aria-hidden="true" />{m.name}</th>)}</tr></thead>
+      <tbody>{d.names.rows.map((r: string[]) => <tr><th scope="row">{r[0]}</th>{r.slice(1).map((c) => <td>{c}</td>)}</tr>)}</tbody>
+    </table>
+  </div>
+)}
+
+{name === "snaps" && (
+  <figure class="gs gs-snaps">
+    <ul class="gs-list">
+      {d.points.map((p: any) => <li><code>{p.name}</code><span>{p.text}</span></li>)}
+      <li class="broke"><span class="gs-broke">{d.broke}</span></li>
+    </ul>
+    <p class="gs-back"><span class="gs-back-arrow" aria-hidden="true"></span><span set:html={d.back} /></p>
+  </figure>
+)}
+
+{name === "notebook" && (
+  <figure class="code gs-notebook">
+    <figcaption>{d.file}</figcaption>
+    <pre><code>{d.text.replace(/\n$/, "")}</code></pre>
+  </figure>
+)}
+
+{name === "weekend" && (
+  <div class="gs gs-weekend">
+    <div class="gs-days">
+      {d.days.map((day: any, di: number) => (
+        <section class="gs-day" aria-labelledby={`gs-day-${di}`}>
+          <p class="gs-day-t" id={`gs-day-${di}`}>{day.day}</p>
+          <ul class="gs-list">
+            {day.items.map((x: any) => (
+              <li><label><input type="checkbox" /><span class="gs-todo" set:html={x.text} />{x.time && <span class="gs-time">{x.time}</span>}</label></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <p class="gs-done" role="status"><span class="gs-done-no">{d.todo}</span><span class="gs-done-yes">{d.done}</span></p>
+  </div>
+)}

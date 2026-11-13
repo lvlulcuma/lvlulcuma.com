@@ -21,7 +21,7 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 | Research list `/en/research/` | `pages/research/` (intro only) |
 | A research project `/en/research/<name>/` | `research/<name>/` |
 | Lab `/en/lab/` | `pages/lab/` (and every idea in `lab/`) |
-| Get started `/en/lab/start/` | `pages/lab-start/` |
+| Get started `/en/lab/start/` | `pages/lab-start/` (the text below the dashes, and the words in its pictures under `visuals:`) |
 | A lab idea `/en/lab/<idea>/` | `lab/<idea>/` (its downloads: `public/lab/<idea>/`) |
 | Practice safely and legally `/en/lab/rules/` | `pages/lab-rules/` |
 | About `/en/about/` | `pages/about/` |
