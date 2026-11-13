@@ -1,0 +1,62 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cryptography/cryptographer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - c-for-security
+  - git-basics
+  - crypto-math-foundations
+  - symmetric-crypto
+  - public-key-crypto
+  - using-cryptography
+  - crypto-research-tools
+intermediate:
+  - provable-security
+  - symmetric-cryptanalysis
+  - public-key-cryptanalysis
+  - quantum-cryptanalysis
+  - crypto-bugs
+  - constant-time-code
+  - crypto-protocols
+  - crypto-testing
+  - crypto-libraries
+  - software-reverse-engineering
+advanced:
+  - pqc-cryptanalysis
+  - cipher-design
+  - crypto-research-publishing
+  - pqc-implementation
+  - advanced-crypto-techniques
+  - hardware-attacks
+  - crypto-module-validation
+  - vulnerability-disclosure
+expert:
+  - standardization-process
+  - crypto-governance
+  - research-team
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST, Post-quantum additional digital signature schemes: round 2 candidates (2024)"
+    url: "https://csrc.nist.gov/News/2024/pqc-digital-signature-second-round-announcement"
+  - name: "Castryck and Decru, An efficient key recovery attack on SIDH (EUROCRYPT 2023)"
+    url: "https://eprint.iacr.org/2022/975"
+  - name: "Beullens, Breaking Rainbow Takes a Weekend on a Laptop (2022)"
+    url: "https://eprint.iacr.org/2022/214"
+  - name: "Gidney, How to factor 2048 bit RSA integers with less than a million noisy qubits (2025)"
+    url: "https://arxiv.org/abs/2505.15917"
+  - name: "NIST, SP 800-232: Ascon-based lightweight cryptography standards (2025)"
+    url: "https://www.nist.gov/news-events/news/2025/08/nist-finalizes-lightweight-cryptography-standard-protect-small-devices"
+  - name: "Paul Zimmermann, Integer factoring records"
+    url: "https://members.loria.fr/PZimmermann/records/factor.html"
