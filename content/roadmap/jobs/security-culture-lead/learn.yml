@@ -1,0 +1,64 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-awareness/security-culture-lead/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - security-culture-basics
+  - awareness-programs
+  - everyday-threats
+  - phishing-simulations
+  - awareness-content
+  - identity-access-basics
+  - incident-response-process
+  - insider-threat-basics
+  - policy-writing
+intermediate:
+  - behavior-design
+  - reporting-culture
+  - secure-by-default-habits
+  - culture-measurement
+  - awareness-program-planning
+  - awareness-metrics
+  - champions-network
+  - security-change-adoption
+  - insider-awareness
+  - training-requirements
+  - mfa-conditional-access
+  - project-management-basics
+advanced:
+  - human-risk-management
+  - executive-reporting
+  - grc-metrics
+  - reporting-channels
+  - tabletop-exercises
+  - crisis-communications
+expert:
+  - culture-program-leadership
+  - security-function-model
+  - program-governance
+  - security-strategy
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "ENISA ECSF, Cybersecurity Educator profile"
+    url: "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles"
+  - name: "ENISA, Cybersecurity Culture Guidelines: Behavioural Aspects of Cybersecurity (2019)"
+    url: "https://www.enisa.europa.eu/publications/cybersecurity-culture-guidelines-behavioural-aspects-cybersecurity"
+  - name: "Behavioural Insights Team, EAST: Four simple ways to apply behavioural insights"
+    url: "https://bi.team/wp-content/uploads/2014/04/BIT-EAST.pdf"
+  - name: "UK NCSC, Phishing attacks: defending your organisation"
+    url: "https://www.ncsc.gov.uk/sites/default/files/2026-09/Phishing-attacks-defending-your-organisation.pdf"
+  - name: "SANS, Security Awareness and Culture Maturity Model (2025 update)"
+    url: "https://www.sans.org/blog/sans-security-awareness-culture-maturity-model-easier-actionable"
+  - name: "FIDO Alliance, Passkey Index 2026"
+    url: "https://fidoalliance.org/passkey-index-2026/"
