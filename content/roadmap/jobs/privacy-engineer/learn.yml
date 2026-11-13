@@ -1,0 +1,68 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/privacy/privacy-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - cloud-platform-basics
+  - gdpr-principles
+  - controller-processor-roles
+  - data-mapping-ropa
+  - data-subject-requests
+  - consent-and-cookies
+  - gdpr-security-basics
+  - data-classification
+intermediate:
+  - pseudonymisation-anonymisation
+  - privacy-threat-modeling
+  - consent-implementation
+  - data-deletion-engineering
+  - privacy-enhancing-technologies
+  - privacy-by-design
+  - dpia-practice
+  - personal-data-in-logs
+  - retention-schedules
+  - threat-modeling
+  - secure-design-principles
+  - api-security
+  - cloud-key-management
+advanced:
+  - privacy-reviews-sdlc
+  - data-protection-architecture
+  - advanced-crypto-techniques
+  - ai-and-gdpr
+  - international-transfers
+  - privacy-tools
+  - privacy-frameworks
+  - ml-attacks
+  - secure-sdlc
+expert:
+  - privacy-engineering-leadership
+  - security-engineering-leadership
+  - privacy-program
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "ISACA, CDPSE exam update (2025)"
+    url: "https://www.isaca.org/about-us/newsroom/press-releases/2025/isaca-updates-cdpse-and-crisc-exams-to-reflect-latest-risk-and-privacy-priorities"
+  - name: "EDPB Guidelines 02/2026 on anonymisation (draft for consultation)"
+    url: "https://www.edpb.europa.eu/system/files/2026-07/edpb_guidelines_202602_anonymisation_v1_en_0.pdf"
+  - name: "EDPB Guidelines 01/2025 on pseudonymisation"
+    url: "https://edpb.europa.eu/news/news/2025/edpb-adopts-pseudonymisation-guidelines-and-paves-way-improve-cooperation_en"
+  - name: "NIST SP 800-226, Guidelines for Evaluating Differential Privacy Guarantees (2025)"
+    url: "https://www.nist.gov/news-events/news/2025/03/nist-finalizes-guidelines-evaluating-differential-privacy-guarantees"
+  - name: "EDPB, Coordinated enforcement report on the right to erasure (2026)"
+    url: "https://www.edpb.europa.eu/system/files/2026-02/edpb_cef-report_2025_right-to-erasure_en.pdf"
+  - name: "IAB Europe, Transition to TCF v2.3"
+    url: "https://iabeurope.eu/all-you-need-to-know-about-the-transition-to-tcf-v2-3/"
