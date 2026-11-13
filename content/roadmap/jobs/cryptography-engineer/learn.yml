@@ -1,0 +1,67 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/cryptography/cryptography-engineer/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-12
+hire: advanced   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - programming-fundamentals
+  - git-basics
+  - crypto-math-foundations
+  - symmetric-crypto
+  - public-key-crypto
+  - using-cryptography
+  - x509-fundamentals
+  - pki-certificates
+  - vulnerability-basics
+intermediate:
+  - crypto-bugs
+  - constant-time-code
+  - crypto-protocols
+  - crypto-libraries
+  - crypto-testing
+  - memory-safety-bugs
+  - secure-code-review
+  - fuzzing
+  - threat-modeling
+  - secure-design-principles
+  - hsm-operations
+  - cloud-key-management
+advanced:
+  - pqc-implementation
+  - crypto-module-validation
+  - advanced-crypto-techniques
+  - post-quantum-migration
+  - hardware-attacks
+  - signing-services
+  - data-protection-architecture
+  - product-security-response
+  - vulnerability-disclosure
+  - secure-sdlc
+expert:
+  - crypto-governance
+  - architecture-reviews
+  - security-engineering-leadership
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST, FIPS 186-5 Digital Signature Standard approval notice (2023)"
+    url: "https://www.govinfo.gov/content/pkg/FR-2023-02-03/html/2023-02273.htm"
+  - name: "NIST, HQC selected as fifth post-quantum algorithm, with the FIPS 203–205 standards (2025)"
+    url: "https://www.nist.gov/news-events/news/2025/03/nist-selects-hqc-fifth-algorithm-post-quantum-encryption"
+  - name: "RFC 9420, The Messaging Layer Security (MLS) Protocol (2023)"
+    url: "https://rfc-editor.org/rfc/rfc9420.html"
+  - name: "Project Wycheproof test vectors (C2SP)"
+    url: "https://github.com/C2SP/wycheproof"
+  - name: "KyberSlash: Exploiting secret-dependent division timings in Kyber implementations (TCHES 2025)"
+    url: "https://eprint.iacr.org/2024/1049"
+  - name: "ENISA, EUCC: the EU Common Criteria certification scheme"
+    url: "https://certification.enisa.europa.eu/browse-topic/EUCC_en"
