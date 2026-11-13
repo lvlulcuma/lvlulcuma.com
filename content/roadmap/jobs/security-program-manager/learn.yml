@@ -1,0 +1,70 @@
+# What to learn for this job, from first steps to expert: its page is lvlulcuma.com/en/roadmap/security-leadership/security-program-manager/
+# Each line is a topic folder in content/roadmap/topics/ (shared between jobs; titles and summaries live there).
+# A topic folder that doesn't exist, or one listed twice, stops the build with a message.
+updated: 2026-11-13
+hire: intermediate   # the level employers usually expect when hiring: everything up to and including this one
+
+beginner:
+  - networking-basics
+  - web-basics
+  - windows-basics
+  - linux-basics
+  - security-fundamentals
+  - common-attacks
+  - cryptography-basics
+knowledgeable:
+  - project-management-basics
+  - agile-delivery-basics
+  - csf-profiles
+  - control-frameworks
+  - iso-27001-basics
+  - grc-basics
+  - risk-management-basics
+  - identity-access-basics
+  - incident-response-process
+  - vulnerability-management-lifecycle
+  - cloud-platform-basics
+intermediate:
+  - program-governance
+  - cross-team-planning
+  - control-rollouts
+  - security-change-adoption
+  - compliance-deadline-programs
+  - security-budget-tracking
+  - risk-register
+  - security-tool-evaluation
+  - vendor-contracts
+  - mfa-conditional-access
+  - awareness-programs
+  - nis2-security-measures
+  - grc-metrics
+advanced:
+  - security-portfolio-management
+  - security-roadmaps
+  - security-investment-decisions
+  - executive-reporting
+  - risk-assessment-methods
+  - business-continuity
+  - dora-overview
+  - continuous-compliance
+  - supply-chain-risk-management
+  - integrated-management-systems
+expert:
+  - security-pmo
+  - grc-program
+  - enterprise-risk-management
+
+# Shown under the list as "This list is based on …"
+sources:
+  - name: "NIST NICE Framework, Program Management (OG-WRL-010) and Secure Project Management (OG-WRL-011) work roles"
+    url: "https://niccs.cisa.gov/workforce-development/nice-framework/work-role/secure-project-management"
+  - name: "ISACA, updated CISM exam content outline (2026)"
+    url: "https://www.isaca.org/about-us/newsroom/press-releases/2026/isaca-updates-cism-exam-content-outline-factoring-in-todays-technologies-security-responsibilities"
+  - name: "PMI, the PMP exam in 2026"
+    url: "https://www.projectmanagement.com/articles/1134513/the-pmp--exam-is-evolving--what-s-changing-in-2026"
+  - name: "NIST SP 1301, CSF 2.0 Quick-Start Guide for Creating and Using Organizational Profiles"
+    url: "https://csrc.nist.gov/pubs/sp/1301/final"
+  - name: "IANS, 2026 Security Budget Benchmark (Infosecurity Magazine)"
+    url: "https://www.infosecurity-magazine.com/news/ai-top-priority-new-spend-cyber/"
+  - name: "Prosci, the ADKAR model"
+    url: "https://www.prosci.com/blog/adkar-core-to-the-people-side-of-change"
