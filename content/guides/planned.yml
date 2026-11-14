@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Mac: UTM.
-  - slug: set-up-kali-utm
-    title: "Set up Kali Linux in UTM"
-    category: install
-    platforms: [macos]
-    scope: "Kali's Arm (arm64) image on Apple silicon, check its SHA-256, create the virtual machine in UTM, first login, change the password, update on Shared Network."
   - slug: utm-host-only
     title: "Put UTM machines on a host-only network"
     category: configure
