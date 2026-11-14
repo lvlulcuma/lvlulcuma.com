@@ -35,7 +35,7 @@ Each guide gets its own research, so every step is right for the current version
 ## 3. Front matter
 
 ```yaml
-title: "Install VirtualBox on Windows"   # the task, plus the system when it's for one; sentence case
+title: "Install VMware Workstation Pro on Windows"   # the task, plus the system when it's for one; sentence case
 date: 2026-11-20                          # the day it's published
 category: install                         # install | quick | configure | use | harden | fix
 order: 3                                  # position within its category
@@ -45,7 +45,7 @@ requires: []                              # guides readers must have done first 
 dek: "One sentence: what you end up with."
 ```
 
-`requires:` is only for what a reader truly must have done first (Kali in VirtualBox needs VirtualBox installed).
+`requires:` is only for what a reader truly must have done first (Kali in VMware Workstation Pro needs VMware Workstation Pro installed).
 A short how-to used inside a step (checking a hash) is a link in that step, not a requirement.
 
 ## 4. The guide itself

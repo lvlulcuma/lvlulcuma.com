@@ -15,7 +15,7 @@
 //   weekend   the first weekend as a checklist with boxes to tick
 import type { MarkdownHeading } from "astro";
 import type { Lang } from "../i18n/ui";
-import { guideRefHtml, stepRows } from "../lib/content";
+import { guideRefHtml, slugList, stepRows } from "../lib/content";
 
 interface Props { name: string; v: Record<string, any>; headings: MarkdownHeading[]; lang: Lang }
 const { name, v, headings, lang } = Astro.props;
@@ -27,8 +27,9 @@ const top = headings.filter((h) => h.depth === 2);
 if (name === "plan" && d.times.length > top.length) throw new Error(`content/pages/lab-start: plan has ${d.times.length} times but the page has only ${top.length} headings.`);
 const LIGHTS = ["go", "wait", "stop"];
 // A card's "Step-by-step guide" line: `guide:` (the tool the card names) and `dockerGuide:` (its containers line)
-// name a guide folder, written or planned (content/guides/planned.yml).
-const ref = async (slug?: string) => (slug ? guideRefHtml(lang, await stepRows(lang, [slug], `content/pages/lab-start/${lang}.md`), true) : "");
+// name a guide folder, written or planned (content/guides/planned.yml), or several, separated by commas (one per
+// hypervisor: then each shows its title).
+const ref = async (slugs?: string) => (slugs ? guideRefHtml(lang, await stepRows(lang, slugList(slugs), `content/pages/lab-start/${lang}.md`), true) : "");
 const refs = name === "pick"
   ? await Promise.all(d.systems.map(async (s: any) => ({ main: await ref(s.guide), docker: await ref(s.dockerGuide) })))
   : name === "systems" ? await Promise.all(d.map(async (s: any) => ({ main: await ref(s.guide), docker: "" }))) : [];

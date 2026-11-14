@@ -10,6 +10,8 @@ requires: []   # guides to do first (folder names); shown as "Before you start"
 revisions:          # after publishing, add a line for each change
   - date: 2026-11-13
     note: "The Windows and the Linux steps of each section sit in their own labelled boxes."
+  - date: 2026-11-13
+    note: "The last fix is now for VMware Workstation Pro, the hypervisor this site suggests for Windows."
 dek: "Check whether your processor's virtualization is on, switch it on in your computer's startup settings if it isn't, and make sure it worked."
 # Pictures: each one is placed in the text below by a line <!-- pic: <name> -->. How each kind is drawn:
 # src/components/GuideVisual.astro. Rows and tabs count from 1.
@@ -143,8 +145,8 @@ visuals:
 
 Your processor has a built-in feature for running virtual machines, called **virtualization**: Intel calls it
 VT-x, AMD calls it AMD-V or SVM. With it on, a virtual machine runs at nearly full speed. With it off, most
-hypervisors (the programs that run virtual machines, like VirtualBox) won't start one at all. Many computers come
-with it switched off.
+hypervisors (the programs that run virtual machines, like VMware Workstation Pro or VirtualBox) won't start one at
+all. Many computers come with it switched off.
 
 The switch isn't in Windows or Linux. It's in the **UEFI**: the small program built into your computer that starts
 it up, before the operating system loads. Older computers call it the **BIOS**, and many people still do. You'll
@@ -295,7 +297,7 @@ the computer doesn't offer it. Use your maker's key instead.
 [aka.ms/myrecoverykey](https://aka.ms/myrecoverykey), sign in with the Microsoft account you use on this computer,
 and type the key it shows. Windows starts as usual after that.
 
-**Task Manager says Enabled, but VirtualBox says VT-x isn't available.** The UEFI part is done: another feature of
-Windows is using virtualization (Hyper-V, or a security feature built on it). That's a setting in Windows, and the
-VirtualBox guide deals with it.
-<!-- guide: install-virtualbox-windows -->
+**Task Manager says Enabled, but VMware Workstation Pro won't start.** The UEFI part is done: Windows' own
+hypervisor (Hyper-V, or a security feature built on it) is using virtualization. VMware Workstation Pro can run on
+top of it through a Windows feature called Windows Hypervisor Platform, and its install guide shows how.
+<!-- guide: install-vmware-workstation-windows -->
