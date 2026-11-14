@@ -10,6 +10,24 @@
 - Keep short quoted names and amounts together with a non-breaking space (U+00A0) so they don't split across lines:
   «від ДТЕК», „od DTEK”, "$50 млн". In narrow places (the fun story box) put one before each " — " as well.
 
+## Guides: names on screen
+
+A guide tells the reader exactly what to click, so every button, menu and window name must match the screen.
+
+- **Names of buttons, menus, tabs and windows stay as the English interface shows them**, in bold, exactly as in the
+  English guide (**Settings** > **System** > **Recovery**, **Task Manager**, **Enabled**). Localized names in Windows,
+  macOS and apps aren't documented reliably, and a wrong name sends the reader looking for something that isn't there.
+  Explain what the name means in the sentence around it when that helps.
+- The first time a guide names an app or screen of Windows or macOS that most readers know by its own name (Task
+  Manager, Settings, Start, Finder, System Settings), its usual name in the reader's language may follow in brackets,
+  not bold: **Task Manager** (Диспетчер завдань), **Settings** (Ustawienia).
+- Guides that send readers into Windows or macOS menus have a note near the top saying the names are given as they
+  look in English and sit in the same places in a Ukrainian or Polish system.
+- Firmware screens, installers and apps with an English-only interface (VMware Workstation Pro, Docker Desktop, UTM's
+  settings) stay in English with no note. What a command prints stays exactly as printed.
+- The words of the pictures (`visuals:`) follow the same rule: on-screen labels in English, our own captions, badges
+  ("Example" = «Приклад» / „Przykład”) and labels translated.
+
 ## Ukrainian (`ua`)
 
 - Quotes «…». Em dash with spaces ( — ). Straight apostrophe in words like пам'ять, об'єднання.

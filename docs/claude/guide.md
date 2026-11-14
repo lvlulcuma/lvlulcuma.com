@@ -1,7 +1,8 @@
 # Playbook: one step-by-step guide
 
-A guide walks through one task, click by click: installing a tool, setting something up, using one feature. Guides
-are English-only for now: `content/guides/<slug>/en.md`, shown at `/en/guides/<slug>/` and listed on `/en/guides/`.
+A guide walks through one task, click by click: installing a tool, setting something up, using one feature. Each
+guide is written in English, Ukrainian and Polish: `content/guides/<slug>/{en,ua,pl}.md`, shown at
+`/<lang>/guides/<slug>/` and listed on `/<lang>/guides/`.
 Overview pages (the lab's Get started, for now) stay high level and offer a guide as an optional extra right where
 they talk about its task, in a "Step by step" line; the guides they announce but that aren't written yet wait in
 `content/guides/planned.yml`.
@@ -110,7 +111,18 @@ each one where the reader needs it, inside a step when it belongs to that step.
 - Need a kind that isn't there? Add it to the schema, the component and the CSS in the same pull request, keep it
   general enough for other guides, and list it here.
 
-## 6. Finish
+## 6. Translate (UA and PL)
+
+- `ua.md` and `pl.md` next to `en.md`, by meaning (`docs/claude/translation.md`, including its "Guides" part on the
+  names of buttons and menus). The front matter is the same except `title`, `dek`, the words of the pictures and the
+  `revisions:` notes (same dates). Commands, code and what a program prints stay exactly as in English.
+- A link to another guide uses the reader's language when that guide has one (`/ua/guides/check-hash/`), otherwise
+  `/en/guides/…`. When a guide gets its translation, switch the links to it in that language's pages
+  (`grep -rn "/en/guides/<slug>/" content --include=ua.md --include=pl.md --include=ua.yml --include=pl.yml`).
+- A later change to a guide goes into all three files, each with its `revisions:` line.
+- A guide that is only in English shows in the other languages in English, marked EN, until its translation is in.
+
+## 7. Finish
 
 - Delete the guide's entry from `content/guides/planned.yml`: the build stops if a published guide is still listed.
   The "Step by step" mentions that name it then become links by themselves, with the guide's own title and time.
