@@ -15,10 +15,4 @@
 #   platforms   windows | macos | linux
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
-guides:
-  # Windows targets.
-  - slug: set-up-windows-trial-virtualbox
-    title: "Set up a Windows 11 trial in VirtualBox"
-    category: install
-    platforms: [windows, linux]
-    scope: "Evaluation Center ISO (90 days, no key), the VirtualBox settings Windows 11 needs (TPM, Secure Boot, memory), install, activate online on NAT, snapshot, what to do when the trial ends."
+guides: []
