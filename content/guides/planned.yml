@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Windows: VMware Workstation Pro (the owner's pick for Windows since 2026-11-13).
-  - slug: install-vmware-workstation-windows
-    title: "Install VMware Workstation Pro on Windows"
-    category: install
-    platforms: [windows]
-    scope: "Free Broadcom account (Basic User profile and the Trade Compliance form, with real details), download from the Broadcom Support Portal's free downloads, check the file, run the installer as administrator (Typical or Custom, the Enhanced Keyboard Driver), the Windows Hypervisor Platform prompt when Hyper-V or VBS is on, restart, first start (free use, no license key), updates are downloaded by hand. Probably requires: [turn-on-virtualization]. That guide's last trouble (Task Manager says Enabled, but VMware Workstation Pro won't start) sends readers here, so cover it."
   - slug: set-up-kali-vmware
     title: "Set up Kali Linux in VMware Workstation Pro"
     category: install
