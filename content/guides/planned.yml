@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Windows targets.
-  - slug: set-up-windows-trial-vmware
-    title: "Set up a Windows 11 trial in VMware Workstation Pro"
-    category: install
-    platforms: [windows]
-    scope: "Evaluation Center ISO (90 days, no key), the New Virtual Machine wizard's settings Windows 11 needs (TPM, encryption, Secure Boot, memory), install, activate online on NAT, snapshot, what to do when the trial ends."
   - slug: set-up-windows-trial-virtualbox
     title: "Set up a Windows 11 trial in VirtualBox"
     category: install
