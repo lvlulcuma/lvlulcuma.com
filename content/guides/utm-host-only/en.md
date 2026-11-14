@@ -48,6 +48,9 @@ visuals:
       - { label: "For updates", value: "Shared Network" }
       - { label: "For the lab", value: "Host Only", tone: go }
     caption: "Leave the network card as it is (UTM recommends virtio-net-pci), and the advanced settings too: UTM's docs say they shouldn't normally be changed."
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-14
+    note: "UTM 5 gives Apple Virtualization machines Host Only too, on macOS 26 or later."
 ---
 
 A lab machine is built to be broken into, so it must not share a network with your real devices. UTM's **Host Only**
@@ -78,8 +81,9 @@ network to reach them: put it on Host Only too, and switch it to Shared Network 
 4. Start the machine. It asks for an address on its new network as it starts.
 
 > [!NOTE]
-> No **Host Only** in the list? The machine uses Apple's own engine (Apple Virtualization), which offers only Shared
-> Network and Bridged in UTM 4.7.5. Machines made with UTM's usual engine, like the one in the Kali guide, have it.
+> No **Host Only** in the list? The machine uses Apple's own engine (Apple Virtualization). UTM 5 adds Host Only for
+> it on macOS 26 or later; on older macOS, or in UTM 4, it offers only Shared Network and Bridged. Machines made with
+> UTM's usual engine (QEMU), like the one in the Kali guide, always have it.
 
 ## Find the addresses
 

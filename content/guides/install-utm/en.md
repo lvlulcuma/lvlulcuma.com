@@ -44,7 +44,6 @@ visuals:
     stages:
       - where: "From mac.getutm.app"
         steps: ["Download", "Open UTM.dmg", "Drag UTM to Applications", "Eject the disk image"]
-    caption: "The disk image is about 250 MB."
   # UTM's first question for every new machine. The wording on screen may differ slightly.
   start:
     kind: window
@@ -55,11 +54,14 @@ visuals:
       - ["Emulate", "Slower, but runs other kinds of processor"]
     mark: 1
     caption: "<strong>Create a New Virtual Machine</strong> opens this. For your lab, it's almost always <strong>Virtualize</strong>."
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-14
+    note: "Updated for UTM 5.0.8, the current release since 17 October 2026: it needs macOS 12 or later."
 ---
 
 UTM is a free, open-source app that runs virtual machines on a Mac: a **hypervisor**. It works on Macs with Apple
-silicon and on Intel Macs, with macOS 11.3 or later. This guide was written for UTM 4.7.5, the current release in
-November 2026; UTM 5 is still a beta.
+silicon and on Intel Macs, with macOS 12 (Monterey) or later. This guide was written for UTM 5.0.8, the current
+release since 17 October 2026.
 
 ## Check your Mac
 
@@ -68,7 +70,7 @@ Which processor your Mac has decides which systems run fast in UTM.
 <!-- pic: macs -->
 
 Select the **Apple menu** in the top left corner and choose **About This Mac**. The same window shows your macOS
-version. If it's older than 11.3, update macOS first in **System Settings** > **General** > **Software Update**.
+version. If it's older than 12, update macOS first in **System Settings** > **General** > **Software Update**.
 
 ## Choose where to get it
 
@@ -115,17 +117,19 @@ So on Apple silicon, download the arm64 version of every system you put in your 
 ## Check it works
 
 1. In the menu bar, select **UTM** > **About UTM**.
-2. The window shows the version: 4.7.5, or a newer one.
+2. The window shows the version: 5.0.8, or a newer one.
 
 > [!NOTE]
-> The website version doesn't update itself. When a new version comes out, download it the same way and drag it to
+> The website version doesn't update itself. When a new version comes out, shut down every virtual machine first:
+> UTM warns that a suspended one may not resume after an update. Then download it the same way and drag it to
 > **Applications** again, choosing **Replace**. Your virtual machines stay where they are.
 
 ## If something goes wrong
 
-**UTM won't open, or the Mac says it needs a newer macOS.** UTM needs macOS 11.3 or later. Update macOS in
+**UTM won't open, or the Mac says it needs a newer macOS.** UTM 5 needs macOS 12 or later. Update macOS in
 **System Settings** > **General** > **Software Update** (on older macOS: **System Preferences** > **Software
-Update**).
+Update**). If your Mac can't go past macOS 11, UTM 4.7.5 is the last version for it (it needs macOS 11.3 or later):
+it's on [UTM's GitHub releases page](https://github.com/utmapp/UTM/releases/tag/v4.7.5).
 
 **A virtual machine is very slow.** It's probably emulated: on Apple silicon, an x86-64 system can only run that way.
 Use the arm64 version of the system instead, and choose **Virtualize**.
