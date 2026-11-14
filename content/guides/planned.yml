@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
-  - slug: set-up-kali-virtualbox
-    title: "Set up Kali Linux in VirtualBox"
-    category: install
-    platforms: [windows, linux]
-    scope: "Download Kali's ready-made VirtualBox image, check its SHA-256, unpack and add it to VirtualBox, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
   - slug: virtualbox-host-only
     title: "Put VirtualBox machines on a host-only network"
     category: configure
