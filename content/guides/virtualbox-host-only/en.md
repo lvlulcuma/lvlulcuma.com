@@ -68,6 +68,16 @@ guide sets that network up, puts a machine on it, shows which address it gets, a
 works the same on Windows and Linux, for any machine: the commands inside machines use Kali as the example. It was
 written for VirtualBox 7.2.22.
 
+<!-- for: windows -->
+You need VirtualBox and a machine in it. If you don't have VirtualBox yet, its installer is on
+[VirtualBox's download page](https://www.virtualbox.org/wiki/Downloads), under **Windows hosts**;
+[Get VirtualBox](/en/guides/set-up-kali-virtualbox/#get-virtualbox) in the Kali guide goes through it page by page.
+
+<!-- for: linux -->
+You need VirtualBox and a machine in it. If you don't have VirtualBox yet, install it from Oracle's own repository:
+<!-- guide: install-virtualbox-linux -->
+<!-- /for -->
+
 ## Know VirtualBox's networks
 
 Every machine has virtual network adapters, and VirtualBox can attach each one to one of these:
