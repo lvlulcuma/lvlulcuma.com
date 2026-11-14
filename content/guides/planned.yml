@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Containers.
-  - slug: install-docker-engine-linux
-    title: "Install Docker Engine on Ubuntu or Debian"
-    category: install
-    platforms: [linux]
-    scope: "Docker's own apt repository with the Compose plugin, run without sudo (docker group, and what that allows), hello-world check."
   - slug: install-docker-desktop-mac
     title: "Install Docker Desktop on a Mac"
     category: install
