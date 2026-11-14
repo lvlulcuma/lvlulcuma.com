@@ -6,7 +6,7 @@ category: configure   # install | quick | configure | use | harden | fix
 order: 2   # position within its category
 time: 15   # rough minutes to complete
 platforms: [windows]   # windows | macos | linux
-requires: [set-up-kali-vmware]   # guides to do first (folder names); shown as "Before you start"
+requires: [install-vmware-workstation-windows]   # guides to do first (folder names); shown as "Before you start"
 dek: "Wall your lab off from the internet and your home network: switch a machine to Host-only, see which addresses VMware hands out, and check that the wall holds."
 # Pictures: each one is placed in the text below by a line <!-- pic: <name> -->. How each kind is drawn:
 # src/components/GuideVisual.astro. Rows count from 1.
@@ -62,8 +62,8 @@ visuals:
 
 A lab machine is built to be broken into, so it must not share a network with your real devices. Workstation Pro's
 **host-only** network is the wall: the machines on it reach each other and your computer, and nothing else. This
-guide puts a machine on it, shows which addresses it gets, and checks that the wall holds. The examples use Kali; it
-works the same for any machine.
+guide puts a machine on it, shows which addresses it gets, and checks that the wall holds. It works for any machine:
+the Linux commands use Kali as the example, and the Windows ones sit next to them.
 
 ## Know Workstation's networks
 
@@ -71,9 +71,9 @@ Every machine has a virtual network adapter, and Workstation can plug it into on
 
 <!-- pic: nets -->
 
-Kali came on **NAT**, so it could update. Vulnerable machines, the ones you practice on, go on **Host-only** and stay
-there. To attack them, Kali has to be on the same network: put it on Host-only too, and switch it to NAT only while it
-updates.
+New machines usually start on **NAT**, so they can go online for updates. Vulnerable machines, the ones you practice
+on, go on **Host-only** and stay there. The machine you attack from (Kali, for example) has to be on the same network
+to reach them: put it on Host-only too, and switch it to NAT only while it updates.
 
 ## Look at your host-only network
 
@@ -95,13 +95,14 @@ updates.
 
    <!-- pic: switch -->
 
-4. If the machine was running, it still has its address from the old network. Restart it so it asks for a new one:
+4. If the machine was running, it still has its address from the old network. Restart it so it asks for a new one.
+   In Linux:
 
    ```sh
    sudo reboot
    ```
 
-   In a Windows machine, run `ipconfig /release` and then `ipconfig /renew` in a terminal instead.
+   In Windows, run `ipconfig /release` and then `ipconfig /renew` in a terminal instead.
 
 ## See the addresses
 
@@ -110,14 +111,14 @@ The addresses follow a fixed plan:
 
 <!-- pic: addresses -->
 
-1. In Kali, open a terminal and type:
+1. In a Linux machine such as Kali, open a terminal and type:
 
    ```sh
    ip -4 -br address
    ```
 
-   Ignore `lo`, which only talks to Kali itself. The other line, such as `eth0`, shows Kali's address, for example
-   `192.168.47.129/24`. The `/24` means the first three numbers name the network.
+   Ignore `lo`, which only talks to the machine itself. The other line, such as `eth0`, shows the machine's address,
+   for example `192.168.47.129/24`. The `/24` means the first three numbers name the network.
 2. In a Windows machine, open a terminal and type `ipconfig`. Look for **IPv4 Address**.
 3. On your own computer, `ipconfig` shows an adapter called **VMware Network Adapter VMnet1**. Its address ends in
    `.1`: that's how your computer sits on the host-only network.
@@ -126,27 +127,26 @@ Write each machine's address in your lab notebook.
 
 ## Check that the wall holds
 
-1. On your computer, open a terminal and ping Kali, with Kali's address in place of the example:
+1. On your computer, open a terminal and ping a Linux lab machine, with its address in place of the example:
 
    ```powershell
    ping 192.168.47.129
    ```
 
-   Four lines starting with **Reply from** mean your computer reaches Kali.
-2. In Kali, try to reach the internet:
+   Four lines starting with **Reply from** mean your computer reaches it. A Windows machine won't answer, because
+   Windows' firewall blocks pings by default. For it, an address that starts like the network's is check enough.
+2. In the lab machine, try to reach the internet. In Linux:
 
    ```sh
    ping -c 3 8.8.8.8
    ```
 
-   It should fail, with an error or `100% packet loss`. That's the wall working.
-3. Once you have a second lab machine on Host-only, ping it from Kali the same way. A Linux machine answers. A Windows
-   machine doesn't, because Windows' firewall blocks pings by default, so a silent Windows machine doesn't mean the
-   network is broken.
+   In Windows, type `ping 8.8.8.8`. It should fail, with an error or with every packet lost. That's the wall working.
+3. With two lab machines on Host-only, ping one from the other the same way. Again, only a Linux machine answers.
 
 > [!NOTE]
-> Your computer doesn't answer Kali's pings either, for the same reason. That's fine: the host-only network still
-> works.
+> Your computer doesn't answer pings from lab machines either, for the same reason. That's fine: the host-only network
+> still works.
 
 ## Update, then switch back
 
@@ -164,22 +164,25 @@ yourself.
    `lab`, and select **OK**.
 2. Choose **LAN segment**, pick `lab` from the list and select **OK**. Do the same for every machine that belongs in
    it.
-3. In Kali, find the name of its network connection (the **NAME** column, often `Wired connection 1`):
+3. In a Linux machine that uses NetworkManager, like Kali, find the name of its network connection (the **NAME**
+   column, often `Wired connection 1`):
 
    ```sh
    nmcli connection show
    ```
 
-4. Give Kali a fixed address, using that name. `10.10.10.10/24` is a private address, meant for networks like this:
+4. Give it a fixed address, using that name. `10.10.10.10/24` is a private address, meant for networks like this:
 
    ```sh
    sudo nmcli connection modify "Wired connection 1" ipv4.method manual ipv4.addresses 10.10.10.10/24
    sudo nmcli connection up "Wired connection 1"
    ```
 
-5. Give the other machines addresses from the same network, such as `10.10.10.20/24`, each its own.
+5. Give the other machines addresses from the same network, such as `10.10.10.20/24`, each its own. In Windows,
+   that's **Settings** > **Network & internet** > **Ethernet** > **IP assignment** > **Edit** > **Manual**, with
+   **IPv4** on.
 
-Before Kali goes back to NAT for updates, switch it back to automatic addresses:
+Before a Linux machine goes back to NAT for updates, switch it back to automatic addresses:
 
 ```sh
 sudo nmcli connection modify "Wired connection 1" ipv4.method auto ipv4.addresses ""
@@ -199,5 +202,5 @@ distribute IP address to VMs** is ticked. Select **OK** and renew the address.
 **Restore Defaults**. It rebuilds Workstation's networks as they were after installing and deletes any networks you
 added yourself.
 
-**Kali still reaches the internet on Host-only.** Look in **VM** > **Settings** for a second network adapter: every
+**A machine still reaches the internet on Host-only.** Look in **VM** > **Settings** for a second network adapter: every
 adapter of a lab machine must be on Host-only or the LAN segment.
