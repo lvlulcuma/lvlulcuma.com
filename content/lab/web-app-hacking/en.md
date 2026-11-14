@@ -20,8 +20,9 @@ related_article: "2026-09"   # a monthly article linked at the bottom (folder na
 ## What you need
 
 - **Docker**, the tool that runs each app in its own container (a small, separate box on your computer). On Windows and
-  macOS that's Docker Desktop ([install guide for Windows](/en/guides/install-docker-desktop/)); on Linux, Docker
-  Engine with the Compose plugin.
+  macOS that's Docker Desktop (install guides for [Windows](/en/guides/install-docker-desktop/) and
+  [Mac](/en/guides/install-docker-desktop-mac/)); on Linux, Docker Engine with the Compose plugin
+  ([install guide](/en/guides/install-docker-engine-linux/)).
 - **A few gigabytes of free disk space** for the apps. The first start downloads them.
 - **Burp Suite Community Edition**, a free tool that shows every request your browser sends. You only need it for
   “Watch the traffic”.
