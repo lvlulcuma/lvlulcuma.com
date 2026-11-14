@@ -17,8 +17,9 @@ related_article: "2026-09"
 ## Czego potrzebujesz
 
 - **Dockera**: narzędzia, które uruchamia każdą aplikację w osobnym kontenerze (małym, oddzielnym „pudełku” na twoim
-  komputerze). Na Windowsie i macOS to Docker Desktop ([instrukcja dla Windowsa](/en/guides/install-docker-desktop/)),
-  a na Linuksie Docker Engine z wtyczką Compose.
+  komputerze). Na Windowsie i macOS to Docker Desktop (instrukcje dla [Windowsa](/en/guides/install-docker-desktop/)
+  i [Maca](/en/guides/install-docker-desktop-mac/)), a na Linuksie Docker Engine z wtyczką Compose
+  ([instrukcja](/en/guides/install-docker-engine-linux/)).
 - **Kilku gigabajtów wolnego miejsca na dysku** na aplikacje. Pobierają się przy pierwszym uruchomieniu.
 - **Burp Suite Community Edition**: darmowego narzędzia, które pokazuje każde żądanie wysyłane przez twoją
   przeglądarkę. Przyda się dopiero w części „Podglądaj ruch”.

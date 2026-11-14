@@ -17,8 +17,9 @@ related_article: "2026-09"
 ## Що знадобиться
 
 - **Docker**: інструмент, який запускає кожен застосунок в окремому контейнері (невеликій відокремленій «коробці» на
-  вашому комп'ютері). На Windows і macOS це Docker Desktop ([інструкція для Windows](/en/guides/install-docker-desktop/)),
-  на Linux — Docker Engine із плагіном Compose.
+  вашому комп'ютері). На Windows і macOS це Docker Desktop (інструкції для [Windows](/en/guides/install-docker-desktop/)
+  і [Mac](/en/guides/install-docker-desktop-mac/)), на Linux — Docker Engine із плагіном Compose
+  ([інструкція](/en/guides/install-docker-engine-linux/)).
 - **Кілька гігабайтів вільного місця на диску** для застосунків. Вони завантажуються під час першого запуску.
 - **Burp Suite Community Edition**: безкоштовний інструмент, який показує кожен запит вашого браузера. Він
   знадобиться лише в розділі «Стежте за трафіком».
