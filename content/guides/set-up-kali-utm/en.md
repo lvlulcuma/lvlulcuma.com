@@ -32,7 +32,7 @@ visuals:
     kind: cards
     cards:
       - title: "To install"
-        text: "Add a Serial device. Kali installs in a text window, because of a bug in the current UTM."
+        text: "Add a Serial device. Kali installs in a text window, because of a UTM bug that Kali's page describes."
         tags: ["Serial: added"]
       - title: "After installing"
         text: "Remove the Serial device and the installer disc, and set the display card to virtio-gpu-pci."
@@ -51,12 +51,16 @@ visuals:
     mark: 1
     keys: [["↑↓", "Move"], ["Space", "Tick a box"], ["Tab", "Go to the buttons"], ["Enter", "Choose"]]
     caption: "The installer is all text and keys. Click inside its window first, so it gets your keyboard."
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-14
+    note: "Checked against UTM 5.0.8, the current release since 17 October 2026."
 ---
 
 Kali Linux is the attack machine of your lab: a Linux system that comes with hundreds of security tools. Kali makes
 ready-made virtual machines only for Intel and AMD processors, so on a Mac with Apple silicon you install it yourself,
 from Kali's Arm installer. It takes a while, but every step is a simple choice. This guide follows Kali's own
-instructions for UTM and was written for Kali 2026.3 and UTM 4.7.5.
+instructions for UTM, last updated on 8 October 2026, before UTM 5 came out. It was written for Kali 2026.3 and
+checked against the notes and documentation of UTM 5.0.8.
 
 > [!NOTE]
 > On an Intel Mac, take Kali's 64-bit (amd64) installer instead. UTM's questions are the same, but Kali's own UTM
@@ -96,8 +100,8 @@ instructions for UTM and was written for Kali 2026.3 and UTM 4.7.5.
 
 ## Add a serial window for the installer
 
-Kali's page says that a bug in the current UTM stops the usual installer from showing, so Kali installs in a plain
-text window instead.
+Kali's page says that a bug in UTM stops the usual installer from showing, so Kali installs in a plain text window
+instead. The text window works either way, so this guide does the same.
 
 <!-- pic: devices -->
 
