@@ -16,12 +16,6 @@
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
 guides:
-  # Containers.
-  - slug: install-docker-desktop-mac
-    title: "Install Docker Desktop on a Mac"
-    category: install
-    platforms: [macos]
-    scope: "Apple silicon or Intel download, check it, first start and the license terms, docker compose version check. Once it's out, the Windows guide (install-docker-desktop, titled just \"Install Docker Desktop\") may want \"on Windows\" in its title."
   # Windows targets.
   - slug: set-up-windows-trial-vmware
     title: "Set up a Windows 11 trial in VMware Workstation Pro"
