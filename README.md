@@ -251,7 +251,7 @@ When the English and Ukrainian files are ready, delete their `draft: true` lines
 - **No `style="…"`, `<script>` or `<iframe>`** in the text. The Content Security Policy would block them, so the build stops and names the page.
 - Only publish findings from your own lab, or ones the owner has agreed to share (see the "Practice safely and legally" page).
 - **Also on Medium:** publish here first. On Medium, use **Stories → Import a story** with the article's address, so Medium tells search engines this site has the original. Then add the Medium address as `medium:` in the article. The Medium profile link is `medium:` in `content/settings.yml` (leave it `""` to hide it).
-- **Changing an article after it's published:** add a `revisions:` list (every new article has a commented-out example). The box beside the article then lists what changed and when (A = published, then B, C, …).
+- **Changing an article after it's published:** add a `revisions:` list (every new article has a commented-out example). The box beside the article then shows "Updated" with the day of the latest change; what changed isn't listed on the page (so the box stays short), but each note goes to the RSS feed as an "Updated" post.
 
 ---
 

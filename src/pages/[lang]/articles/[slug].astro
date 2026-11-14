@@ -9,7 +9,7 @@ import ArticlesIndex from "../../../components/ArticlesIndex.astro";
 import Related from "../../../components/Related.astro";
 import { LANGS, TOPICS, ui, type Lang, type Topic } from "../../../i18n/ui";
 import { articleLinks, getArticles, iso, missingLangs, nextIssueDate, topicFilter, type Article } from "../../../lib/articles";
-import { countArticles, monthYear, revisionLog, toc } from "../../../lib/block";
+import { countArticles, lastChange, monthYear, toc } from "../../../lib/block";
 import { getPage, getSettings, pageRef } from "../../../lib/content";
 
 export async function getStaticPaths() {
@@ -34,7 +34,6 @@ const props = Astro.props as Props;
 
 let Content: any = null;
 let headings: any[] = [];
-let revs: ReturnType<typeof revisionLog> = [];
 let missing: Lang[] = [];
 let related = null as Awaited<ReturnType<typeof pageRef>>;
 const articlesPage = await getPage("articles", lang);
@@ -47,7 +46,6 @@ if (props.kind === "article") {
   ({ Content, headings } = await render(props.article.entry));
   missing = await missingLangs(props.article.slug);
   related = props.article.entry.data.related ? await pageRef(lang, props.article.entry.data.related) : null;
-  revs = revisionLog(props.article.date, t.revPublished, props.article.entry.data.revisions);
 }
 ---
 {props.kind === "topic" ? (
@@ -69,7 +67,7 @@ if (props.kind === "article") {
         ...(related ? [{ kicker: `${t.related} · ${related.tag}`, text: related.title, href: related.href }] : []),
         ...(props.article.entry.data.medium ? [{ kicker: t.alsoOnMedium, text: t.mediumRead, href: props.article.entry.data.medium }] : []),
       ] },
-      revisions: revs.length > 1 ? revs : undefined,
+      changed: lastChange(props.article.entry.data.revisions),
       strip: [`${props.article.mins} ${t.min}`],
     }}
     missingIn={missing} ogType="article">

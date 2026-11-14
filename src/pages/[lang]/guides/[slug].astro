@@ -16,7 +16,7 @@ import GuideVisual from "../../../components/GuideVisual.astro";
 import { GUIDE_CATS, HTML_LANG, LANGS, ui, type Lang, type GuideCat } from "../../../i18n/ui";
 import { categoryFilter, fillGuideRefs, fillLanes, getGuides, getPage, dependents, guideLinks, guideMentions, guideMissingLangs, type Guide } from "../../../lib/content";
 import { iso } from "../../../lib/articles";
-import { revisionLog, toc, countWord } from "../../../lib/block";
+import { lastChange, toc, countWord } from "../../../lib/block";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -34,14 +34,13 @@ const props = Astro.props as Props;
 const all = await getGuides(lang);
 const guidesPage = await getPage("guides", lang);
 
-let g: Guide | undefined, headings: any[] = [], revs: ReturnType<typeof revisionLog> = [];
+let g: Guide | undefined, headings: any[] = [];
 let before: Guide[] = [], after: Guide[] = [], mentions: Guide[] = [], missing: Lang[] = [];
 let usedOn: Awaited<ReturnType<typeof guideLinks>> = [];
 let parts: string[] = [], file = "";
 if (props.kind === "guide") {
   g = all.find((x) => x.slug === props.slug)!;
   ({ headings } = await render(g.entry));
-  revs = revisionLog(g.date, t.revPublished, g.entry.data.revisions);
   missing = await guideMissingLangs(g.slug);
   before = g.entry.data.requires.map((s) => all.find((x) => x.slug === s)!);
   after = dependents(all, g);
@@ -81,14 +80,14 @@ const nextRows = [
 ) : g && (
   <Base lang={lang} nav="guides" title={g.entry.data.title} description={g.entry.data.dek} ogType="article" missingIn={missing} missingHome="guides" block={{
       key: { label: t.guide, value: t.guideCats[g.category] },
-      rows: [revs.length > 1 ? [t.updated, revs.at(-1)!.date] : [t.published, iso(g.date)]],
+      rows: [[t.published, iso(g.date)]],
       contents: toc(headings),
       go: { items: [
         ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/guides/${r.slug}/`, hreflang: r.lang !== lang ? HTML_LANG[r.lang] : undefined, lang: r.lang !== lang ? HTML_LANG[r.lang] : undefined })),
         ...after.map((x) => ({ kicker: t.buildsOnThis, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
         ...mentions.map((x) => ({ kicker: t.usedIn, text: x.entry.data.title, href: `/${x.lang}/guides/${x.slug}/`, hreflang: x.lang !== lang ? HTML_LANG[x.lang] : undefined, lang: x.lang !== lang ? HTML_LANG[x.lang] : undefined })),
       ] },
-      revisions: revs.length > 1 ? revs : undefined,
+      changed: lastChange(g.entry.data.revisions),
     }}>
     <p class="kicker"><a class="tag" href={`/${lang}/guides/${g.category}/`}>{t.guideCats[g.category]}</a><span class="mono">~{g.time} {t.min} · {countWord(g.steps, lang, t, "step")} · {os}</span></p>
     <h1>{g.entry.data.title}</h1>
