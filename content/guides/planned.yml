@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Windows: VMware Workstation Pro (the owner's pick for Windows since 2026-11-13).
-  - slug: vmware-host-only
-    title: "Put VMware Workstation machines on a host-only network"
-    category: configure
-    platforms: [windows]
-    scope: "Switch a machine's network adapter between NAT and Host-only (and LAN segments), what VMnet1 and VMnet8 are in the Virtual Network Editor, see the addresses the machines get, check that they reach each other but not the internet."
   - slug: vmware-snapshots
     title: "Take and restore snapshots in VMware Workstation Pro"
     category: use
