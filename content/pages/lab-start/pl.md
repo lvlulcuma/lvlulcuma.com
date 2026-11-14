@@ -3,7 +3,8 @@
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
 # A <!-- guide: install-utm --> at the end of a paragraph or list item adds a "Step by step" line there, with that
-# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same.
+# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same
+# (several guides, one per hypervisor: separate them with commas).
 # Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Pierwsze kroki"
@@ -89,12 +90,12 @@ visuals:
     docker: "Do kontenerów"
     systems:
       - name: "Windows"
-        main: "VirtualBox"
-        why: "Darmowy, z otwartym kodem. Bez zakładania konta."
-        alt: "VMware Workstation Pro"
+        main: "VMware Workstation Pro"
+        why: "Darmowy do użytku prywatnego, edukacyjnego i firmowego. Do pobrania potrzebne jest darmowe konto Broadcom."
+        alt: "VirtualBox"
         docker: "Docker Desktop"
         dockerGuide: install-docker-desktop
-        guide: install-virtualbox-windows
+        guide: install-vmware-workstation-windows
       - name: "Mac"
         main: "UTM"
         why: "Darmowy ze strony UTM. Wersja z App Store to ta sama aplikacja, płatna, z automatycznymi aktualizacjami."
@@ -131,7 +132,7 @@ visuals:
       name: "Windows"
       text: "Darmowe wersje próbne z Microsoft Evaluation Center, bez klucza produktu. Gdy okres próbny się skończy, zbuduj nową maszynę: to i tak dobre ćwiczenie."
       facts: ["Windows 11 Enterprise: 90&nbsp;dni", "Windows Server 2025: 180&nbsp;dni"]
-      guide: set-up-windows-trial-virtualbox
+      guide: set-up-windows-trial-vmware, set-up-windows-trial-virtualbox
   nets:
     can: ["Wychodzi do internetu", "Dostępna z domu"]
     yes: "Tak"
@@ -253,9 +254,9 @@ pamięci i procesora. Wszystkie są darmowe. Wybierz ten dla swojego systemu:
 <!-- lab:pick -->
 
 > [!NOTE]
-> W Windowsie VirtualBox może pokazywać zielonego żółwia na dole okna maszyny. To znak, że działa własny
-> hipernadzorca Windowsa (włączają go Docker Desktop i WSL), a VirtualBox pracuje na nim, co bywa wyraźnie
-> wolniejsze. Wszystko i tak działa.
+> W Windowsie VMware Workstation Pro działa także wtedy, gdy włączony jest własny hipernadzorca Windowsa (włączają
+> go Docker Desktop, WSL i niektóre funkcje zabezpieczeń Windowsa). Uruchamia wtedy twoje maszyny przez tego
+> hipernadzorcę: to wolniejsze, ale wszystko działa.
 
 ## Dodaj pierwsze maszyny
 
@@ -264,7 +265,7 @@ Maszyna wirtualna, tak jak prawdziwy komputer, potrzebuje systemu operacyjnego. 
 <!-- lab:systems -->
 
 Zacznij od Kali. Pobierz jej maszynę wirtualną dla swojego hipernadzorcy, rozpakuj i otwórz ją w nim.
-<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->
+<!-- guide: set-up-kali-vmware, set-up-kali-virtualbox, set-up-kali-utm -->
 
 Większość hipernadzorców podłącza nową maszynę do NAT, czyli sieci, przez którą wychodzi ona do internetu. Na
 pierwszą aktualizację to w sam raz. Zaloguj się i wpisz:
@@ -291,7 +292,7 @@ o sygnalizacji świetlnej:
 
 Cztery zasady, które to zapewniają:
 
-1. Podłączaj podatne maszyny tylko do sieci host-only albo wewnętrznej. <!-- guide: virtualbox-host-only, utm-host-only -->
+1. Podłączaj podatne maszyny tylko do sieci host-only albo wewnętrznej. <!-- guide: vmware-host-only, virtualbox-host-only, utm-host-only -->
 2. Przełączaj maszynę na NAT tylko na czas instalowania aktualizacji albo narzędzi, a potem z powrotem.
 3. Nigdy nie mostkuj podatnej maszyny i nigdy nie przekierowuj portu z routera do laboratorium.
 4. W kontenerach przypinaj każdy port do `127.0.0.1`, tak jak w
@@ -304,7 +305,7 @@ Migawka (snapshot) zapisuje maszynę wirtualną dokładnie w obecnym stanie, jak
 
 <!-- lab:snaps -->
 
-1. Zrób pierwszą migawkę, gdy tylko maszyna jest zainstalowana i zaktualizowana. Nazwij ją `clean`. <!-- guide: virtualbox-snapshots, utm-snapshots -->
+1. Zrób pierwszą migawkę, gdy tylko maszyna jest zainstalowana i zaktualizowana. Nazwij ją `clean`. <!-- guide: vmware-snapshots, virtualbox-snapshots, utm-snapshots -->
 2. Rób kolejną przed każdą większą zmianą: nowym narzędziem, atakiem, próbką złośliwego oprogramowania.
 3. Gdy coś się zepsuje, przywróć ostatnią dobrą migawkę zamiast naprawiać.
 

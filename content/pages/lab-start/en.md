@@ -3,7 +3,8 @@
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
 # A <!-- guide: install-utm --> at the end of a paragraph or list item adds a "Step by step" line there, with that
-# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same.
+# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same
+# (several guides, one per hypervisor: separate them with commas).
 # Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. The pictures: map, plan, ram, check, kinds,
 # pick, systems, nets, snaps, notebook, weekend. Each one's comment says what it shows.
 updated: 2026-11-13
@@ -98,12 +99,12 @@ visuals:
     docker: "For containers"
     systems:
       - name: "Windows"
-        main: "VirtualBox"
-        why: "Free and open source. No account needed."
-        alt: "VMware Workstation Pro"
+        main: "VMware Workstation Pro"
+        why: "Free for personal, school and work use. The download needs a free Broadcom account."
+        alt: "VirtualBox"
         docker: "Docker Desktop"
         dockerGuide: install-docker-desktop
-        guide: install-virtualbox-windows
+        guide: install-vmware-workstation-windows
       - name: "Mac"
         main: "UTM"
         why: "Free from the UTM website. The App Store version is the same app, paid, with automatic updates."
@@ -141,7 +142,7 @@ visuals:
       name: "Windows"
       text: "Free trials from the Microsoft Evaluation Center, with no product key. When one runs out, build a fresh machine: good practice anyway."
       facts: ["Windows 11 Enterprise: 90&nbsp;days", "Windows Server 2025: 180&nbsp;days"]
-      guide: set-up-windows-trial-virtualbox
+      guide: set-up-windows-trial-vmware, set-up-windows-trial-virtualbox
   # The three kinds of network as a traffic light. `light`: go (green), wait (amber) or stop (red);
   # `reach`: [reaches the internet, your home network can reach it].
   nets:
@@ -267,9 +268,9 @@ processor. They're all free. Pick the one for your system:
 <!-- lab:pick -->
 
 > [!NOTE]
-> On Windows, VirtualBox may show a green turtle at the bottom of a machine's window. It means Windows' own
-> hypervisor is running (Docker Desktop and WSL switch it on), and VirtualBox works on top of it, which can be
-> noticeably slower. Everything still works.
+> On Windows, VMware Workstation Pro also works when Windows' own hypervisor is on (Docker Desktop, WSL and some
+> Windows security features switch it on). It then runs your machines through that hypervisor, which is slower, but
+> they still work.
 
 ## Add your first machines
 
@@ -278,7 +279,7 @@ A virtual machine needs an operating system, just like a real computer. You won'
 <!-- lab:systems -->
 
 Start with Kali. Download its virtual machine for your hypervisor, unpack it and open it there.
-<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->
+<!-- guide: set-up-kali-vmware, set-up-kali-virtualbox, set-up-kali-utm -->
 
 Most hypervisors put a new machine on NAT, the network setting that lets it go online, which is just right for its
 first update. Log in, then type:
@@ -304,7 +305,7 @@ hypervisor gives a machine one of three kinds of network. Think of them as a tra
 
 Four rules keep it that way:
 
-1. Put vulnerable machines on a host-only or internal network only. <!-- guide: virtualbox-host-only, utm-host-only -->
+1. Put vulnerable machines on a host-only or internal network only. <!-- guide: vmware-host-only, virtualbox-host-only, utm-host-only -->
 2. Switch a machine to NAT only while you install updates or tools, then switch it back.
 3. Never bridge a vulnerable machine, and never forward a port from your router to the lab.
 4. In containers, bind every port to `127.0.0.1`, as the [Web and API hacking lab](/en/lab/web-app-hacking/) does.
@@ -316,7 +317,7 @@ something breaks, you jump back instead of spending an evening on repairs.
 
 <!-- lab:snaps -->
 
-1. Take the first snapshot as soon as a machine is installed and updated. Call it `clean`. <!-- guide: virtualbox-snapshots, utm-snapshots -->
+1. Take the first snapshot as soon as a machine is installed and updated. Call it `clean`. <!-- guide: vmware-snapshots, virtualbox-snapshots, utm-snapshots -->
 2. Take another before every big change: a new tool, an attack, a malware sample.
 3. When something breaks, restore the latest good snapshot instead of fixing it.
 

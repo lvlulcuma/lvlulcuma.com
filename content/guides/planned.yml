@@ -16,26 +16,28 @@
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
 guides:
-  - slug: install-virtualbox-windows
-    title: "Install VirtualBox on Windows"
+  # Windows: VMware Workstation Pro (the owner's pick for Windows since 2026-11-13).
+  - slug: install-vmware-workstation-windows
+    title: "Install VMware Workstation Pro on Windows"
     category: install
     platforms: [windows]
-    scope: "Download from virtualbox.org, check the hash Oracle publishes, install (the Visual C++ runtime it may ask for), first start. The green turtle when Hyper-V is on (Docker Desktop, WSL) and what to do about it. Probably requires: [turn-on-virtualization]. That guide's last trouble (Task Manager says Enabled, but VirtualBox says VT-x isn't available) sends readers here, so cover it."
-  - slug: set-up-kali-virtualbox
-    title: "Set up Kali Linux in VirtualBox"
+    scope: "Free Broadcom account (Basic User profile and the Trade Compliance form, with real details), download from the Broadcom Support Portal's free downloads, check the file, run the installer as administrator (Typical or Custom, the Enhanced Keyboard Driver), the Windows Hypervisor Platform prompt when Hyper-V or VBS is on, restart, first start (free use, no license key), updates are downloaded by hand. Probably requires: [turn-on-virtualization]. That guide's last trouble (Task Manager says Enabled, but VMware Workstation Pro won't start) sends readers here, so cover it."
+  - slug: set-up-kali-vmware
+    title: "Set up Kali Linux in VMware Workstation Pro"
     category: install
-    platforms: [windows, linux]
-    scope: "Download Kali's ready-made VirtualBox image, check its SHA-256, unpack and add it to VirtualBox, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
-  - slug: virtualbox-host-only
-    title: "Put VirtualBox machines on a host-only network"
+    platforms: [windows]
+    scope: "Download Kali's ready-made VMware image, check its SHA-256, unpack it (7-Zip), open the .vmx, the copied-or-moved question, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
+  - slug: vmware-host-only
+    title: "Put VMware Workstation machines on a host-only network"
     category: configure
-    platforms: [windows, linux]
-    scope: "Create or check the host-only network, switch a machine's adapter between NAT and Host-only Adapter (and Internal Network), see the addresses the machines get, check that they reach each other but not the internet."
-  - slug: virtualbox-snapshots
-    title: "Take and restore snapshots in VirtualBox"
+    platforms: [windows]
+    scope: "Switch a machine's network adapter between NAT and Host-only (and LAN segments), what VMnet1 and VMnet8 are in the Virtual Network Editor, see the addresses the machines get, check that they reach each other but not the internet."
+  - slug: vmware-snapshots
+    title: "Take and restore snapshots in VMware Workstation Pro"
     category: use
-    platforms: [windows, linux]
-    scope: "Take a snapshot called clean, take more before risky changes, restore one, delete old ones to save disk space. Snapshots aren't backups."
+    platforms: [windows]
+    scope: "Take a snapshot called clean, take more before risky changes, restore one, the Snapshot Manager, delete old ones to save disk space. Snapshots aren't backups."
+  # Mac: UTM.
   - slug: install-utm
     title: "Install UTM on a Mac"
     category: install
@@ -56,11 +58,28 @@ guides:
     category: use
     platforms: [macos]
     scope: "The Snapshots tab added in UTM 5: take, restore, rename, delete; which macOS versions it needs for QEMU and Apple Virtualization machines."
+  # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
   - slug: install-virtualbox-linux
     title: "Install VirtualBox on Ubuntu or Debian"
     category: install
     platforms: [linux]
     scope: "Oracle's own package or repository, the kernel modules and Secure Boot signing, adding your user to vboxusers, first start."
+  - slug: set-up-kali-virtualbox
+    title: "Set up Kali Linux in VirtualBox"
+    category: install
+    platforms: [windows, linux]
+    scope: "Download Kali's ready-made VirtualBox image, check its SHA-256, unpack and add it to VirtualBox, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
+  - slug: virtualbox-host-only
+    title: "Put VirtualBox machines on a host-only network"
+    category: configure
+    platforms: [windows, linux]
+    scope: "Create or check the host-only network, switch a machine's adapter between NAT and Host-only Adapter (and Internal Network), see the addresses the machines get, check that they reach each other but not the internet."
+  - slug: virtualbox-snapshots
+    title: "Take and restore snapshots in VirtualBox"
+    category: use
+    platforms: [windows, linux]
+    scope: "Take a snapshot called clean, take more before risky changes, restore one, delete old ones to save disk space. Snapshots aren't backups."
+  # Containers.
   - slug: install-docker-engine-linux
     title: "Install Docker Engine on Ubuntu or Debian"
     category: install
@@ -71,6 +90,12 @@ guides:
     category: install
     platforms: [macos]
     scope: "Apple silicon or Intel download, check it, first start and the license terms, docker compose version check. Once it's out, the Windows guide (install-docker-desktop, titled just \"Install Docker Desktop\") may want \"on Windows\" in its title."
+  # Windows targets.
+  - slug: set-up-windows-trial-vmware
+    title: "Set up a Windows 11 trial in VMware Workstation Pro"
+    category: install
+    platforms: [windows]
+    scope: "Evaluation Center ISO (90 days, no key), the New Virtual Machine wizard's settings Windows 11 needs (TPM, encryption, Secure Boot, memory), install, activate online on NAT, snapshot, what to do when the trial ends."
   - slug: set-up-windows-trial-virtualbox
     title: "Set up a Windows 11 trial in VirtualBox"
     category: install

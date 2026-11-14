@@ -1790,6 +1790,9 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .gref.short { display: block; margin-top: 4px; font-size: 14px; }
 .gref.short .gref-i { display: inline; }
 .gref.short .gref-m { margin-left: 2px; }
+/* A card naming several guides (one per hypervisor): each title on its own line, with its time or "Coming soon". */
+.gref.short.multi { display: grid; gap: 4px; }
+.gref.short.multi .gref-i { display: block; }
 .gs .gs-guide { margin-top: 6px; }
 .gs-pick-body { margin-bottom: 14px; }
 .gs .gs-pick-body .gs-pick-why { margin-bottom: 0; }

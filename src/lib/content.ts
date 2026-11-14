@@ -116,11 +116,11 @@ const usesGuide = (text: string | undefined, slug: string) =>
  *  <!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->, at the end of the paragraph or list item that talks
  *  about the task (or on its own line after it). fillGuideRefs() turns it into a line of links. */
 export const GUIDE_REF = /<!--\s*guides?:\s*([a-z0-9,\s-]+?)\s*-->/g;
-const slugList = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
+export const slugList = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
 /** Every guide a page mentions: in its text, and in `guide:` / `dockerGuide:` fields of its front matter (as JSON). */
 export const guideMentionsIn = (text: string | undefined) => [
   ...[...(text ?? "").matchAll(GUIDE_REF)].flatMap((m) => slugList(m[1])),
-  ...[...(text ?? "").matchAll(/"(?:guide|dockerGuide)":"([a-z0-9-]+)"/g)].map((m) => m[1]),
+  ...[...(text ?? "").matchAll(/"(?:guide|dockerGuide)":"([a-z0-9,\s-]+)"/g)].flatMap((m) => slugList(m[1])),
 ];
 
 export type GuidePlanned = { slug: string; title: string; category: GuideCat; platforms: Platform[]; scope?: string };
@@ -174,15 +174,17 @@ const esc = (x: string) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 export function guideRefHtml(lang: Lang, rows: StepRow[], short = false): string {
   const t = ui[lang];
   const mark = (r: StepRow) => (r.lang !== lang ? `<span class="gc-lang">${LANG_LABEL[r.lang]}</span>` : "");
+  // In a card, one guide reads "Step-by-step guide"; when a card names several (one per hypervisor), each shows its title.
+  const generic = short && rows.length === 1;
   const items = rows.map((r) => {
-    const name = short ? `${esc(t.stepByStepShort)}<span class="vh">: ${esc(r.title)}</span>` : `<span lang="${HTML_LANG[r.lang]}">${esc(r.title)}</span>`;
+    const name = generic ? `${esc(t.stepByStepShort)}<span class="vh">: ${esc(r.title)}</span>` : `<span lang="${HTML_LANG[r.lang]}">${esc(r.title)}</span>`;
     const time = r.href ? esc(r.meta.split(" · ")[0]) : esc(t.comingSoon);
     return r.href
       ? `<span class="gref-i"><a href="${r.href}"${r.lang !== lang ? ` hreflang="${HTML_LANG[r.lang]}"` : ""}>${name}${mark(r)}<span class="arr" aria-hidden="true"></span></a> <span class="gref-m">${time}</span></span>`
       : `<span class="gref-i soon"><span class="gref-t">${name}${mark(r)}</span> <span class="gref-m">${time}</span></span>`;
   });
   return short
-    ? `<span class="gref short">${items.join("")}</span>`
+    ? `<span class="gref short${generic ? "" : " multi"}">${items.join("")}</span>`
     : `<span class="gref"><span class="gref-k">${esc(t.stepByStep)}</span><span class="gref-list">${items.join("")}</span></span>`;
 }
 

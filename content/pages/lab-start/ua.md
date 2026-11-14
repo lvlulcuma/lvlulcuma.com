@@ -3,7 +3,8 @@
 # The page is the text below the second --- (headings, paragraphs, boxes and margin notes, as in any article).
 # A line like <!-- lab:ram --> on its own places a picture there; the words in each picture are under `visuals:` here.
 # A <!-- guide: install-utm --> at the end of a paragraph or list item adds a "Step by step" line there, with that
-# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same.
+# guide (a folder in content/guides/, or one planned in content/guides/planned.yml); in a card, `guide:` does the same
+# (several guides, one per hypervisor: separate them with commas).
 # Inside the pictures' words, <strong>, <code>, <kbd> and <a href="…"> work. See en.md for what each picture shows.
 updated: 2026-11-13
 title: "Перші кроки"
@@ -89,12 +90,12 @@ visuals:
     docker: "Для контейнерів"
     systems:
       - name: "Windows"
-        main: "VirtualBox"
-        why: "Безкоштовний, з відкритим кодом. Акаунт не потрібен."
-        alt: "VMware Workstation Pro"
+        main: "VMware Workstation Pro"
+        why: "Безкоштовний для особистого, навчального й робочого використання. Для завантаження потрібен безкоштовний акаунт Broadcom."
+        alt: "VirtualBox"
         docker: "Docker Desktop"
         dockerGuide: install-docker-desktop
-        guide: install-virtualbox-windows
+        guide: install-vmware-workstation-windows
       - name: "Mac"
         main: "UTM"
         why: "Безкоштовний на сайті UTM. Версія з App Store — той самий застосунок, платний, з автоматичними оновленнями."
@@ -131,7 +132,7 @@ visuals:
       name: "Windows"
       text: "Безкоштовні пробні версії з Microsoft Evaluation Center, без ключа продукту. Коли пробний період закінчиться, зберіть нову машину: це однаково добра практика."
       facts: ["Windows 11 Enterprise: 90&nbsp;днів", "Windows Server 2025: 180&nbsp;днів"]
-      guide: set-up-windows-trial-virtualbox
+      guide: set-up-windows-trial-vmware, set-up-windows-trial-virtualbox
   nets:
     can: ["Виходить в інтернет", "Доступна з дому"]
     yes: "Так"
@@ -253,9 +254,9 @@ shutdown /r /fw /t 0
 <!-- lab:pick -->
 
 > [!NOTE]
-> У Windows VirtualBox може показувати зелену черепаху внизу вікна машини. Це означає, що працює власний гіпервізор
-> Windows (його вмикають Docker Desktop і WSL), а VirtualBox працює поверх нього, і це може бути помітно повільніше.
-> Усе одно все працює.
+> У Windows VMware Workstation Pro працює й тоді, коли ввімкнено власний гіпервізор Windows (його вмикають Docker
+> Desktop, WSL і деякі функції захисту Windows). Тоді він запускає ваші машини через цей гіпервізор: це повільніше,
+> але все працює.
 
 ## Додайте перші машини
 
@@ -265,7 +266,7 @@ shutdown /r /fw /t 0
 <!-- lab:systems -->
 
 Почніть із Kali. Завантажте її віртуальну машину для свого гіпервізора, розпакуйте й відкрийте в ньому.
-<!-- guide: set-up-kali-virtualbox, set-up-kali-utm -->
+<!-- guide: set-up-kali-vmware, set-up-kali-virtualbox, set-up-kali-utm -->
 
 Більшість гіпервізорів підключають нову машину до NAT — мережі, через яку вона виходить в інтернет. Для першого
 оновлення це саме те, що треба. Увійдіть і введіть:
@@ -290,7 +291,7 @@ sudo apt update && sudo apt full-upgrade -y
 
 Чотири правила, які тримають лабораторію осторонь:
 
-1. Підключайте вразливі машини лише до мережі host-only або внутрішньої. <!-- guide: virtualbox-host-only, utm-host-only -->
+1. Підключайте вразливі машини лише до мережі host-only або внутрішньої. <!-- guide: vmware-host-only, virtualbox-host-only, utm-host-only -->
 2. Перемикайте машину на NAT тільки на час встановлення оновлень чи інструментів, а потім повертайте назад.
 3. Ніколи не підключайте вразливу машину мостом і ніколи не прокидайте порт із роутера в лабораторію.
 4. У контейнерах прив'язуйте кожен порт до `127.0.0.1`, як у
@@ -303,7 +304,7 @@ sudo apt update && sudo apt full-upgrade -y
 
 <!-- lab:snaps -->
 
-1. Зробіть перший знімок, щойно машину встановлено й оновлено. Назвіть його `clean`. <!-- guide: virtualbox-snapshots, utm-snapshots -->
+1. Зробіть перший знімок, щойно машину встановлено й оновлено. Назвіть його `clean`. <!-- guide: vmware-snapshots, virtualbox-snapshots, utm-snapshots -->
 2. Робіть новий перед кожною великою зміною: новим інструментом, атакою, зразком шкідливого ПЗ.
 3. Коли щось зламалося, відновіть останній вдалий знімок замість того, щоб лагодити.
 
