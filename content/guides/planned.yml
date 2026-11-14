@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Windows: VMware Workstation Pro (the owner's pick for Windows since 2026-11-13).
-  - slug: set-up-kali-vmware
-    title: "Set up Kali Linux in VMware Workstation Pro"
-    category: install
-    platforms: [windows]
-    scope: "Download Kali's ready-made VMware image, check its SHA-256, unpack it (7-Zip), open the .vmx, the copied-or-moved question, memory and CPU settings, first login (kali/kali), passwd, sudo apt update && sudo apt full-upgrade -y on NAT."
   - slug: vmware-host-only
     title: "Put VMware Workstation machines on a host-only network"
     category: configure
