@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Mac: UTM.
-  - slug: utm-host-only
-    title: "Put UTM machines on a host-only network"
-    category: configure
-    platforms: [macos]
-    scope: "Switch a machine between Shared Network and Host Only in UTM, check that the machines reach each other but not the internet."
   - slug: utm-snapshots
     title: "Take and restore snapshots in UTM"
     category: use
