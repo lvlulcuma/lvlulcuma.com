@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Mac: UTM.
-  - slug: install-utm
-    title: "Install UTM on a Mac"
-    category: install
-    platforms: [macos]
-    scope: "Free download from the UTM website (or the paid App Store version with automatic updates), first start, the Virtualize vs Emulate choice on Apple silicon."
   - slug: set-up-kali-utm
     title: "Set up Kali Linux in UTM"
     category: install
@@ -36,7 +31,7 @@ guides:
     title: "Take and restore snapshots in UTM"
     category: use
     platforms: [macos]
-    scope: "The Snapshots tab added in UTM 5: take, restore, rename, delete; which macOS versions it needs for QEMU and Apple Virtualization machines."
+    scope: "The Snapshots tab of UTM 5: take, restore, rename, delete; which macOS versions it needs for QEMU and Apple Virtualization machines. Check first: on 2026-11-14 UTM 5 was still a beta (latest stable 4.7.5, GitHub releases). If it still is, find out what the stable version offers instead (a clone, or running without saving changes) and write for that, or ask the owner."
   # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
   - slug: install-virtualbox-linux
     title: "Install VirtualBox on Ubuntu or Debian"
