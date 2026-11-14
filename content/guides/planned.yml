@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
-  - slug: virtualbox-host-only
-    title: "Put VirtualBox machines on a host-only network"
-    category: configure
-    platforms: [windows, linux]
-    scope: "Create or check the host-only network, switch a machine's adapter between NAT and Host-only Adapter (and Internal Network), see the addresses the machines get, check that they reach each other but not the internet."
   - slug: virtualbox-snapshots
     title: "Take and restore snapshots in VirtualBox"
     category: use
