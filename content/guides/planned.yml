@@ -16,12 +16,6 @@
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
 guides:
-  # Mac: UTM.
-  - slug: utm-snapshots
-    title: "Take and restore snapshots in UTM"
-    category: use
-    platforms: [macos]
-    scope: "The Snapshots tab of UTM 5: take, restore, rename, delete; which macOS versions it needs for QEMU and Apple Virtualization machines. Check first: on 2026-11-14 UTM 5 was still a beta (latest stable 4.7.5, GitHub releases). If it still is, find out what the stable version offers instead (a clone, or running without saving changes) and write for that, or ask the owner."
   # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
   - slug: install-virtualbox-linux
     title: "Install VirtualBox on Ubuntu or Debian"
