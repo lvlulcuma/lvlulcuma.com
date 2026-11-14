@@ -16,12 +16,6 @@
 #   scope       what it should cover, for whoever writes it (never shown on the site). A starting point, not a
 #               source: check every fact in the guide's own run.
 guides:
-  # Windows: VMware Workstation Pro (the owner's pick for Windows since 2026-11-13).
-  - slug: vmware-snapshots
-    title: "Take and restore snapshots in VMware Workstation Pro"
-    category: use
-    platforms: [windows]
-    scope: "Take a snapshot called clean, take more before risky changes, restore one, the Snapshot Manager, delete old ones to save disk space. Snapshots aren't backups."
   # Mac: UTM.
   - slug: install-utm
     title: "Install UTM on a Mac"
