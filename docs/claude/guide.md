@@ -45,7 +45,16 @@ requires: []                              # guides readers must have done first 
 dek: "One sentence: what you end up with."
 ```
 
-`requires:` is only for what a reader truly must have done first (Kali in VMware Workstation Pro needs VMware Workstation Pro installed).
+`requires:` is only for a guide whose result the steps can't do without (Kali in VMware Workstation Pro needs VMware
+Workstation Pro installed). Every guide must make sense to someone who arrives for that one task (the owner's rule,
+2026-11-14), so:
+
+- Don't require a guide just because it comes earlier on the lab's path. Putting machines on a host-only network needs
+  Workstation Pro, not Kali.
+- Don't require something most readers already have (virtualization switched on, WSL installed): say in the text what's
+  needed and how to check, with a `<!-- guide: … -->` mention for when it's missing.
+- Write the steps for any reader of the task. A machine like Kali can be the example; it's never assumed to exist.
+
 A short how-to used inside a step (checking a hash) is a link in that step, not a requirement.
 
 ## 4. The guide itself

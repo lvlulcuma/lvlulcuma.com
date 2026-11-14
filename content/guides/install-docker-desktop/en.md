@@ -6,12 +6,19 @@ category: quick   # install | quick | configure | use | harden | fix
 order: 2   # position within its category
 time: 15   # rough minutes to complete
 platforms: [windows]   # windows | macos | linux
-requires: [set-up-wsl2-ubuntu]   # guides to do first (folder names); shown as "Before you start"
+requires: []   # guides to do first (folder names); shown as "Before you start"
 dek: "Set up Docker Desktop on Windows with the WSL 2 backend."
 revisions:          # after publishing, add a line for each change
   - date: 2026-11-09
     note: "Checks the installer's signature (Docker publishes no hash for it), updates WSL first, and follows Docker's current installer and license terms."
+  - date: 2026-11-14
+    note: "No longer asks you to set up Ubuntu first: Docker Desktop needs only WSL itself, and the guide now installs it if it's missing."
 ---
+
+Docker Desktop runs Linux containers on Windows through WSL (Windows Subsystem for Linux, Windows' built-in way to run
+Linux). WSL 2 runs Linux in a small virtual machine, so the processor's virtualization feature must be switched on.
+Most computers come with it on; the virtualization guide shows how to check.
+<!-- guide: turn-on-virtualization -->
 
 ## Download
 
@@ -23,10 +30,18 @@ revisions:          # after publishing, add a line for each change
 
 ## Install
 
-1. Docker Desktop needs WSL version 2.1.5 or later. In PowerShell, bring WSL up to date:
+1. Docker Desktop needs WSL version 2.1.5 or later, but no Linux system of your own. In PowerShell, check whether WSL
+   is installed:
 
    ```powershell
-   wsl --update
+   wsl --version
+   ```
+
+   If it shows a WSL version, bring WSL up to date with `wsl --update`. If it doesn't, right-click **Start**, open
+   **Terminal (Admin)**, install WSL without a Linux system and restart the computer:
+
+   ```powershell
+   wsl --install --no-distribution
    ```
 
 2. Run **Docker Desktop Installer.exe**.

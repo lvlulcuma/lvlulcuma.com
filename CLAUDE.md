@@ -72,6 +72,9 @@ The owner's rule for every section of the site:
   window, where to click, a firmware screen, a fold per computer maker), never screenshots. Their words go under
   `visuals:` in the guide's front matter and a line `<!-- pic: <name> -->` places each one (`docs/claude/guide.md`).
   A guide for several systems puts each system's steps in its own labelled box (`<!-- for: windows -->`).
+- **Every guide stands on its own:** someone may arrive just for that one task. "Before you start" (`requires:`) lists
+  only guides whose result its steps can't do without, never one that merely comes earlier on the lab's path
+  (`docs/claude/guide.md`, section 3).
 - **A guide the page needs but that isn't written yet** goes in `content/guides/planned.yml`. Its mention says
   "Coming soon", without a link, until the guide is published; the build stops on a name that's neither written nor
   planned.

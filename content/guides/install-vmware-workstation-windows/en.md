@@ -6,7 +6,7 @@ category: install   # install | quick | configure | use | harden | fix
 order: 4   # position within its category
 time: 20   # rough minutes to complete
 platforms: [windows]   # windows | macos | linux
-requires: [turn-on-virtualization]   # guides to do first (folder names); shown as "Before you start"
+requires: []   # guides to do first (folder names); shown as "Before you start"
 dek: "Get the free hypervisor for your Windows lab: make a Broadcom account, download VMware Workstation Pro, install it and start it for the first time."
 # Pictures: each one is placed in the text below by a line <!-- pic: <name> -->. How each kind is drawn:
 # src/components/GuideVisual.astro.
@@ -47,6 +47,9 @@ visuals:
       - title: "“…the host has Hyper-V or Device/Credential Guard enabled.”"
         text: "Your machines will run through Windows' own hypervisor: a bit slower, but they work. Tick the Windows Hypervisor Platform box if there is one."
     caption: "The two messages, shortened. Docker Desktop, WSL 2 and some Windows security features switch Windows' hypervisor on."
+revisions:          # after publishing, add a line for each change
+  - date: 2026-11-14
+    note: "Turning on virtualization is no longer a step before you start: most computers have it on, and the guide says how to check."
 ---
 
 VMware Workstation Pro is the program that runs your lab's virtual machines on Windows: a **hypervisor**. It's free
@@ -58,6 +61,10 @@ owns VMware, gives it out from its support portal, so you make a free account th
 > processor. **Settings** > **System** > **About** shows which one you have.
 
 <!-- pic: needs -->
+
+The processor's virtualization feature must be switched on, or your virtual machines won't start. Most computers come
+with it on. The virtualization guide shows how to check in a minute, and how to turn it on if it's off.
+<!-- guide: turn-on-virtualization -->
 
 ## Make a free Broadcom account
 
