@@ -6,7 +6,7 @@ import Related from "../../../components/Related.astro";
 import { LANGS, ui, type Lang } from "../../../i18n/ui";
 import { getPage, getProjects, type Project } from "../../../lib/content";
 import { getArticles, iso } from "../../../lib/articles";
-import { revisionLog, stageList } from "../../../lib/block";
+import { lastChange, stageList } from "../../../lib/block";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -25,16 +25,15 @@ const live = d.status === "in-progress";
 const { Content } = await render(p.entry);
 const hasBody = (p.entry.body ?? "").trim().length > 0;
 const article = d.related_article ? (await getArticles(lang)).find((n) => n.slug === d.related_article) : undefined;
-const revisions = revisionLog(d.published, t.revPublished, d.revisions);
 const stages = d.method ? stageList(d.method, d.current_step) : undefined;
 const current = d.method && d.current_step ? d.method[d.current_step - 1]?.step : undefined;
 ---
 <Base lang={lang} nav="research" title={d.title} description={d.summary} block={{
     key: live && d.method && d.current_step ? { label: t.stage, value: `${d.current_step} / ${d.method.length}` } : { label: t.status, value: live ? t.inprogress : t.planned },
-    rows: [...(live && d.current_step ? [[t.status, t.inprogress] as [string, string]] : []), ...(revisions.length > 1 ? [] : [[t.published, iso(d.published)] as [string, string]])],
+    rows: [...(live && d.current_step ? [[t.status, t.inprogress] as [string, string]] : []), [t.published, iso(d.published)] as [string, string]],
     stages,
     go: { items: article ? [{ kicker: `${t.related} · ${t.issue} ${article.issue}`, text: article.entry.data.title, href: `/${lang}/articles/${article.slug}/` }] : [] },
-    revisions: revisions.length > 1 ? revisions : undefined,
+    changed: lastChange(d.revisions),
     strip: current ? [current] : [],
   }}>
   <p class="kicker"><span class={live ? "pill live" : "pill"}>{live ? t.inprogress : t.planned}</span></p>

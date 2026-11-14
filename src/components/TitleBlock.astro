@@ -1,8 +1,8 @@
 ---
 // The box beside every page (desktop), and its one-line summary strip on phones.
 // Same look as the home page's Announcements box: the page's main fact at the top, then the
-// things you can do on this page (filter, stages, now, contents, go to, revisions; see BlockSections),
-// then small facts in a light band at the bottom. The box is sticky, so it stays in reach while
+// things you can do on this page (filter, stages, now, contents, go to; see BlockSections),
+// then small facts in a light band at the bottom, with the day of its latest change ("Updated") under "Published". The box is sticky, so it stays in reach while
 // you scroll. Each page decides what goes in it; see src/lib/block.ts.
 //
 // It follows you only on screens tall enough to show all of it: data-tight is the screen height it needs as it is,
@@ -11,20 +11,22 @@
 //
 // Phones: the strip shows the main fact, and one "On this page" fold under it holds the same
 // sections, except the filter: list pages keep their filter chips visible in the page instead.
-import { boxHeight, type Block } from "../lib/block";
+import { boxHeight, footRows, type Block } from "../lib/block";
 import type { Lang } from "../i18n/ui";
 import BlockSections from "./BlockSections.astro";
 interface Props { block: Block; lang: Lang }
 const { block, lang } = Astro.props;
-const { key, rows = [], stages, contents, revisions, go, strip = [] } = block;
+const { key, stages, contents, go } = block;
 const t = block.labels;
-type Part = "stages" | "now" | "contents" | "go" | "revisions";
+const rows = footRows(block);
+// Phones have no box, so the strip says when the page last changed.
+const strip = [...(block.strip ?? []), ...(block.changed ? [`${t.updated} ${block.changed}`] : [])];
+type Part = "stages" | "now" | "contents" | "go";
 const phoneParts = ([
   stages?.length && "stages",
   block.now?.items.length && "now",
   contents && contents.length > 1 && "contents",
   go?.items.length && go.phone !== false && "go",
-  revisions?.length && "revisions",
 ].filter(Boolean)) as Part[];
 const onlyContents = phoneParts.length === 1 && phoneParts[0] === "contents";
 // The screen height needed for the box plus 24px above and below it, in steps of 50px (global.css has 350–1300).
@@ -33,7 +35,7 @@ const fit = { normal: boxHeight(block, lang, false), tight: boxHeight(block, lan
 ---
 <div class="tb" role="group" aria-label={`${key.label}: ${key.value}`} data-tight={step(fit.normal)} data-unstick={step(fit.tight)}>
   <div class="keyfact"><small>{key.label}</small><strong>{key.value}</strong></div>
-  <BlockSections block={block} parts={["filter", "stages", "now", "contents", "go", "revisions"]} />
+  <BlockSections block={block} parts={["filter", "stages", "now", "contents", "go"]} />
   {rows.length > 0 && (
     <dl class="tb-foot">
       {rows.map(([k, v]) => (

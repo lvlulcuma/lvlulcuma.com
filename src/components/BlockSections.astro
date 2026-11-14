@@ -1,20 +1,19 @@
 ---
 // The middle sections of the box beside a page, in a fixed order so visitors learn it once:
-// filter → stages → now → contents → go to → revisions. Used by TitleBlock twice: in the box itself
+// filter → stages → now → contents → go to. Used by TitleBlock twice: in the box itself
 // (wide screens) and in the "On this page" fold under the phone strip.
 import type { Block } from "../lib/block";
-type Part = "filter" | "stages" | "now" | "contents" | "go" | "revisions";
+type Part = "filter" | "stages" | "now" | "contents" | "go";
 interface Props { block: Block; parts: Part[]; bare?: boolean }
 const { block, parts, bare = false } = Astro.props;
 const t = block.labels;
-const { filter, stages, now, contents, go, revisions } = block;
+const { filter, stages, now, contents, go } = block;
 const has: Record<Part, boolean> = {
   filter: !!filter && filter.items.length > 0,
   stages: !!stages && stages.length > 0,
   now: !!now && now.items.length > 0,
   contents: !!contents && contents.length > 1,
   go: !!go && go.items.length > 0,
-  revisions: !!revisions && revisions.length > 0,
 };
 const shown = parts.filter((p) => has[p]);
 // Titles that may be cut short (after two lines, or one on short screens; see .tb-clamp) keep their full text as a tooltip.
@@ -51,7 +50,7 @@ const long = (text: string) => (text.length > 24 ? text : undefined);
       {!bare && <span class="tb-h" aria-hidden="true">{t.contents}</span>}
       <ol class="tb-toc" role="list">{contents!.map((c) => <li><a href={`#${c.slug}`} class="tb-clamp" title={long(c.text)}>{c.text}</a></li>)}</ol>
     </nav>
-  ) : p === "go" ? (
+  ) : (
     <nav class="tb-sec" aria-label={go!.label ?? t.goTo}>
       <span class="tb-h" aria-hidden="true">{go!.label ?? t.goTo}</span>
       <ul class="tb-go">
@@ -61,12 +60,5 @@ const long = (text: string) => (text.length > 24 ? text : undefined);
         ))}
       </ul>
     </nav>
-  ) : (
-    <div class="tb-sec">
-      <span class="tb-h">{t.revisions}</span>
-      <table class="tb-rev">
-        <tbody>{revisions!.map((r) => <tr><th scope="row">{r.rev}</th><td class="d">{r.date}</td><td>{r.note}</td></tr>)}</tbody>
-      </table>
-    </div>
   )
 )}

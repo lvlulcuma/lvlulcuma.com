@@ -6,7 +6,6 @@ import { MONTHS, type Lang } from "../i18n/ui";
 export type Link = { text: string; href: string; hreflang?: string };
 export type Row = [string, string | Link[]];
 export type Stage = { text: string; state: "done" | "now" | "todo" };
-export type Revision = { rev: string; date: string; note: string };
 /** One choice in a filter list. Each choice is its own page, so no JavaScript is needed. */
 export type FilterItem = { text: string; href: string; count?: number; current?: boolean };
 /** A "Go to" link: an optional small line above (e.g. "Next article · 04") and what it leads to. */
@@ -18,7 +17,10 @@ export type Block = {
   rows?: Row[];
   stages?: Stage[];
   contents?: { slug: string; text: string }[];
-  revisions?: Revision[];
+  /** The day of the page's latest change after publishing (its newest `revisions:` line), if it has changed: the
+   *  box adds an "Updated" row at the bottom and the phone strip says it too. What changed isn't shown on the page,
+   *  so the box stays short however often a page changes; the notes go to the RSS feed (src/lib/feed.ts). */
+  changed?: string;
   /** A list of filter choices (topics, categories). Shown in the box on wide screens; phones keep the chips in the page. */
   filter?: { label: string; items: FilterItem[] };
   /** What the author is busy with right now (About page): a label, the month, and a few short items, some linked. */
@@ -27,7 +29,7 @@ export type Block = {
   go?: { label?: string; items: GoItem[]; phone?: boolean };
   /** One-line summary shown on phones instead of the full box. */
   strip?: string[];
-  labels: { stage: string; contents: string; revisions: string; goTo: string; onThisPage: string };
+  labels: { stage: string; contents: string; published: string; updated: string; goTo: string; onThisPage: string };
 };
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -66,7 +68,8 @@ export function boxHeight(block: Block, lang: Lang, tight: boolean): number {
   const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
   // A middle section: its top line, padding, the small label in capitals and the gap under it.
   const section = (inner: number) => 1 + (12 + y) + 15.4 + (6 + y / 2) + inner + (10 + y);
-  const { key, filter, stages, now, contents, go, revisions, rows = [] } = block;
+  const { key, filter, stages, now, contents, go } = block;
+  const rows = footRows(block);
 
   let h = 2 + (12 + y) + lines(key.label, W, 12.5) * 18.2 + 3 + lines(key.value, W, 17, Infinity, true) * 22.1 + (14 + y);
   if (filter?.items.length)
@@ -84,7 +87,6 @@ export function boxHeight(block: Block, lang: Lang, tight: boolean): number {
       const kicker = i.kicker && i.kicker !== go.items[n - 1]?.kicker ? lines(i.kicker, W - 36, 11.5) * 15 + 1 : 9.5;
       return 2 * (6 + y) + kicker + lines(i.text, W - 36, 13.5, most, true) * 18.3;
     })));
-  if (revisions?.length) h += section(sum(revisions.map((r) => 6 + lines(r.note, W - 90, 12.5) * 18.2)));
   if (rows.length) {
     const row = ([k, v]: Row) => lines(`${k} ${typeof v === "string" ? v : v.map((l) => l.text).join(" · ")}`, W - 12, 13) * 18.9;
     h += 1 + (11 + y) + (12 + y) + (5 + y / 2) * (rows.length - 1) + sum(rows.map(row));
@@ -103,14 +105,20 @@ export function toc(headings: MarkdownHeading[]) {
   return headings.filter((h) => h.depth === top).map((h) => ({ slug: h.slug, text: h.text.replace(/^\d+[.)]\s+/, "") }));
 }
 
-/** REV A is the first publication; each entry in `revisions:` adds B, C, … in date order. */
-export function revisionLog(published: Date, publishedLabel: string, extra: { date: Date; note: string }[] = []): Revision[] {
-  const later = [...extra].sort((a, b) => a.date.valueOf() - b.date.valueOf());
-  return [{ date: published, note: publishedLabel }, ...later].map((r, i) => ({
-    rev: String.fromCharCode(65 + i),
-    date: iso(r.date),
-    note: r.note,
-  }));
+/** The day of the latest change after publishing (the newest `revisions:` line), or nothing if there was none.
+ *  Pass it to the box as `changed`. */
+export function lastChange(revisions: { date: Date }[] = []): string | undefined {
+  return revisions.length ? iso(new Date(Math.max(...revisions.map((r) => r.date.valueOf())))) : undefined;
+}
+
+/** The facts at the bottom of the box: the page's own rows, with "Updated" and the day of its latest change right
+ *  under "Published" (or last, if the page has no "Published" row). */
+export function footRows(block: Block): Row[] {
+  const rows = [...(block.rows ?? [])];
+  if (!block.changed) return rows;
+  const at = rows.findIndex(([k]) => k === block.labels.published);
+  rows.splice(at < 0 ? rows.length : at + 1, 0, [block.labels.updated, block.changed]);
+  return rows;
 }
 
 /** Method steps as a progress tracker. `current` is 1-based; 0 or missing = not started. */

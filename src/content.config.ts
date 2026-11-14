@@ -20,7 +20,8 @@ const articles = defineCollection({
     // search engines back here). Shows "Also on Medium" in the box and at the end of the article.
     medium: z.string().url().optional(),
     draft: z.boolean().default(false),
-    // Changes after publishing; shown as REV B, C, … in the title block.
+    // Changes after publishing. The box beside the page shows only the day of the latest one ("Updated"); the notes
+    // go to the RSS feed.
     revisions: z.array(z.object({ date: z.coerce.date(), note: z.string() })).optional(),
   }),
 });

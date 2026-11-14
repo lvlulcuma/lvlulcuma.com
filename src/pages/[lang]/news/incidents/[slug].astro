@@ -17,7 +17,7 @@ import IncidentsIndex from "../../../../components/IncidentsIndex.astro";
 import Sources from "../../../../components/Sources.astro";
 import { HTML_LANG, LANGS, MONTHS, NEWS_TYPES, ui, type Lang, type NewsType } from "../../../../i18n/ui";
 import { iso } from "../../../../lib/articles";
-import { countWord, dayMonth, revisionLog } from "../../../../lib/block";
+import { countWord, dayMonth, lastChange } from "../../../../lib/block";
 import { getPage } from "../../../../lib/content";
 import { attackUrl, getIncidents, getWeeks, incidentHref, newsMissingLangs, roadmapLinks, ticks, typeFilter, weekHref, type Incident } from "../../../../lib/news";
 
@@ -43,7 +43,6 @@ for (const k of ["what", "timeline", "attack", "detect", "check", "roadmap", "un
 let inc: Incident | undefined, Content: any = null, missing: Lang[] = [];
 let road: Awaited<ReturnType<typeof roadmapLinks>> = [];
 let covered: Awaited<ReturnType<typeof getWeeks>> = [];
-let revs: ReturnType<typeof revisionLog> = [];
 let newer: Incident | undefined, older: Incident | undefined;
 if (props.kind === "incident") {
   const at = all.findIndex((x) => x.slug === props.slug);
@@ -54,7 +53,6 @@ if (props.kind === "incident") {
   missing = await newsMissingLangs("incidents", inc.slug);
   road = await roadmapLinks(lang, inc.entry.data.jobs, inc.entry.data.topics);
   covered = (await getWeeks(lang)).filter((w) => w.entry.data.stories.some((s) => s.incident === inc!.slug));
-  revs = revisionLog(inc.entry.data.published, t.revPublished, inc.entry.data.revisions);
 }
 const d = inc?.entry.data;
 const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
@@ -105,9 +103,9 @@ const days = (d?.timeline ?? []).reduce<{ date: string; events: string[] }[]>((a
       ] },
       rows: [
         [t.disclosed, iso(d.date)],
-        revs.length > 1 ? [t.updated, revs.at(-1)!.date] : [t.published, iso(d.published)],
+        [t.published, iso(d.published)],
       ],
-      revisions: revs.length > 1 ? revs : undefined,
+      changed: lastChange(d.revisions),
       strip: [t.newsTypes[d.type], iso(d.date)],
     }}>
     {inc.example && <ExampleNote lang={lang} />}

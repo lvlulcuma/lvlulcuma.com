@@ -53,7 +53,7 @@ topic: api            # research | api | lab
 dek: "${p.dek}"
 # related: "research/ransomware-by-sector"   # optional link to a research or lab page
 draft: true           # remove this line (or set false) to publish
-# revisions:          # after publishing, add a line for each change (shown as REV B, C, …)
+# revisions:          # after publishing, add a line for each change (the page shows the latest date)
 #   - date: 2026-12-02
 #     note: "Fixed a typo in the table"
 ---

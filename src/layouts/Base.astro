@@ -46,7 +46,7 @@ const segs = rest.split("/").filter(Boolean);
 const crumbs = segs.map((s, i) => ({ label: s, href: `/${lang}/${segs.slice(0, i + 1).join("/")}/` }));
 const altHref = (l: Lang) => (missingIn.includes(l) ? `/${l}/${missingHome}/` : `/${l}/${rest}`);
 const fullTitle = nav === "home" ? `lvlulcuma · ${title}` : `${title} · lvlulcuma`;
-const fullBlock: Block | null = block ? { ...block, labels: { stage: t.method, contents: t.contents, revisions: t.revisions, goTo: t.goTo, onThisPage: t.onThisPage } } : null;
+const fullBlock: Block | null = block ? { ...block, labels: { stage: t.method, contents: t.contents, published: t.published, updated: t.updated, goTo: t.goTo, onThisPage: t.onThisPage } } : null;
 const year = new Date().getUTCFullYear();
 // RSS for feed readers: the feed of this page's section first (News, Articles, Guides, CWE, Roadmap, Research),
 // then the one with everything (src/lib/feed.ts).

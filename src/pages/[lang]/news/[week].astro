@@ -11,7 +11,7 @@ import ExampleNote from "../../../components/ExampleNote.astro";
 import Sources from "../../../components/Sources.astro";
 import { LANGS, ui, type Lang } from "../../../i18n/ui";
 import { iso } from "../../../lib/articles";
-import { countWord, revisionLog } from "../../../lib/block";
+import { countWord, lastChange } from "../../../lib/block";
 import { getIncidents, getWeeks, incidentHref, newsMissingLangs, ticks, weekHref, weekLinks, weeksHref, weekSpan, type Week } from "../../../lib/news";
 
 export async function getStaticPaths() {
@@ -33,7 +33,6 @@ const { Content } = await render(w.entry);
 const incidents = await getIncidents(lang);
 const linked = d.stories.map((s) => (s.incident ? incidents.find((i) => i.slug === s.incident) : undefined));
 const missing = await newsMissingLangs("weeks", w.slug);
-const revs = revisionLog(w.date, t.revPublished, d.revisions);
 const span = weekSpan(w, lang);
 const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
 ---
@@ -48,7 +47,7 @@ const paras = (x: string | string[]) => (Array.isArray(x) ? x : [x]);
       { kicker: t.nav.news, text: t.allNews, href: `/${lang}/news/` },
     ] },
     rows: [[t.published, iso(w.date)], [t.storiesLabel, String(d.stories.length)]],
-    revisions: revs.length > 1 ? revs : undefined,
+    changed: lastChange(d.revisions),
     strip: [countWord(d.stories.length, lang, t, "story")],
   }}>
   {w.example && <ExampleNote lang={lang} />}

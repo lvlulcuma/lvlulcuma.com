@@ -10,7 +10,7 @@ import LabIdeaCard from "../../../components/LabIdeaCard.astro";
 import { HTML_LANG, LANGS, ui, type Lang } from "../../../i18n/ui";
 import { getPage } from "../../../lib/content";
 import { getArticles, iso } from "../../../lib/articles";
-import { countWord, revisionLog, toc } from "../../../lib/block";
+import { countWord, lastChange, toc } from "../../../lib/block";
 import { getIdeas, ideaJobs, type Idea } from "../../../lib/lab";
 
 export async function getStaticPaths() {
@@ -25,7 +25,6 @@ const all = await getIdeas(lang);
 const idea = all.find((x) => x.slug === Astro.params.idea)!;
 const d = idea.entry.data;
 const { Content, headings } = await render(idea.entry);
-const revs = revisionLog(idea.date, t.revPublished, d.revisions);
 const start = (await getPage("lab-start", lang)).data;
 const rules = (await getPage("lab-rules", lang)).data;
 const before: Idea[] = d.requires.map((s) => all.find((x) => x.slug === s)!);
@@ -39,14 +38,14 @@ const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
 ---
 <Base lang={lang} nav="lab" title={d.title} description={d.dek} ogType="article" block={{
     key: { label: t.labGroups[idea.group], value: t.labLevels[d.level] },
-    rows: [revs.length > 1 ? [t.updated, revs.at(-1)!.date] : [t.published, iso(idea.date)]],
+    rows: [[t.published, iso(idea.date)]],
     contents: toc(headings),
     go: { items: [
       ...d.files.map((f) => ({ kicker: t.labFile, text: f, href: `/lab/${idea.slug}/${f}` })),
       ...before.map((r) => ({ kicker: t.before, text: r.entry.data.title, href: `/${r.lang}/lab/${r.slug}/`, hreflang: other(r.lang), lang: other(r.lang) })),
       { kicker: t.nav.lab, text: rules.title, href: `/${lang}/lab/rules/` },
     ] },
-    revisions: revs.length > 1 ? revs : undefined,
+    changed: lastChange(d.revisions),
   }}>
   <p class="kicker"><a class="tag" href={`/${lang}/lab/#group-${idea.group}`}>{t.labGroups[idea.group]}</a><span class="mono">{t.labLevels[d.level]} · ~{d.time} {t.hoursShort} · {t.ramGb.replace("{n}", String(d.ram))} · {countWord(idea.steps, lang, t, "step")}</span></p>
   <h1>{d.title}</h1>

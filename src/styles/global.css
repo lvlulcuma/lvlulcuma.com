@@ -106,7 +106,7 @@ nav.lang a[hreflang="uk"][aria-current="true"] {
 .tb .keyfact strong { font-size: 17px; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tb a { color: var(--accent); }
 .tb .dot { color: var(--muted); }
-/* Middle sections: filter, stages, now, contents, go to, revisions (BlockSections.astro). Each kind looks
+/* Middle sections: filter, stages, now, contents, go to (BlockSections.astro). Each kind looks
    different at rest, so you can tell at a glance what it holds, and every link answers the same way, at once:
    - a section's name (CONTENTS, GO TO, TYPE OF ATTACK…) is a small grey label in capitals, in the mono font,
      with a thin line running after it, like the labels on an engineering drawing's title block. It never
@@ -117,7 +117,8 @@ nav.lang a[hreflang="uk"][aria-current="true"] {
    - Go to opens another page: a small grey line saying what it is, the title, and the site's (-> arrow;
    - a filter changes the list on this page: counts on the right, the one shown marked with the small square
      and a light tint;
-   - stages, revisions and the facts at the bottom are not links and don't react.
+   - stages and the facts at the bottom (ending with "Updated" and the day of the latest change) are not links
+     and don't react.
    Each link is a whole row reaching the box's edges, so there are no dead gaps between links. On hover or
    keyboard focus the row lights up at once (a light blue tint, strongest at the box's edge), a bar in the
    glow's blues grows along the edge, the text turns blue and the arrow steps forward; pressing deepens the
@@ -166,10 +167,6 @@ nav.lang a[hreflang="uk"][aria-current="true"] {
 .tb-toc a:target-current, .tb-toc a:target-current::before { color: var(--accent); }
 .tb-toc a:target-current { font-weight: 500; }
 .tb-toc > li:has(> a:target-current)::after { transform: none; }
-.tb-rev { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-.tb-rev th, .tb-rev td { border: 0; padding: 3px 0; vertical-align: top; font-size: inherit; text-transform: none; letter-spacing: 0; white-space: normal; font-weight: 400; }
-.tb-rev th { color: var(--accent); width: 18px; font-family: var(--mono); font-weight: 500; }
-.tb-rev td.d { color: var(--muted); white-space: nowrap; padding-right: 8px; width: 1%; }
 /* Filter: topics or categories with counts, like a short table of contents. The one shown is bold, with the
    site's small square cursor beside it and a light tint on its row. */
 .tb-filter a { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: calc(4px + var(--tb-y, 0px)) var(--tb-pad) calc(4px + var(--tb-y, 0px)) calc(var(--tb-pad) + 14px); }
@@ -1298,7 +1295,7 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .tb-strip .k { font-size: 12.5px; }
   .tb-strip strong { font-size: 15px; font-weight: 600; color: var(--ink); margin-right: 2px; }
   .tb-strip .dot { color: var(--line); }
-  /* "On this page" folds under the strip: contents, stages, go to, revisions. Same chevron as the announcements. */
+  /* "On this page" folds under the strip: contents, stages, go to. Same chevron as the announcements. */
   .tb-more { display: block; border: 1px solid var(--line); border-top: 0; background: var(--panel); }
   .tb-more summary { position: relative; display: block; list-style: none; padding: 9px 40px 10px 14px; cursor: pointer; font-size: 13.5px; font-weight: 500; color: var(--ink); }
   .tb-more summary::-webkit-details-marker { display: none; }
