@@ -285,7 +285,7 @@ Make a folder in `content/news/incidents/` (its name becomes the address, and it
 
 ### A guide
 
-Make a folder in `content/guides/` (its name becomes the address) with an `en.md`, copying the top part from an existing guide. Translations are optional: add `ua.md` or `pl.md` when they're ready. Until then the Ukrainian and Polish guide lists show the English guide, marked EN.
+Make a folder in `content/guides/` (its name becomes the address) with an `en.md`, `ua.md` and `pl.md`, copying the top part from an existing guide. A guide that isn't translated yet shows in the Ukrainian and Polish guide lists in English, marked EN.
 
 - `category:` install, quick, configure, use, harden or fix. `order:` its place in that category. A category shows on the guides list (and in its filter) once it has a guide.
 - `time:` rough minutes to finish. `platforms:` any of `[windows, macos, linux]`.

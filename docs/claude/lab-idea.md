@@ -51,7 +51,7 @@ are taken.
 ## 4. Translate, check, publish
 
 - Ukrainian and Polish by meaning (`docs/claude/translation.md`). Links to Lab pages use the page's own language
-  (`/ua/lab/start/`); guides stay `/en/guides/…`.
+  (`/ua/lab/start/`), and so do links to guides that are translated (otherwise `/en/guides/…`).
 - `npm run build:all-langs`, `npm run build`, `npm run check:links`. Look at the page on desktop and phone, in light
   and dark, and check that nothing scrolls sideways at 320 px except code blocks.
 - Branch `claude/lab-<idea>`, commit `Lab: <title>`, pull request. New ideas show up by themselves on the Lab page,

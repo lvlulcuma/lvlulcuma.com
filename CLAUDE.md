@@ -39,8 +39,8 @@ Don't commit `dist/`, `node_modules/`, temporary files or screenshots. `content/
 
 - **Plain, friendly English**: short sentences, everyday words, explain a term in a few words the first time.
   US spelling (organization, behavior). Concrete beats general: name the tool, the number, the date.
-- **Three languages**: every page is written in English (`en.md`), Ukrainian (`ua.md`) and Polish (`pl.md`);
-  guides are English-only for now. Ukrainian is labelled **`ua`** (not `uk`) in folders, URLs and labels.
+- **Three languages**: every page is written in English (`en.md`), Ukrainian (`ua.md`) and Polish (`pl.md`),
+  guides included. Ukrainian is labelled **`ua`** (not `uk`) in folders, URLs and labels.
   **Translate by meaning, not word for word**; check the context. Terms and style: `docs/claude/translation.md`.
 - **russia is always lowercase** in every language (russia, russian, росія, rosja), except proper names like the
   marketplace "Russian Market". Avoid starting a sentence with it.

@@ -169,7 +169,8 @@ const esc = (x: string) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 /** A "Step by step" line: where a page talks about a task, the guide that shows every click. A published guide is a
  *  link with its time; one that isn't written yet (content/guides/planned.yml) is quiet text with "Coming soon".
  *  The full line ("Step by step  Install UTM on a Mac") goes in running text; `short` ("Step-by-step guide") goes in
- *  a card that already names the tool. Guides are English-only for now, so other languages mark them EN.
+ *  a card that already names the tool. A guide that isn't translated into the page's language yet links to English,
+ *  marked EN.
  *  Returned as HTML, because it often sits inside a paragraph or a list item. */
 export function guideRefHtml(lang: Lang, rows: StepRow[], short = false): string {
   const t = ui[lang];
@@ -226,7 +227,7 @@ export const guideMentions = (all: Guide[], g: Guide) =>
 
 /** Other pages on the site that link to a guide in their text (lab ideas, the lab's "Get started" page, articles,
  *  CWE write-ups), found by looking for /<lang>/guides/<slug>/ in them, so a guide shows where it's used without
- *  anyone keeping a list. Guides are English-only for now, so English links count on every language's page. */
+ *  anyone keeping a list. A link in any language counts, since a page may still point to the English guide. */
 export async function guideLinks(lang: Lang, slug: string): Promise<{ kicker: string; title: string; href: string; lang: Lang }[]> {
   const t = ui[lang];
   const links = (body: string | undefined) => usesGuide(body, slug);
