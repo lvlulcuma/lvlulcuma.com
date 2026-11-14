@@ -17,11 +17,6 @@
 #               source: check every fact in the guide's own run.
 guides:
   # Linux: VirtualBox (also the other choice on Windows, so its guides keep Windows in their platforms).
-  - slug: install-virtualbox-linux
-    title: "Install VirtualBox on Ubuntu or Debian"
-    category: install
-    platforms: [linux]
-    scope: "Oracle's own package or repository, the kernel modules and Secure Boot signing, adding your user to vboxusers, first start."
   - slug: set-up-kali-virtualbox
     title: "Set up Kali Linux in VirtualBox"
     category: install
