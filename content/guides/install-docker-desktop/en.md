@@ -1,6 +1,6 @@
 ---
 # Guide → lvlulcuma.com/en/guides/install-docker-desktop/
-title: "Install Docker Desktop"
+title: "Install Docker Desktop on Windows"
 date: 2026-09-19
 category: quick   # install | quick | configure | use | harden | fix
 order: 2   # position within its category
@@ -13,6 +13,8 @@ revisions:          # after publishing, add a line for each change
     note: "Checks the installer's signature (Docker publishes no hash for it), updates WSL first, and follows Docker's current installer and license terms."
   - date: 2026-11-14
     note: "No longer asks you to set up Ubuntu first: Docker Desktop needs only WSL itself, and the guide now installs it if it's missing."
+  - date: 2026-11-14
+    note: "Docker does publish a checksum for its installer, next to each download in its release notes: the guide now checks it, with the signature as a second check."
 ---
 
 Docker Desktop runs Linux containers on Windows through WSL (Windows Subsystem for Linux, Windows' built-in way to run
@@ -22,11 +24,19 @@ Most computers come with it on; the virtualization guide shows how to check.
 
 ## Download
 
-1. Open the [Docker Desktop](https://www.docker.com/products/docker-desktop/) page and download the **Windows** installer.
-2. Check that it really comes from Docker: right-click **Docker Desktop Installer.exe**, choose **Properties** and open the **Digital Signatures** tab. The name of the signer should be **Docker Inc**.
+1. Open Docker Desktop's [release notes](https://docs.docker.com/desktop/release-notes/). Under the newest version, in **Download Docker Desktop**, select **Windows**. **Docker Desktop Installer.exe** lands in your Downloads folder.
+2. Select the **checksum** link next to it. It shows the installer's SHA-256 hash: a line of 64 letters and numbers.
+3. In File Explorer, open Downloads, right-click an empty area and choose **Open in Terminal**. Check the installer, with the hash in place of the example:
 
-   > [!NOTE]
-   > Docker doesn't publish a hash for its installer, so the signature is the check here.
+   ```powershell
+   (Get-FileHash "Docker Desktop Installer.exe" -Algorithm SHA256).Hash -eq "PASTE-THE-HASH-HERE"
+   ```
+
+   **True** means the file is exactly the one Docker released. **False** means it isn't: delete it and download it again.
+   <!-- guide: check-hash -->
+4. For a second check, right-click **Docker Desktop Installer.exe**, choose **Properties** and open the **Digital Signatures** tab. The name of the signer should be **Docker Inc**.
+
+The download button on the [Docker Desktop](https://www.docker.com/products/docker-desktop/) page gives you the same newest version, but without the checksum beside it.
 
 ## Install
 
