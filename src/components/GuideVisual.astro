@@ -8,6 +8,8 @@
 //   cards    cards side by side (or stacked rows), each with labels drawn the way they look on screen
 //   finder   a fold per maker or system: the key to press, where to go, a note and a link to their own instructions
 //   screen   a text-mode screen (firmware setup, an installer): tabs, rows with one marked, the keys at the bottom
+//   questions  questions to check yourself, each a fold with its answer inside (several can be open at once)
+// Roadmap topic pages use the same pictures (src/pages/[lang]/roadmap/topics/[topic].astro).
 import type { GuideVisualData } from "../content.config";
 
 interface Props { name: string; d: GuideVisualData; file: string }
@@ -87,6 +89,21 @@ const panes = d.kind === "window" ? (d.states ?? [{ label: "", value: "", tone: 
             {it.note && <div><dt>{d.labels.note}</dt><dd set:html={it.note} /></div>}
           </dl>
           {it.link && <p class="gv-fold-src"><a href={it.link} rel="noopener">{d.labels.link}</a><span class="host">{host(it.link)}</span></p>}
+        </details>
+      ))}
+    </div>
+    {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}
+  </figure>
+)}
+
+{d.kind === "questions" && (
+  <figure class="gv gv-questions">
+    {d.title && <p class="gv-k">{d.title}</p>}
+    <div class="gv-folds">
+      {d.items.map((it, i) => (
+        <details class="gv-fold gv-q">
+          <summary><span class="gv-q-n">{String(i + 1).padStart(2, "0")}</span><span class="gv-fold-n" set:html={it.q} /></summary>
+          <div class="gv-q-a" set:html={it.a} />
         </details>
       ))}
     </div>

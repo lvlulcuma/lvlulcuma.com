@@ -115,6 +115,11 @@ const guideVisual = z.discriminatedUnion("kind", [
     tab: z.number().int().positive().optional(), rows: z.array(pair).min(1), mark: z.number().int().positive().optional(),
     keys: z.array(pair).default([]), caption,
   }),
+  // Questions to check yourself: one fold per question (`q`), its answer (`a`) inside. Several can be open at once.
+  z.object({
+    kind: z.literal("questions"), title: z.string().optional(),
+    items: z.array(z.object({ q: z.string().min(1), a: z.string().min(1) })).min(1), caption,
+  }),
 ]);
 export type GuideVisualData = z.infer<typeof guideVisual>;
 
@@ -205,11 +210,17 @@ const jobs = defineCollection({
   }),
 });
 
+// A topic with text under the dashes gets its own page, which teaches the whole topic (docs/claude/roadmap-topic.md).
+// Only those pages need the fields after `summary:` (the page stops the build when `date:` or `sources:` is missing).
 const topics = defineCollection({
   loader: glob({ pattern: `*/${lang}.md`, base: "./content/roadmap/topics" }),
   schema: z.object({
     title: z.string().min(1),
     summary: z.string().min(1),                                  // what exactly to know, in one or two sentences
+    date: z.coerce.date().optional(),                            // the day its own page is published
+    sources: z.array(z.object({ name: z.string().min(1), url: z.string().url() })).default([]),
+    visuals: z.record(z.string().regex(/^[a-z0-9-]+$/), guideVisual).optional(), // pictures, as in guides (guideVisual above)
+    revisions: z.array(z.object({ date: z.coerce.date(), note: z.string() })).optional(),
   }),
 });
 

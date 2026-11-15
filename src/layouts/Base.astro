@@ -35,15 +35,18 @@ interface Props {
   /** A list page (News, Articles, Guides, Roadmap, CWE, Research, Lab), About or Contact: its boxes and rows print
    *  in smoothly when it opens, the same way as the home page (CSS "print-in" in global.css). Pages you read stay still. */
   printIn?: boolean;
+  /** Parts of the path bar that have no page of their own (the "topics" in /roadmap/topics/<topic>/): shown as text,
+   *  not as a link, so the bar never points at a missing page. */
+  pathOnly?: string[];
 }
 
-const { lang, title, description, nav, block, missingIn = [], missingHome = "articles", ogType = "website", noindex = false, canonical, printIn = false } = Astro.props;
+const { lang, title, description, nav, block, missingIn = [], missingHome = "articles", ogType = "website", noindex = false, canonical, printIn = false, pathOnly = [] } = Astro.props;
 const t = ui[lang];
 const site = Astro.site!;
 const path = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const rest = path.replace(/^\/(en|pl|ua)\//, "");
 const segs = rest.split("/").filter(Boolean);
-const crumbs = segs.map((s, i) => ({ label: s, href: `/${lang}/${segs.slice(0, i + 1).join("/")}/` }));
+const crumbs = segs.map((s, i) => ({ label: s, href: pathOnly.includes(s) ? null : `/${lang}/${segs.slice(0, i + 1).join("/")}/` }));
 const altHref = (l: Lang) => (missingIn.includes(l) ? `/${l}/${missingHome}/` : `/${l}/${rest}`);
 const fullTitle = nav === "home" ? `lvlulcuma · ${title}` : `${title} · lvlulcuma`;
 const fullBlock: Block | null = block ? { ...block, labels: { stage: t.method, contents: t.contents, published: t.published, updated: t.updated, goTo: t.goTo, onThisPage: t.onThisPage } } : null;
@@ -100,7 +103,7 @@ const feeds = await Promise.all([...(section ? [section] : []), "all" as const].
           <a href={`/${lang}/`}>{lang}</a><span class="sep">/</span>
           {crumbs.map((c, i) => (
             <Fragment>
-              {i === crumbs.length - 1 ? <span class="here" aria-current="location">{c.label}</span> : <a href={c.href}>{c.label}</a>}
+              {i === crumbs.length - 1 ? <span class="here" aria-current="location">{c.label}</span> : c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}
               <span class="sep">/</span>
             </Fragment>
           ))}

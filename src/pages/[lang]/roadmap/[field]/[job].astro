@@ -88,7 +88,7 @@ const extra = [
         <ol class="topics">
           {l.items.map((x) => (
             <li id={`t-${x.slug}`} lang={other(x.lang)}>
-              <h3>{x.hasPage ? <a href={`/${lang}/roadmap/topics/${x.slug}/`}>{x.entry.data.title}</a> : x.entry.data.title}</h3>
+              <h3>{x.hasPage ? <a href={`/${lang}/roadmap/topics/${x.slug}/`}>{x.entry.data.title}&nbsp;<span class="arr" aria-hidden="true"></span></a> : x.entry.data.title}</h3>
               <p>{x.entry.data.summary}</p>
             </li>
           ))}

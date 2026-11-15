@@ -21,7 +21,9 @@ field's `content/roadmap/fields/<field>/en.md`. Work on `claude/roadmap-<job>`.
 - `hire:` is the level employers usually expect (an "Enough to apply for this job" box appears after it):
   `knowledgeable` for entry jobs, `intermediate` for mid jobs, `advanced` for senior jobs (Expert is then the growth zone).
 - Topics are shared between jobs: `content/roadmap/topics/<slug>/{en,ua,pl}.md`, with front matter `title:` and
-  `summary:` only. A missing or duplicated topic stops the build.
+  `summary:`. A missing or duplicated topic stops the build. Some topics also have their own page (text under the
+  front matter, `docs/claude/roadmap-topic.md`); `write_job.py` leaves that alone and an `UPDATE` only changes the
+  `title:` and `summary:` lines.
 - The job's page is `/<lang>/roadmap/<field>/<job>/`, and it exists once `learn.yml` exists.
 
 ## 3. Research properly, in this order

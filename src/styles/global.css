@@ -1340,6 +1340,10 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
   .guide ol > li { padding-left: 30px; }
   /* Long words (Ukrainian and Polish especially) may break inside a narrow table cell instead of widening the page. */
   .guide :is(td, th) { overflow-wrap: anywhere; }
+  /* Roadmap topic pages: numbers and addresses in a table stay whole (16 777 216, 255.255.255.128); a table too wide
+     for the phone scrolls sideways on its own instead of squeezing them. */
+  .topic table { display: block; overflow-x: auto; font-size: 13.5px; }
+  .topic :is(td, th) { overflow-wrap: normal; padding-right: 10px; }
   figure.code pre { font-size: 12.5px; padding: 12px 14px 13px; }
   .flow { grid-template-columns: 1fr; }
   .about-body > p:first-child { font-size: 18px; }
@@ -1880,6 +1884,14 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .gv .gv-fold-src { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; padding: 8px 14px 12px; border-top: 1px dashed var(--line); font-size: 14px; }
 .gv-fold-src .host { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 
+/* Questions to check yourself: the same folds, each question numbered in the mono font like a guide's sections,
+   the answer under it lined up with the question's text. Several can be open at once. */
+.gv-q > summary { align-items: baseline; }
+.gv-q > summary::after { align-self: center; }
+.gv-q-n { flex: 0 0 auto; width: 2.2em; font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--accent); }
+.gv .gv-q-a { padding: 0 14px 13px calc(14px + 12px + 2.2 * 12.5px); font-size: 15px; line-height: 1.6; }
+.gv-q-a p + p { margin-top: 8px; }
+
 /* A text-mode screen, like a computer's firmware setup: the title centred in the bar (with "Example" on the right),
    the tabs with the open one inverted, the settings with the selected one on an inverted bar, and the keys along
    the bottom. In terminal colours: light in light mode, dark in dark mode, like the code blocks. */
@@ -1922,3 +1934,13 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 @media (max-width: 560px) {
   .guide .lane { padding: 24px 14px 14px; }
 }
+
+/* Roadmap topic pages (src/pages/[lang]/roadmap/topics/[topic].astro): "Needed for" lists every job that uses the
+   topic, grouped by the level it sits at, in columns, so a topic dozens of jobs share stays a short read. */
+.tp-lvl + .tp-lvl { margin-top: 24px; }
+.tp-lvl h3 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 16px; }
+.tp-lvl h3 .n { font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.tp-jobs { columns: 3 190px; column-gap: 28px; margin: 0; padding: 0; list-style: none; }
+.tp-jobs li { break-inside: avoid; margin: 0; padding: 3px 0; font-size: 15px; line-height: 1.45; }
+.tp-jobs a { color: var(--ink); text-decoration-color: var(--line); }
+.tp-jobs a:is(:hover, :focus-visible) { color: var(--accent); text-decoration-color: var(--accent); }

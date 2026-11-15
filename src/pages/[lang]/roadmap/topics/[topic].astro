@@ -1,51 +1,101 @@
 ---
-// One topic's own page: /<lang>/roadmap/topics/<topic>/. Built only once the topic's file
-// (content/roadmap/topics/<topic>/<lang>.md, or the English one) has text under the dashes.
-// Lists the jobs that need this topic, and at which level.
+// One topic's own page: /<lang>/roadmap/topics/<topic>/. Built once the topic's file in that language
+// (content/roadmap/topics/<topic>/<lang>.md) has text under the dashes, and then needed in every language.
+// The page teaches the whole topic to a beginner (playbook: docs/claude/roadmap-topic.md). It reads like a guide:
+// numbered sections, pictures placed by a line <!-- pic: <name> --> (words under `visuals:`, drawn by
+// src/components/GuideVisual.astro), a box per system after <!-- for: windows -->, "Step by step" lines to guides
+// (<!-- guide: … -->). Then its sources, and the jobs that need it, at which level, each linking to that job's path.
 import { render } from "astro:content";
 import Base from "../../../../layouts/Base.astro";
-import { HTML_LANG, LANGS, ui, type Lang } from "../../../../i18n/ui";
-import { getPage } from "../../../../lib/content";
+import GuideVisual from "../../../../components/GuideVisual.astro";
+import Sources from "../../../../components/Sources.astro";
+import { LANGS, LEARN_LEVELS, ui, type Lang, type Platform } from "../../../../i18n/ui";
+import { fillGuideRefs, fillLanes, getPage } from "../../../../lib/content";
 import { getJobs, getLearn, getTopics } from "../../../../lib/roadmap";
-import { countWord } from "../../../../lib/block";
+import { iso, readingMinutes } from "../../../../lib/articles";
+import { countWord, lastChange, toc } from "../../../../lib/block";
 
 export async function getStaticPaths() {
   const paths = [];
-  for (const lang of LANGS) for (const x of (await getTopics(lang)).values()) if (x.hasPage) paths.push({ params: { lang, topic: x.slug } });
+  const has = new Map<string, Lang[]>();
+  for (const lang of LANGS) for (const x of (await getTopics(lang)).values()) {
+    if (!x.hasPage || x.lang !== lang) continue;
+    paths.push({ params: { lang, topic: x.slug } });
+    has.set(x.slug, [...(has.get(x.slug) ?? []), lang]);
+  }
+  // A topic page is written in every language, like the rest of the site.
+  for (const [slug, langs] of has) {
+    const missing = LANGS.filter((l) => !langs.includes(l));
+    if (missing.length) throw new Error(`content/roadmap/topics/${slug}/: ${langs.join(", ")} has text under the dashes, ${missing.join(", ")} doesn't. Write the page in every language.`);
+  }
   return paths;
 }
 const lang = Astro.params.lang as Lang;
 const t = ui[lang];
 const d = (await getPage("roadmap", lang)).data;
 const topic = (await getTopics(lang)).get(Astro.params.topic!)!;
-const { Content } = await render(topic.entry);
-const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+const data = topic.entry.data;
+const file = `content/roadmap/topics/${topic.slug}/${topic.lang}.md`;
+if (!data.date) throw new Error(`${file}: a topic with its own page needs date: (the day the page is published).`);
+if (!data.sources.length) throw new Error(`${file}: a topic with its own page needs sources: (name and url of each).`);
+
+// The text split at its picture lines: [text, name, text, name, text, …], checked as in guides: every picture line
+// needs its words under `visuals:`, and every picture there needs its line.
+const ALL: Platform[] = ["windows", "macos", "linux"];
+const html = fillLanes(await fillGuideRefs(topic.entry.rendered?.html ?? "", lang, file), lang, ALL, file);
+const parts = html.split(/<!--\s*pic:\s*([a-z0-9-]+)\s*-->/);
+const vis = data.visuals ?? {};
+const placed = parts.filter((_, i) => i % 2);
+for (const p of placed) if (!vis[p]) throw new Error(`${file}: <!-- pic: ${p} --> has no words under visuals: ${p}:`);
+for (const k of Object.keys(vis)) if (!placed.includes(k)) throw new Error(`${file}: the picture "${k}" under visuals: isn't placed anywhere. Add a line <!-- pic: ${k} --> where it goes.`);
+const { headings } = await render(topic.entry);
+const mins = readingMinutes(topic.entry.body ?? "");
+
+// "Needed for": every job that lists the topic, grouped by the level it sits at (Beginner first), A to Z within a
+// level, in columns, so a topic that dozens of jobs share doesn't turn into a long list.
 const jobs = await getJobs(lang);
 const usedBy = [...(await getLearn()).values()].flatMap((l) => {
   const level = l.levels.find((x) => x.topics.includes(topic.slug));
   const job = jobs.find((j) => j.slug === l.job);
-  return level && job ? [{ job, level: d.learnLevels?.[level.id]?.title ?? level.id }] : [];
+  return level && job ? [{ job, level: level.id }] : [];
 });
+const groups = LEARN_LEVELS.map((id) => ({
+  title: d.learnLevels?.[id]?.title ?? id,
+  jobs: usedBy.filter((u) => u.level === id).map((u) => u.job).sort((a, b) => a.entry.data.title.localeCompare(b.entry.data.title, lang)),
+})).filter((g) => g.jobs.length > 0);
 ---
-<Base lang={lang} nav="roadmap" title={topic.entry.data.title} description={topic.entry.data.summary} block={{
+<Base lang={lang} nav="roadmap" title={data.title} description={data.summary} ogType="article" pathOnly={["topics"]} block={{
     key: { label: t.neededFor, value: countWord(usedBy.length, lang, t, "job") },
+    contents: [...toc(headings), { slug: "sources", text: t.srcs }, ...(usedBy.length ? [{ slug: "needed-for", text: t.neededFor }] : [])],
     go: { items: [{ kicker: t.nav.roadmap, text: t.allFields, href: `/${lang}/roadmap/` }] },
-    strip: [],
+    rows: [[t.published, iso(data.date)], [t.reading, `${mins} ${t.min}`]],
+    changed: lastChange(data.revisions),
+    strip: [`${mins} ${t.min}`],
   }}>
-  <h1 lang={other(topic.lang)}>{topic.entry.data.title}</h1>
-  <p class="lede" lang={other(topic.lang)}>{topic.entry.data.summary}</p>
-  <div class="prose" lang={other(topic.lang)}><Content /></div>
-  {usedBy.length > 0 && (
-    <section class="gsec">
-      <div class="block-head"><h2>{t.neededFor}</h2></div>
-      <ul class="rows">
-        {usedBy.map((u) => (
-          <li>
-            <a class="t" href={`/${lang}/roadmap/${u.job.field}/${u.job.slug}/#t-${topic.slug}`} lang={other(u.job.lang)}>{u.job.entry.data.title}</a>
-            <span class="d">{u.level}</span>
-          </li>
-        ))}
-      </ul>
+  <p class="kicker"><a class="tag" href={`/${lang}/roadmap/`}>{t.nav.roadmap}</a><span class="mono">{t.topic} · ~{mins} {t.min}</span></p>
+  <h1>{data.title}</h1>
+  <p class="dek">{data.summary}</p>
+
+  <div class="prose guide topic">
+    {parts.map((p, i) => (i % 2 ? <GuideVisual name={p} d={vis[p]} file={file} /> : <Fragment set:html={p} />))}
+  </div>
+
+  <div class="prose">
+    <h2 id="sources">{t.srcs}</h2>
+    <Sources sources={data.sources} lang={lang} fold="list" />
+  </div>
+
+  {groups.length > 0 && (
+    <section class="gsec tp-need" aria-labelledby="needed-for">
+      <div class="block-head"><h2 id="needed-for">{t.neededFor}</h2></div>
+      {groups.map((g) => (
+        <div class="tp-lvl">
+          <h3>{g.title}<span class="n">{countWord(g.jobs.length, lang, t, "job")}</span></h3>
+          <ul class="tp-jobs">
+            {g.jobs.map((j) => <li><a href={`/${lang}/roadmap/${j.field}/${j.slug}/#t-${topic.slug}`}>{j.entry.data.title}</a></li>)}
+          </ul>
+        </div>
+      ))}
     </section>
   )}
 </Base>
