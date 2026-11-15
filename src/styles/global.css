@@ -866,14 +866,13 @@ figure.lsmenu { margin: 0; }
 /* Research */
 .question { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.4; padding: 16px 18px 18px 16px; margin: 8px 0; text-wrap: balance; }
 .label { font-size: 14.5px; font-weight: 600; color: var(--muted); margin: 36px 0 8px; display: block; }
-/* A project's method: its steps in order, drawn like every other list of steps (Steps in order, below). */
+/* A project's method: its steps in a row (Steps in a row, below). */
 .flow { container-type: inline-size; }
 
-/* Steps in order: a guide's or a topic page's route (GuideVisual.astro), a research project's method. Like
-   Get started's plan and a breakdown's attack chain: a numbered square for each step, joined to the next by a thin
-   line that ends in a small arrowhead, the step's name under it. The last square is filled: where it all ends.
-   When the column is narrow, or a stage has more than five steps (stepline-v), the line runs down instead and
-   each name sits beside its square. */
+/* Steps in a row: a research project's method. Like Get started's plan and a breakdown's attack chain: a numbered
+   square for each step, joined to the next by a thin line that ends in a small arrowhead, the step's name under it.
+   The last square is filled: where it all ends. When the column is narrow, the line runs down instead and each name
+   sits beside its square. (A guide's or a topic page's route is drawn down the page: "Steps in order" below.) */
 .stepline { --sl-line: color-mix(in srgb, var(--accent) 40%, var(--line)); list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
 /* Inside a guide, these win over the guide's own numbered steps (.guide ol): no "1." in front, no spacing. */
 .stepline.stepline { margin: 0; padding: 0; }
@@ -887,13 +886,6 @@ figure.lsmenu { margin: 0; }
 .stepline .sl-t { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--ink); overflow-wrap: break-word; }
 .stepline > li.end .sl-t { color: var(--accent); }
 .stepline .sl-d { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
-.stepline-v { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
-.prose .stepline-v > li, .stepline-v > li { grid-template-columns: 27px minmax(0, 1fr); column-gap: 13px; row-gap: 2px; padding: 0 0 12px; }
-.stepline-v.stepline-v > li:last-child { padding-bottom: 0; }
-.stepline-v > li:not(:last-child)::after { top: 27px; bottom: 0; left: 13px; right: auto; width: 1px; height: auto; }
-.stepline-v.stepline-v > li:not(:last-child)::before { display: none; }
-.stepline-v .sl-n { grid-row: 1 / span 2; }
-.stepline-v .sl-t { padding-top: 3px; }
 @container (max-width: 520px) {
   .stepline { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
   .prose .stepline > li, .stepline > li { grid-template-columns: 27px minmax(0, 1fr); column-gap: 13px; row-gap: 2px; padding: 0 0 12px; }
@@ -1878,11 +1870,39 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .gv-go .gv-rows > div.on dd { color: var(--tip); }
 .gv-stop .gv-rows > div.on dd { color: var(--attack); }
 
-/* Steps in order (where to click, or what happens): each stage is a plain label with a thin line after it, over
-   its steps drawn as numbered squares on a line (Steps in order, above). The numbers run on across the stages. */
-.gv-route { display: grid; gap: 22px; }
-.gv .gv-where { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; font-size: 13.5px; font-weight: 600; line-height: 1.4; color: var(--muted); }
-.gv .gv-where::after { content: ""; flex: 1 1 0; height: 1px; background: var(--line); }
+/* Steps in order (where to click, or what happens): one line runs down through every step, with a numbered square
+   on it for each, the step's name beside its square and the last square filled, where it all ends. Each stage's
+   name sits to the left of its first step, so the eye only ever follows one line, top to bottom; the numbers run
+   on across the stages. In a narrow column (a step's box, a phone) the stage names sit above their steps, beside
+   the line, which runs on past them. --rt-x is where the line runs: the middle of the squares. (The variables sit
+   on .rt-stage, not on the picture: a container query can't change the container itself.) */
+.gv-route { --rt-line: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.rt-stage { --rt-gut: 168px; --rt-gap: 22px; --rt-x: calc(var(--rt-gut) + var(--rt-gap) + 13px); position: relative; display: grid; grid-template-columns: var(--rt-gut) minmax(0, 1fr); column-gap: var(--rt-gap); }
+.rt-stage + .rt-stage { padding-top: 22px; }
+.rt-stage + .rt-stage::before { content: ""; position: absolute; top: 0; left: var(--rt-x); width: 2px; height: 22px; background: var(--rt-line); }
+.gv .rt-where { position: relative; padding: 4px 12px 0 0; font-size: 13.5px; font-weight: 600; line-height: 1.45; color: var(--muted); text-align: right; text-wrap: balance; }
+/* A short tick ties the stage's name to its first square. */
+.gv .rt-where::after { content: ""; position: absolute; top: 14px; right: calc(-1 * var(--rt-gap)); width: calc(var(--rt-gap) + 6px); height: 1px; background: var(--rt-line); }
+.gv-route .gv-cap { margin-top: 16px; }
+/* Inside a guide, these win over the guide's own numbered steps (.guide ol): no "1." in front, no spacing. */
+.rt-steps.rt-steps { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.prose .rt-steps > li, .rt-steps.rt-steps > li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 14px; align-items: start; margin: 0; padding: 0 0 16px; }
+.rt-steps.rt-steps > li:last-child { flex-grow: 1; padding-bottom: 0; }
+.rt-steps.rt-steps > li > * { margin: 0; }
+.rt-steps.rt-steps > li::before { content: none; }
+/* Each step draws the line from its square down to the next one (a stage's last step, down to the stage's end);
+   the very last step draws none. */
+.rt-steps > li:not(.end)::after { content: ""; position: absolute; top: 14px; bottom: 0; left: 13px; width: 2px; background: var(--rt-line); }
+.rt-n { position: relative; z-index: 1; display: grid; place-items: center; width: 28px; height: 28px; box-sizing: border-box; border: 1.5px solid var(--accent); background: var(--panel); font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1; color: var(--accent); }
+.rt-steps > li.end .rt-n { background: var(--accent); color: var(--panel); }
+.rt-t { padding-top: 3px; font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--ink); overflow-wrap: break-word; }
+.rt-steps > li.end .rt-t { color: var(--accent); }
+@container (max-width: 520px) {
+  .rt-stage { --rt-x: 13px; display: block; }
+  .gv .rt-where { padding: 0 0 8px 42px; text-align: left; }
+  .gv .rt-where::after { content: none; }
+  .rt-stage + .rt-stage .rt-where::before { content: ""; position: absolute; top: 0; bottom: 0; left: 13px; width: 2px; background: var(--rt-line); }
+}
 
 /* Cards side by side (three fit in the text column), each with labels drawn like the words on the screen. */
 .gv-card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }

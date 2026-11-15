@@ -4,7 +4,8 @@
 // src/content.config.ts). <strong>, <code>, <kbd> and <a> in the words are kept (set:html).
 // No JavaScript and no inline styles: sizes and colours come from classes (CSS "Guides: pictures" in global.css).
 //   window   an app's window (Task Manager, a settings dialog): a small table with one row marked, once per state
-//   route    steps in order (where to click, or what happens): numbered squares on a line, a group per stage
+//   route    steps in order (where to click, or what happens): one line down the page through numbered squares,
+//            each stage's name beside its first step
 //   cards    cards side by side (or stacked rows), each with labels drawn the way they look on screen
 //   finder   a fold per maker or system: the key to press, where to go, a note and a link to their own instructions
 //   screen   a text-mode screen (firmware setup, an installer): tabs, rows with one marked, the keys at the bottom
@@ -21,11 +22,10 @@ if (d.kind === "screen" && d.tab && d.tab > d.tabs.length) bad(`opens tab ${d.ta
 const host = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 // A window without states is drawn once, as written.
 const panes = d.kind === "window" ? (d.states ?? [{ label: "", value: "", tone: undefined }]) : [];
-// A route counts its steps across all its stages (1 to 8 over two stages), so the order reads at a glance. A stage
-// with more than five steps runs down the page instead of across it (`stepline-v`), so long names keep their room.
+// A route counts its steps across all its stages (1 to 8 over two stages), so the order reads at a glance, and draws
+// them on one unbroken line from the first square to the last, which is filled.
 let count = 0;
 const route = d.kind === "route" ? d.stages.map((s) => ({ where: s.where, steps: s.steps.map((html) => ({ n: ++count, html })) })) : [];
-const tall = d.kind === "route" && d.stages.some((s) => s.steps.length > 5);
 ---
 {d.kind === "window" && (
   <figure class={`gv gv-window${panes.length > 1 ? " gv-two" : ""}`}>
@@ -55,11 +55,11 @@ const tall = d.kind === "route" && d.stages.some((s) => s.steps.length > 5);
 {d.kind === "route" && (
   <figure class="gv gv-route">
     {route.map((s) => (
-      <div class="gv-stage">
-        <p class="gv-where">{s.where}</p>
-        <ol class={tall ? "stepline stepline-v" : "stepline"} start={s.steps[0].n}>
+      <div class="rt-stage">
+        <p class="rt-where">{s.where}</p>
+        <ol class="rt-steps" start={s.steps[0].n}>
           {s.steps.map((x) => (
-            <li class={x.n === count ? "end" : undefined}><span class="sl-n" aria-hidden="true">{x.n}</span><span class="sl-t" set:html={x.html} /></li>
+            <li class={x.n === count ? "end" : undefined}><span class="rt-n" aria-hidden="true">{x.n}</span><span class="rt-t" set:html={x.html} /></li>
           ))}
         </ol>
       </div>
