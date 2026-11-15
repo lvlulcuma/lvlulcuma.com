@@ -86,7 +86,7 @@ visuals:
   address:
     kind: window
     title: "Jeden adres, dwie części"
-    head: ["192.168.1.37/24", "adres IPv4 z długością prefiksu"]
+    lead: ["192.168.1.37/24", "adres IPv4 z długością prefiksu"]
     rows:
       - ["Część sieciowa (pierwsze 24 bity)", "<code>192.168.1</code>"]
       - ["Część hosta (ostatnie 8 bitów)", "<code>.37</code>"]

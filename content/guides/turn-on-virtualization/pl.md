@@ -20,7 +20,7 @@ visuals:
   task-manager:
     kind: window
     title: "Task Manager"
-    head: ["CPU", "Intel(R) Core(TM) …"]
+    lead: ["CPU", "Intel(R) Core(TM) …"]
     rows:
       - ["Base speed", "…"]
       - ["Sockets", "…"]

@@ -3,7 +3,7 @@
 // under `visuals: <name>:` in the same file, with a `kind` that says how it's drawn (schema: guideVisual in
 // src/content.config.ts). <strong>, <code>, <kbd> and <a> in the words are kept (set:html).
 // No JavaScript and no inline styles: sizes and colours come from classes (CSS "Guides: pictures" in global.css).
-//   window   an app's window (Task Manager, a settings dialog) with one row marked, once per state side by side
+//   window   an app's window (Task Manager, a settings dialog): a small table with one row marked, once per state
 //   route    steps in order (where to click, or what happens): numbered squares on a line, a group per stage
 //   cards    cards side by side (or stacked rows), each with labels drawn the way they look on screen
 //   finder   a fold per maker or system: the key to press, where to go, a note and a link to their own instructions
@@ -33,15 +33,18 @@ const tall = d.kind === "route" && d.stages.some((s) => s.steps.length > 5);
       {panes.map((s) => (
         <div class={`gv-win${s.tone ? ` gv-${s.tone}` : ""}`}>
           <p class="gv-bar"><span class="gv-bar-t">{d.title}</span>{s.label && <span class="gv-state">{s.label}</span>}</p>
-          {d.head && <p class="gv-head"><b set:html={d.head[0]} /><span set:html={d.head[1]} /></p>}
-          <dl class="gv-rows">
-            {d.rows.map((r, i) => (
-              <div class={i + 1 === d.mark ? "on" : undefined}>
-                <dt set:html={r[0]} />
-                <dd set:html={i + 1 === d.mark && d.states ? s.value : r[1]} />
-              </div>
-            ))}
-          </dl>
+          {d.lead && <p class="gv-lead"><b set:html={d.lead[0]} /><span set:html={d.lead[1]} /></p>}
+          <div class="gv-table">
+            {d.head && <p class="gv-cols"><span set:html={d.head[0]} /><span set:html={d.head[1]} /></p>}
+            <dl class="gv-rows">
+              {d.rows.map((r, i) => (
+                <div class={i + 1 === d.mark ? "on" : undefined}>
+                  <dt set:html={r[0]} />
+                  <dd set:html={i + 1 === d.mark && d.states ? s.value : r[1]} />
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       ))}
     </div>
