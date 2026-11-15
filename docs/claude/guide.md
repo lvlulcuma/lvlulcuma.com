@@ -105,6 +105,9 @@ each one where the reader needs it, inside a step when it belongs to that step.
     own instructions); opening one closes the others.
   - `screen`: a text-mode screen (firmware setup, an installer): `tabs` with the open `tab`, `rows` with the `mark`ed
     one, `keys` along the bottom, and a `badge` such as "Example".
+  - `questions`: questions to check yourself, one fold per question (`items`: `q` and its answer `a`), numbered;
+    several can be open at once. Used at the end of Roadmap topic pages.
+- Roadmap topic pages (`docs/claude/roadmap-topic.md`) use the same pictures, with the same words in front matter.
 - Rows and tabs count from 1. The words may hold `<strong>`, `<code>`, `<kbd>` and `<a>`.
 - A made-up screen says so (`badge: "Example"` and the caption). Values that don't matter are "…", not invented
   numbers. Every name, label and menu in a picture is as real as the text around it: from the publisher's docs.

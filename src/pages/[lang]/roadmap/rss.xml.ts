@@ -1,4 +1,4 @@
-// The roadmap feed: /<lang>/roadmap/rss.xml. Roadmap jobs' "what to learn" (src/lib/feed.ts lists the feeds).
+// The roadmap feed: /<lang>/roadmap/rss.xml. Roadmap jobs' "what to learn" and topic pages (src/lib/feed.ts lists the feeds).
 import type { APIContext } from "astro";
 import { feedResponse, getStaticFeedPaths } from "../../../lib/feed";
 

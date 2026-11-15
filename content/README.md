@@ -15,7 +15,7 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 | Roadmap `/en/roadmap/` | `pages/roadmap/` (intro, group and level headings, sources line); each field is in `roadmap/fields/<name>/` |
 | A field's page `/en/roadmap/<field>/` | `roadmap/fields/<field>/` (title, summary); its jobs are in `roadmap/jobs/<name>/`; level headings are `levels:` in `pages/roadmap/` |
 | A job's "what to learn" page `/en/roadmap/<field>/<job>/` | `roadmap/jobs/<job>/learn.yml` (topic folder names for each level, `hire:`, `sources:`); each topic's title and summary are in `roadmap/topics/<topic>/`; level headings are `learnLevels:` in `pages/roadmap/` |
-| A topic's own page `/en/roadmap/topics/<topic>/` | `roadmap/topics/<topic>/` (built once there is text under the dashes) |
+| A topic's own page `/en/roadmap/topics/<topic>/` | `roadmap/topics/<topic>/` (built once there is text under the dashes, in all three languages, with `date:`, `sources:` and its pictures under `visuals:`) |
 | Guides list `/en/guides/` | `pages/guides/` (intro and the line under each category; the guides are in `guides/`) |
 | A guide `/en/guides/<name>/` | `guides/<name>/` (its pictures: `visuals:` in its front matter; guides that pages already point to but that aren't written yet: `guides/planned.yml`) |
 | Research list `/en/research/` | `pages/research/` (intro only) |

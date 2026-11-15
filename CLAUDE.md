@@ -90,6 +90,7 @@ The owner's rule for every section of the site:
 | An incident breakdown (one big incident, its own page) | `docs/claude/incident-breakdown.md` |
 | Topic ideas for the next monthly article | `docs/claude/article-topics.md` |
 | One Roadmap job's "what to learn" | `docs/claude/roadmap-job.md` |
+| One Roadmap topic's own page (teaches the whole topic) | `docs/claude/roadmap-topic.md` |
 | One CWE weakness explained (attack + defense) | `docs/claude/cwe-entry.md` |
 | One home lab idea (a step-by-step build) | `docs/claude/lab-idea.md` |
 | One step-by-step guide (the next one is first in `content/guides/planned.yml`) | `docs/claude/guide.md` |
@@ -104,4 +105,4 @@ The owner's rule for every section of the site:
   (the categories and CWE names are in `content/cwe/owasp-2025.yml`). `content/README.md` maps pages to files.
 - `src/`: Astro pages, components, `src/lib/*.ts` helpers, `src/styles/global.css`. Content schemas: `src/content.config.ts`.
 - `scripts/`: build steps (`check-csp.mjs`, …), `check-links.mjs`, `build-all-langs.mjs`, and `scripts/roadmap/`
-  (`next_job.py`, `topic_inventory.py`, `write_job.py`).
+  (`next_job.py`, `next_topic.py`, `topic_inventory.py`, `write_job.py`).

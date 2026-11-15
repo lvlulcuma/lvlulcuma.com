@@ -4,7 +4,7 @@
 //
 //   News        a weekly digest's `date:`, an incident breakdown's `published:`
 //   Articles    `date:`          Guides  `date:`          CWE  `date:`
-//   Roadmap     `updated:` in a job's learn.yml (its "what to learn" list)
+//   Roadmap     `updated:` in a job's learn.yml (its "what to learn" list), a topic page's `date:`
 //   Research    `published:`          Lab ideas  `date:`
 //   Any of them `revisions:` (a change after publishing, shown as "Updated: <note>")
 //   Site        `announcements:` in content/pages/home/<lang>.md, for anything else (a new section, a new feature)
@@ -14,13 +14,13 @@
 // rebuilt every night (.github/workflows/nightly-rebuild.yml), so the box empties itself even when nothing is pushed.
 //
 // To see the box as it would look on another day: SITE_TODAY=2026-11-04 npm run build
-import { NAV, type Lang } from "../i18n/ui";
+import { NAV, ui, type Lang } from "../i18n/ui";
 import { getArticles, iso } from "./articles";
 import { getCwes } from "./cwe";
 import { getGuides, getPage, getProjects } from "./content";
 import { getIdeas } from "./lab";
 import { getIncidents, getWeeks, incidentHref, weekHref } from "./news";
-import { getJobs, getLearn } from "./roadmap";
+import { getJobs, getLearn, getTopics } from "./roadmap";
 
 export type ChangeKind = "week" | "incident" | "article" | "cwe" | "guide" | "roadmap" | "research" | "lab" | "site";
 /** The order of things published on the same day. */
@@ -82,7 +82,7 @@ export type Entry = {
 };
 
 /** Everything published on the site in this language: news, articles, CWE write-ups, guides, Roadmap jobs' "what to
- *  learn", research, lab ideas. In no particular order. */
+ *  learn" and topic pages, research, lab ideas. In no particular order. */
 export async function getEntries(lang: Lang): Promise<Entry[]> {
   const out: Entry[] = [];
   for (const w of (await getWeeks(lang)).filter((w) => !w.example))
@@ -103,6 +103,11 @@ export async function getEntries(lang: Lang): Promise<Entry[]> {
     if (!l) continue;
     const title = String(words.roadmap ?? "{job}").replace("{job}", j.entry.data.title);
     out.push({ kind: "roadmap", title, description: j.entry.data.summary, lang: j.lang, href: `/${lang}/roadmap/${j.field}/${j.slug}/`, published: l.data.updated, revisions: [] });
+  }
+  // A Roadmap topic's own page, from its `date:`, marked "Topic" instead of "Roadmap".
+  for (const x of (await getTopics(lang)).values()) {
+    if (!x.hasPage || x.lang !== lang || !x.entry.data.date) continue;
+    out.push({ kind: "roadmap", tag: ui[lang].topic, title: x.entry.data.title, description: x.entry.data.summary, lang: x.lang, href: `/${lang}/roadmap/topics/${x.slug}/`, published: x.entry.data.date, revisions: x.entry.data.revisions ?? [] });
   }
 
   for (const p of await getProjects(lang)) {
@@ -190,7 +195,15 @@ export function groupChanges(changes: Change[], lang: Lang, words: Record<string
       const parts = [...weeks.map((c) => c.week ? `${t.week} ${c.week}` : c.title), ...(incidents.length ? [count(incidents.length, "breakdown")] : [])];
       return { label, count: cs.length, summary: parts.join(" · "), href: weeks.length === 1 ? weeks[0].href : href };
     }
-    if (section === "roadmap") return { label, count: cs.length, summary: String(words.roadmap_n).replace("{jobs}", count(cs.length, "job")), href };
+    if (section === "roadmap") {
+      // Learning paths and topic pages (marked with a tag) are counted apart: "What to learn for 9 jobs · 2 topics",
+      // the newer kind first, since the line is cut to fit the box.
+      const jobs = cs.filter((c) => !c.tag), topics = cs.filter((c) => c.tag);
+      const jobPart = jobs.length === 1 ? [one(jobs[0])] : jobs.length ? [String(words.roadmap_n).replace("{jobs}", count(jobs.length, "job"))] : [];
+      const topicPart = topics.length === 1 ? [one(topics[0])] : topics.length ? [count(topics.length, "topic")] : [];
+      const parts = cs[0].tag ? [...topicPart, ...jobPart] : [...jobPart, ...topicPart];
+      return { label, count: cs.length, summary: parts.join(" · "), href };
+    }
     const plural: Partial<Record<string, string>> = { articles: "article", guides: "guide", lab: "idea" };
     const summary = plural[section] ? count(cs.length, plural[section]!) : cs.map((c) => c.tag ?? c.title).join(" · ");
     return { label, count: cs.length, summary, href };
