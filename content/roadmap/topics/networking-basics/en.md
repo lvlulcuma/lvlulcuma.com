@@ -86,7 +86,7 @@ visuals:
   address:
     kind: window
     title: "One address, two parts"
-    head: ["192.168.1.37/24", "an IPv4 address and its prefix length"]
+    lead: ["192.168.1.37/24", "an IPv4 address and its prefix length"]
     rows:
       - ["Network part (first 24 bits)", "<code>192.168.1</code>"]
       - ["Host part (last 8 bits)", "<code>.37</code>"]

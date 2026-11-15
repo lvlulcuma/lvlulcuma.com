@@ -82,10 +82,12 @@ const settings = defineCollection({
 const pair = z.tuple([z.string(), z.string()]);
 const caption = z.string().optional();
 const guideVisual = z.discriminatedUnion("kind", [
-  // A window of an app (Task Manager, a settings dialog): label and value rows, one of them marked. With `states`,
-  // the same window is drawn once per state, side by side, each giving the marked row its own value.
+  // A window of an app (Task Manager, a settings dialog): label and value rows, one of them marked. `head` names the
+  // two columns ("Device", "Summary"); `lead` is a big line for a window about one thing ("CPU", an address) with a
+  // short note under it. With `states`, the same window is drawn once per state, side by side, each giving the
+  // marked row its own value.
   z.object({
-    kind: z.literal("window"), title: z.string(), head: pair.optional(), rows: z.array(pair).min(1),
+    kind: z.literal("window"), title: z.string(), lead: pair.optional(), head: pair.optional(), rows: z.array(pair).min(1),
     mark: z.number().int().positive().optional(),
     states: z.array(z.object({ label: z.string(), value: z.string(), tone: z.enum(["go", "stop"]).optional() })).optional(),
     caption,

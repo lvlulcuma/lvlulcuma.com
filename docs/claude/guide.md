@@ -95,9 +95,11 @@ each one where the reader needs it, inside a step when it belongs to that step.
   on words no line places.
 - The kinds (schema `guideVisual` in `src/content.config.ts`, drawing `src/components/GuideVisual.astro`, CSS
   "Guides: pictures" in `src/styles/global.css`):
-  - `window`: an app's window (Task Manager, a settings dialog): `title`, an optional `head` line, label/value
-    `rows` and the `mark`ed one. With `states`, the window is drawn once per state side by side (switched off,
-    switched on), each giving the marked row its value.
+  - `window`: an app's window (Task Manager, a settings dialog), drawn as a small table: `title` on the bar,
+    `head` naming the two columns ("Device", "Summary"), label/value `rows`, and the `mark`ed one tinted blue.
+    For a window about one thing, `lead` adds a big line with a short note under it (`["CPU", "Intel(R) Core(TM) …"]`).
+    With `states`, the window is drawn once per state side by side (switched off, switched on), each giving the
+    marked row its value.
   - `route`: steps in order, where to click or what happens: `stages`, each a `where` label (where the reader is,
     in plain words, no number) and its `steps`. Drawn like Get started's plan: a numbered square per step on a line
     with an arrowhead, the name under it, the last square filled. The numbers run on across the stages, so a
