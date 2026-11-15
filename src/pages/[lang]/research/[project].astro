@@ -43,9 +43,11 @@ const current = d.method && d.current_step ? d.method[d.current_step - 1]?.step 
   {d.method && (
     <>
       <span class="label">{t.method}</span>
-      <ol class="flow">
-        {d.method.map((s, i) => <li><span class="mono">{i + 1}/{d.method!.length}</span><strong>{s.step}</strong><p>{s.text}</p></li>)}
-      </ol>
+      <div class="flow">
+        <ol class="stepline">
+          {d.method.map((s, i) => <li class={i === d.method!.length - 1 ? "end" : undefined}><span class="sl-n" aria-hidden="true">{i + 1}</span><strong class="sl-t">{s.step}</strong><p class="sl-d">{s.text}</p></li>)}
+        </ol>
+      </div>
     </>
   )}
   {d.sources && (<><span class="label">{t.sources}</span><div class="prose"><ul>{d.sources.map((s) => <li>{s}</li>)}</ul></div></>)}

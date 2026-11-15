@@ -98,7 +98,11 @@ each one where the reader needs it, inside a step when it belongs to that step.
   - `window`: an app's window (Task Manager, a settings dialog): `title`, an optional `head` line, label/value
     `rows` and the `mark`ed one. With `states`, the window is drawn once per state side by side (switched off,
     switched on), each giving the marked row its value.
-  - `route`: where to click, in order: `stages`, each a `where` label and its `steps` as buttons with arrows.
+  - `route`: steps in order, where to click or what happens: `stages`, each a `where` label (where the reader is,
+    in plain words, no number) and its `steps`. Drawn like Get started's plan: a numbered square per step on a line
+    with an arrowhead, the name under it, the last square filled. The numbers run on across the stages, so a
+    caption never says "step 3" for a step of the text below (readers would look for square 3). A stage with more
+    than five steps, or a narrow column, runs down the page instead.
   - `cards`: cards side by side, each a `title`, a line of `text` and `tags` drawn the way they look on screen;
     `layout: rows` stacks them when the tags are long.
   - `finder`: a fold per maker or system (`items`: `name`, `key` or `tag`, `press`, `where`, `note`, `link` to their

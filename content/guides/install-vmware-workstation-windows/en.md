@@ -30,14 +30,14 @@ visuals:
         steps: ["My Downloads", "Free Software Downloads", "VMware Workstation Pro"]
       - where: "The download page"
         steps: ["VMware Workstation Pro 26H1 for Windows", "26H1u1", "I agree to the Terms and Conditions", "Download"]
-    caption: "The direct link in step 1 skips the first row. Broadcom moves things around now and then, so the names may differ a little."
+    caption: "The direct link to the downloads page skips the first part. Broadcom moves things around now and then, so the names may differ a little."
   # The installer's pages in order. Descriptions, not the exact titles on screen.
   setup:
     kind: route
     stages:
       - where: "The installer, page by page"
         steps: ["Welcome", "License agreement", "Hyper-V check", "Custom Setup", "User Experience Settings", "Shortcuts", "Install", "Finish", "Restart"]
-    caption: "Steps 3 to 9 below go through them. Most pages need only <strong>Next</strong>, and the titles on screen may be worded a little differently."
+    caption: "The steps below go through them. Most pages need only <strong>Next</strong>, and the titles on screen may be worded a little differently."
   # The installer's Hyper-V check: the two messages it can show.
   hyperv:
     kind: cards

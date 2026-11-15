@@ -4,7 +4,7 @@
 // src/content.config.ts). <strong>, <code>, <kbd> and <a> in the words are kept (set:html).
 // No JavaScript and no inline styles: sizes and colours come from classes (CSS "Guides: pictures" in global.css).
 //   window   an app's window (Task Manager, a settings dialog) with one row marked, once per state side by side
-//   route    where to click, as rows of buttons joined by arrows, one row per stage
+//   route    steps in order (where to click, or what happens): numbered squares on a line, a group per stage
 //   cards    cards side by side (or stacked rows), each with labels drawn the way they look on screen
 //   finder   a fold per maker or system: the key to press, where to go, a note and a link to their own instructions
 //   screen   a text-mode screen (firmware setup, an installer): tabs, rows with one marked, the keys at the bottom
@@ -21,6 +21,11 @@ if (d.kind === "screen" && d.tab && d.tab > d.tabs.length) bad(`opens tab ${d.ta
 const host = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 // A window without states is drawn once, as written.
 const panes = d.kind === "window" ? (d.states ?? [{ label: "", value: "", tone: undefined }]) : [];
+// A route counts its steps across all its stages (1 to 8 over two stages), so the order reads at a glance. A stage
+// with more than five steps runs down the page instead of across it (`stepline-v`), so long names keep their room.
+let count = 0;
+const route = d.kind === "route" ? d.stages.map((s) => ({ where: s.where, steps: s.steps.map((html) => ({ n: ++count, html })) })) : [];
+const tall = d.kind === "route" && d.stages.some((s) => s.steps.length > 5);
 ---
 {d.kind === "window" && (
   <figure class={`gv gv-window${panes.length > 1 ? " gv-two" : ""}`}>
@@ -46,12 +51,14 @@ const panes = d.kind === "window" ? (d.states ?? [{ label: "", value: "", tone: 
 
 {d.kind === "route" && (
   <figure class="gv gv-route">
-    {d.stages.map((s, si) => (
+    {route.map((s) => (
       <div class="gv-stage">
-        <p class="gv-k">{s.where}</p>
-        <ul class="gv-chips">
-          {s.steps.map((x, i) => <li class={si === d.stages.length - 1 && i === s.steps.length - 1 ? "end" : undefined} set:html={x} />)}
-        </ul>
+        <p class="gv-where">{s.where}</p>
+        <ol class={tall ? "stepline stepline-v" : "stepline"} start={s.steps[0].n}>
+          {s.steps.map((x) => (
+            <li class={x.n === count ? "end" : undefined}><span class="sl-n" aria-hidden="true">{x.n}</span><span class="sl-t" set:html={x.html} /></li>
+          ))}
+        </ol>
       </div>
     ))}
     {d.caption && <figcaption class="gv-cap" set:html={d.caption} />}

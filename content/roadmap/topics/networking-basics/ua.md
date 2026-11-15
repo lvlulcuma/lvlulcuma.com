@@ -4,7 +4,7 @@
 # How these pages are written: docs/claude/roadmap-topic.md
 title: "Основи мереж"
 summary: "Як дані передаються між комп'ютерами: IP-адреси й підмережі, порти, TCP і UDP, моделі OSI та TCP/IP, маршрутизатори, комутатори й NAT, а також що роблять DNS і DHCP."
-date: 2026-11-15
+date: 2026-11-14
 sources:
   - name: "RFC 791: Internet Protocol (IPv4), 1981"
     url: "https://www.rfc-editor.org/rfc/rfc791"
@@ -74,15 +74,15 @@ visuals:
   journey:
     kind: route
     stages:
-      - where: "1. Отримати адресу (DHCP)"
+      - where: "Отримати адресу (DHCP)"
         steps: ["Discover", "Offer", "Request", "Acknowledge"]
-      - where: "2. Знайти адресу за назвою (DNS)"
+      - where: "Знайти адресу за назвою (DNS)"
         steps: ["<code>shop.example</code>?", "Резолвер", "<code>203.0.113.10</code>"]
-      - where: "3. З'єднатися (TCP)"
+      - where: "З'єднатися (TCP)"
         steps: ["SYN", "SYN-ACK", "ACK"]
-      - where: "4. Обмінятися даними (TLS, потім HTTP)"
+      - where: "Обмінятися даними (TLS, потім HTTP)"
         steps: ["Домовитися про шифрування", "<code>GET /</code>", "<code>200 OK</code>"]
-    caption: "Що робить ноутбук, щоб відкрити одну вебсторінку. Крок 1 відбувається один раз, коли він під'єднується до мережі. Кроки 2–4 повторюються щоразу, коли він звертається до нового сайту."
+    caption: "Що робить ноутбук, щоб відкрити одну вебсторінку. Адресу він отримує один раз, коли під'єднується до мережі. Решта повторюється щоразу, коли він звертається до нового сайту."
   address:
     kind: window
     title: "Одна адреса, дві частини"
