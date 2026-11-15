@@ -4,7 +4,7 @@
 # How these pages are written: docs/claude/roadmap-topic.md
 title: "Podstawy sieci"
 summary: "Jak dane przepływają między komputerami: adresy IP i podsieci, porty, TCP i UDP, modele OSI i TCP/IP, routery, przełączniki i NAT oraz do czego służą DNS i DHCP."
-date: 2026-11-15
+date: 2026-11-14
 sources:
   - name: "RFC 791: Internet Protocol (IPv4), 1981"
     url: "https://www.rfc-editor.org/rfc/rfc791"
@@ -74,15 +74,15 @@ visuals:
   journey:
     kind: route
     stages:
-      - where: "1. Dostać adres (DHCP)"
+      - where: "Dostać adres (DHCP)"
         steps: ["Discover", "Offer", "Request", "Acknowledge"]
-      - where: "2. Znaleźć adres po nazwie (DNS)"
+      - where: "Znaleźć adres po nazwie (DNS)"
         steps: ["<code>shop.example</code>?", "Resolver", "<code>203.0.113.10</code>"]
-      - where: "3. Połączyć się (TCP)"
+      - where: "Połączyć się (TCP)"
         steps: ["SYN", "SYN-ACK", "ACK"]
-      - where: "4. Wymienić dane (TLS, potem HTTP)"
+      - where: "Wymienić dane (TLS, potem HTTP)"
         steps: ["Uzgodnić szyfrowanie", "<code>GET /</code>", "<code>200 OK</code>"]
-    caption: "Co robi laptop, żeby otworzyć jedną stronę. Krok 1 dzieje się raz, przy dołączaniu do sieci. Kroki 2–4 powtarzają się przy każdej nowej stronie."
+    caption: "Co robi laptop, żeby otworzyć jedną stronę. Adres laptop dostaje raz, przy dołączaniu do sieci. Reszta powtarza się przy każdej nowej stronie."
   address:
     kind: window
     title: "Jeden adres, dwie części"

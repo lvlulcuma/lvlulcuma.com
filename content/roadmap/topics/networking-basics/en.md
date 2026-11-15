@@ -4,7 +4,7 @@
 # How these pages are written: docs/claude/roadmap-topic.md
 title: "Networking basics"
 summary: "How data moves between computers: IP addresses and subnets, ports, TCP and UDP, the OSI and TCP/IP models, routers, switches and NAT, and what DNS and DHCP do."
-date: 2026-11-15
+date: 2026-11-14
 sources:
   - name: "RFC 791: Internet Protocol (IPv4), 1981"
     url: "https://www.rfc-editor.org/rfc/rfc791"
@@ -74,15 +74,15 @@ visuals:
   journey:
     kind: route
     stages:
-      - where: "1. Get an address (DHCP)"
+      - where: "Get an address (DHCP)"
         steps: ["Discover", "Offer", "Request", "Acknowledge"]
-      - where: "2. Look up the name (DNS)"
+      - where: "Look up the name (DNS)"
         steps: ["<code>shop.example</code>?", "Resolver", "<code>203.0.113.10</code>"]
-      - where: "3. Connect (TCP)"
+      - where: "Connect (TCP)"
         steps: ["SYN", "SYN-ACK", "ACK"]
-      - where: "4. Talk (TLS, then HTTP)"
+      - where: "Talk (TLS, then HTTP)"
         steps: ["Agree on encryption", "<code>GET /</code>", "<code>200 OK</code>"]
-    caption: "What a laptop does to open one web page. Step 1 happens once, when it joins the network. Steps 2 to 4 happen every time it talks to a new site."
+    caption: "What a laptop does to open one web page. Getting an address happens once, when it joins the network. The rest happens every time it talks to a new site."
   address:
     kind: window
     title: "One address, two parts"

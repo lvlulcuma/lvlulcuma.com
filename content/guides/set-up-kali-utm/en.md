@@ -26,7 +26,7 @@ visuals:
         steps: ["Create a New Virtual Machine", "Virtualize", "Other", "Boot ISO Image: the Kali ISO"]
       - where: "Then"
         steps: ["Hardware", "Storage", "Shared Directory", "Summary: name it Kali Linux", "Save"]
-    caption: "Kali's page picks <strong>Other</strong>, not <strong>Linux</strong>. Steps 3 to 6 below say what to set on each page."
+    caption: "Kali's page picks <strong>Other</strong>, not <strong>Linux</strong>. The steps below say what to set on each page."
   # The two settings Kali's UTM page changes, before and after installing.
   devices:
     kind: cards
