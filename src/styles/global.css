@@ -343,6 +343,8 @@ kbd { display: inline-block; min-width: 1.9em; padding: 0 6px; font-family: var(
 .guide ol > li > * + *:not(kbd, code, strong, em, a, b, i, sup, sub, abbr, mark) { margin-top: 12px; }
 .guide table { font-size: 14.5px; margin: 12px 0 0; }
 .guide td:first-child { white-space: normal; }
+/* On a topic page a table stands between paragraphs, not inside a step: give the text after it room. */
+.topic table { margin-bottom: 20px; }
 
 /* Guides list: a section of cards per category */
 .block-head > a { font-family: var(--mono); font-size: 12px; }
