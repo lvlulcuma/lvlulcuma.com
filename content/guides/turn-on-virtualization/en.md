@@ -9,7 +9,7 @@ platforms: [windows, linux]   # windows | macos | linux
 requires: []   # guides to do first (folder names); shown as "Before you start"
 revisions:          # after publishing, add a line for each change
   - date: 2026-11-13
-    note: "The Windows and the Linux steps of each section sit in their own labelled boxes."
+    note: "The Windows and the Linux steps of each section sit in their own labeled boxes."
   - date: 2026-11-13
     note: "The last fix is now for VMware Workstation Pro, the hypervisor this site suggests for Windows."
 dek: "Check whether your processor's virtualization is on, switch it on in your computer's startup settings if it isn't, and make sure it worked."

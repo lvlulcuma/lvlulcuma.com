@@ -42,7 +42,7 @@ start:
     - who: "Looking for depth"
       text: "Longer studies, each with a question, a method and the data behind it."
       section: research
-    - who: "Want to practise"
+    - who: "Want to practice"
       text: "How my lab is built, and the rules I follow when I test."
       section: lab
     - who: "Have a question"
