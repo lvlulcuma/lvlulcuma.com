@@ -345,6 +345,10 @@ kbd { display: inline-block; min-width: 1.9em; padding: 0 6px; font-family: var(
 .guide td:first-child { white-space: normal; }
 /* On a topic page a table stands between paragraphs, not inside a step: give the text after it room. */
 .topic table { margin-bottom: 20px; }
+/* Code in a topic table (a SID, an address, a path) stays on one line: S-1-5-32-544 must not break at a hyphen. */
+.topic td code { white-space: nowrap; }
+/* A long path or registry key in a sentence may break anywhere rather than push a phone's page sideways. */
+.topic :is(p, li, .gv-q) code { overflow-wrap: anywhere; }
 
 /* Guides list: a section of cards per category */
 .block-head > a { font-family: var(--mono); font-size: 12px; }
