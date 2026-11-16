@@ -24,7 +24,7 @@ timeline:
   - date: 2026-11-11
     text: "Po południu atakującym udaje się przełamać zabezpieczenia strony. Na stronie głównej pojawiają się słowo „ZELENET”, przekreślona flaga Ukrainy i link do kanału na Telegramie, a konto na X zostaje przemianowane i dostaje prorosyjskie hasło. Obraz znika w ciągu kilku minut, a strona przechodzi w tryb prac technicznych."
   - date: 2026-11-11
-    text: "Ukrinform potwierdza cyberatak na swoje zasoby informacyjne i podaje, że współpracuje z Państwową Służbą Łączności Specjalnej i SBU. Dyrektor generalny Serhij Czerewaty mówi IMI, że stoją za tym Rosjanie."
+    text: "Ukrinform potwierdza cyberatak na swoje zasoby informacyjne i podaje, że współpracuje z Państwową Służbą Łączności Specjalnej i SBU. Dyrektor generalny Serhij Czerewaty mówi IMI, że stoją za tym rosjanie."
   - date: 2026-11-12
     text: "Po południu Ukrinform informuje, że jego strona wznawia działanie."
 attack:

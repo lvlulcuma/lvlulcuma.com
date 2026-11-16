@@ -14,7 +14,7 @@ stories:
       - label: "Dowody"
         text: "Śledczy wskazują na infrastrukturę atakujących, sposób włamania zgodny z innymi atakami tej jednostki i ślady języka perskiego. Ci sami hakerzy atakowali też sprzęt w kilku małych elektrowniach wodnych, z „umiarkowanymi” skutkami."
       - label: "Strażnicy Rewolucji (IRGC)"
-        text: "Odrębna gałąź irańskich sił zbrojnych, działająca obok regularnej armii. Do jej jednostek cybernetycznych należy Shahid Kaveh, którą USA łączą z atakami na sterowniki przemysłowe w amerykańskich wodociągach w 2023 roku."
+        text: "Odrębna gałąź irańskich sił zbrojnych, działająca obok regularnej armii. Do jej jednostek cybernetycznych należy jednostka Shahid Kaveh, którą USA łączą z atakami na sterowniki przemysłowe w amerykańskich wodociągach w 2023 roku."
     why: "To pierwszy raz, gdy rząd wskazał sprawców ataków na lodówki, a Francja nazywa to pierwszym cybersabotażem na dużą skalę na swoim terytorium. Sprzęt sklepowy wystawiony do internetu staje się celem państwowych hakerów, a nie tylko wandali."
     do: "Odłącz od internetu sterowniki urządzeń chłodniczych i innych systemów budynku, zmień domyślne hasła i zezwalaj na zdalny dostęp tylko przez VPN z uwierzytelnianiem wieloskładnikowym."
     incident: supermarket-freezer-attacks
@@ -51,7 +51,7 @@ stories:
     type: takedown
     text:
       - "W czwartek 12 listopada Departament Sprawiedliwości USA ogłosił, że sąd pozwolił mu zająć lub zablokować ponad 1,2 mld dolarów w kryptowalutach skradzionych z Binance w październiku. To największa odnotowana kradzież kryptowalut. Z pomocą firm kryptowalutowych zamrożono łącznie ponad 2,7 mld dolarów. FBI obwinia TraderTraitor, północnokoreańską grupę hakerską. Tego samego dnia Binance ogłosiła, że pokryła z własnych środków wszystkie 6,34 mld dolarów strat klientów."
-      - "FBI wyłączyło też serwery „FaceStealer”, osobnego północnokoreańskiego procederu, który w ciągu 18 miesięcy ukradł ponad 400 mln dolarów w kryptowalutach. Ofiary często dostawały zaproszenie na spotkanie od znajomej osoby, której konto przejęto. Podczas fałszywej rozmowy na Zoomie lub w Teams widziały nagrania wcześniejszych ofiar i słyszały prośbę, by naprawić „problem z dźwiękiem”. „Naprawa” instalowała złośliwe oprogramowanie, które po cichu nagrywało też je, na potrzeby kolejnej rundy."
+      - "FBI wyłączyło też serwery „FaceStealer”, osobnego północnokoreańskiego procederu, który w ciągu 18 miesięcy ukradł ponad 400 mln dolarów w kryptowalutach. Ofiary często dostawały zaproszenie na spotkanie od znajomej osoby, której konto przejęto. Podczas fałszywej rozmowy na Zoomie lub w Teams widziały nagrania wcześniejszych ofiar i słyszały prośbę, by naprawić „problem z dźwiękiem”. „Naprawa” instalowała złośliwe oprogramowanie, które po cichu nagrywało także je — na potrzeby kolejnej rundy."
     notes:
       - label: "Najciekawsze"
         text: "Każda ofiara stawała się przynętą: jej nagranie z kamerki pokazywano kolejnej, więc rozmowa wyglądała na pełną prawdziwych ludzi. FBI zajęło ponad 900 takich nagrań. „Deepfake musi być tylko na tyle dobry, by uchodzić za obraz z kamerki” — ostrzega FBI."
@@ -102,7 +102,7 @@ stories:
       - label: "Kontroler domeny"
         text: "Serwer, który przechowuje konta i hasła sieci Windows. Kto go kontroluje, zwykle może dotrzeć do każdego komputera w organizacji. BYOD twierdzi, że przejął kontroler domeny uczelni."
     why: "Jeśli BYOD mówi prawdę, wśród danych są numery ubezpieczenia społecznego, których nie da się po prostu zmienić jak hasła. Uczelnia mówi, że pełne przywrócenie systemów może potrwać tygodnie, a do sądu trafił już pozew zbiorowy."
-    do: "Jeśli studiujesz lub pracujesz na Vanderbilcie, zmień hasło zgodnie z prośbą uczelni, odrzucaj prośby MFA, których nie inicjujesz, i ufaj tylko oficjalnym kanałom. Każdy w USA może bezpłatnie zablokować swoją historię kredytową w Equifax, Experian i TransUnion."
+    do: "Jeśli studiujesz lub pracujesz na Uniwersytecie Vanderbilta, zmień hasło zgodnie z prośbą uczelni, odrzucaj prośby MFA, których nie inicjujesz, i ufaj tylko oficjalnym kanałom. Każdy w USA może bezpłatnie zablokować swoją historię kredytową w Equifax, Experian i TransUnion."
     incident: vanderbilt-university-ransomware
     sources:
       - name: "Vanderbilt University: Active Cybersecurity Incident Updates"

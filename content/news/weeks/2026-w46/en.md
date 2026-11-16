@@ -29,7 +29,7 @@ stories:
     type: vulnerability
     text:
       - "On Tuesday, 10 November, Microsoft released fixes for 1,093 security bugs, the second month in a row above 1,000. A year ago it was fixing around 100 a month. Microsoft credits AI tools for helping find so many."
-      - "One of them was already being used by attackers: a flaw in the classic Outlook app for Windows. When someone opens a booby-trapped message file, Outlook connects to the attacker's server without its usual warning and hands over a scrambled form of the user's Windows login. Among those credited with finding it is Benoît Sevens of Anthropic, who used the company's AI model Claude. Microsoft hasn't said who exploited it or against whom."
+      - "One of them was already being used by attackers: a flaw in the classic Outlook app for Windows. When someone opens a booby-trapped message file, Outlook connects to the attacker's server without its usual warning and hands over a scrambled form of the user's Windows password. Among those credited with finding it is Benoît Sevens of Anthropic, who used the company's AI model Claude. Microsoft hasn't said who exploited it or against whom."
     notes:
       - label: "In numbers"
         text: "Microsoft has fixed more than 5,100 security bugs this year, far more than in any earlier year. Yet of November's 1,093, only this one was known to be under attack."
