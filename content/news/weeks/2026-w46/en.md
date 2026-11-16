@@ -103,6 +103,7 @@ stories:
         text: "The server that holds a Windows network's accounts and passwords. Whoever controls it can usually reach every computer in the organization. BYOD claims it took over Vanderbilt's."
     why: "If BYOD's claim is true, the data includes Social Security numbers, which can't simply be changed like a password. Vanderbilt says a full recovery may take weeks, and a proposed class action has already been filed."
     do: "If you're at Vanderbilt, reset your password as asked, reject MFA prompts you didn't start and trust only official channels. Anyone in the US can freeze their credit for free at Equifax, Experian and TransUnion."
+    incident: vanderbilt-university-ransomware
     sources:
       - name: "Vanderbilt University: Active Cybersecurity Incident Updates"
         url: "https://news.vanderbilt.edu/2026/11/09/nov-9-active-cybersecurity-incident-updates/"

@@ -103,6 +103,7 @@ stories:
         text: "Serwer, który przechowuje konta i hasła sieci Windows. Kto go kontroluje, zwykle może dotrzeć do każdego komputera w organizacji. BYOD twierdzi, że przejął kontroler domeny uczelni."
     why: "Jeśli BYOD mówi prawdę, wśród danych są numery ubezpieczenia społecznego, których nie da się po prostu zmienić jak hasła. Uczelnia mówi, że pełne przywrócenie systemów może potrwać tygodnie, a do sądu trafił już pozew zbiorowy."
     do: "Jeśli studiujesz lub pracujesz na Vanderbilcie, zmień hasło zgodnie z prośbą uczelni, odrzucaj prośby MFA, których nie inicjujesz, i ufaj tylko oficjalnym kanałom. Każdy w USA może bezpłatnie zablokować swoją historię kredytową w Equifax, Experian i TransUnion."
+    incident: vanderbilt-university-ransomware
     sources:
       - name: "Vanderbilt University: Active Cybersecurity Incident Updates"
         url: "https://news.vanderbilt.edu/2026/11/09/nov-9-active-cybersecurity-incident-updates/"
