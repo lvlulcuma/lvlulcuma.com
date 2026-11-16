@@ -37,6 +37,7 @@ stories:
         text: "NTLM is an old Windows way of proving who you are to another computer, using a scrambled version of your password (a hash). Whoever catches it can try to crack it, or pass it on to log in as you somewhere else."
     why: "A stolen hash can open other company systems in the user's name. Microsoft rates the bug only “moderate”, which makes it easy to skip, but it's the only one this month that attackers are known to be using."
     do: "Update Office, not just Windows: the fix ships with Office updates (for example Office LTSC 2021 build 16.0.14334.21048). Block outgoing SMB (TCP port 445) to the internet. The bug is CVE-2026-124194; CISA gave US agencies until 24 November."
+    incident: outlook-ntlm-zero-day
     sources:
       - name: "Krebs on Security: Microsoft Fixes Nearly 1,100 Security Vulnerabilities"
         url: "https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities/"

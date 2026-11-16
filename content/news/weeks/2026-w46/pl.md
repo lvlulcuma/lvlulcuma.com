@@ -37,6 +37,7 @@ stories:
         text: "NTLM to stary sposób, w jaki Windows udowadnia innemu komputerowi, kim jesteś, za pomocą przekształconej wersji hasła (skrótu, ang. hash). Kto go przechwyci, może próbować go złamać albo przekazać dalej, by zalogować się jako ty gdzie indziej."
     why: "Wykradzionym skrótem można otworzyć inne systemy firmy w imieniu użytkownika. Microsoft ocenia lukę tylko jako „umiarkowaną”, więc łatwo ją pominąć, ale to jedyna w tym miesiącu, o której wiadomo, że atakujący z niej korzystają."
     do: "Zaktualizuj Office, nie tylko Windows: poprawka przychodzi z aktualizacjami Office (np. Office LTSC 2021, kompilacja 16.0.14334.21048). Zablokuj wychodzący ruch SMB (port TCP 445) do internetu. Luka to CVE-2026-124194; CISA dała amerykańskim urzędom czas do 24 listopada."
+    incident: outlook-ntlm-zero-day
     sources:
       - name: "Krebs on Security: Microsoft Fixes Nearly 1,100 Security Vulnerabilities"
         url: "https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities/"
