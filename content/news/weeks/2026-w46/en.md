@@ -81,6 +81,7 @@ stories:
         text: "Going through the records that systems keep of who did what and when. It's how Nitori found the attackers may have been inside for weeks before anyone noticed."
     why: "Names, addresses and order histories are exactly what scammers need for believable fake messages from Nitori or a delivery company. Business customers' contact details are useful for fake invoices too."
     do: "If you shop at Nitori, expect fake emails, texts and calls in its name: Nitori says it will never ask for passwords, card numbers or PINs. If you hold customer data, alert on unusually large reads or exports of it."
+    incident: nitori-data-breach
     sources:
       - name: "ニトリ: 当社システムへの不正アクセスによる個人情報漏えいの可能性に関するお詫びとお知らせ"
         url: "https://www.nitori-net.jp/ec/notices/info261109/"

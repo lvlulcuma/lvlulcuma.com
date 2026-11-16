@@ -81,6 +81,7 @@ stories:
         text: "Przeglądanie zapisów, które systemy prowadzą o tym, kto co i kiedy robił. Tak Nitori ustaliła, że atakujący mogli być w środku tygodniami, zanim ktokolwiek to zauważył."
     why: "Imiona, adresy i historia zamówień to dokładnie to, czego oszuści potrzebują do wiarygodnych fałszywych wiadomości od Nitori albo firmy kurierskiej. Dane kontaktowe klientów firmowych przydają się też do fałszywych faktur."
     do: "Jeśli kupujesz w Nitori, spodziewaj się fałszywych e-maili, SMS-ów i telefonów w jej imieniu: firma zapewnia, że nigdy nie prosi o hasła, numery kart ani PIN-y. Jeśli przechowujesz dane klientów, ustaw alerty na nietypowo duże odczyty lub eksporty tych danych."
+    incident: nitori-data-breach
     sources:
       - name: "ニトリ: 当社システムへの不正アクセスによる個人情報漏えいの可能性に関するお詫びとお知らせ"
         url: "https://www.nitori-net.jp/ec/notices/info261109/"
