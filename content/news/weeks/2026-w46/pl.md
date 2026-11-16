@@ -127,6 +127,7 @@ stories:
         text: "Podmiana stron internetowych przez atakujących na własne. Nie oznacza jeszcze kradzieży danych, ale pokazuje, że mogli zmieniać stronę."
     why: "Państwowej agencji ufają czytelnicy i inne redakcje, więc przejęta strona lub konto szybko roznosi wrogi przekaz. Ukrinform mówi, że atakujący stale doskonalą swoje metody."
     do: "Jeśli prowadzisz redakcję lub publiczne konta, chroń panel administracyjny strony i media społecznościowe uwierzytelnianiem wieloskładnikowym odpornym na phishing, ogranicz listę administratorów i zaplanuj, jak szybko wyłączyć stronę. Czytelnicy: sprawdzaj dziwne posty w innych kanałach redakcji."
+    incident: ukrinform-hack
     sources:
       - name: "The Kyiv Independent: Hackers target Ukraine's state news agency Ukrinform, replace website with anti-Ukrainian messages"
         url: "https://kyivindependent.com/hackers-target-ukraines-state-news-agency-ukrinform-replace-website-with-anti-ukrainian-messages/"

@@ -127,6 +127,7 @@ stories:
         text: "Коли нападники замінюють сторінки сайту своїми. Це ще не означає, що дані викрали, але показує, що вони могли змінювати сайт."
     why: "Державному інформагентству довіряють читачі й інші редакції, тож зламаний сайт чи акаунт швидко поширює вороже повідомлення. В «Укрінформі» кажуть, що нападники постійно вдосконалюють методи."
     do: "Якщо у вас редакція чи публічні акаунти, захистіть адмінпанель сайту й соцмережі стійкою до фішингу багатофакторною автентифікацією, тримайте список адміністраторів коротким і заздалегідь сплануйте, як швидко вимкнути сайт. Читачам: дивні дописи перевіряйте в інших каналах видання."
+    incident: ukrinform-hack
     sources:
       - name: "The Kyiv Independent: Hackers target Ukraine's state news agency Ukrinform, replace website with anti-Ukrainian messages"
         url: "https://kyivindependent.com/hackers-target-ukraines-state-news-agency-ukrinform-replace-website-with-anti-ukrainian-messages/"

@@ -127,6 +127,7 @@ stories:
         text: "When attackers replace a website's pages with their own. It doesn't mean data was stolen, but it shows they could change the site."
     why: "Readers and other newsrooms trust a state news agency, so a hijacked site or account spreads a hostile message fast. Ukrinform says the attackers keep improving their methods."
     do: "If you run a newsroom or public accounts, protect the website's admin panel and social accounts with phishing-resistant MFA, keep the list of admins short and plan how to take the site offline quickly. Readers: check odd posts against the outlet's other channels."
+    incident: ukrinform-hack
     sources:
       - name: "The Kyiv Independent: Hackers target Ukraine's state news agency Ukrinform, replace website with anti-Ukrainian messages"
         url: "https://kyivindependent.com/hackers-target-ukraines-state-news-agency-ukrinform-replace-website-with-anti-ukrainian-messages/"
