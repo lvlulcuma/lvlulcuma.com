@@ -25,7 +25,7 @@ export const HTML_LANG: Record<Lang, string> = { en: "en", pl: "pl", ua: "uk" };
 export const LANG_LABEL: Record<Lang, string> = { en: "EN", pl: "PL", ua: "UA" };
 export const LANG_NAME: Record<Lang, string> = { en: "English", pl: "Polski", ua: "Українська" };
 
-export const NAV = ["news", "articles", "guides", "cwe", "roadmap", "research", "lab", "about", "contact"] as const;
+export const NAV = ["news", "articles", "guides", "cwe", "roadmap", "research", "lab", "forensics", "about", "contact"] as const;
 export type NavKey = (typeof NAV)[number] | "colophon" | "home";
 
 export const TOPICS = ["research", "api", "lab"] as const;
@@ -62,10 +62,16 @@ export type Platform = "windows" | "macos" | "linux";
 // Lab ideas (content/lab/<idea>/): the group each is listed under and how hard it is. Their words are `labGroups:`
 // and `labLevels:` in content/ui/<lang>.yml; each group's one-line description is `groups:` in content/pages/lab/<lang>.md.
 // Keep them in step with `lab` in src/content.config.ts.
-export const LAB_GROUPS = ["attack", "defend", "network", "analysis"] as const;
+export const LAB_GROUPS = ["attack", "defend", "network", "analysis", "forensics"] as const;
 export type LabGroup = (typeof LAB_GROUPS)[number];
 export const LAB_LEVELS = ["beginner", "intermediate", "advanced"] as const;
 export type LabLevel = (typeof LAB_LEVELS)[number];
+
+// Forensics write-ups (content/forensics/writeups/<slug>/): where the case comes from. "lab" = evidence made in the
+// author's own home lab, "challenge" = a public DFIR challenge, written up only where its platform allows it. Their words are
+// `writeupSources:` in content/ui/<lang>.yml. Keep them in step with `writeups` in src/content.config.ts.
+export const WRITEUP_SOURCES = ["lab", "challenge"] as const;
+export type WriteupSource = (typeof WRITEUP_SOURCES)[number];
 
 export const langPaths = () => LANGS.map((lang) => ({ params: { lang } }));
 
@@ -78,6 +84,7 @@ export type UI = Strings & {
   guideCats: Record<GuideCat, string>;
   labGroups: Record<LabGroup, string>;
   labLevels: Record<LabLevel, string>;
+  writeupSources: Record<WriteupSource, string>;
   platforms: Record<Platform, string>;
   newsTypes: Record<NewsType, string>;
   incidentStatus: Record<IncidentStatus, string>;

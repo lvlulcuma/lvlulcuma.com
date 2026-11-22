@@ -2,14 +2,15 @@
 # Lab overview → lvlulcuma.com/en/lab/
 # The intro, then "What a home lab is" (`what:` is its heading, the text is below the second ---). The page then lists "Start here" (the Get started and
 # Practice safely pages) and every lab idea from content/lab/, by group, with the group descriptions below.
-updated: 2026-11-08
+updated: 2026-11-22
 what: "What a home lab is"   # the heading of the text below the second ---
-intro: "Ideas for a home lab you can build yourself: what a lab is, how to start one, and step-by-step projects for attacking, defending, networking and analysis."
+intro: "Ideas for a home lab you can build yourself: what a lab is, how to start one, and step-by-step projects for attacking, defending, networking, analysis and digital forensics."
 groups:   # one line under each group's heading
   attack: "Targets that are vulnerable on purpose, and the tools attackers use on them."
   defend: "Collect logs, write detections and catch the attacks you run yourself."
   network: "Firewalls, separate networks, DNS filtering and VPNs, at home scale."
   analysis: "Take malware and network traffic apart, safely."
+  forensics: "Recover what happened from disks, memory and phones, and prove it."
 ---
 
 A home lab is a small practice world on your own computer: virtual machines and containers that you build, break

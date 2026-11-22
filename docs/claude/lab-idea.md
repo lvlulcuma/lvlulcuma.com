@@ -18,7 +18,7 @@ Look at `content/lab/web-app-hacking/` first: it's the model for the layout, ton
 ```yaml
 title: "Active Directory attack lab"   # what you build, in plain words
 date: 2026-11-15                        # the day it's published
-group: attack                           # attack | defend | network | analysis
+group: attack                           # attack | defend | network | analysis | forensics (also listed on /forensics/)
 order: 2                                # position within its group (easier ideas first)
 level: intermediate                     # beginner | intermediate | advanced
 dek: "One sentence: what you build and what you practice with it."

@@ -1,13 +1,14 @@
 ---
 # Lab overview → lvlulcuma.com/pl/lab/
-updated: 2026-11-08
+updated: 2026-11-22
 what: "Czym jest domowe laboratorium"
-intro: "Pomysły na domowe laboratorium do zbudowania samodzielnie: czym jest, jak zacząć i projekty krok po kroku do ćwiczenia ataków, obrony, sieci i analizy."
+intro: "Pomysły na domowe laboratorium do zbudowania samodzielnie: czym jest, jak zacząć i projekty krok po kroku do ćwiczenia ataków, obrony, sieci, analizy i informatyki śledczej."
 groups:
   attack: "Celowo podatne cele i narzędzia, którymi się je atakuje."
   defend: "Zbieraj logi, pisz reguły wykrywania i łap ataki, które uruchamiasz sam."
   network: "Firewalle, oddzielne sieci, filtrowanie DNS i VPN w domowej skali."
   analysis: "Bezpiecznie rozbieraj złośliwe oprogramowanie i ruch sieciowy."
+  forensics: "Odtwarzaj, co się stało, z dysków, pamięci i telefonów — i udowadniaj to."
 ---
 
 Domowe laboratorium to mały świat do ćwiczeń na twoim komputerze: maszyny wirtualne i kontenery, które budujesz,

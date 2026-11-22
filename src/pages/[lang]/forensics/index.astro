@@ -1,0 +1,135 @@
+---
+// Forensics hub: /<lang>/forensics/. One place for everything on the site about digital forensics, which it gathers from
+// the other sections instead of holding lessons of its own (src/lib/forensics.ts):
+//   1. What digital forensics is: the text below the dashes in content/pages/forensics/<lang>.md, kept high level.
+//   2. The learning path of the Roadmap job named in `path: job:`, level by level. Each topic links to its own page once
+//      it has one (content/roadmap/topics/<topic>/), so the hub fills up by itself as topics are written.
+//   3. The lab ideas in the "forensics" group (content/lab/<idea>/, `group: forensics`).
+//   4. The write-ups (content/forensics/writeups/<slug>/), newest first.
+//   5. The jobs in `jobs: list:`, each linked to its own learning path.
+// An empty list shows its `empty:` line, so the hub can go online before the first lab idea or write-up.
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import LabIdeaCard from "../../../components/LabIdeaCard.astro";
+import WriteupRow from "../../../components/WriteupRow.astro";
+import { HTML_LANG, langPaths, ui, type Lang } from "../../../i18n/ui";
+import { getPage } from "../../../lib/content";
+import { countWord } from "../../../lib/block";
+import { feedHref } from "../../../lib/feed";
+import { getForensicIdeas, getWriteups } from "../../../lib/forensics";
+import { getJobs, getLearn, getTopics } from "../../../lib/roadmap";
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const page = await getPage("forensics", lang);
+const d = page.data;
+const file = `content/pages/forensics/${lang}.md`;
+const need = (v: any, what: string) => { if (v === undefined || v === null || v === "") throw new Error(`${file}: ${what} is missing.`); return v; };
+for (const k of ["title", "intro", "what"]) need(d[k], k);
+for (const s of ["path", "labs", "writeups", "jobs"]) for (const k of ["heading", "intro"]) need(d[s]?.[k], `${s} → ${k}`);
+for (const s of ["labs", "writeups"]) need(d[s].empty, `${s} → empty`);
+for (const k of ["job", "pages", "full"]) need(d.path[k], `path → ${k}`);
+const { Content } = await render(page.entry);
+
+// The learning path: the topics of one Roadmap job, level by level.
+const jobs = await getJobs(lang);
+const learn = await getLearn();
+const pathJob = jobs.find((j) => j.slug === d.path.job);
+const path = learn.get(d.path.job);
+if (!pathJob || !path) throw new Error(`${file}: path → job "${d.path.job}" isn't a Roadmap job with a learn.yml (content/roadmap/jobs/${d.path.job}/learn.yml).`);
+const roadmap = (await getPage("roadmap", lang)).data;
+const topics = await getTopics(lang);
+const levels = path.levels.filter((l) => l.topics.length).map((l) => ({
+  id: l.id,
+  title: need(roadmap.learnLevels?.[l.id]?.title, `content/pages/roadmap/${lang}.md: learnLevels → ${l.id} → title`) as string,
+  items: l.topics.map((s) => topics.get(s)!),
+}));
+const all = levels.flatMap((l) => l.items);
+const written = all.filter((x) => x.hasPage).length;
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m));
+const pathHref = `/${lang}/roadmap/${pathJob.field}/${pathJob.slug}/`;
+
+const ideas = await getForensicIdeas(lang);
+const writeups = await getWriteups(lang);
+const listed = (need(d.jobs.list, "jobs → list") as string[]).map((slug) => {
+  const j = jobs.find((x) => x.slug === slug);
+  if (!j) throw new Error(`${file}: jobs → list names "${slug}", but there is no folder content/roadmap/jobs/${slug}/.`);
+  return { j, href: learn.has(slug) ? `/${lang}/roadmap/${j.field}/${slug}/` : `/${lang}/roadmap/${j.field}/#${slug}` };
+});
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+---
+<Base printIn lang={lang} nav="forensics" title={d.title} description={d.intro} block={{
+    key: { label: t.forensicsKey, value: `${written} ${t.of} ${all.length}` },
+    contents: [
+      { slug: "what", text: d.what },
+      { slug: "path", text: d.path.heading },
+      { slug: "labs", text: d.labs.heading },
+      { slug: "writeups", text: d.writeups.heading },
+      { slug: "jobs", text: d.jobs.heading },
+    ],
+    go: { items: [{ text: t.rssForensics, href: feedHref(lang, "forensics") }], phone: false },
+    rows: [[t.labIdeas, String(ideas.length)], [t.writeupsKey, String(writeups.length)], [t.updated, page.updated]],
+    strip: [`${t.updated} ${page.updated}`],
+  }}>
+  <h1>{d.title}</h1>
+  <p class="lede">{d.intro}</p>
+
+  <section class="block" aria-labelledby="what">
+    <div class="block-head"><h2 id="what">{d.what}</h2></div>
+    <div class="prose"><Content /></div>
+  </section>
+
+  <section class="gsec tp-need" aria-labelledby="path">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">01</span>
+      <h2 id="path">{d.path.heading}</h2>
+      <span class="bh-count">{fill(d.path.pages, { n: written, total: all.length })}</span>
+      <p class="bh-desc">{d.path.intro}</p>
+    </div>
+    {levels.map((l) => (
+      <div class="tp-lvl">
+        <h3>{l.title}<span class="n">{countWord(l.items.length, lang, t, "topic")}</span></h3>
+        <ul class="tp-jobs">
+          {l.items.map((x) => (
+            <li lang={other(x.lang)}>{x.hasPage ? <a href={`/${lang}/roadmap/topics/${x.slug}/`}>{x.entry.data.title}</a> : <span class="todo">{x.entry.data.title}</span>}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+    <p><a class="go" href={pathHref}>{d.path.full}&nbsp;<span class="arr" aria-hidden="true"></span></a></p>
+  </section>
+
+  <section class="gsec" aria-labelledby="labs">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">02</span>
+      <h2 id="labs">{d.labs.heading}</h2>
+      {ideas.length > 0 && <span class="bh-count">{countWord(ideas.length, lang, t, "idea")}</span>}
+      <p class="bh-desc">{d.labs.intro}</p>
+    </div>
+    {ideas.length ? <ul class="gcards">{ideas.map((x) => <LabIdeaCard idea={x} lang={lang} />)}</ul> : <p class="empty">{d.labs.empty}</p>}
+  </section>
+
+  <section class="gsec" aria-labelledby="writeups">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">03</span>
+      <h2 id="writeups">{d.writeups.heading}</h2>
+      {writeups.length > 0 && <span class="bh-count">{countWord(writeups.length, lang, t, "writeup")}</span>}
+      <p class="bh-desc">{d.writeups.intro}</p>
+    </div>
+    {writeups.length ? <ul class="list">{writeups.map((w) => <WriteupRow writeup={w} lang={lang} />)}</ul> : <p class="empty">{d.writeups.empty}</p>}
+  </section>
+
+  <section class="gsec" aria-labelledby="jobs">
+    <div class="block-head num">
+      <span class="sec-n" aria-hidden="true">04</span>
+      <h2 id="jobs">{d.jobs.heading}</h2>
+      <p class="bh-desc">{d.jobs.intro}</p>
+    </div>
+    <ul class="index">
+      {listed.map(({ j, href }) => (
+        <li><a href={href}><span class="name" lang={other(j.lang)}>{j.entry.data.title}</span><span class="arrow arr" aria-hidden="true"></span><span class="desc" lang={other(j.lang)}>{j.entry.data.summary}</span></a></li>
+      ))}
+    </ul>
+  </section>
+</Base>

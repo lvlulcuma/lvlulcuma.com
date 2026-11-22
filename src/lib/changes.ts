@@ -5,7 +5,7 @@
 //   News        a weekly digest's `date:`, an incident breakdown's `published:`
 //   Articles    `date:`          Guides  `date:`          CWE  `date:`
 //   Roadmap     `updated:` in a job's learn.yml (its "what to learn" list), a topic page's `date:`
-//   Research    `published:`          Lab ideas  `date:`
+//   Research    `published:`          Lab ideas  `date:`          Forensics write-ups  `date:`
 //   Any of them `revisions:` (a change after publishing, shown as "Updated: <note>")
 //   Site        `announcements:` in content/pages/home/<lang>.md, for anything else (a new section, a new feature)
 //
@@ -19,12 +19,13 @@ import { getArticles, iso } from "./articles";
 import { getCwes } from "./cwe";
 import { getGuides, getPage, getProjects } from "./content";
 import { getIdeas } from "./lab";
+import { getWriteups, writeupHref } from "./forensics";
 import { getIncidents, getWeeks, incidentHref, weekHref } from "./news";
 import { getJobs, getLearn, getTopics } from "./roadmap";
 
-export type ChangeKind = "week" | "incident" | "article" | "cwe" | "guide" | "roadmap" | "research" | "lab" | "site";
+export type ChangeKind = "week" | "incident" | "article" | "cwe" | "guide" | "roadmap" | "research" | "lab" | "writeup" | "site";
 /** The order of things published on the same day. */
-const KINDS: ChangeKind[] = ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "lab", "site"];
+const KINDS: ChangeKind[] = ["week", "incident", "article", "cwe", "guide", "roadmap", "research", "lab", "writeup", "site"];
 
 export type Change = {
   kind: ChangeKind;
@@ -82,7 +83,7 @@ export type Entry = {
 };
 
 /** Everything published on the site in this language: news, articles, CWE write-ups, guides, Roadmap jobs' "what to
- *  learn" and topic pages, research, lab ideas. In no particular order. */
+ *  learn" and topic pages, research, lab ideas, forensics write-ups. In no particular order. */
 export async function getEntries(lang: Lang): Promise<Entry[]> {
   const out: Entry[] = [];
   for (const w of (await getWeeks(lang)).filter((w) => !w.example))
@@ -116,6 +117,8 @@ export async function getEntries(lang: Lang): Promise<Entry[]> {
   }
   for (const i of await getIdeas(lang))
     out.push({ kind: "lab", title: i.entry.data.title, description: i.entry.data.dek, lang: i.lang, href: `/${i.lang}/lab/${i.slug}/`, published: i.date, revisions: i.entry.data.revisions ?? [] });
+  for (const w of await getWriteups(lang))
+    out.push({ kind: "writeup", title: w.entry.data.title, description: w.entry.data.dek, lang: w.lang, href: writeupHref(w), published: w.date, revisions: w.entry.data.revisions ?? [] });
   return out;
 }
 
@@ -170,6 +173,7 @@ export type ChangeGroup = {
 /** Where each kind of change lives in the menu. */
 const SECTION: Record<Exclude<ChangeKind, "site">, (typeof NAV)[number]> = {
   week: "news", incident: "news", article: "articles", cwe: "cwe", guide: "guides", roadmap: "roadmap", research: "research", lab: "lab",
+  writeup: "forensics",
 };
 
 /** Groups the changes by section, the section with the newest change first. `words` are the box's words
@@ -204,7 +208,7 @@ export function groupChanges(changes: Change[], lang: Lang, words: Record<string
       const parts = cs[0].tag ? [...topicPart, ...jobPart] : [...jobPart, ...topicPart];
       return { label, count: cs.length, summary: parts.join(" · "), href };
     }
-    const plural: Partial<Record<string, string>> = { articles: "article", guides: "guide", lab: "idea" };
+    const plural: Partial<Record<string, string>> = { articles: "article", guides: "guide", lab: "idea", forensics: "writeup" };
     const summary = plural[section] ? count(cs.length, plural[section]!) : cs.map((c) => c.tag ?? c.title).join(" · ");
     return { label, count: cs.length, summary, href };
   });

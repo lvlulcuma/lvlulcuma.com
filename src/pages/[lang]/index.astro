@@ -15,6 +15,7 @@ import { getFields, getJobs, getLearn, getTopics } from "../../lib/roadmap";
 import { countWord, dayMonth } from "../../lib/block";
 import { getIncidents, getWeeks, weekHref, weekSpan } from "../../lib/news";
 import { getCwes } from "../../lib/cwe";
+import { getWriteups } from "../../lib/forensics";
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
@@ -36,6 +37,7 @@ const weeks = (await getWeeks(lang)).filter((w) => !w.example);
 const incidents = (await getIncidents(lang)).filter((i) => !i.example);
 const thisWeek = weeks[0];
 const cwes = await getCwes(lang);
+const writeups = await getWriteups(lang);
 const counts: Record<string, string> = {
   cwe: cwes.length ? String(t.cweCountAll).replace("{n}", String(cwes.length)) : "",
   news: weeks.length || incidents.length ? [weeks.length && countWord(weeks.length, lang, t, "week"), incidents.length && countWord(incidents.length, lang, t, "incident")].filter(Boolean).join(", ") : "",
@@ -43,6 +45,7 @@ const counts: Record<string, string> = {
   guides: countWord(guides.length, lang, t, "guide"),
   articles: countWord(articles.length, lang, t, "article"),
   research: active ? `${active} ${t.inprogress.toLowerCase()}` : "",
+  forensics: writeups.length ? countWord(writeups.length, lang, t, "writeup") : "",
 };
 // Same order as the header menu (NAV in src/i18n/ui.ts), so the two always match.
 // Sections are folders (blue, like `ls` colours directories); single pages are files.

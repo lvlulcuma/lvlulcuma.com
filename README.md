@@ -7,6 +7,7 @@ The code and text behind [lvlulcuma.com](https://lvlulcuma.com), a website about
 - **Guides:** how to set tools up, step by step
 - **Roadmap:** the fields and jobs in cybersecurity, and what to learn for each job, from first steps to expert
 - **Research and Lab:** longer studies, and home lab ideas: step-by-step builds readers can set up on their own computer
+- **Forensics:** everything on the site about digital forensics in one place: a learning path, forensics lab ideas and worked write-ups
 
 The site is in English and Ukrainian. Polish is written too, but switched off for now.
 
@@ -74,8 +75,11 @@ content/                         ← all the text, one folder per page
     lab/                             →  /en/lab/            (intro, "What a home lab is", the group descriptions)
     lab-start/                       →  /en/lab/start/      ("Get started": what a home lab needs)
     lab-rules/                       →  /en/lab/rules/      (the numbered rules)
+    forensics/                       →  /en/forensics/      (the Forensics hub: intro, "What digital forensics is", its headings)
   lab/                           Home lab ideas, one folder per idea (a step-by-step guide each)
     web-app-hacking/                 →  /en/lab/web-app-hacking/   (its downloads: public/lab/web-app-hacking/)
+  forensics/writeups/            Forensics write-ups, one folder per worked case
+    <name>/                          →  /en/forensics/writeups/<name>/
   news/weeks/                    Weekly digests, one folder per week
     2026-w43/                        →  /en/news/2026-w43/
   news/incidents/                Incident breakdowns, one folder per incident
@@ -160,6 +164,8 @@ Everything below the second --- line is the page's body, written in Markdown.
 | A home lab idea | `content/lab/<idea>/` (how to write one: `docs/claude/lab-idea.md`) |
 | A lab idea's download (and the copy shown on its page) | `public/lab/<idea>/` (a page shows a file with `#include public/lab/<idea>/<file>`) |
 | Practice safely and legally | `content/pages/lab-rules/` (a numbered list below the second `---`) |
+| Forensics hub: intro, "What digital forensics is", which learning path and jobs it shows | `content/pages/forensics/` |
+| A forensics write-up | `content/forensics/writeups/<name>/` (how to write one: `docs/claude/forensics-writeup.md`) |
 | A research project (question, method, status) | `content/research/<project>/` |
 | Menu labels and other small words | `content/ui/` |
 | Colours, fonts, layout | `src/styles/global.css` (fonts for Ukrainian pages: `src/styles/fonts-ua.css`) |
@@ -204,7 +210,7 @@ A new article goes out on the **last Monday of each month**. The home page, the 
 **RSS feeds.** Each language has one feed with everything and one per section, all filled by themselves from the same dates as the "New this week" box (`src/lib/feed.ts`):
 
 - `/<lang>/rss.xml`: **everything** (news, articles, guides, CWE write-ups, Roadmap jobs, research). Each title starts with what it is ("Breakdown · …", "CWE-639 · …"). The RSS link in "New this week" points here.
-- `/<lang>/news/rss.xml` (weekly digests and breakdowns), `/<lang>/articles/rss.xml`, `/<lang>/guides/rss.xml`, `/<lang>/cwe/rss.xml`, `/<lang>/roadmap/rss.xml` (each job's "what to learn") and `/<lang>/research/rss.xml`. Each section's list links its own feed in the box beside it.
+- `/<lang>/news/rss.xml` (weekly digests and breakdowns), `/<lang>/articles/rss.xml`, `/<lang>/guides/rss.xml`, `/<lang>/cwe/rss.xml`, `/<lang>/roadmap/rss.xml` (each job's "what to learn"), `/<lang>/research/rss.xml`, `/<lang>/lab/rss.xml` and `/<lang>/forensics/rss.xml` (write-ups). Each section's list links its own feed in the box beside it.
 
 A change after publishing (a `revisions:` line) is a post of its own, "Updated · …", with the note as its text, so readers following an unfolding incident see each update. Every page tells feed readers about its section's feed and the one with everything, so pasting any page's address into a feed reader is enough. Made-up examples are left out.
 
@@ -326,6 +332,17 @@ Related CWEs share a page: `content/cwe/plan.yml` groups all 249 into 67 write-u
 ### Research
 
 Copy a folder in `content/research/`, rename it (the name becomes the address), and change `order:`, `status:` and the text. `page: false` lists a project without giving it its own page yet. `current_step:` says which step of the method you're on (1 = the first): the box beside the project ticks off the earlier steps. Results go below the second `---` and appear at the end of the project's page. Add a `revisions:` entry when you publish results or change the method.
+
+### Forensics
+
+`/en/forensics/` gathers what the site has on digital forensics instead of holding lessons of its own, so it fills up as the rest of the site grows:
+
+- **The learning path** of the Roadmap job named in `path: job:` (`content/pages/forensics/`), level by level. A topic shows as plain grey text until its own page is written (`docs/claude/roadmap-topic.md`), then as a link.
+- **Lab ideas** whose `group:` is `forensics` (`content/lab/<idea>/`, `docs/claude/lab-idea.md`).
+- **Write-ups** (`content/forensics/writeups/<name>/`): worked cases, newest first. `source: lab` is a case from a home lab (`lab:` names the lab idea that builds its evidence); `source: challenge` is a public DFIR challenge, written up only where its platform's rules allow it (`challenge:` gives its name, platform, address and the page with those rules). Above the text, the page shows a "Try it yourself first" box for a challenge, or a "Make the evidence yourself" box for a lab case. `topics:` are Roadmap topic folders (a misspelled one stops the build) and show under the text as "Topics practiced". How to write one: `docs/claude/forensics-writeup.md`.
+- **The jobs** in `jobs: list:`, each linked to its learning path.
+
+An empty list shows its `empty:` line, so the hub works before the first lab idea or write-up. New write-ups appear in "New this week", the RSS feed with everything and `/<lang>/forensics/rss.xml`.
 
 ### A PGP key
 

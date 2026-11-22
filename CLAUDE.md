@@ -1,7 +1,8 @@
 # lvlulcuma.com: instructions for Claude
 
 A static cybersecurity site: weekly news digests and incident breakdowns, monthly articles, step-by-step guides,
-a career Roadmap (fields → jobs → what to learn), research, and home lab ideas built step by step. Astro, fully static, **no JavaScript**,
+a career Roadmap (fields → jobs → what to learn), research, home lab ideas built step by step, and a Forensics hub that
+gathers the digital forensics material with worked write-ups. Astro, fully static, **no JavaScript**,
 hosted on Cloudflare (every merge into `main` deploys). README.md explains the site for people; this file and
 `docs/claude/` are the working rules for Claude, including scheduled runs that nobody is watching.
 
@@ -93,6 +94,7 @@ The owner's rule for every section of the site:
 | One Roadmap topic's own page (teaches the whole topic) | `docs/claude/roadmap-topic.md` |
 | One CWE weakness explained (attack + defense) | `docs/claude/cwe-entry.md` |
 | One home lab idea (a step-by-step build) | `docs/claude/lab-idea.md` |
+| One forensics write-up (a worked case for the Forensics hub) | `docs/claude/forensics-writeup.md` |
 | One step-by-step guide (the next one is first in `content/guides/planned.yml`) | `docs/claude/guide.md` |
 | Monthly site check | `docs/claude/site-check.md` |
 | Words and style in Ukrainian and Polish | `docs/claude/translation.md` |
@@ -101,7 +103,8 @@ The owner's rule for every section of the site:
 
 - `content/`: all text. Pages in `content/pages/<page>/<lang>.md`, interface words in `content/ui/<lang>.yml`,
   news in `content/news/weeks/` and `content/news/incidents/`, articles in `content/articles/`, guides in
-  `content/guides/` (the ones still to write: `content/guides/planned.yml`), home lab ideas in `content/lab/` (their downloads in `public/lab/<idea>/`), the Roadmap in `content/roadmap/{fields,jobs,topics}/`, the CWE write-ups in `content/cwe/<id>/`
+  `content/guides/` (the ones still to write: `content/guides/planned.yml`), home lab ideas in `content/lab/` (their downloads in `public/lab/<idea>/`), the Forensics hub's text in
+  `content/pages/forensics/` and its write-ups in `content/forensics/writeups/`, the Roadmap in `content/roadmap/{fields,jobs,topics}/`, the CWE write-ups in `content/cwe/<id>/`
   (the categories and CWE names are in `content/cwe/owasp-2025.yml`). `content/README.md` maps pages to files.
 - `src/`: Astro pages, components, `src/lib/*.ts` helpers, `src/styles/global.css`. Content schemas: `src/content.config.ts`.
 - `scripts/`: build steps (`check-csp.mjs`, …), `check-links.mjs`, `build-all-langs.mjs`, and `scripts/roadmap/`

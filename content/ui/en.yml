@@ -11,6 +11,7 @@ nav:
   roadmap: "Roadmap"
   research: "Research"
   lab: "Lab"
+  forensics: "Forensics"
   about: "About"
   contact: "Contact"
   colophon: "Colophon"
@@ -82,10 +83,28 @@ labGroups:
   defend: "Defense and detection"
   network: "Network"
   analysis: "Analysis"
+  forensics: "Digital forensics"
 labLevels:
   beginner: "Beginner"
   intermediate: "Intermediate"
   advanced: "Advanced"
+# Forensics (/forensics/, its write-ups in content/forensics/writeups/)
+forensicsKey: "Topics with a full page"   # the big fact in the box beside /forensics/: "6 of 44"
+writeupsKey: "Write-ups"                  # a row in that box: how many write-ups there are
+writeup_one: "write-up"
+writeup_other: "write-ups"
+rssForensics: "Get new write-ups by RSS"
+writeupSources:   # where a write-up's case comes from (a challenge shows its platform's name instead)
+  lab: "Home lab"
+  challenge: "Challenge"
+writeupTools: "Tools"
+writeupTopics: "Topics practiced"         # under a write-up: the Roadmap topics it practices
+writeupAll: "All write-ups"
+writeupFirst: "Try it yourself first"     # above a write-up of a public challenge
+writeupFirstText: "This page gives the answers away. Work the challenge on its own site first, then compare your notes."
+writeupRules: "Where the platform allows write-ups"
+writeupBuild: "Make the evidence yourself"   # above a write-up whose evidence comes from a lab idea
+writeupBuildText: "This case uses evidence from a lab idea. Build it and work the case before you read on."
 articlesCount: "Articles"
 of: "of"
 article_one: "article"
