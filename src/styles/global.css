@@ -2002,3 +2002,4 @@ footer.site .wrap { display: grid; grid-template-columns: auto 1fr auto; align-i
 .tp-jobs li { break-inside: avoid; margin: 0; padding: 3px 0; font-size: 15px; line-height: 1.45; }
 .tp-jobs a { color: var(--ink); text-decoration-color: var(--line); }
 .tp-jobs a:is(:hover, :focus-visible) { color: var(--accent); text-decoration-color: var(--accent); }
+.tp-jobs .todo { color: var(--muted); }   /* Forensics hub: a topic on the path whose own page isn't written yet */

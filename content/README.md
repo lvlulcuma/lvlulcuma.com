@@ -24,6 +24,8 @@ Polish is switched off for now (see `languages:` in `settings.yml`): keep its fi
 | Get started `/en/lab/start/` | `pages/lab-start/` (the text below the dashes, and the words in its pictures under `visuals:`) |
 | A lab idea `/en/lab/<idea>/` | `lab/<idea>/` (its downloads: `public/lab/<idea>/`) |
 | Practice safely and legally `/en/lab/rules/` | `pages/lab-rules/` |
+| Forensics hub `/en/forensics/` | `pages/forensics/` (intro, "What digital forensics is" below the dashes, the headings, `path: job:` and `jobs: list:`) |
+| A forensics write-up `/en/forensics/writeups/<name>/` | `forensics/writeups/<name>/` |
 | About `/en/about/` | `pages/about/` |
 | Contact `/en/contact/` | `pages/contact/` |
 | How this site is secured `/en/colophon/` | `pages/colophon/` |

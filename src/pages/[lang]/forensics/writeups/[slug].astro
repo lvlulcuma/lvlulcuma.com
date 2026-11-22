@@ -1,0 +1,113 @@
+---
+// One forensics write-up: /<lang>/forensics/writeups/<slug>/. Text: content/forensics/writeups/<slug>/<lang>.md
+// (playbook: docs/claude/forensics-writeup.md). A worked case, read like an article: the question, the evidence, each
+// step of the analysis with the commands and what they showed, and the answer.
+// Above the text, a box says where the case comes from: a public challenge (try it first; its link and the platform's
+// rules on write-ups), or a lab idea that makes the same evidence. Below it, the Roadmap topics it practices (linked once
+// a topic has its own page) and its sources.
+import { getCollection, render } from "astro:content";
+import Base from "../../../../layouts/Base.astro";
+import Sources from "../../../../components/Sources.astro";
+import { HTML_LANG, LANGS, ui, type Lang } from "../../../../i18n/ui";
+import { iso, readingMinutes } from "../../../../lib/articles";
+import { lastChange, toc } from "../../../../lib/block";
+import { getWriteups } from "../../../../lib/forensics";
+import { getIdeas } from "../../../../lib/lab";
+import { getLearn, getJobs, getTopics } from "../../../../lib/roadmap";
+
+export async function getStaticPaths() {
+  const paths = [];
+  // A write-up gets a page only in the languages it's written in; the hub links untranslated ones to English.
+  for (const lang of LANGS) for (const w of await getWriteups(lang)) if (w.lang === lang) paths.push({ params: { lang, slug: w.slug } });
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const w = (await getWriteups(lang)).find((x) => x.slug === Astro.params.slug)!;
+const d = w.entry.data;
+const { Content, headings } = await render(w.entry);
+const mins = readingMinutes(w.entry.body ?? "");
+// The language switch sends languages this write-up isn't written in yet to the hub instead.
+const written = new Set((await getCollection("writeups")).filter((e) => e.id.startsWith(`${w.slug}/`)).map((e) => e.id.split("/")[1]));
+const missingIn = LANGS.filter((l) => !written.has(l));
+const idea = d.lab ? (await getIdeas(lang)).find((i) => i.slug === d.lab) : undefined;
+const topicMap = await getTopics(lang);
+const topics = d.topics.map((s) => topicMap.get(s)!);
+// A topic without its own page yet links to its place on the first learning path that lists it.
+const learn = await getLearn();
+const jobs = await getJobs(lang);
+const topicHref = (slug: string, hasPage: boolean) => {
+  if (hasPage) return `/${lang}/roadmap/topics/${slug}/`;
+  const l = [...learn.values()].find((x) => x.levels.some((lv) => lv.topics.includes(slug)));
+  const j = l && jobs.find((x) => x.slug === l.job);
+  return j ? `/${lang}/roadmap/${j.field}/${j.slug}/#t-${slug}` : undefined;
+};
+const other = (l: Lang) => (l !== lang ? HTML_LANG[l] : undefined);
+const where = d.challenge ? d.challenge.platform : t.writeupSources[d.source];
+---
+<Base lang={lang} nav="forensics" title={d.title} description={d.dek} ogType="article" pathOnly={["writeups"]} missingIn={missingIn} missingHome="forensics" block={{
+    key: { label: where, value: t.labLevels[d.level] },
+    rows: [
+      [t.published, iso(w.date)],
+      [t.reading, `${mins} ${t.min}`],
+      ...(d.tools.length ? [[t.writeupTools, d.tools.join(", ")] as [string, string]] : []),
+    ],
+    contents: [
+      ...toc(headings),
+      ...(topics.length ? [{ slug: "practiced", text: t.writeupTopics }] : []),
+      ...(d.sources.length ? [{ slug: "sources", text: t.srcs }] : []),
+    ],
+    go: { items: [
+      ...(d.challenge ? [{ kicker: d.challenge.platform, text: d.challenge.name, href: d.challenge.url }] : []),
+      ...(idea ? [{ kicker: t.nav.lab, text: idea.entry.data.title, href: `/${idea.lang}/lab/${idea.slug}/`, hreflang: other(idea.lang), lang: other(idea.lang) }] : []),
+      { kicker: t.nav.forensics, text: t.writeupAll, href: `/${lang}/forensics/#writeups` },
+    ] },
+    changed: lastChange(d.revisions),
+    strip: [`${mins} ${t.min}`],
+  }}>
+  <p class="kicker"><a class="tag" href={`/${lang}/forensics/#writeups`}>{t.nav.forensics}</a><span class="mono">{where} · {t.labLevels[d.level]}{d.time ? ` · ~${d.time} ${t.hoursShort}` : ""}</span></p>
+  <h1>{d.title}</h1>
+  <p class="dek">{d.dek}</p>
+
+  {d.challenge && (
+    <aside class="prereq" aria-labelledby="first">
+      <p class="prereq-h" id="first">{t.writeupFirst}</p>
+      <p class="prereq-d">{t.writeupFirstText}</p>
+      <ul>
+        <li><a href={d.challenge.url}><span class="t">{d.challenge.name}</span><span class="m">{d.challenge.platform}&nbsp;<span class="arr" aria-hidden="true"></span></span></a></li>
+        <li><a href={d.challenge.rules}><span class="t">{t.writeupRules}</span><span class="m"><span class="arr" aria-hidden="true"></span></span></a></li>
+      </ul>
+    </aside>
+  )}
+  {idea && (
+    <aside class="prereq" aria-labelledby="build">
+      <p class="prereq-h" id="build">{t.writeupBuild}</p>
+      <p class="prereq-d">{t.writeupBuildText}</p>
+      <ul>
+        <li><a href={`/${idea.lang}/lab/${idea.slug}/`} hreflang={other(idea.lang)}><span class="t" lang={other(idea.lang)}>{idea.entry.data.title}</span><span class="m">~{idea.entry.data.time} {t.hoursShort}&nbsp;<span class="arr" aria-hidden="true"></span></span></a></li>
+      </ul>
+    </aside>
+  )}
+
+  <div class="prose guide"><Content /></div>
+
+  {topics.length > 0 && (
+    <section class="gsec tp-need" aria-labelledby="practiced">
+      <div class="block-head"><h2 id="practiced">{t.writeupTopics}</h2></div>
+      <ul class="tp-jobs">
+        {topics.map((x) => {
+          const href = topicHref(x.slug, x.hasPage);
+          return <li lang={other(x.lang)}>{href ? <a href={href}>{x.entry.data.title}</a> : x.entry.data.title}</li>;
+        })}
+      </ul>
+    </section>
+  )}
+
+  {d.sources.length > 0 && (
+    <div class="prose">
+      <h2 id="sources">{t.srcs}</h2>
+      <Sources sources={d.sources} lang={lang} fold="list" />
+    </div>
+  )}
+
+</Base>

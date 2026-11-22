@@ -12,6 +12,7 @@ ls:   # the terminal menu under the headline: one short line per section, shown 
   roadmap: "dopiero zaczynasz? zacznij tutaj"
   research: "dłuższe badania na prawdziwych danych"
   lab: "pomysły na domowe laboratorium, krok po kroku"
+  forensics: "informatyka śledcza: ścieżka nauki, laboratoria i write-upy"
   about: "czym jest ta strona i kto ją pisze"
   contact: "e-mail z gotowymi szablonami"
 tree_summary: "{dirs} katalogów, {files} pliki"   # last line of the menu on phones (it turns into `tree` output there)
@@ -49,6 +50,7 @@ changes:
     roadmap: "Ścieżki kariery"
     research: "Badania"
     lab: "Pomysł na laboratorium"
+    writeup: "Write-up"
     site: "Strona"   # the announcements below
   roadmap: "Czego się uczyć: {job}"   # title of a Roadmap row; {job} is the job's name
   roadmap_n: "Czego się uczyć: {jobs}"   # one line for several Roadmap jobs at once; {jobs} is "9 zawodów"

@@ -6,7 +6,7 @@ import type { Block } from "./block";
 import { getCwes } from "./cwe";
 import { getIdeas } from "./lab";
 
-export type PageName = "home" | "news" | "articles" | "roadmap" | "research" | "lab" | "lab-start" | "lab-rules" | "about" | "contact" | "colophon" | "cwe";
+export type PageName = "home" | "news" | "articles" | "roadmap" | "research" | "lab" | "lab-start" | "lab-rules" | "forensics" | "about" | "contact" | "colophon" | "cwe";
 
 /** One page's text in one language: content/pages/<name>/<lang>.md */
 export async function getPage(name: PageName, lang: Lang) {

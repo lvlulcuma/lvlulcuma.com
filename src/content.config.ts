@@ -166,7 +166,7 @@ const lab = defineCollection({
   schema: z.object({
     title: z.string().min(1),
     date: z.coerce.date(),                                       // when it was published
-    group: z.enum(["attack", "defend", "network", "analysis"]),  // which group it's listed under
+    group: z.enum(["attack", "defend", "network", "analysis", "forensics"]),  // which group it's listed under
     order: z.number().int().default(99),                         // position within its group
     level: z.enum(["beginner", "intermediate", "advanced"]),
     dek: z.string().min(1),                                       // one sentence: what you build and what it's for
@@ -368,4 +368,35 @@ const cwe = defineCollection({
   }),
 });
 
-export const collections = { articles, research, pages, ui, settings, guides, guidePlan, lab, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe };
+// Forensics: write-ups of investigations, listed on the /forensics/ hub (src/lib/forensics.ts).
+// content/forensics/writeups/<slug>/en.md  →  /en/forensics/writeups/<slug>/
+// A case from the author's own home lab (`source: lab`, the evidence made on purpose and described so readers can make
+// it too), or a public DFIR challenge (`source: challenge`, only where the platform allows publishing solutions:
+// `challenge:` names it, links it and says where its rules allow write-ups). Playbook: docs/claude/forensics-writeup.md.
+const writeups = defineCollection({
+  loader: glob({ pattern: `*/${lang}.md`, base: "./content/forensics/writeups" }),
+  schema: z.object({
+    title: z.string().min(1),
+    dek: z.string().min(1),                                       // one sentence: the question the case answers
+    date: z.coerce.date(),                                        // when it was published
+    source: z.enum(["lab", "challenge"]),                         // keep in step with WRITEUP_SOURCES in src/i18n/ui.ts
+    level: z.enum(["beginner", "intermediate", "advanced"]),
+    time: z.number().positive().optional(),                       // rough hours to work the case yourself
+    challenge: z.object({
+      name: z.string().min(1),                                    // the challenge's own name
+      platform: z.string().min(1),                                // who runs it (CyberDefenders, Blue Team Labs Online…)
+      url: z.string().url(),                                      // the challenge's page
+      rules: z.string().url(),                                    // where the platform says write-ups are allowed
+    }).optional(),
+    lab: z.string().optional(),                                   // a lab idea folder in content/lab/ that builds the evidence
+    topics: z.array(z.string()).default([]),                      // Roadmap topic folders it practices (checked at build)
+    tools: z.array(z.string()).default([]),                       // the tools used, as named by their makers
+    sources: z.array(source).default([]),                         // documentation the write-up relies on
+    draft: z.boolean().default(false),
+    revisions,
+  }).refine((d) => d.source !== "challenge" || d.challenge, {
+    message: "source: challenge needs challenge: (name, platform, url and rules)", path: ["challenge"],
+  }),
+});
+
+export const collections = { articles, research, pages, ui, settings, guides, guidePlan, lab, fields, jobs, topics, learn, weeks, incidents, cweMap, cwePlan, cwe, writeups };
