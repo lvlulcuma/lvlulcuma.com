@@ -61,6 +61,7 @@ stories:
         text: "A way to write any data with 64 ordinary characters (letters, digits, + and /), so it can travel in places made for text, like a login header or a security token. Apps decode it all the time, often before they check who's asking."
     why: "Java runs inside a huge number of company tools, many of them reachable from the internet. Turning the bug into a takeover is hard, but researchers have already done it, and watchTowr rates attacks as highly likely."
     do: "Update Java to the 17 November releases (Oracle's 17.0.21.1, 21.0.13.1, 25.0.5.1 and 27.0.1.1, or your vendor's matching builds). Until you can, start Java with -XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics. The bug is CVE-2026-114938."
+    incident: java4shell-openjdk-flaw
     sources:
       - name: "VulnCheck: Java4Shell CVE-2026-114938: Fine, I Guess We'll Do This Again"
         url: "https://www.vulncheck.com/blog/java4shell"

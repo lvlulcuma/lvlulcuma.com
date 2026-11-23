@@ -61,6 +61,7 @@ stories:
         text: "Sposób zapisania dowolnych danych 64 zwykłymi znakami (literami, cyframi, + i /), żeby mogły przejść tam, gdzie oczekiwany jest tekst, na przykład w nagłówku logowania albo w tokenie bezpieczeństwa. Aplikacje dekodują go bez przerwy, często zanim sprawdzą, kto pyta."
     why: "Java działa w ogromnej liczbie firmowych narzędzi, a wiele z nich jest dostępnych z internetu. Zamiana błędu w przejęcie systemu jest trudna, ale badacze już to zrobili, a watchTowr ocenia ataki jako bardzo prawdopodobne."
     do: "Zaktualizuj Javę do wydań z 17 listopada (u Oracle to 17.0.21.1, 21.0.13.1, 25.0.5.1 i 27.0.1.1, albo odpowiednie wersje twojego dostawcy). Dopóki nie możesz, uruchamiaj Javę z opcjami -XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics. Błąd ma numer CVE-2026-114938."
+    incident: java4shell-openjdk-flaw
     sources:
       - name: "VulnCheck: Java4Shell CVE-2026-114938: Fine, I Guess We'll Do This Again"
         url: "https://www.vulncheck.com/blog/java4shell"
