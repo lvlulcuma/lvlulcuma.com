@@ -17,6 +17,7 @@ stories:
         text: "A list a website gives the browser of where scripts may load from and where data may be sent. A strict one blocks unknown servers, so it can stop an attack even when the bad code arrives through a trusted vendor's script."
     why: "One vendor's script ran on 178 trusted websites at once, and the famous names on them didn't protect visitors. Every outside script a site loads gives that vendor the power to change its pages."
     do: "If you paid by card or sent crypto on a big website on 16 November, check your card statement and wallet history, and update iPhones and iPads to the latest iOS. Site owners: keep outside scripts off payment pages and set a strict Content Security Policy."
+    incident: optimizely-script-hijack
     sources:
       - name: "Optimizely: Security Advisory: Web Experimentation Security Incident (Updated November 19, 2026)"
         url: "https://support.optimizely.com/hc/en-us/articles/50521849710605-Security-Advisory-Web-Experimentation-Security-Incident-Updated-November-19-2026"

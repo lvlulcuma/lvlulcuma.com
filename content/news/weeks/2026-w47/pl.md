@@ -17,6 +17,7 @@ stories:
         text: "Lista, którą strona przekazuje przeglądarce: skąd wolno ładować skrypty i dokąd wolno wysyłać dane. Surowa polityka blokuje nieznane serwery, więc może zatrzymać atak nawet wtedy, gdy złośliwy kod przychodzi w skrypcie zaufanego dostawcy."
     why: "Skrypt jednego dostawcy działał naraz na 178 stronach, którym ludzie ufają, a znane marki nie ochroniły odwiedzających. Każdy zewnętrzny skrypt na stronie daje jego dostawcy możliwość zmieniania jej treści."
     do: "Jeśli 16 listopada zdarzyło ci się płacić kartą lub wysyłać kryptowaluty na dużej stronie, sprawdź wyciąg i historię portfela, a iPhone'y i iPady zaktualizuj do najnowszego iOS. Właściciele stron: usuńcie zewnętrzne skrypty ze stron płatności i ustawcie surową Content Security Policy."
+    incident: optimizely-script-hijack
     sources:
       - name: "Optimizely: Security Advisory: Web Experimentation Security Incident (Updated November 19, 2026)"
         url: "https://support.optimizely.com/hc/en-us/articles/50521849710605-Security-Advisory-Web-Experimentation-Security-Incident-Updated-November-19-2026"
