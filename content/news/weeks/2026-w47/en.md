@@ -83,6 +83,7 @@ stories:
         text: "Breaking into your own systems, with permission, to find weak spots before criminals do. ARTEX was released in July as a tool for that job, then turned against real victims."
     why: "Tools like ARTEX let attackers do in hours what used to take a skilled team days. This is the Commission's third publicly known incident this year, and the EU's own response team urges fixing even low-severity findings."
     do: "Take admin and management pages off the internet, require MFA on key systems, and alert when one account looks up many records in a row: the FBI and CERT-EU list these steps against ARTEX."
+    incident: european-commission-artex-attack
     sources:
       - name: "The Record: European Commission confirms cyberattack, says hackers used AI tool"
         url: "https://therecord.media/european-commission-confirms-cyberattack-using-ai"

@@ -83,6 +83,7 @@ stories:
         text: "Włamywanie się do własnych systemów za zgodą właściciela, żeby znaleźć słabe punkty przed przestępcami. ARTEX wydano w lipcu właśnie jako narzędzie do tej pracy, a potem obrócono przeciwko prawdziwym ofiarom."
     why: "Narzędzia takie jak ARTEX pozwalają w kilka godzin zrobić to, na co doświadczony zespół potrzebował wcześniej dni. To już trzeci publicznie znany incydent w Komisji w tym roku, a zespół reagowania instytucji UE apeluje o naprawianie nawet znalezisk o niskim poziomie ważności."
     do: "Zdejmij z internetu strony administracyjne i panele zarządzania, włącz uwierzytelnianie wieloskładnikowe w kluczowych systemach i ustaw alert, gdy jedno konto przegląda wiele rekordów po kolei: właśnie te kroki przeciw ARTEX zalecają FBI i CERT-EU."
+    incident: european-commission-artex-attack
     sources:
       - name: "The Record: European Commission confirms cyberattack, says hackers used AI tool"
         url: "https://therecord.media/european-commission-confirms-cyberattack-using-ai"
