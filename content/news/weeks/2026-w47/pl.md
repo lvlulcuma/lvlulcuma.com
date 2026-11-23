@@ -39,6 +39,7 @@ stories:
         text: "ESXi to system, który uruchamia maszyny wirtualne na fizycznym serwerze. vCenter zarządza wieloma serwerami ESXi z jednej konsoli, więc kto go kontroluje, ten dociera do każdej maszyny wirtualnej na nich."
     why: "vCenter trzyma klucze do całej serwerowni firmy, a w tych atakach stał wśród urządzeń, których nie pilnowało żadne zabezpieczenie. System załatany dziś może nadal skrywać podrobione konta i skradzione klucze z września."
     do: "Zainstaluj aktualizację Broadcomu z 19 listopada (na przykład vCenter 8.0 U3m): obejścia nie ma. Potem poszukaj nieoczekiwanych kont administratorów i maszyn, śladów wcześniejszego użycia SSH na vCenter i nowych kluczy w pliku authorized_keys konta root na ESXi. Błąd ma numer CVE-2026-123890."
+    incident: armory-castle-vcenter-zero-day
     sources:
       - name: "Google Threat Intelligence: ARMORY CASTLE Exploits vSphere"
         url: "https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere"
