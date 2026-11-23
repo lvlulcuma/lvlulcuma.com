@@ -105,6 +105,7 @@ stories:
         text: "Phishing głosowy: oszukiwanie przez telefon zamiast przez e-mail. Podszywanie się pod pomoc techniczną działa, bo pracownicy są przyzwyczajeni, że dział IT prosi ich o zainstalowanie narzędzia albo podyktowanie kodu."
     why: "Podejrzani o ransomware rzadko trafiają do aresztu. Śledczy mówią, że dostali się do czatów grupy i wciąż ustalają kolejnych członków szerszej sieci."
     do: "Ustalcie sposób sprawdzania, czy telefon od „IT” jest prawdziwy, na przykład oddzwanianie na znany numer. Nigdy nie instaluj programów do zdalnego dostępu ani nie podawaj kodów tylko dlatego, że prosi o to rozmówca, i blokuj programy do zdalnego dostępu, których twoja firma nie używa."
+    incident: ukraine-fbi-extortion-arrests
     sources:
       - name: "BleepingComputer: Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms"
         url: "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"

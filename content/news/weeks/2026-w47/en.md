@@ -105,6 +105,7 @@ stories:
         text: "Voice phishing: tricking someone over the phone instead of by email. Posing as the help desk works because staff are used to IT asking them to install a tool or read out a code."
     why: "Ransomware suspects rarely end up in custody. Investigators say they got into the group's chats and are still identifying other members of the wider network."
     do: "Agree on a way to check that a call from “IT” is real, such as calling back a known number. Never install remote-access tools or share codes because a caller asks, and block remote-access apps your company doesn't use."
+    incident: ukraine-fbi-extortion-arrests
     sources:
       - name: "BleepingComputer: Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms"
         url: "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"
