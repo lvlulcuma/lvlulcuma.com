@@ -127,6 +127,7 @@ stories:
         text: "Backup questions, like your first school, that prove who you are if you forget a password. Unlike a password, a true answer can't be changed, so if you've used the same ones elsewhere, switch to new answers there."
     why: "Names, home addresses and birth dates of students and older people are what scammers need for convincing fake messages from TfL or a bank, and leaked security answers may help open other accounts."
     do: "Photocard holders: ignore unexpected “create an account” emails, change security answers you've used on other sites, and expect to reset your password and security question when the site comes back."
+    incident: tfl-oyster-photocard-breach
     sources:
       - name: "BleepingComputer: Transport for London breach exposes 265,000 Oyster card users' data"
         url: "https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/"

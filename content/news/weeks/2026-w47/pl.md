@@ -127,6 +127,7 @@ stories:
         text: "Zapasowe pytania w rodzaju „Twoja pierwsza szkoła?”, którymi potwierdzasz tożsamość, gdy zapomnisz hasła. W przeciwieństwie do hasła prawdziwej odpowiedzi nie da się zmienić, więc jeśli tych samych odpowiedzi używasz także gdzie indziej, ustaw tam nowe."
     why: "Imiona, adresy domowe i daty urodzenia studentów i starszych osób to dokładnie to, czego oszuści potrzebują do przekonujących fałszywych wiadomości od TfL czy banku, a wykradzione odpowiedzi zabezpieczające mogą pomóc otworzyć inne konta."
     do: "Posiadacze photocard: ignorujcie niespodziewane e-maile „załóż konto”, zmieńcie odpowiedzi zabezpieczające używane na innych stronach i przygotujcie się na zmianę hasła i pytania zabezpieczającego, gdy strona wróci."
+    incident: tfl-oyster-photocard-breach
     sources:
       - name: "BleepingComputer: Transport for London breach exposes 265,000 Oyster card users' data"
         url: "https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/"
